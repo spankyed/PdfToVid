@@ -15,18 +15,17 @@ registerFont(path.join(root, 'input', 'Roboto-Bold.ttf'), { family: 'Roboto' });
 async function downloadImage(url: string, outputPath: string) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`unexpected response ${response.statusText}`);
+  if (!response.body) throw new Error('No response body');
   await promisify(pipeline)(response.body, fs.createWriteStream(outputPath));
 }
 
 // Function to get the URL of an emoji image in the Twemoji repository
 function getEmojiUrl(unicode: string) {
-  const codePoints = unicode.codePointAt(0).toString(16);
+  const codePoints = unicode?.codePointAt(0)?.toString(16);
   return `https://twemoji.maxcdn.com/v/latest/72x72/${codePoints}.png`;
 }
 
 async function createCircularImage(imagePath: string, size: number): Promise<Buffer> {
-  console.log('createCircularImage: ');
-
   const circleSvg = `<svg><circle cx="${size/2}" cy="${size/2}" r="${size/2}"/></svg>`;
   const compositeOptions = [{ input: Buffer.from(circleSvg), blend: 'dest-in' as const }];
 
@@ -37,11 +36,13 @@ async function createCircularImage(imagePath: string, size: number): Promise<Buf
 }
 
 async function createThumbnail(backgroundPath: string, themePath: string, decorationPath: string, outputPath: string, width: number, height: number): Promise<void> {
-  console.log('createThumbnail: ');
+  console.clear()
+  console.log('Creating thumbnail...');
 
   const size = height * 1.3; // Increase the size of the theme image by 3/10ths
 
   try {
+    console.log('Creating circular theme image...');
     const circularThemeBuffer = await createCircularImage(themePath, size);
 
     const canvas = createCanvas(width, height);
@@ -49,16 +50,17 @@ async function createThumbnail(backgroundPath: string, themePath: string, decora
     ctx.antialias = 'subpixel'; // Enable subpixel antialiasing
 
     // Load images
+    console.log('Loading images...');
     const background = await loadImage(backgroundPath);
     const theme = await loadImage(circularThemeBuffer);
     const decoration = await loadImage(decorationPath);
 
     // Download emoji images
+    console.log('Downloading emoji images...');
     const robotEmojiPath = path.join(root, 'input', 'robot_emoji.png');
     const packageEmojiPath = path.join(root, 'input', 'package_emoji.png');
     await downloadImage(getEmojiUrl('🤖'), robotEmojiPath);
     await downloadImage(getEmojiUrl('📦'), packageEmojiPath);
-
     const robotEmoji = await loadImage(robotEmojiPath);
     const packageEmoji = await loadImage(packageEmojiPath);
 
@@ -69,11 +71,13 @@ async function createThumbnail(backgroundPath: string, themePath: string, decora
     const decorationHorizontalPosition = (width - decoration.width) * .51;
 
     // Draw images on canvas
+    console.log('Drawing images on canvas...');
     ctx.drawImage(background, 0, 0, width, height);
     ctx.drawImage(theme, themePosition, themeVerticalPosition, theme.width, theme.height);
     ctx.drawImage(decoration, decorationHorizontalPosition, decorationVerticalPosition, decoration.width, decoration.height);
 
     // Add text
+    console.log('Adding text...');
     const fontSize = 120;
     const lineHeight = fontSize * 0.8;
     const letterSpacing = fontSize * 0.09;
@@ -86,6 +90,7 @@ async function createThumbnail(backgroundPath: string, themePath: string, decora
     ctx.fillText('Unboxed', textX, textY + lineHeight + letterSpacing);
 
     // Add emoji images
+    console.log('Adding emoji images...');
     const emojiFontSize = 170;
     const emojiTextX = textX;
     const emojiTextY = textY + lineHeight + letterSpacing + emojiFontSize;
@@ -93,6 +98,7 @@ async function createThumbnail(backgroundPath: string, themePath: string, decora
     ctx.drawImage(packageEmoji, emojiTextX + emojiFontSize, emojiTextY, emojiFontSize, emojiFontSize);
 
     // Write the result to a file
+    console.log('Writing result to file...');
     const out = fs.createWriteStream(outputPath);
     const stream = canvas.createJPEGStream();
     stream.pipe(out);
@@ -104,7 +110,7 @@ async function createThumbnail(backgroundPath: string, themePath: string, decora
 }
 
 const bgPath = path.join(root, 'input', 'background.png');
-const themePath = path.join(root, 'input', 'theme.png');
+const themePath = path.join(root, 'input', 'theme1.png');
 const decorationPath = path.join(root, 'input', 'decoration.png');
 const outPath = path.join(root, 'output', 'thumbnail.jpg');
 
