@@ -11,7 +11,6 @@ const root = '/Users/spankyed/Develop/Projects/PdfToVid/src/files';
 // Register the font
 registerFont(path.join(root, 'input', 'Roboto-Bold.ttf'), { family: 'Roboto' });
 
-// Function to download an image and save it to a file
 async function downloadImage(url: string, outputPath: string) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`unexpected response ${response.statusText}`);
@@ -19,7 +18,6 @@ async function downloadImage(url: string, outputPath: string) {
   await promisify(pipeline)(response.body, fs.createWriteStream(outputPath));
 }
 
-// Function to get the URL of an emoji image in the Twemoji repository
 function getEmojiUrl(unicode: string) {
   const codePoints = unicode?.codePointAt(0)?.toString(16);
   return `https://twemoji.maxcdn.com/v/latest/72x72/${codePoints}.png`;
@@ -68,11 +66,22 @@ async function createThumbnail(backgroundPath: string, themePath: string, decora
     const themePosition = width * .45; // Move the theme image to the right such that 55% is visible
     const themeVerticalPosition = (height - theme.height) / 2;
     const decorationVerticalPosition = height - (decoration.height * .35);
-    const decorationHorizontalPosition = (width - decoration.width) * .51;
+    const decorationHorizontalPosition = (width - decoration.width) * .52;
 
     // Draw images on canvas
     console.log('Drawing images on canvas...');
     ctx.drawImage(background, 0, 0, width, height);
+
+    // Draw border around theme image
+    ctx.strokeStyle = '#FFFF66';
+    ctx.lineWidth = 7.5; // Adjust as needed
+    ctx.globalAlpha = 0.85; // Set the opacity to 50%
+    ctx.beginPath();
+    ctx.arc(themePosition + theme.width / 2, themeVerticalPosition + theme.height / 2, theme.width / 2, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.globalAlpha = 1.0;
+
+    // Draw theme image
     ctx.drawImage(theme, themePosition, themeVerticalPosition, theme.width, theme.height);
     ctx.drawImage(decoration, decorationHorizontalPosition, decorationVerticalPosition, decoration.width, decoration.height);
 
@@ -86,7 +95,7 @@ async function createThumbnail(backgroundPath: string, themePath: string, decora
     ctx.font = `${fontSize}px Roboto`;
     ctx.fillStyle = '#FFFFFF';
     ctx.fillText('AI', textX, textY);
-    ctx.fillStyle = '#FF7832';
+    ctx.fillStyle = '#FFFF66';
     ctx.fillText('Unboxed', textX, textY + lineHeight + letterSpacing);
 
     // Add emoji images
