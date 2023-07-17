@@ -1,126 +1,83 @@
-import sharp from 'sharp';
-import { createCanvas, loadImage, registerFont } from 'canvas';
-import fs from 'fs';
-import path from 'path';
-import fetch from 'node-fetch';
-import { pipeline } from 'stream';
-import { promisify } from 'util';
+// ! enter discount code ANNUAL_30 while checkout to get 30% off FOR LIFE!
+import { config } from 'dotenv';
+import { chromium } from 'playwright';
+config();
 
-const root = '/Users/spankyed/Develop/Projects/PdfToVid/src/files';
+async function run() {
+  const browser = await chromium.launch({ headless: false });
+  const context = await browser.newContext();
+  const page = await context.newPage();
 
-// Register the font
-registerFont(path.join(root, 'input', 'Roboto-Bold.ttf'), { family: 'Roboto' });
+  // Navigate to the login page
+  await page.goto('https://app.pictory.ai/login');
 
-async function downloadImage(url: string, outputPath: string) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`unexpected response ${response.statusText}`);
-  if (!response.body) throw new Error('No response body');
-  await promisify(pipeline)(response.body, fs.createWriteStream(outputPath));
+  // Type into the email and password inputs
+  await page.type('input[type="text"]', process.env.EMAIL ?? '');
+  await page.type('input[type="password"]', process.env.PASSWORD ?? '');
+
+  // Click the submit button and wait for navigation to complete
+  await Promise.all([
+    page.waitForNavigation(),
+    page.click('button[type="submit"]'),
+  ]);
+
+  // Click the script to video button and wait for navigation to complete
+  await Promise.all([
+    page.waitForSelector('.script-video-name', { state: 'visible' }),
+    page.click('.script-to-video-button'),
+  ]);
+
+  // Type into the title input
+  await page.type('.script-video-name input', 'Test title');
+
+  // Click on the contenteditable div to focus it
+  await page.click('[contenteditable]');
+
+  // Type into the contenteditable div
+  await page.keyboard.type('Test script');
+
+  // Wait for the "Proceed" button to be enabled and click it
+  await page.waitForSelector('button:enabled:has-text("Proceed")');
+  await page.click('button:enabled:has-text("Proceed")');
+
+  // Wait for the template to appear and click it
+  const templateSelector = '#template_a33a3de8-39d1-4a80-b887-ba3c5e1a4464';
+  await page.waitForSelector(templateSelector);
+  await page.click(templateSelector);
+
+  // Click the first aspect-ratio-card
+  await page.click('.aspect-ratio-card');
+
+  // Click on the "#tab-3" anchor tag
+  const audio = 'a[href="#tab-3"]';
+  await page.waitForSelector(audio);
+  await page.click(audio);
+
+  // Click on the "#tbinnertwo-2" anchor tag
+  const voiceOver = 'a[href="#tbinnertwo-2"]';
+  await page.waitForSelector(voiceOver);
+  await page.click(voiceOver);
+
+  // Click the first anchor tag inside of the ordered list with the class "list-inline"
+  await page.click('.list-inline a');
+
+  // Wait 2 seconds
+  await page.waitForTimeout(2000);
+
+  // Click the div with id "generate-button-dropdown"
+  await page.click('#generate-button-dropdown');
+
+  // Wait for the dropdown option for downloading the video to appear and click it
+  await page.waitForSelector('#btnGenerate');
+  await page.click('#btnGenerate');
+
+  // Wait 5 seconds
+  await page.waitForTimeout(5000);
+
+
+  // TODO wait for video to finish processing than click last download button to save to dl folder
+
+  // await browser.close();
 }
 
-function getEmojiUrl(unicode: string) {
-  const codePoints = unicode?.codePointAt(0)?.toString(16);
-  return `https://twemoji.maxcdn.com/v/latest/72x72/${codePoints}.png`;
-}
-
-async function createCircularImage(imagePath: string, size: number): Promise<Buffer> {
-  const circleSvg = `<svg><circle cx="${size/2}" cy="${size/2}" r="${size/2}"/></svg>`;
-  const compositeOptions = [{ input: Buffer.from(circleSvg), blend: 'dest-in' as const }];
-
-  return await sharp(imagePath)
-    .resize(size, size)
-    .composite(compositeOptions)
-    .toBuffer();
-}
-
-async function createThumbnail(backgroundPath: string, themePath: string, decorationPath: string, outputPath: string, width: number, height: number): Promise<void> {
-  console.clear()
-  console.log('Creating thumbnail...');
-
-  const size = height * 1.3; // Increase the size of the theme image by 3/10ths
-
-  try {
-    console.log('Creating circular theme image...');
-    const circularThemeBuffer = await createCircularImage(themePath, size);
-
-    const canvas = createCanvas(width, height);
-    const ctx = canvas.getContext('2d');
-    ctx.antialias = 'subpixel'; // Enable subpixel antialiasing
-
-    // Load images
-    console.log('Loading images...');
-    const background = await loadImage(backgroundPath);
-    const theme = await loadImage(circularThemeBuffer);
-    const decoration = await loadImage(decorationPath);
-
-    // Download emoji images
-    console.log('Downloading emoji images...');
-    const robotEmojiPath = path.join(root, 'input', 'robot_emoji.png');
-    const packageEmojiPath = path.join(root, 'input', 'package_emoji.png');
-    await downloadImage(getEmojiUrl('🤖'), robotEmojiPath);
-    await downloadImage(getEmojiUrl('📦'), packageEmojiPath);
-    const robotEmoji = await loadImage(robotEmojiPath);
-    const packageEmoji = await loadImage(packageEmojiPath);
-
-    // Calculate positions
-    const themePosition = width * .45; // Move the theme image to the right such that 55% is visible
-    const themeVerticalPosition = (height - theme.height) / 2;
-    const decorationVerticalPosition = height - (decoration.height * .35);
-    const decorationHorizontalPosition = (width - decoration.width) * .52;
-
-    // Draw images on canvas
-    console.log('Drawing images on canvas...');
-    ctx.drawImage(background, 0, 0, width, height);
-
-    // Draw border around theme image
-    ctx.strokeStyle = '#FFFF66';
-    ctx.lineWidth = 7.5; // Adjust as needed
-    ctx.globalAlpha = 0.85; // Set the opacity to 50%
-    ctx.beginPath();
-    ctx.arc(themePosition + theme.width / 2, themeVerticalPosition + theme.height / 2, theme.width / 2, 0, 2 * Math.PI);
-    ctx.stroke();
-    ctx.globalAlpha = 1.0;
-
-    // Draw theme image
-    ctx.drawImage(theme, themePosition, themeVerticalPosition, theme.width, theme.height);
-    ctx.drawImage(decoration, decorationHorizontalPosition, decorationVerticalPosition, decoration.width, decoration.height);
-
-    // Add text
-    console.log('Adding text...');
-    const fontSize = 120;
-    const lineHeight = fontSize * 0.8;
-    const letterSpacing = fontSize * 0.09;
-    const textX = width * 0.03;
-    const textY = height * .4;
-    ctx.font = `${fontSize}px Roboto`;
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillText('AI', textX, textY);
-    ctx.fillStyle = '#FFFF66';
-    ctx.fillText('Unboxed', textX, textY + lineHeight + letterSpacing);
-
-    // Add emoji images
-    console.log('Adding emoji images...');
-    const emojiFontSize = 170;
-    const emojiTextX = textX;
-    const emojiTextY = textY + lineHeight + letterSpacing + emojiFontSize;
-    ctx.drawImage(robotEmoji, emojiTextX, emojiTextY, emojiFontSize, emojiFontSize);
-    ctx.drawImage(packageEmoji, emojiTextX + emojiFontSize, emojiTextY, emojiFontSize, emojiFontSize);
-
-    // Write the result to a file
-    console.log('Writing result to file...');
-    const out = fs.createWriteStream(outputPath);
-    const stream = canvas.createJPEGStream();
-    stream.pipe(out);
-
-    console.log('Thumbnail created successfully');
-  } catch (error) {
-    console.error(`Error creating thumbnail: ${error}`);
-  }
-}
-
-const bgPath = path.join(root, 'input', 'background.png');
-const themePath = path.join(root, 'input', 'theme1.png');
-const decorationPath = path.join(root, 'input', 'decoration.png');
-const outPath = path.join(root, 'output', 'thumbnail.jpg');
-
-createThumbnail(bgPath, themePath, decorationPath, outPath, 1280, 720);
+run();
