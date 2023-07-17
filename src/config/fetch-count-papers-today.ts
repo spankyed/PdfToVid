@@ -3,7 +3,7 @@
 import { load } from 'cheerio';
 import fetch from 'node-fetch';
 
-const numberOfEntriesByDay = async () => {
+export default async function numberOfEntriesByDay () {
   try {
     const response = await fetch('https://arxiv.org/list/cs.AI/recent');
     const html = await response.text();
