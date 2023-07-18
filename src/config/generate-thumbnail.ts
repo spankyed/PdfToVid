@@ -102,7 +102,7 @@ export default async function createThumbnail(backgroundPath: string, themePath:
     console.log('Adding emoji images...');
     const emojiFontSize = 170;
     const emojiTextX = textX;
-    const emojiTextY = textY + lineHeight + letterSpacing + emojiFontSize;
+    const emojiTextY = textY + lineHeight + letterSpacing + emojiFontSize * .9;
     ctx.drawImage(robotEmoji, emojiTextX, emojiTextY, emojiFontSize, emojiFontSize);
     ctx.drawImage(packageEmoji, emojiTextX + emojiFontSize, emojiTextY, emojiFontSize, emojiFontSize);
 
@@ -118,9 +118,9 @@ export default async function createThumbnail(backgroundPath: string, themePath:
   }
 }
 
-// const bgPath = path.join(root, 'input', 'background.png');
-// const themePath = path.join(root, 'input', 'theme1.png');
-// const decorationPath = path.join(root, 'input', 'decoration.png');
-// const outPath = path.join(root, 'output', 'thumbnail.jpg');
+const bgPath = path.join(root, 'input', 'background.png');
+const themePath = path.join(root, 'input', 'theme1.png');
+const decorationPath = path.join(root, 'input', 'decoration.png');
+const outPath = path.join(root, 'output', 'thumbnail.jpg');
 
-// createThumbnail(bgPath, themePath, decorationPath, outPath, 1280, 720);
+createThumbnail(bgPath, themePath, decorationPath, outPath, 1280, 720);
