@@ -1,4 +1,4 @@
-import { chromium, Page } from 'playwright';
+import { chromium, Page, BrowserContext } from 'playwright';
 
 interface Entry {
   id: string;
@@ -9,7 +9,10 @@ interface Entry {
   published: string;
 }
 
-const extractPaperDetails = async (page: Page): Promise<Entry> => {
+const extractPaperDetails = async (context: BrowserContext, link: string): Promise<Entry> => {
+  const page = await context.newPage();
+  await page.goto(link);
+  
   const id = await page.$eval('[name="citation_arxiv_id"]', (node: HTMLMetaElement) => node.content);
   const title = await page.$eval('.title', (node: HTMLElement) => node.textContent?.trim() || '');
   const abstract = await page.$eval('.abstract', (node: HTMLElement) => node.textContent?.trim() || '');
@@ -17,14 +20,16 @@ const extractPaperDetails = async (page: Page): Promise<Entry> => {
   const pdfLink = await page.$eval('.full-text a', (node: HTMLAnchorElement) => node.href);
   const published = await page.$eval('[name="citation_date"]', (node: HTMLMetaElement) => node.content);
 
+  await page.close();
+
   return { id, title, abstract, author, pdfLink, published };
 };
 
 (async () => {
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext();
-  const page = await context.newPage();
 
+  const page = await context.newPage();
   await page.goto('https://arxiv.org/list/cs.AI/recent');
   await page.click('a:has-text("all")');
   await page.waitForLoadState('domcontentloaded');
@@ -42,11 +47,9 @@ const extractPaperDetails = async (page: Page): Promise<Entry> => {
       };
     }));
 
-    for(let entry of entries) {
-      await page.goto(entry.link);
-      const paperDetails = await extractPaperDetails(page);
-      console.log(paperDetails);
-    }
+    const paperDetailsPromises = entries.map(entry => extractPaperDetails(context, entry.link));
+    const paperDetails = await Promise.all(paperDetailsPromises);
+    paperDetails.forEach(details => console.log(details));
   } else {
     console.log('Date not found');
   }
