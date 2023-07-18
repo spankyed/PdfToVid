@@ -1,4 +1,4 @@
-import playwright from 'playwright';
+import playwright, { Page } from 'playwright';
 
 interface Entry {
   id: string;
@@ -9,63 +9,54 @@ interface Entry {
   published: string;
 }
 
+interface EntryLink {
+  number: string;
+  link: string;
+}
+
+const extractPaperDetails = async (page: Page, { link }: EntryLink): Promise<Entry> => {
+  await page.goto(link);
+  const [idHandle, titleHandle, abstractHandle, authorsHandle, pdfLinkHandle, publishedHandle] = await Promise.all([
+    page.$('[name="citation_arxiv_id"]'),
+    page.$('.title'),
+    page.$('.abstract'),
+    page.$$('.authors a'),
+    page.$('.full-text a'),
+    page.$('[name="citation_date"]')
+  ]);
+  const id = await idHandle?.evaluate((node: any) => node.content);
+  const title = await titleHandle?.evaluate((node: any) => node.textContent.trim());
+  const abstract = await abstractHandle?.evaluate((node: any) => node.textContent.trim());
+  const authors = await Promise.all(authorsHandle.map(handle => handle.evaluate((node: any) => ({ name: node.textContent.trim() }))));
+  const pdfLink = await pdfLinkHandle?.evaluate((node: any) => node.href);
+  const published = await publishedHandle?.evaluate((node: any) => node.content);
+  return { id, title, abstract, author: authors, pdfLink, published } as Entry;
+}
 (async () => {
   const browser = await playwright['chromium'].launch({ headless: false });
   const context = await browser.newContext();
   const page = await context.newPage();
 
-  // Navigate to the URL
   await page.goto('https://arxiv.org/list/cs.AI/recent');
-
-  // Click the anchor tag that contains the text "all"
   await page.click('a:has-text("all")');
-
-  // Wait for navigation
   await page.waitForLoadState('domcontentloaded');
 
-  // Get the <h3> elements (dates)
   const dates = await page.$$eval('h3', nodes => nodes.map(n => n.innerText));
+  const dateIndex = dates.findIndex(date => date === 'Tue, 18 Jul 2023');
 
-  // Find the index of the date we are interested in
-  const dateIndex = dates.findIndex(date => date === 'Mon, 17 Jul 2023');
-
-  // If the date is found
   if (dateIndex !== -1) {
-    // Get the <dl> elements (lists of papers)
     const paperLists = await page.$$('dl');
-
-    // Get the <dt> elements (entry numbers) within the <dl> list for the date
-    const entryNumbers = await paperLists[dateIndex].$$eval('dt', nodes => nodes.map(n => n.innerText));
-    const paperLinks = await paperLists[dateIndex].$$eval('dt a', nodes => nodes.map(n => n.href));
-
-    // Extract details for each paper
-    for(let i = 0; i < entryNumbers.length; i++) {
-      if (paperLinks[i] === "") {
-        continue;
-      }
-      console.log('paperLinks[i]: ' + i);
-      // Navigate to paper's info page
-      await page.goto(paperLinks[i]);
-
-      let entry: Entry = {
-        id: "",
-        title: "",
-        abstract: "",
-        author: [],
-        pdfLink: "",
-        published: ""
+    const entries: EntryLink[] = await paperLists[dateIndex].$$eval('dt', nodes => nodes.map(n => {
+      const links = n.querySelectorAll('a');
+      return {
+        number: n.innerText,
+        link: links[1]?.href || ''
       };
+    }));
 
-      // Extract paper details
-      entry.id = await page.$eval('[name="citation_arxiv_id"]', node => node.content);
-      entry.title = await page.$eval('.title', node => node.textContent.trim());
-      entry.abstract = await page.$eval('.abstract', node => node.textContent.trim());
-      entry.author = await page.$$eval('.authors a', nodes => nodes.map(n => ({ name: n.textContent.trim() })));
-      entry.pdfLink = await page.$eval('.full-text a', node => node.href);
-      entry.published = await page.$eval('[name="citation_date"]', node => node.content);
-
-      console.log(entry);
-    }
+    const paperDetailsPromises = entries.map(entry => extractPaperDetails(page, entry));
+    const paperDetails = await Promise.all(paperDetailsPromises);
+    console.log(paperDetails);
   } else {
     console.log('Date not found');
   }
