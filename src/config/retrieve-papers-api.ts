@@ -1,4 +1,4 @@
-import { arxivSearch, SortBy, SortOrder, Entry } from './config/arxiv-api';
+import { arxivSearch, SortBy, SortOrder, Entry } from './arxiv-api';
 import Datastore from '@seald-io/nedb';
 import path from 'path';
 import fs from 'fs';

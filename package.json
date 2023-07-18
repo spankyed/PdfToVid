@@ -19,7 +19,9 @@
     "@types/gm": "^1.25.1",
     "@types/hapi__hapi": "20.0.13",
     "@types/lodash": "^4.14.195",
+    "@types/lowdb": "^1.0.11",
     "@types/node": "^18.16.19",
+    "@types/xml2js": "^0.4.11",
     "prisma": "^4.7.1",
     "ts-node": "^10.9.1",
     "tsx": "^3.12.7",
@@ -28,15 +30,18 @@
   "dependencies": {
     "@hapi/hapi": "^21.1.0",
     "@prisma/client": "^4.7.1",
+    "@seald-io/nedb": "^4.0.2",
     "arxiv-api": "^1.1.1",
     "canvas": "^2.11.2",
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.3.1",
     "gm": "^1.25.0",
+    "lowdb": "^6.0.1",
     "node-emoji": "^2.1.0",
     "node-fetch": "^3.3.1",
     "open": "^9.1.0",
     "playwright": "^1.36.1",
-    "sharp": "^0.32.3"
+    "sharp": "^0.32.3",
+    "xml2js": "^0.6.0"
   }
 }
