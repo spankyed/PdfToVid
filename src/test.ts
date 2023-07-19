@@ -1,58 +1,64 @@
-import { chromium, Page, BrowserContext } from 'playwright';
+// @ts-ignore
+import Claude from 'claude-ai';
+import { readFileSync } from 'fs';
+import fetch from 'node-fetch';
 
-interface Entry {
-  id: string;
-  title: string;
-  abstract: string;
-  author: { name: string }[];
-  pdfLink: string;
-  published: string;
-}
+const sessionKey = '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' 
 
-const extractPaperDetails = async (context: BrowserContext, link: string): Promise<Entry> => {
-  const page = await context.newPage();
-  await page.goto(link);
-  
-  const id = await page.$eval('[name="citation_arxiv_id"]', (node: HTMLMetaElement) => node.content);
-  const title = await page.$eval('.title', (node: HTMLElement) => node.textContent?.trim() || '');
-  const abstract = await page.$eval('.abstract', (node: HTMLElement) => node.textContent?.trim() || '');
-  const author = await page.$$eval('.authors a', (nodes: HTMLElement[]) => nodes.map(n => ({ name: n.textContent?.trim() || '' })));
-  const pdfLink = await page.$eval('.full-text a', (node: HTMLAnchorElement) => node.href);
-  const published = await page.$eval('[name="citation_date"]', (node: HTMLMetaElement) => node.content);
+async function getOrganizations() {
+  // console.log('fetching orgs' );
 
-  await page.close();
-
-  return { id, title, abstract, author, pdfLink, published };
-};
-
-(async () => {
-  const browser = await chromium.launch({ headless: false });
-  const context = await browser.newContext();
-
-  const page = await context.newPage();
-  await page.goto('https://arxiv.org/list/cs.AI/recent');
-  await page.click('a:has-text("all")');
-  await page.waitForLoadState('domcontentloaded');
-
-  const dates = await page.$$eval('h3', (nodes: HTMLElement[]) => nodes.map(n => n.textContent || ''));
-  const dateIndex = dates.findIndex(date => date === 'Tue, 18 Jul 2023');
-
-  if (dateIndex !== -1) {
-    const paperLists = await page.$$('dl');
-    const entries = await paperLists[dateIndex].$$eval('dt', (nodes: HTMLElement[]) => nodes.map(n => {
-      const links = n.querySelectorAll('a');
-      return {
-        number: n.textContent || '',
-        link: (links[1] as HTMLAnchorElement)?.href || ''
-      };
-    }));
-
-    const paperDetailsPromises = entries.map(entry => extractPaperDetails(context, entry.link));
-    const paperDetails = await Promise.all(paperDetailsPromises);
-    paperDetails.forEach(details => console.log(details));
-  } else {
-    console.log('Date not found');
+  const headers = {
+    common: { Accept: 'application/json, text/plain, */*' },
+    cookie: `sessionKey=${sessionKey}`,
+    'content-type': 'application/json',
+    Accept: 'application/json',
+    Connection: 'close',
+    'User-Agent': 'RapidAPI/4.2.0 (Macintosh; OS X/13.0.1) GCDHTTPRequest',
   }
 
-  await browser.close();
-})();
+  // console.log('headers: ', headers);
+
+  const response = await fetch("https://claude.ai/api/organizations", {
+    method: "GET",
+    headers
+  });
+
+  const data = await response.json().catch(console.error);
+  
+  console.log('response: ', data);
+
+  return data;
+}
+
+getOrganizations() 
+// const claude = new Claude({
+//   fetch,
+//   sessionKey,
+// });
+
+// const root = '/Users/spankyed/Develop/Projects/PdfToVid/src/files';
+
+// const paperName = 'ai-idea-testing';
+
+// const pdfFile = readFileSync(`${root}/input/${paperName}.pdf`);
+
+// async function main() {
+
+//   await claude.init();
+//   console.log('initialized');
+
+//   const file = new File([pdfFile], paperName, {type: 'application/pdf'});
+
+//   const uploadedFile = await claude.uploadFile(file);
+//   console.log('uploaded');
+
+//   const response = await claude.sendMessage(`Can you give me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper?`, {
+//     attachments: [uploadedFile]
+//   });
+//   console.log('message sent');
+
+//   console.log(response.completion);
+// }
+
+// main();
