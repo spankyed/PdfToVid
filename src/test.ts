@@ -1,64 +1,41 @@
-// @ts-ignore
-import Claude from 'claude-ai';
-import { readFileSync } from 'fs';
-import fetch from 'node-fetch';
+import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
+import * as path from 'path';
 
-const sessionKey = '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' 
+// You can define the path to the Python interpreter and the script in an environment variable or directly in the code
+const pythonInterpreter: string = process.env.PYTHON_INTERPRETER || 'python3';
+const root = '/Users/spankyed/Develop/Projects/PdfToVid/src/';
+const pythonScript: string = process.env.PYTHON_SCRIPT || path.join(root, 'fetchTestPy.py'); 
 
-async function getOrganizations() {
-  // console.log('fetching orgs' );
+// Spawn a child process
+const python: ChildProcessWithoutNullStreams = spawn(pythonInterpreter, [pythonScript]);
 
-  const headers = {
-    common: { Accept: 'application/json, text/plain, */*' },
-    cookie: `sessionKey=${sessionKey}`,
-    'content-type': 'application/json',
-    Accept: 'application/json',
-    Connection: 'close',
-    'User-Agent': 'RapidAPI/4.2.0 (Macintosh; OS X/13.0.1) GCDHTTPRequest',
-  }
+let dataString: string = '';
+let errorString: string = '';
 
-  // console.log('headers: ', headers);
+// Listen for data on the stdout stream and append it to dataString
+python.stdout.on('data', (data: Buffer) => {
+  console.log('data: ', data.toJSON());
+    dataString += data.toString();
+});
 
-  const response = await fetch("https://claude.ai/api/organizations", {
-    method: "GET",
-    headers
-  });
+// Listen for data on the stderr stream, which will include any error messages from Python, and append it to errorString
+python.stderr.on('data', (data: Buffer) => {
+    errorString += data.toString();
+});
 
-  const data = await response.json().catch(console.error);
-  
-  console.log('response: ', data);
+// When the Python script finishes, check for errors and log the output or errors
+python.on('close', (code: number|null) => {
+    if (code !== 0) {
+        console.error(`Python script exited with code ${code}`);
+        console.error('Error string: ', errorString);
+    } else {
+        console.log('Python script finished successfully.');
+        console.log('dataString: ', dataString);
+        console.log('Data string: ', JSON.parse(dataString));
+    }
+});
 
-  return data;
-}
-
-getOrganizations() 
-// const claude = new Claude({
-//   fetch,
-//   sessionKey,
-// });
-
-// const root = '/Users/spankyed/Develop/Projects/PdfToVid/src/files';
-
-// const paperName = 'ai-idea-testing';
-
-// const pdfFile = readFileSync(`${root}/input/${paperName}.pdf`);
-
-// async function main() {
-
-//   await claude.init();
-//   console.log('initialized');
-
-//   const file = new File([pdfFile], paperName, {type: 'application/pdf'});
-
-//   const uploadedFile = await claude.uploadFile(file);
-//   console.log('uploaded');
-
-//   const response = await claude.sendMessage(`Can you give me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper?`, {
-//     attachments: [uploadedFile]
-//   });
-//   console.log('message sent');
-
-//   console.log(response.completion);
-// }
-
-// main();
+// If an error occurs in the child process, log it
+python.on('error', (err: Error) => {
+    console.error('Failed to start Python script.', err);
+});

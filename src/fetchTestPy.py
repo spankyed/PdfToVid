@@ -3,27 +3,39 @@ import json
 
 sessionKey = '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'
 
-headers = {
-  "Accept": "application/json, text/plain, */*",
-  "Cookie": f"sessionKey={sessionKey}",
-  "Content-Type": "application/json",
-  "Connection": "close",
-  "User-Agent": "RapidAPI/4.2.0 (Macintosh; OS X/13.0.1) GCDHTTPRequest",
-}
-
 def get_organizations():
-  try:
-    response = requests.get("https://claude.ai/api/organizations", headers=headers)
-    data = response.json()
-    print(data)
-    return data
-  except requests.exceptions.RequestException as err:
-    print ("OOps: Something Else Happened:",err)
-  except requests.exceptions.HTTPError as errh:
-    print ("Http Error:",errh)
-  except requests.exceptions.ConnectionError as errc:
-    print ("Error Connecting:",errc)
-  except requests.exceptions.Timeout as errt:
-    print ("Timeout Error:",errt) 
+    headers = {
+        'common': 'Accept: application/json, text/plain, */*',
+        'cookie': f'sessionKey={sessionKey}',
+        'content-type': 'application/json',
+        'Accept': 'application/json',
+        'Connection': 'close',
+        'User-Agent': 'RapidAPI/4.2.0 (Macintosh; OS X/13.0.1) GCDHTTPRequest',
+    }
+    
+    try:
+        response = requests.get("https://claude.ai/api/organizations", headers=headers)
+        response.raise_for_status()  # raise exception if invalid response
+        data = response.json()
 
-get_organizations()
+    except requests.exceptions.HTTPError as errh:
+        print(f"HTTP Error: {errh}")
+        data = {'error': 'HTTP Error'}
+
+    except requests.exceptions.ConnectionError as errc:
+        print(f"Error Connecting: {errc}")
+        data = {'error': 'Connection Error'}
+
+    except requests.exceptions.Timeout as errt:
+        print(f"Timeout Error: {errt}")
+        data = {'error': 'Timeout Error'}
+
+    except requests.exceptions.RequestException as err:
+        print(f"General Error: {err}")
+        data = {'error': 'General Error'}
+
+    return data
+
+# Call the function and print the results as JSON
+result = get_organizations()
+print(json.dumps(result))
