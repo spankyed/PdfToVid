@@ -1,7 +1,9 @@
-import { arxivSearch, SortBy, SortOrder, Entry } from './arxiv-api';
+import { arxivSearch, SortBy, SortOrder, Entry } from '../libs/arxiv-api';
 import Datastore from '@seald-io/nedb';
 import path from 'path';
 import fs from 'fs';
+
+// ! Code does not work, issue authorizing from nodejs
 
 // Define the number of results you want to fetch
 const maxResults = 114;

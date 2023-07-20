@@ -1,7 +1,9 @@
-// ! fetch count of papers today
+// todo fetch count of papers today for ui
 
 // fetch all papers today
 // filter title/abstract by keywords/vector search
-// generate video, thumbnail prompt and metadata 
+// generate prompts for video, thumbnail  and metadata 
+// shorten thumbnail prompt with midjourney
+// generate video, thumbnail, metadata
 // save to flat db for review
 // upload to youtube
