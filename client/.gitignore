@@ -1,0 +1,8 @@
+node_modules
+public/
+assets/
+.env
+*.DS_Store
+*.typegen.ts
+.vscode
+.idea
