@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 import { chromium } from 'playwright';
 config();
 
-async function run() {
+async function run(title: string, script: string) {
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext();
   const page = await context.newPage();
@@ -28,13 +28,13 @@ async function run() {
   ]);
 
   // Type into the title input
-  await page.type('.script-video-name input', 'Test title');
+  await page.type('.script-video-name input', title);
 
   // Click on the contenteditable div to focus it
   await page.click('[contenteditable]');
 
   // Type into the contenteditable div
-  await page.keyboard.type('Test script');
+  await page.keyboard.type(script);
 
   // Wait for the "Proceed" button to be enabled and click it
   await page.waitForSelector('button:enabled:has-text("Proceed")');
@@ -80,4 +80,14 @@ async function run() {
   // await browser.close();
 }
 
-run();
+// run('Test title', 'Test script');
+run(
+  'AI Brainstorm, Process Mining Revolution, Business Superpowers Unleashed!', 
+  `Imagine you're driving a car. The car represents your business, and the journey represents your business processes. Now, traditionally, to navigate the journey, you'd need to understand maps, road signs, and maybe even some complex GPS equipment. This is like the traditional process mining - it's powerful, but it requires specific knowledge and skills.
+
+  Now, imagine if your car had an advanced GPS system where you could just tell it where you want to go in plain language, and it would understand and guide you there. Not only that, but it could also understand complex requests like "find a route with the least traffic" or "find a route that passes by a gas station and a Chinese restaurant". This is what the AI in this research is doing for process mining. It's making it as easy to use as telling your GPS where you want to go.
+  
+  But there's more. This GPS isn't perfect. Sometimes it might not understand your request, or it might get confused by unusual road layouts. So, the researchers have developed a system to handle these situations, to correct errors, and to learn from them. This is like the AI's ability to handle complex queries, to generate meaningful responses, and to learn from its mistakes.
+  
+  So, in a nutshell, this research is about turning the complex map of process mining into an easy-to-use GPS system that anyone in your business can use to navigate your business processes.`
+);
