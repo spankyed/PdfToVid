@@ -28,7 +28,7 @@ async function run(title: string, script: string) {
   ]);
 
   // Type into the title input
-  await page.type('.script-video-name input', title);
+  await page.fill('.script-video-name input', title);
 
   // Click on the contenteditable div to focus it
   await page.click('[contenteditable]');

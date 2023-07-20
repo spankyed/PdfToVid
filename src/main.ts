@@ -1,4 +1,5 @@
 // todo fetch count of papers today for ui
+// manage with state machines
 
 // fetch all papers today
 // filter title/abstract by keywords/vector search
