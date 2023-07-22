@@ -1,3 +1,6 @@
+// top flat file dbs
+// NeDB, LokiJS, Lowdb
+
 // todo fetch count of papers today for ui
 // manage with state machines
 
