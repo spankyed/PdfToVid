@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
-import { StoreContext } from '../index';
+// import React, { useContext } from 'react';
+// import { StoreContext } from '../index';
 
-function Dashboard() {
-  const store = useContext(StoreContext);
+// function Dashboard() {
+//   const store = useContext(StoreContext);
 
-  // Now we can use the store in our component
-  // ...
+//   // Now we can use the store in our component
+//   // ...
 
-  return (
-    // ...
-  );
-}
-// src/pages/Dashboard.js
+//   return (
+//     // ...
+//   );
+// }
+// src/pages/Dashboard.tsx
 
 import React from 'react';
 import { Grid } from '@material-ui/core';
@@ -19,7 +19,7 @@ import DateList from '../components/DateList';
 import PaperList from '../components/PaperList';
 import SearchPanel from '../components/SearchPanel';
 
-function Dashboard() {
+const Dashboard: React.FC = () => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
@@ -36,3 +36,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+

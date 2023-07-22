@@ -1,11 +1,12 @@
-// src/components/DateList.js
+// src/components/DateList.tsx
 
 import React, { useContext } from 'react';
 import { List, ListItem, ListItemText } from '@material-ui/core';
 import { StoreContext } from '../index';
+import { StoreType } from '../store';
 
-function DateList() {
-  const store = useContext(StoreContext);
+const DateList: React.FC = () => {
+  const store = useContext<StoreType>(StoreContext);
 
   // Assuming the store has a `dates` property that is an array of date strings
   const dates = store.dates;

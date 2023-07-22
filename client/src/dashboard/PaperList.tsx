@@ -1,11 +1,12 @@
-// src/components/PaperList.js
+// src/components/PaperList.tsx
 
 import React, { useContext } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { StoreContext } from '../index';
+import { StoreType } from '../store';
 
-function PaperList() {
-  const store = useContext(StoreContext);
+const PaperList: React.FC = () => {
+  const store = useContext<StoreType>(StoreContext);
 
   // Assuming the store has a `papers` property that is an array of paper objects
   const papers = store.papers;

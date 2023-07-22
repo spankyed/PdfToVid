@@ -1,9 +1,9 @@
-// src/components/SearchPanel.js
+// src/components/SearchPanel.tsx
 
 import React from 'react';
 import { TextField } from '@material-ui/core';
 
-function SearchPanel() {
+const SearchPanel: React.FC = () => {
   return (
     <TextField label="Search" variant="outlined" fullWidth />
   );
