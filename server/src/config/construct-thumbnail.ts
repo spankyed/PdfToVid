@@ -1,3 +1,4 @@
+// base image made with https://hotpot.ai/
 import sharp from 'sharp';
 import { createCanvas, loadImage, registerFont } from 'canvas';
 import fs from 'fs';
