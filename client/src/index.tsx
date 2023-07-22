@@ -25,7 +25,7 @@ export const StoreContext = createContext(store);
 ReactDOM.render(
   <StoreContext.Provider value={store}>
     {/* <App /> */}
-    God I fucking hate coding
+    <p>God I fucking hate coding</p>
   </StoreContext.Provider>,
   document.getElementById('root')
 );
