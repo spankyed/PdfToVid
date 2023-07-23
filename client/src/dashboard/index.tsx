@@ -1,25 +1,18 @@
-// import React, { useContext } from 'react';
-// import { StoreContext } from '../index';
-
-// function Dashboard() {
-//   const store = useContext(StoreContext);
-
-//   // Now we can use the store in our component
-//   // ...
-
-//   return (
-//     // ...
-//   );
-// }
-// src/pages/Dashboard.tsx
-
-import React from 'react';
-import { Grid } from '@material-ui/core';
-import DateList from '../components/DateList';
-import PaperList from '../components/PaperList';
-import SearchPanel from '../components/SearchPanel';
+import React, { useContext, useEffect } from 'react';
+import DateList from './DateList';
+import PaperList from './PaperList';
+import SearchPanel from './SearchPanel';
+import { Grid } from '@mui/material';
+import { StoreContext } from '../index';
+import { StoreType } from '../shared/store';
 
 const Dashboard: React.FC = () => {
+  const store = useContext<StoreType>(StoreContext);
+
+  useEffect(() => {
+    store.fetchPapers();
+  }, [store]);
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={3}>
@@ -36,4 +29,3 @@ const Dashboard: React.FC = () => {
 }
 
 export default Dashboard;
-

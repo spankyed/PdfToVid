@@ -8,6 +8,7 @@ const Paper = types.model("Paper", {
   id: types.identifier,
   title: types.string,
   date: types.string,
+  imgUrl: types.string,
   // other properties...
 });
 

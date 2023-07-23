@@ -6,8 +6,9 @@
 
 // fetch all papers today
 // filter title/abstract by keywords/vector search
-// generate prompts for video, thumbnail  and metadata 
+// get gpt to video scripts for each paper and metadata 
+// generate prompt thumbnail  
 // shorten thumbnail prompt with midjourney
-// generate video, thumbnail, metadata
+// generate thumbnail
 // save to flat db for review
 // upload to youtube

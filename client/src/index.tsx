@@ -3,7 +3,7 @@
 import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import Dashboard from './pages/Dashboard';
+import Dashboard from './dashboard';
 import Store from './shared/store';
 // import App from './App';
 
@@ -25,7 +25,8 @@ export const StoreContext = createContext(store);
 ReactDOM.render(
   <StoreContext.Provider value={store}>
     {/* <App /> */}
-    <p>God I fucking hate coding</p>
+    <Dashboard />
+    {/* <p>God I fucking hate coding</p> */}
   </StoreContext.Provider>,
   document.getElementById('root')
 );
