@@ -26,11 +26,11 @@ const DateList: React.FC = () => {
     <List>
       {Object.keys(dates).map(month => (
         <div key={month}>
-          <ListItem button onClick={() => handleClick(month)}>
+          <ListItem button onClick={() => handleClick(month)} sx={{ fontWeight: 'bolder' }}>
             <ListItemText primary={month} />
           </ListItem>
           <Collapse in={openMonth === month} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+            <List component="div" sx={{ paddingLeft: 3 }}>
               {dates[month].map(date => (
                 <ListItem button key={date}>
                   <ListItemText primary={date} />

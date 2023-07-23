@@ -78,12 +78,26 @@ const days = {
       title: 'Camera',
       author: '@helloimnik',
     },
+    {
+      id: '4',
+      imgUrl: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+      title: 'Camera',
+      author: '@helloimnik',
+    },
+    {
+      id: '5',
+      imgUrl: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+      title: 'Camera',
+      author: '@helloimnik',
+    },
   ],
 };
 // src/components/PaperList.tsx
+// src/components/PaperList.tsx
 
 import React, { useContext } from 'react';
-import { Box, Typography, ImageList, ImageListItem } from '@mui/material';
+import { Box, Typography, ImageList, ImageListItem, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { StoreContext } from '../index';
 import { StoreType } from '../shared/store';
 
@@ -97,10 +111,11 @@ const PaperList: React.FC = () => {
   return (
     <>
       {Object.keys(days).map(date => (
-        <Box key={date} sx={{ marginBottom: 2, p: 2, border: '1px dashed grey'  }}>
-          <Typography variant="h6">{date}</Typography>
-          {/* <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}> */}
-          <ImageList sx={{ width: 500 }} cols={3} >
+        <Box key={date} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px dashed grey'  }}>
+          <Link to={`/home`} style={{ textDecoration: 'none' }}>
+            <Typography variant="h6">{date}</Typography>
+          </Link>
+          <ImageList sx={{ width: 500 }} cols={3}>
             {days[date].map(paper => (
               <ImageListItem key={paper.imgUrl}>
                 <img
@@ -112,6 +127,9 @@ const PaperList: React.FC = () => {
               </ImageListItem>
             ))}
           </ImageList>
+          <Button variant="contained" color="primary" component={Link}  to={`/home`} >
+            See All
+          </Button>
         </Box>
       ))}
     </>

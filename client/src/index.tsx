@@ -3,8 +3,9 @@
 import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Dashboard from './dashboard';
 import Store from './shared/store';
+import { createRoot } from 'react-dom/client';
+import './index.css';
 // import App from './App';
 
 // function App() {
@@ -17,19 +18,22 @@ import Store from './shared/store';
 //     </Router>
 //   );
 // }
+import { RouterProvider } from 'react-router-dom'
+import router from './shared/routes'
 
 const store = Store.create({ papers: [] });
 
 export const StoreContext = createContext(store);
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
   <StoreContext.Provider value={store}>
     {/* <App /> */}
-    <Dashboard />
-    {/* <p>God I fucking hate coding</p> */}
-  </StoreContext.Provider>,
-  document.getElementById('root')
+    <RouterProvider router={router} />
+  </StoreContext.Provider>
 );
+
 
 // export default App;
 

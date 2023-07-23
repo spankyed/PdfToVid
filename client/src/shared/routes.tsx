@@ -2,53 +2,54 @@
 // import System from "../system";
 // import Modules, { action as newModule, loader as modulesLoader} from "../system/modules/modules";
 // import ModuleEdit, { action as moduleAction, loader as moduleLoader } from "../system/modules/edit/edit";
+// import React from 'react'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
+import Dashboard from '../dashboard';
+import { Outlet, useLocation } from 'react-router-dom'
 
-const routes = [
-  {
-    name: 'database',
-    element: <div>empty</div>,
-    icon: DatabaseOutlined,
-  },
-  {
-    name: 'system',
-    element: <System/>,
-    icon: PartitionOutlined,
-    // todo going to /system should redirect to /system/modules
+const routes = [{
+    path: '/',
+    element: <Outlet />,
+    name: 'layout',
+    key: 'sub1',
+    meta: {
+      title: 'layout',
+      hidden: false
+    },
     children: [
       {
-        path: 'modules',
-        element: <Modules/>,
-        loader: modulesLoader,
-        action: newModule,
+        path: '/',
+        element: <Navigate to="/home" />,
+        key: '1',
+        meta: {
+          title: '首页',
+          hidden: false,
+          // icon: <HomeFilled />
+        }
       },
+      {
+        path: 'home',
+        element: <Dashboard />,
+        key: '2',
+        meta: {
+          title: '首页',
+          hidden: true,
+          // icon: <HomeFilled />
+        }
+      }
     ]
   },
-]
-
-
-const router = [
   {
-    path: "/", // dashboard
-    element: <Layout />,
-    // loader: rootLoader,
-    children: [],
+    path: '/404',
+    // element: <NotFound />,
+    element: <div>Losing</div>,
+    name: '404',
+    key: '5',
+    meta: {
+      title: '404',
+      hidden: true
+    }
   },
 ]
 
-// const router = [
-//   {
-//     path: "/",
-//     element: <Layout />,
-//     // loader: rootLoader,
-//     children: [
-//       ...routes.map((route, idx) => ({
-//         path: route.name,
-//         element: route.element,
-//         ...(route.children && { children: route.children }),
-//         ...(route.action && { action: route.action }),
-//         ...(route.loader && { loader: route.loader }),
-//       })),
-//       ...dynamicRoutes
-//     ],
-//   },
-// ]
+export default createBrowserRouter(routes)
