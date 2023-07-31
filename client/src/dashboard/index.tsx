@@ -1,31 +1,43 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import DateList from './DateList';
 import PaperList from './PaperList';
 import Search from './SearchPanel';
-import { Box } from '@mui/material';
+import { Box, Button, ButtonGroup } from '@mui/material';
 import { StoreContext } from '../index';
 import { StoreType } from '../shared/store';
+
+type PanelType = 'dates' | 'search';
+
+const height = 'calc(100vh - 64px)'
 
 const Dashboard: React.FC = () => {
   const store = useContext<StoreType>(StoreContext);
 
   useEffect(() => {
     store.fetchPapers();
-    // Set the overflow property of the body to hidden to remove the page scroll
   }, [store]);
 
+  const [inPanel, setPanel] = useState<PanelType>('dates');
+  
+  const handlePanelToggle = (view: PanelType) => {
+    setPanel(view);
+  };
+
   return (
-    <>
-      <Box sx={{ position: 'fixed', top: 0, height: '100vh', overflowY: 'auto', maxWidth: '25vw' }}>
-        <Box sx={{ position: 'sticky', top: 0 }}>
-          <DateList />
-        </Box>
-        <Search />
+    <Box sx={{ display: 'flex' }}>
+      <Box sx={{  height: height, width: '10vw' }}>
+        <ButtonGroup variant="contained" aria-label="outlined primary button group" sx={{ width: '100%'}}>
+          <Button onClick={() => handlePanelToggle('dates')} sx={{ width: '50%', borderRadius: 0, boxShadow: 'none' }}>Dates</Button>
+          <Button onClick={() => handlePanelToggle('search')} sx={{ width: '50%', borderRadius: 0, boxShadow: 'none' }}>Search</Button>
+        </ButtonGroup>
+        {
+          inPanel === 'dates' ? <DateList /> : <Search />
+        }
       </Box>
-      <Box sx={{ marginLeft: '25vw', overflowY: 'auto', minWidth: '60vw', height: '100vh' }}>
+      <Box sx={{ overflowY: 'auto', flexGrow: 1, height: height }}>
         <PaperList />
       </Box>
-    </>
+    </Box>
   );
 }
 

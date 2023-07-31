@@ -36,11 +36,22 @@ const SearchPanel: React.FC = () => {
       date: '2021-10-01',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.',
     },
+    {
+      title: 'Breakfast',
+      date: '2021-10-01',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.',
+    },
+    {
+      title: 'Breakfast',
+      date: '2021-10-01',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.',
+    },
   ];
 
   return (
-    <Box>
-      <TextField label="Search" variant="outlined" fullWidth />
+    <>
+      <TextField label="Search" variant="outlined" fullWidth sx={{ borderRadius: '0px', marginTop: '1px'}} size="small"/>
+      <Box sx={{ overflowY: 'auto', height: 'calc(100vh - 50px)' }}>
       {searchResults.map(result => (
         <Card key={result.title} sx={{ marginTop: 2 }}>
           <CardContent>
@@ -50,7 +61,9 @@ const SearchPanel: React.FC = () => {
           </CardContent>
         </Card>
       ))}
-    </Box>
+      </Box>
+
+    </>
   );
 }
 

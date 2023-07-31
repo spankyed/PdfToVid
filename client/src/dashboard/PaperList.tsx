@@ -111,11 +111,18 @@ const PaperList: React.FC = () => {
   return (
     <>
       {Object.keys(days).map(date => (
-        <Box key={date} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px dashed grey'  }}>
-          <Link to={`/home`} style={{ textDecoration: 'none' }}>
+        <Box key={date} sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          border: '1px dashed grey',
+          paddingTop: 2,  
+          paddingBottom: 2  
+        }}>
+          <Link to={`/home`} style={{ textDecoration: 'none', marginBottom: 4 }}>
             <Typography variant="h6">{date}</Typography>
           </Link>
-          <ImageList sx={{ width: 500 }} cols={3}>
+          <ImageList cols={5}>
             {days[date].map(paper => (
               <ImageListItem key={paper.imgUrl}>
                 <img
@@ -127,7 +134,7 @@ const PaperList: React.FC = () => {
               </ImageListItem>
             ))}
           </ImageList>
-          <Button variant="contained" color="primary" component={Link}  to={`/home`} >
+          <Button variant="contained" color="primary" component={Link}  to={`/home`} sx={{ marginTop: 2 }}>
             See All
           </Button>
         </Box>

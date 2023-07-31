@@ -1,81 +1,46 @@
+// src/components/Layout.tsx
+
 import React from 'react';
-import { useState } from 'react'
-import { LaptopOutlined, NotificationOutlined, PlusSquareOutlined, UserOutlined } from '@ant-design/icons';
-import { MenuProps } from 'antd';
-import { Breadcrumb, Layout as Section, Menu } from 'antd';
-import './layout.css'
-import { RecoilRoot } from 'recoil';
-import Navigation from './header';
-import { Outlet, useLocation } from 'react-router-dom';
-import SideMenu from './side-menu';
-import { routes } from './routes';
-import "react-sliding-pane/dist/react-sliding-pane.css";
+import { AppBar, Toolbar, Typography, Breadcrumbs, Link, Box } from '@mui/material';
+import { Outlet } from 'react-router-dom';
 
-// type AppProps = { message: string }; /* could also use interface */
+const height = 'calc(100vh - 64px)'
 
-// const App = ({ message }: AppProps) => <div>{message}</div>;
-
-const { Sider, Content } = Section;
-
-export default function AppLayout() {
-  const [count, setCount] = useState(0)
-  // const crumbs = useMatch('/system') ? 'System' : useMatch('/dialogue') ? 'Dialogue' : useMatch('/account') ? 'Account' : 'System';
-  const location = useLocation();
-  // const currentRoute = routes.find((route) => `/${route.name}` === location.pathname);
-  const crumbItems = location.pathname.split('/').filter(crumb => crumb).map(crumb => {
-    return (
-      <Breadcrumb.Item key={crumb}>
-        {crumb}
-      </Breadcrumb.Item>
-      );
-  });
-
-  // if (currentRoute) {
-  //   crumbItems.push(
-  //     <Breadcrumb.Item key={currentRoute.name}>
-  //       {currentRoute.name}
-  //     </Breadcrumb.Item>
-  //   );
-  // }
+const Layout: React.FC = () => {
   return (
     <>
-      <Section  className="h-full">
-        <Navigation/>
-        <Section>
-
-          <SideMenu/>
-
-          <Section 
-            style={{
-              padding: '0 24px 24px', 
-              position: 'relative',
-            }}
-          >
-            <Breadcrumb style={{ margin: '16px 0' }} className="capitalize">
-              {crumbItems}
-              {/* <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item> */}
-            </Breadcrumb>
-            {/* <div className="flex">
-              <div className="flex-1">
-                <PlusSquareOutlined  style={{ fontSize: '36px', color: '#08c' }}/>
-              </div>
-            </div> */}
-
-            <Content
-              className="site-layout-background text-black main-content"
-              style={{
-                padding: '0 24px',
-                margin: 0,
-                minHeight: 280,
-              }}
-            >
-              <Outlet />
-            </Content>
-          </Section>
-        </Section>
-      </Section>
+      <AppBar position="sticky" sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', boxShadow: 'none' }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography variant="h6" component="div">
+            AI Labs
+          </Typography>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/">
+              Home
+            </Link>
+            <Link color="inherit" href="/about">
+              About
+            </Link>
+            <Typography color="textPrimary">Current Page</Typography>
+          </Breadcrumbs>
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ maxHeight: height}}> {/* Adjust the 64px value based on the height of the AppBar */}
+        <Outlet />
+      </Box>
+      {/* <Box sx={{ display: 'flex', justifyContent: 'center', padding: 2, backgroundColor: 'grey.200' }}>
+        <Link href="https://www.youtube.com" target="_blank" rel="noopener" sx={{ margin: 1 }}>
+          YouTube
+        </Link>
+        <Link href="https://www.github.com" target="_blank" rel="noopener" sx={{ margin: 1 }}>
+          GitHub
+        </Link>
+        <Link href="/contact" sx={{ margin: 1 }}>
+          Contact
+        </Link>
+      </Box> */}
     </>
   );
 }
+
+export default Layout;
