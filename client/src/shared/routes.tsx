@@ -5,49 +5,44 @@
 // import React from 'react'
 import { Navigate, createBrowserRouter } from 'react-router-dom'
 import Dashboard from '../dashboard';
-import { Outlet, useLocation } from 'react-router-dom'
+// import { Outlet, useLocation } from 'react-router-dom'
 import Layout from './layout';
-import Day from '~/day-review/day';
+import Day from '~/day/day';
+import Entry from '~/entry/entry';
 
 const routes = [{
     path: '/',
     element: <Layout />,
-    name: 'layout',
-    key: 'sub1',
-    meta: {
-      title: 'layout',
-      hidden: false
-    },
+    // name: 'layout',
+    // key: 'sub1',
+    // meta: {
+    //   title: 'layout',
+    //   hidden: false
+    // },
     children: [
       {
         path: '/',
         element: <Navigate to="/home" />,
         key: '1',
-        meta: {
-          title: '首页',
-          hidden: false,
-          // icon: <HomeFilled />
-        }
+        // meta: {
+        //   title: '首页',
+        //   hidden: false,
+        //   icon: <HomeFilled />
+        // }
       },
       {
         path: 'home',
         element: <Dashboard />,
-        key: '2',
-        meta: {
-          title: '首页',
-          hidden: true,
-          // icon: <HomeFilled />
-        }
       },
       {
-        path: 'papers/:dayId',
+        path: 'day/:dayId',
+        // path: 'papers/:dayId',
         element: <Day />,
-        key: '2',
-        meta: {
-          title: '首页',
-          hidden: true,
-          // icon: <HomeFilled />
-        }
+      },
+      {
+        path: 'entry/:entryId',
+        // path: 'papers/:dayId',
+        element: <Entry />,
       }
     ]
   },
@@ -55,12 +50,12 @@ const routes = [{
     path: '/404',
     // element: <NotFound />,
     element: <div>Losing</div>,
-    name: '404',
-    key: '5',
-    meta: {
-      title: '404',
-      hidden: true
-    }
+    // name: '404',
+    // key: '5',
+    // meta: {
+    //   title: '404',
+    //   hidden: true
+    // }
   },
 ]
 

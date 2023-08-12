@@ -134,7 +134,7 @@ const PaperList: React.FC = () => {
               </ImageListItem>
             ))}
           </ImageList>
-          <Button variant="contained" color="primary" component={Link}  to={`/home`} sx={{ marginTop: 2 }}>
+          <Button variant="contained" color="primary" component={Link}  to={`/day/1`} sx={{ marginTop: 2 }}>
             See All
           </Button>
         </Box>
