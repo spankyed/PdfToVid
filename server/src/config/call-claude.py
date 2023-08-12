@@ -1,3 +1,5 @@
+# todo use js lib instead https://github.com/Explosion-Scratch/claude-unofficial-api 
+
 import requests
 import json
 
