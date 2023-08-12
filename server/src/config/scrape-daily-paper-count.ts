@@ -26,4 +26,4 @@ numberOfEntriesByDay();
 const date = new Date().toUTCString()
 // console.log(new Date().toLocaleDateString('en-US', { weekday: 'long' }));		
 
-const el = Array.from(document.body.querySelectorAll('a')).find(elm => elm.textContent.includes('searching text'));
+const el = Array.from(document.body.querySelectorAll('a')).find(elm => elm.textContent?.includes('searching text'));

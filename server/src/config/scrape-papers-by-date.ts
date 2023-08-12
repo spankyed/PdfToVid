@@ -17,7 +17,11 @@ const extractPaperDetails = async (context: BrowserContext, link: string): Promi
   const title = await page.$eval('.title', (node: HTMLElement) => node.textContent?.trim() || '');
   const abstract = await page.$eval('.abstract', (node: HTMLElement) => node.textContent?.trim() || '');
   const author = await page.$$eval('.authors a', (nodes: HTMLElement[]) => nodes.map(n => ({ name: n.textContent?.trim() || '' })));
-  const pdfLink = await page.$eval('.full-text a', (node: HTMLAnchorElement) => node.href);
+
+  // const pdfLink = await page.$eval('.full-text a', (node: HTMLAnchorElement) => node.href);
+  // https://arxiv.org/pdf/2308.05713.pdf
+  const pdfLink = `https://arxiv.org/pdf/${id}.pdf`
+  
   const published = await page.$eval('[name="citation_date"]', (node: HTMLMetaElement) => node.content);
 
   await page.close();
@@ -25,7 +29,7 @@ const extractPaperDetails = async (context: BrowserContext, link: string): Promi
   return { id, title, abstract, author, pdfLink, published };
 };
 
-(async () => {
+export default async function scrapePapersByDate(date: string) {
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext();
 
@@ -35,7 +39,7 @@ const extractPaperDetails = async (context: BrowserContext, link: string): Promi
   await page.waitForLoadState('domcontentloaded');
 
   const dates = await page.$$eval('h3', (nodes: HTMLElement[]) => nodes.map(n => n.textContent || ''));
-  const dateIndex = dates.findIndex(date => date === 'Tue, 18 Jul 2023');
+  const dateIndex = dates.findIndex(d => d === date);
 
   if (dateIndex !== -1) {
     const paperLists = await page.$$('dl');
@@ -55,4 +59,4 @@ const extractPaperDetails = async (context: BrowserContext, link: string): Promi
   }
 
   await browser.close();
-})();
+};
