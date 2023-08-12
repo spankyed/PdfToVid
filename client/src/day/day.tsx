@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Typography, Box, Tabs, Tab, Table, TableBody, TableCell, 
   TableContainer, TableHead, TableRow, Button, Grid, Card, CardMedia, CardActions, TextField } from '@mui/material';
 // import moment from 'moment';
@@ -53,10 +54,15 @@ const PapersTable: React.FC<{ papers: { name: string; status: string }[] }> = ({
         <TableBody>
           {papers.map((paper, index) => (
             <TableRow key={index}>
-              <TableCell>{paper.title}</TableCell>
+              <TableCell>
+                {/* <Link to={`/entry/${paper.id}`} style={{ textDecoration: 'none', color: 'inherit' }}> */}
+                <Link to={`/entry/${1}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  {paper.title}
+                </Link>
+              </TableCell>
               <TableCell>{paper.status}</TableCell>
               <TableCell>
-                <Button variant="contained" color="primary">Action</Button>
+                <Button variant="contained" color="primary">View Details</Button>
               </TableCell>
             </TableRow>
           ))}
@@ -73,15 +79,19 @@ const VideosGrid: React.FC<{ videos: { thumbnail: string }[] }> = ({ videos }) =
       {videos.map((video, index) => (
         <Grid item xs={2} key={index}>
           <Card>
-            <CardMedia
-              component="img"
-              height="140"
-              image={video.imgUrl}
-              alt="Video thumbnail"
-            />
+            {/* <Link to={`/entry/${paper.id}`} style={{ textDecoration: 'none' }}> */}
+            <Link to={`/entry/${1}`} style={{ textDecoration: 'none' }}>
+              <CardMedia
+                component="img"
+                height="140"
+                image={video.imgUrl}
+                alt="Video thumbnail"
+              />
+            </Link>
             <CardActions>
               <Button size="small" color="primary">Upload</Button>
-              <Button size="small" color="secondary">Delete</Button>
+              <Button size="small" color="secondary">View Details</Button>
+              <Button size="small" color="error">Discard</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -153,7 +163,7 @@ const DayDetails: React.FC<{ date: string; papers: any[]; videos: any[] }> = ({ 
       <DayTitle date={date} />
       {
         // papers.length
-        false
+        true
           ? <DayTabs papers={Papers} videos={Videos} />
           : <EmptyState />
       }
