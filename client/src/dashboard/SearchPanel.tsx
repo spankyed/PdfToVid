@@ -50,8 +50,13 @@ const SearchPanel: React.FC = () => {
 
   return (
     <>
-      <TextField label="Search" variant="outlined" fullWidth sx={{ borderRadius: '0px', marginTop: '1px'}} size="small"/>
-      <Box sx={{ overflowY: 'auto', height: 'calc(100vh - 50px)' }}>
+      <TextField 
+        label="Search" 
+        variant="outlined" 
+        fullWidth 
+        sx={{ borderRadius: '0px', marginTop: '1px'}} 
+        size="small"/>
+      <Box sx={{ }}>
       {searchResults.map(result => (
         <Card key={result.title} sx={{ marginTop: 2 }}>
           <CardContent>

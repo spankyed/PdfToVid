@@ -13,18 +13,17 @@ import { StoreType } from '../shared/store';
 const DateList: React.FC = () => {
   const store = useContext<StoreType>(StoreContext);
   const [openMonth, setOpenMonth] = useState<string | null>(null);
-  
-  const handleClick = (month: string) => {
-    setOpenMonth(prevMonth => (prevMonth === month ? null : month));
-  };
+
   // Assuming the store has a `dates` property that is an object where each key is a month
   // and the value is an array of date strings for that month
   // const dates = store.dates;
 
-
+  const handleClick = (month: string) => {
+    setOpenMonth(prevMonth => (prevMonth === month ? null : month));
+  };
 
   return (
-    <List sx={{ maxHeight: '100%',  overflow: 'auto' }}>
+    <List sx={{ overflow: 'auto' }}>
       {Object.keys(dates).map(month => (
         <div key={month}>
           <ListItem button onClick={() => handleClick(month)} sx={{ fontWeight: 'bolder' }}>
