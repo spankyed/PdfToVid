@@ -1,1 +1,6 @@
 bertopic==0.15.0
+chromadb==0.4.5
+gensim==4.3.1
+nltk==3.8.1
+pytextrank==3.2.5
+spacy==3.6.1
