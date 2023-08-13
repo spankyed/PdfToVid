@@ -14,8 +14,10 @@ const extractPaperDetails = async (context: BrowserContext, link: string): Promi
   await page.goto(link);
   
   const id = await page.$eval('[name="citation_arxiv_id"]', (node: HTMLMetaElement) => node.content);
-  const title = await page.$eval('.title', (node: HTMLElement) => node.textContent?.trim() || '');
-  const abstract = await page.$eval('.abstract', (node: HTMLElement) => node.textContent?.trim() || '');
+  const title = await page.$eval('.title', (node: HTMLElement) => 
+    node.textContent?.replace("Title:", "").trim() || ''); // remove "Title:" from title
+  const abstract = await page.$eval('.abstract', (node: HTMLElement) => 
+    node.textContent?.replace("Abstract:", "").trim() || ''); // remove "Abstract:" from abstract
   const author = await page.$$eval('.authors a', (nodes: HTMLElement[]) => nodes.map(n => ({ name: n.textContent?.trim() || '' })));
 
   // const pdfLink = await page.$eval('.full-text a', (node: HTMLAnchorElement) => node.href);
