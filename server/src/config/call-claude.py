@@ -1,8 +1,8 @@
-# todo use js lib instead https://github.com/Explosion-Scratch/claude-unofficial-api 
-
 import requests
 import json
 
+# todo use js lib instead https://github.com/Explosion-Scratch/claude-unofficial-api 
+# ! todo get sessionKey from env
 sessionKey = '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'
 
 def get_organizations():
