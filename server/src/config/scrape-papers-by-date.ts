@@ -26,12 +26,14 @@ const extractPaperDetails = async (context: BrowserContext, link: string): Promi
 
   await page.close();
 
-  return { id, title, abstract, author, pdfLink, published };
+  // return { id, title, abstract, author, pdfLink, published };
+  return { id, title, abstract, pdfLink };
 };
 
 export default async function scrapePapersByDate(date: string) {
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext();
+  let paperDetails: Entry[] = [];
 
   const page = await context.newPage();
   await page.goto('https://arxiv.org/list/cs.AI/recent');
@@ -52,11 +54,13 @@ export default async function scrapePapersByDate(date: string) {
     }));
 
     const paperDetailsPromises = entries.map(entry => extractPaperDetails(context, entry.link));
-    const paperDetails = await Promise.all(paperDetailsPromises);
-    paperDetails.forEach(details => console.log(details));
+    paperDetails = await Promise.all(paperDetailsPromises);
+    // paperDetails.forEach(details => console.log(details));
   } else {
     console.log('Date not found');
   }
 
   await browser.close();
+
+  return paperDetails
 };
