@@ -60,8 +60,15 @@ scrapeRefPapers(entryIds).then((arxivPapers) => {
 // fetch all papers today
 // manually filter, no full auto
 // get gpt to video scripts for each paper and metadata 
+
+
 // keyword extraction for future filters
+  // average top 5 semanticly similar papers scores
   // add settings for adding keywords
+  // consider grouping similar papers (ie. recommender/relevancy systems)
+    // add "compare" or "integration tab" for entry details page
+
+
 // generate prompt thumbnail  
 // shorten thumbnail prompt with midjourney
 // generate thumbnail
