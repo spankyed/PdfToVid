@@ -1,9 +1,8 @@
+# import spacy.cli
+# spacy.cli.download("en_core_web_sm")
 import json
 import spacy
 import pytextrank
-
-# import spacy.cli
-# spacy.cli.download("en_core_web_sm")
 
 # Load the data from the JSON file
 with open('/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/output/data/arxiv-papers.json', 'r') as file:
@@ -18,8 +17,9 @@ nlp.add_pipe("textrank")
 output_data = []
 
 for paper in data:
-    doc = nlp(paper['abstract'])
-    key_terms = [phrase.text for phrase in doc._.phrases[:5]]  # Extracting top 5 keywords
+    combined_text = paper['title'] + ". " + paper['abstract']  # Concatenate title and abstract
+    doc = nlp(combined_text)
+    key_terms = [(phrase.text, phrase.rank) for phrase in doc._.phrases[:10]]  # Extracting top 5 keywords with their relevancy scores
     paper_output = {
         "id": paper["id"],
         "title": paper["title"],
@@ -30,8 +30,8 @@ for paper in data:
     output_data.append(paper_output)
 
 # Write the output data to a new JSON file
-output_path = '/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/output/data/keywords_output_pytextrank.json'
+output_path = '/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/output/data/keywords_scores_output_pytextrank_combined.json'
 with open(output_path, 'w') as output_file:
     json.dump(output_data, output_file, indent=4)
 
-print(f"Keywords written to {output_path}")
+print(f"Keywords with scores written to {output_path}")
