@@ -5,3 +5,4 @@ nltk==3.8.1
 pytextrank==3.2.5
 spacy==3.6.1
 chromadb==0.4.5
+sentence-transformers==2.2.2
