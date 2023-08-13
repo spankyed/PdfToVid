@@ -5,7 +5,10 @@ import json
 client = chromadb.Client()
 
 # Create or get a collection for reference papers
-collection = client.get_or_create_collection("reference-papers")
+collection = client.get_or_create_collection(
+    name="reference-papers",
+    metadata={"hnsw:space": "cosine"} # l2 is the default
+)
 
 # Load reference papers from the JSON file
 with open('/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/input/ref-papers.json', 'r') as file:
@@ -55,3 +58,5 @@ with open(output_path, 'w') as output_file:
     json.dump(similar_papers, output_file, indent=4)
 
 print(f"Similar papers written to {output_path}")
+
+# todo consider using keyword/topic similarity search instead
