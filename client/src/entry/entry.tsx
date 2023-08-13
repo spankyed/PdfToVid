@@ -26,9 +26,11 @@ const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
       <Tabs value={tabValue} onChange={handleChange}>
         <Tab label="Review" />
         <Tab label="Learn" />
+        <Tab label="Integrate" />
       </Tabs>
       {tabValue === 0 && <ReviewTab entry={entry} />}
       {tabValue === 1 && <LearnTab entry={entry} />}
+      {tabValue === 2 && <div>empty</div>}
     </Box>
   );
 }

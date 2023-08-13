@@ -102,14 +102,26 @@ import { StoreContext } from '../index';
 import { StoreType } from '../shared/store';
 
 
-const EmptyState: React.FC = () => {
+function EmptyState({ date }: { date: string}): React.ReactElement {
+  const store = useContext<StoreType>(StoreContext);
+
+  const scrapePapers = () => {
+    console.log('scrapePapers');
+    store.scrapePapers(date);
+  }
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3} marginTop={5}>
       <Typography variant="h3">No Papers Scraped</Typography>
       <Box display="flex" gap={2}>
-        <Button variant="contained" color="primary">Full auto</Button>
-        <Button variant="contained" color="secondary">Scrape & generate</Button>
-        <Button variant="outlined">Just Scrape</Button>
+        <Button variant="contained" color="primary" disabled>Full auto</Button>
+        <Button variant="contained" color="secondary" disabled>Scrape & generate</Button>
+        <Button 
+          variant="outlined"
+          onClick={scrapePapers}
+        >
+          Just Scrape
+        </Button>
       </Box>
     </Box>
   );
@@ -135,12 +147,12 @@ const PaperList: React.FC = () => {
           paddingTop: 2,  
           paddingBottom: 2  
         }}>
-          <Link to={`/home`} style={{ textDecoration: 'none', marginBottom: 4 }}>
+          <Link to={`/day/1`} style={{ textDecoration: 'none', marginBottom: 4 }}>
             <Typography variant="h6">{date}</Typography>
           </Link>
           {
             days[date].length === 0 
-            ? <EmptyState /> 
+            ? <EmptyState date={date}/> 
             : <VideoList date={date} />
           }
         </Box>

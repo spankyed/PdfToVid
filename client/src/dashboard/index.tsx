@@ -14,7 +14,8 @@ const Dashboard: React.FC = () => {
   const store = useContext<StoreType>(StoreContext);
 
   useEffect(() => {
-    store.fetchPapers();
+    // store.fetchPapers();
+    // store.fetchDates();
   }, [store]);
 
   const [inPanel, setPanel] = useState<PanelType>('dates');
