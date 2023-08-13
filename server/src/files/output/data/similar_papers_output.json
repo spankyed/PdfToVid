@@ -1,0 +1,49 @@
+{
+    "ids": [
+        [
+            "2307.09721",
+            "2307.07255",
+            "2307.01548",
+            "2307.06917",
+            "2307.05082"
+        ]
+    ],
+    "distances": [
+        [
+            0.8450484871864319,
+            0.906287431716919,
+            0.9490234851837158,
+            0.9806197285652161,
+            0.9870694875717163
+        ]
+    ],
+    "metadatas": [
+        [
+            {
+                "source": "reference"
+            },
+            {
+                "source": "reference"
+            },
+            {
+                "source": "reference"
+            },
+            {
+                "source": "reference"
+            },
+            {
+                "source": "reference"
+            }
+        ]
+    ],
+    "embeddings": null,
+    "documents": [
+        [
+            "Multi-Grained Multimodal Interaction Network for Entity Linking. Multimodal entity linking (MEL) task, which aims at resolving ambiguous\nmentions to a multimodal knowledge graph, has attracted wide attention in\nrecent years. Though large efforts have been made to explore the complementary\neffect among multiple modalities, however, they may fail to fully absorb the\ncomprehensive expression of abbreviated textual context and implicit visual\nindication. Even worse, the inevitable noisy data may cause inconsistency of\ndifferent modalities during the learning process, which severely degenerates\nthe performance. To address the above issues, in this paper, we propose a novel\nMulti-GraIned Multimodal InteraCtion Network (MIMIC)\\textbf{(MIMIC)} framework for\nsolving the MEL task. Specifically, the unified inputs of mentions and entities\nare first encoded by textual/visual encoders separately, to extract global\ndescriptive features and local detailed features. Then, to derive the\nsimilarity matching score for each mention-entity pair, we device three\ninteraction units to comprehensively explore the intra-modal interaction and\ninter-modal fusion among features of entities and mentions. In particular,\nthree modules, namely the Text-based Global-Local interaction Unit (TGLU),\nVision-based DuaL interaction Unit (VDLU) and Cross-Modal Fusion-based\ninteraction Unit (CMFU) are designed to capture and integrate the fine-grained\nrepresentation lying in abbreviated text and implicit visual cues. Afterwards,\nwe introduce a unit-consistency objective function via contrastive learning to\navoid inconsistency and model degradation. Experimental results on three public\nbenchmark datasets demonstrate that our solution outperforms various\nstate-of-the-art baselines, and ablation studies verify the effectiveness of\ndesigned modules.",
+            "Dialogue Agents 101: A Beginner's Guide to Critical Ingredients for Designing Effective Conversational Systems. Sharing ideas through communication with peers is the primary mode of human\ninteraction. Consequently, extensive research has been conducted in the area of\nconversational AI, leading to an increase in the availability and diversity of\nconversational tasks, datasets, and methods. However, with numerous tasks being\nexplored simultaneously, the current landscape of conversational AI becomes\nfragmented. Therefore, initiating a well-thought-out model for a dialogue agent\ncan pose significant challenges for a practitioner. Towards highlighting the\ncritical ingredients needed for a practitioner to design a dialogue agent from\nscratch, the current study provides a comprehensive overview of the primary\ncharacteristics of a dialogue agent, the supporting tasks, their corresponding\nopen-domain datasets, and the methods used to benchmark these datasets. We\nobserve that different methods have been used to tackle distinct dialogue\ntasks. However, building separate models for each task is costly and does not\nleverage the correlation among the several tasks of a dialogue agent. As a\nresult, recent trends suggest a shift towards building unified foundation\nmodels. To this end, we propose UNIT, a UNified dIalogue dataseT constructed\nfrom conversations of existing datasets for different dialogue tasks capturing\nthe nuances for each of them. We also examine the evaluation strategies used to\nmeasure the performance of dialogue agents and highlight the scope for future\nresearch in the area of conversational AI.",
+            "Knowledge Graph for NLG in the context of conversational agents. The use of knowledge graphs (KGs) enhances the accuracy and comprehensiveness\nof the responses provided by a conversational agent. While generating answers\nduring conversations consists in generating text from these KGs, it is still\nregarded as a challenging task that has gained significant attention in recent\nyears. In this document, we provide a review of different architectures used\nfor knowledge graph-to-text generation including: Graph Neural Networks, the\nGraph Transformer, and linearization with seq2seq models. We discuss the\nadvantages and limitations of each architecture and conclude that the choice of\narchitecture will depend on the specific requirements of the task at hand. We\nalso highlight the importance of considering constraints such as execution time\nand model validity, particularly in the context of conversational agents. Based\non these constraints and the availability of labeled data for the domains of\nDAVI, we choose to use seq2seq Transformer-based models (PLMs) for the\nKnowledge Graph-to-Text Generation task. We aim to refine benchmark datasets of\nkg-to-text generation on PLMs and to explore the emotional and multilingual\ndimensions in our future work. Overall, this review provides insights into the\ndifferent approaches for knowledge graph-to-text generation and outlines future\ndirections for research in this area.",
+            "LLM-assisted Knowledge Graph Engineering: Experiments with ChatGPT. Knowledge Graphs (KG) provide us with a structured, flexible, transparent,\ncross-system, and collaborative way of organizing our knowledge and data across\nvarious domains in society and industrial as well as scientific disciplines.\nKGs surpass any other form of representation in terms of effectiveness.\nHowever, Knowledge Graph Engineering (KGE) requires in-depth experiences of\ngraph structures, web technologies, existing models and vocabularies, rule\nsets, logic, as well as best practices. It also demands a significant amount of\nwork. Considering the advancements in large language models (LLMs) and their\ninterfaces and applications in recent years, we have conducted comprehensive\nexperiments with ChatGPT to explore its potential in supporting KGE. In this\npaper, we present a selection of these experiments and their results to\ndemonstrate how ChatGPT can assist us in the development and management of KGs.",
+            "OntoChatGPT Information System: Ontology-Driven Structured Prompts for ChatGPT Meta-Learning. This research presents a comprehensive methodology for utilizing an\nontology-driven structured prompts system in interplay with ChatGPT, a widely\nused large language model (LLM). The study develops formal models, both\ninformation and functional, and establishes the methodological foundations for\nintegrating ontology-driven prompts with ChatGPT's meta-learning capabilities.\nThe resulting productive triad comprises the methodological foundations,\nadvanced information technology, and the OntoChatGPT system, which collectively\nenhance the effectiveness and performance of chatbot systems. The\nimplementation of this technology is demonstrated using the Ukrainian language\nwithin the domain of rehabilitation. By applying the proposed methodology, the\nOntoChatGPT system effectively extracts entities from contexts, classifies\nthem, and generates relevant responses. The study highlights the versatility of\nthe methodology, emphasizing its applicability not only to ChatGPT but also to\nother chatbot systems based on LLMs, such as Google's Bard utilizing the PaLM 2\nLLM. The underlying principles of meta-learning, structured prompts, and\nontology-driven information retrieval form the core of the proposed\nmethodology, enabling their adaptation and utilization in various LLM-based\nsystems. This versatile approach opens up new possibilities for NLP and\ndialogue systems, empowering developers to enhance the performance and\nfunctionality of chatbot systems across different domains and languages."
+        ]
+    ]
+}
