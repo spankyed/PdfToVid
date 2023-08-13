@@ -27,6 +27,7 @@ const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
         <Tab label="Review" />
         <Tab label="Learn" />
         <Tab label="Integrate" />
+        {/* instead of integrate as separate tab, consider having in review section under meta */}
       </Tabs>
       {tabValue === 0 && <ReviewTab entry={entry} />}
       {tabValue === 1 && <LearnTab entry={entry} />}

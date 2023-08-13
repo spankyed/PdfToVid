@@ -48,6 +48,7 @@ const PapersTable: React.FC<{ papers: { name: string; status: string }[] }> = ({
           <TableRow>
             <TableCell>Paper Name</TableCell>
             <TableCell>Status</TableCell>
+            <TableCell>Relevancy</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -61,6 +62,7 @@ const PapersTable: React.FC<{ papers: { name: string; status: string }[] }> = ({
                 </Link>
               </TableCell>
               <TableCell>{paper.status}</TableCell>
+              <TableCell>{'poor'}</TableCell>
               <TableCell>
                 <Button variant="contained" color="primary">View Details</Button>
               </TableCell>
