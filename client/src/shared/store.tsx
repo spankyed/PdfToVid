@@ -20,7 +20,7 @@ const Store = types.model("Store", {
   // addPaper(paper: Instance<typeof Paper>) {
   //   self.papers.push(paper);
   // },
-  scrapePapers: flow(function* scrapePapers(date) { // using generator function
+  scrapePapers: flow(function* (date) { // using generator function
     try {
       const response = yield axios.get('http://localhost:3000/scrape/' + date);
       console.log('response: ', response);
@@ -29,7 +29,19 @@ const Store = types.model("Store", {
       //   // self.addPaper(paper);
       // });
     } catch (error) {
-      console.error("Failed to fetch papers", error);
+      console.error("Failed to scrape papers", error);
+    }
+  }),
+  fetchDashboard: flow(function* () { // using generator function
+    try {
+      const response = yield axios.get('http://localhost:3000/dashboard');
+      console.log('response: ', response);
+      // response.data.forEach((paper: Instance<typeof Paper>) => {
+      //   self.papers.push(paper);
+      //   // self.addPaper(paper);
+      // });
+    } catch (error) {
+      console.error("Failed to fetch dashboard", error);
     }
   }),
   // fetchPapers: flow(function* fetchPapers() { // using generator function

@@ -1,9 +1,6 @@
 import Hapi from '@hapi/hapi';
-import NeDB from 'nedb';
+import { getLastFiveDaysOfCurrentMonth, getPapersForDays, getStoredDates, groupByMonth, initializeServer } from './utils';
 // import Cors from '@hapi/cors';
-
-// Initialize NeDB
-const db = new NeDB({ filename: 'papers.db', autoload: true });
 
 // Initialize Hapi server
 const server = Hapi.server({
@@ -16,79 +13,6 @@ const server = Hapi.server({
     }
   }
 });
-
-// Route to fetch all papers
-server.route({
-  method: 'GET',
-  path: '/scrape/{date}',
-  handler: (request, h) => {
-    return new Promise((resolve, reject) => {
-      console.log('request.params.date: ', request.params.date);
-      // h.response('Hello World');
-      resolve('Hello World')
-    });
-  }
-});
-
-
-// Start the server
-const startServer = async () => {
-  try {
-    // await server.register(Cors);
-    await server.start();
-  }
-  catch (err) {
-    console.log(err);
-    process.exit(1);
-  }
-
-  console.log('Server running at:', server.info.uri);
-};
-
-startServer();
-
-// get all previously stored dates
-// get date of last run
-// get all dates between last run and today
-
-// for pagination show last 5 days of papers
-
-// scrape all dates between last run and today
-// store all scraped data
-
-
-
-// database mockup
-const days = [ "2021-10-06", "2021-10-07", "2021-10-08" ]
-const papers = [ 
-  {
-    id: '1',
-    date: '2021-10-06',
-    // ...
-  },
-  {
-    // ? initial data upon scrape & filter/rank
-    "id": "2308.05713",
-    date: '2021-10-06',
-    "title": "Testing GPT-4 with Wolfram Alpha and Code Interpreter plug-ins on math and science problems",
-    "abstract": "This report describes a test of the large language model GPT-4 with the\nWolfram Alpha and the Code Interpreter plug-ins on 105 original problems in\nscience and math, at the high school and college levels, carried out in\nJune-August 2023. Our tests suggest that the plug-ins significantly enhance\nGPT's ability to solve these problems. Having said that, there are still often\n\"interface\" failures; that is, GPT often has trouble formulating problems in a\nway that elicits useful answers from the plug-ins. Fixing these interface\nfailures seems like a central challenge in making GPT a reliable tool for\ncollege-level calculation problems.",
-    "pdfLink": "https://arxiv.org/pdf/2308.05713.pdf",
-    "authors": [],
-    metaData: {
-      "relevancy": .9,
-      "keywords": ['cat'],
-    },
-    // ? below separately generated
-    "video": {
-      "title": "A video of a cat",
-      "description": "A video of a cat on a ledge. Then jumps'",
-      "thumbnailPrompt": "A picture of a cat",
-      "scriptPrompt": "A picture of a cat on a ledge. Then jumps'",
-      videoUrl: 'videos/230805713', 
-      thumbnailUrl: 'thumbnails/230805713', 
-    }
-  },
-]
 
 // dashboard data mockup
 const dateList = {
@@ -117,4 +41,53 @@ const dashboardData = {
     ],
   },
 }
+
+
+server.route({
+  method: 'GET',
+  path: '/dashboard',
+  handler: (request, h) => {
+    return new Promise(async (resolve, reject) => {
+      const dates = await getStoredDates();
+      // const days = ["2021-10-06", "2021-10-07", "2021-10-08"]
+      const dateList = groupByMonth(dates.map(doc => doc.dateValue));
+      const firstFiveDays = getLastFiveDaysOfCurrentMonth(); // ! potentially out of sync with stored dates
+      const paperList = await getPapersForDays(firstFiveDays);
+      const dashboardData = { dateList, paperList }
+      
+      resolve(dashboardData)
+    });
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/scrape/{date}',
+  handler: (request, h) => {
+    return new Promise((resolve, reject) => {
+      console.log('request.params.date: ', request.params.date);
+      // h.response('Hello World');
+      resolve('Hello World')
+    });
+  }
+});
+
+const startServer = async () => {
+  initializeServer();
+
+  try {
+    // await server.register(Cors);
+    await server.start();
+  }
+  catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
+
+  console.log('Server running at:', server.info.uri);
+};
+
+startServer();
+
+// todo scrape all dates between last run and today
 
