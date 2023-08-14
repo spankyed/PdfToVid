@@ -44,6 +44,17 @@ const store = {
   papers: new Datastore<PaperDocument>({ filename: dbPath('papers'), autoload: true }),
 }
 
+const wipeAllDatastores = async (): Promise<void> => {
+  await wipeDatastore(store.dates);
+  await wipeDatastore(store.config);
+  await wipeDatastore(store.papers);
+  console.log('All datastores have been wiped.');
+
+  async function wipeDatastore(datastore: Datastore<any>): Promise<void>  {
+    await datastore.removeAsync({}, { multi: true });
+  };
+};
+
 const getStoredDates = async (): Promise<DateDocument[]> => {
   const docs: DateDocument[] = await store.dates.findAsync({});
   return docs;
@@ -198,6 +209,7 @@ export {
   getStoredDates,
   getLastFiveDaysOfCurrentMonth,
   initializeServer,
+  wipeAllDatastores,
 }
 
 // database mockup

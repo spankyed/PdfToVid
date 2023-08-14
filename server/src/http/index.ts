@@ -1,5 +1,5 @@
 import Hapi from '@hapi/hapi';
-import { getLastFiveDaysOfCurrentMonth, getPapersForDays, getStoredDates, groupByMonth, initializeServer } from './utils';
+import { getLastFiveDaysOfCurrentMonth, getPapersForDays, getStoredDates, groupByMonth, initializeServer, wipeAllDatastores } from './utils';
 // import Cors from '@hapi/cors';
 
 // Initialize Hapi server
@@ -54,6 +54,9 @@ server.route({
       const firstFiveDays = getLastFiveDaysOfCurrentMonth(); // ! potentially out of sync with stored dates
       const paperList = await getPapersForDays(firstFiveDays);
       const dashboardData = { dateList, paperList }
+
+      // todo last 5 days from today instead of current month
+      // todo current day seems to be off (13th instead of 14th for today)
       
       resolve(dashboardData)
     });
@@ -74,6 +77,8 @@ server.route({
 
 const startServer = async () => {
   initializeServer();
+
+  // wipeAllDatastores();
 
   try {
     // await server.register(Cors);
