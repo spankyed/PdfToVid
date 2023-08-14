@@ -1,5 +1,11 @@
 [
   {
+    "id": "2308.05481",
+    "title": "LLM As DBA",
+    "abstract": "Database administrators (DBAs) play a crucial role in managing, maintaining and optimizing a database system to ensure data availability, performance, and reliability. However, it is hard and tedious for DBAs to manage a large number of database instances (e.g., millions of instances on the cloud databases). Recently large language models (LLMs) have shown great potential to understand valuable documents and accordingly generate reasonable answers. Thus, we propose D-Bot, a LLM-based database administrator that can continuously acquire database maintenance experience from textual sources, and provide reasonable, well-founded, in-time diagnosis and optimization advice for target databases. This paper presents a revolutionary LLM-centric framework for database maintenance, including (i) database maintenance knowledge detection from documents and tools, (ii) tree of thought reasoning for root cause analysis, and (iii) collaborative diagnosis among multiple LLMs. Our preliminary experimental results that D-Bot can efficiently and effectively diagnose the root causes and our code is available at this http URL.",
+    "pdfLink": "https://arxiv.org/pdf/2308.05481.pdf"
+  },
+  {
     "id": "2307.09909",
     "title": "Chit-Chat or Deep Talk: Prompt Engineering for Process Mining",
     "abstract": "This research investigates the application of Large Language Models (LLMs) to\naugment conversational agents in process mining, aiming to tackle its inherent\ncomplexity and diverse skill requirements. While LLM advancements present novel\nopportunities for conversational process mining, generating efficient outputs\nis still a hurdle. We propose an innovative approach that amend many issues in\nexisting solutions, informed by prior research on Natural Language Processing\n(NLP) for conversational agents. Leveraging LLMs, our framework improves both\naccessibility and agent performance, as demonstrated by experiments on public\nquestion and data sets. Our research sets the stage for future explorations\ninto LLMs' role in process mining and concludes with propositions for enhancing\nLLM memory, implementing real-time user testing, and examining diverse data\nsets.",
