@@ -17,7 +17,8 @@ const DateList: React.FC = () => {
 
   // Assuming the store has a `dates` property that is an object where each key is a month
   // and the value is an array of date strings for that month
-  // const dates = store.dates;
+  // const monthsList = store.monthDaysList;
+  // ! console.log('monthsList: ', store.monthDaysList.toJSON); // use effect issue
 
   const handleClick = (month: string) => {
     setOpenMonth(prevMonth => (prevMonth === month ? null : month));

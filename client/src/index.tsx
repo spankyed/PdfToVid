@@ -3,9 +3,13 @@
 import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Store from './shared/store';
+import Store, { store } from './shared/store';
 import { createRoot } from 'react-dom/client';
 import './index.css';
+
+import { RouterProvider } from 'react-router-dom'
+import router from './shared/routes'
+
 // import App from './App';
 
 // function App() {
@@ -18,10 +22,6 @@ import './index.css';
 //     </Router>
 //   );
 // }
-import { RouterProvider } from 'react-router-dom'
-import router from './shared/routes'
-
-const store = Store.create({ papers: [] });
 
 export const StoreContext = createContext(store);
 

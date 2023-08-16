@@ -1,5 +1,5 @@
 import Hapi from '@hapi/hapi';
-import { getLastFiveDaysOfCurrentMonth, getPapersForDays, getStoredDates, groupByMonth, initializeServer, wipeAllDatastores } from './utils';
+import { getFiveMostRecentDays, getPapersForDays, getStoredDays, groupDaysByMonth, initializeServer } from './utils';
 // import Cors from '@hapi/cors';
 
 // Initialize Hapi server
@@ -15,11 +15,10 @@ const server = Hapi.server({
 });
 
 // dashboard data mockup
-const dateList = {
-  'July 2023': ['Mon, Jul 01', 'Tue, Jul 02', 'Wed, Jul 03'],
-  'August 2023': ['Mon, Aug 01', 'Tue, Aug 02', 'Wed, Aug 03'],
-  'September 2023': ['Mon, Sep 01', 'Tue, Sep 02', 'Wed, Sep 03', 'Thu, Sep 04', 'Fri, Sep 05', 'Sat, Sep 06', 'Sun, Sep 07', 'Mon, Sep 08', 'Tue, Sep 09', 'Wed, Sep 10', 'Thu, Sep 11', 'Fri, Sep 12', 'Sat, Sep 13', 'Sun, Sep 14', 'Mon, Sep 15', 'Tue, Sep 16', 'Wed, Sep 17', 'Thu, Sep 18', 'Fri, Sep 19', 'Sat, Sep 20', 'Sun, Sep 21', 'Mon, Sep 22', 'Tue, Sep 23', 'Wed, Sep 24', 'Thu, Sep 25', 'Fri, Sep 26', 'Sat, Sep 27', 'Sun, Sep 28', 'Mon, Sep 29', 'Tue, Sep 30'],
-}
+const dateList = [{
+  month: 'July 2023',
+  days: [ { value: 'Mon, Jul 01', hasBeenScraped: false }, { value: 'Mon, Jul 01', hasBeenScraped: false }]
+}]
 const dashboardData = {
   // initialPapersCount: 5,
   dateList,
@@ -42,20 +41,18 @@ const dashboardData = {
   },
 }
 
-
 server.route({
   method: 'GET',
   path: '/dashboard',
   handler: (request, h) => {
     return new Promise(async (resolve, reject) => {
-      const dates = await getStoredDates();
-      // const days = ["2021-10-06", "2021-10-07", "2021-10-08"]
-      const dateList = groupByMonth(dates.map(doc => doc.dateValue));
-      const firstFiveDays = getLastFiveDaysOfCurrentMonth(); // ! potentially out of sync with stored dates
-      const paperList = await getPapersForDays(firstFiveDays);
+      const [allDays, recentDays] = await Promise.all([getStoredDays(), getFiveMostRecentDays()]);
+      // ["2021-10-06", "2021-10-07", "2021-10-08"]
+      const dateList = groupDaysByMonth(allDays);
+      // todo replace papers below with videos for days
+      const paperList = await getPapersForDays(recentDays.map(date => date.value), 0, 7);
       const dashboardData = { dateList, paperList }
 
-      // todo last 5 days from today instead of current month
       // todo current day seems to be off (13th instead of 14th for today)
       
       resolve(dashboardData)
@@ -78,8 +75,6 @@ server.route({
 const startServer = async () => {
   initializeServer();
 
-  // wipeAllDatastores();
-
   try {
     // await server.register(Cors);
     await server.start();
@@ -95,4 +90,3 @@ const startServer = async () => {
 startServer();
 
 // todo scrape all dates between last run and today
-
