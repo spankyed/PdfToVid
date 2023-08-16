@@ -43,6 +43,11 @@ The first page we will build out is:
 
 Brainstorm and decide on what appropriate libraries you will need for rendering, styling, and managing state. Think step by step.
 
+_______________________________________________________________ gpt-4 recommender
 
+1.Does this paper contain information relevant to gpt-4 and chatbots?
+2. Write all information helpful to this goal in a numbered list
+3. remove duplicate items 
+4. list all the objects i need to interact/avoid to surive in the gmae. Use "I would like to X object Y" in each step. Replace Y by the actual object, X by the actual interaction.
 
 
