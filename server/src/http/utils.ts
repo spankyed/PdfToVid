@@ -219,7 +219,7 @@ export {
   initializeServer,
 }
 
-// backfillDays('2023-05-01');
+backfillDays('2023-05-01');
 // wipeAllDatastores();
 
 async function backfillDays (date: string): Promise<void> {
