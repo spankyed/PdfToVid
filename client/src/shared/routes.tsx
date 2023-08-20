@@ -13,49 +13,30 @@ import Entry from '~/entry/entry';
 const routes = [{
     path: '/',
     element: <Layout />,
-    // name: 'layout',
-    // key: 'sub1',
-    // meta: {
-    //   title: 'layout',
-    //   hidden: false
-    // },
     children: [
       {
         path: '/',
-        element: <Navigate to="/home" />,
+        element: <Navigate to="/papers" />,
         key: '1',
-        // meta: {
-        //   title: '首页',
-        //   hidden: false,
-        //   icon: <HomeFilled />
-        // }
+
       },
       {
-        path: 'home',
+        path: 'papers',
         element: <Dashboard />,
       },
       {
         path: 'day/:dayId',
-        // path: 'papers/:dayId',
         element: <Day />,
       },
       {
         path: 'entry/:entryId',
-        // path: 'papers/:dayId',
         element: <Entry />,
       }
     ]
   },
   {
     path: '/404',
-    // element: <NotFound />,
     element: <div>Losing</div>,
-    // name: '404',
-    // key: '5',
-    // meta: {
-    //   title: '404',
-    //   hidden: true
-    // }
   },
 ]
 

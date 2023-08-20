@@ -1,53 +1,109 @@
-// src/components/Layout.tsx
-
-import React from 'react';
-import { AppBar, Toolbar, Typography, Breadcrumbs, Link, Box } from '@mui/material';
+import React, { useContext, useEffect } from 'react';
+import { AppBar, Toolbar, Typography, Breadcrumbs, Box, Link as MLink} from '@mui/material';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
+import { StoreContext } from '..';
+import { observer } from 'mobx-react-lite';
 
-const height = 'calc(100vh - 65px)'
+const height = 'calc(100vh - 65px)';
 
-const Layout: React.FC = () => {
+const BreadcrumbComponent: React.FC<{ currentPath: string, breadcrumbs: any[] }> = ({ currentPath, breadcrumbs }) => {
+  if (currentPath === '/papers') return null;
+  
+  const navigate = useNavigate();
+
+  function reformatDate(inputDate) {
+    const [year, month, day] = inputDate.split('-');
+    return `${month}-${day}-${year}`;
+  }
+
+  function formatBreadcrumb(breadcrumb) {
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Matches YYYY-MM-DD
+    if (datePattern.test(breadcrumb)) {
+      return reformatDate(breadcrumb);
+    }
+    return breadcrumb;
+  }
+
+  return (
+    <Breadcrumbs aria-label="breadcrumb" color='inherit' sx={{ 
+      opacity: 0.75,
+      '& > *': {
+        fontSize: '0.9rem', // slightly reduce font size for subtlety
+        fontWeight: '500',  // medium weight for better readability
+      },
+      '& .MuiTypography-root': {
+        color: 'inherit',   // ensure the last breadcrumb also inherits color
+      }
+    }}>
+      {breadcrumbs.map((breadcrumb, index) => {
+        const formattedBreadcrumb = formatBreadcrumb(breadcrumb);
+        return index !== breadcrumbs.length - 1 ? (
+          <span onClick={() => navigate(-1)} color="inherit" key={formattedBreadcrumb} style={{ cursor: 'pointer' }}>
+            {formattedBreadcrumb}
+          </span>
+        ) : (
+          <Typography key={formattedBreadcrumb}>
+            {formattedBreadcrumb}
+          </Typography>
+        );
+      })}
+    </Breadcrumbs>
+  );
+};
+
+const Layout: React.FC = observer(() => {
+  const location = useLocation();
+  const params = useParams();
+  const store = useContext(StoreContext);
+
+  useEffect(() => {
+    store.routing.setPath(location.pathname);
+    store.routing.setParams(params);
+  }, [location, params, store]);
+
+  const { currentPath } = store.routing;
+
+  const generateBreadcrumbs = () => {
+    const parts = currentPath.split("/").filter(Boolean);
+    return parts.map(part => (part.charAt(0).toUpperCase() + part.slice(1)));
+  };
+
+  const breadcrumbs = generateBreadcrumbs();
+
   return (
     <>
-      <AppBar 
-        position="sticky" 
-        sx={{ 
-          borderBottom: '1px solid rgba(0, 0, 0, 0.12)', 
-          boxShadow: 'none' ,
-          // background: 'linear-gradient(to top right, #1976d2, #63a4ff)',
-          // boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        }}>
+      <AppBar position="sticky" sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', boxShadow: 'none' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h6" component="div">
-            AI Labs
-          </Typography>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/">
-              Home
-            </Link>
-            <Link color="inherit" href="/about">
-              About
-            </Link>
-            <Typography color="textPrimary">Current Page</Typography>
-          </Breadcrumbs>
+          <Link color="inherit" to="/">
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <Typography variant="h6" component="div" sx={{ borderRadius: '10%', padding: '2px 5px', border: '2px solid white' }}>
+                AI
+              </Typography>
+              <Typography variant="h6" component="div" sx={{ padding: '4px 4px' }}>
+                Labs
+              </Typography>
+            </div>
+          </Link>
+          <BreadcrumbComponent currentPath={currentPath} breadcrumbs={breadcrumbs} />
         </Toolbar>
       </AppBar>
-      <Box sx={{ maxHeight: height}}> {/* Adjust the 64px value based on the height of the AppBar */}
+      <Box sx={{ maxHeight: height }}>
         <Outlet />
       </Box>
       {/* <Box sx={{ display: 'flex', justifyContent: 'center', padding: 2, backgroundColor: 'grey.200' }}>
-        <Link href="https://www.youtube.com" target="_blank" rel="noopener" sx={{ margin: 1 }}>
+        <MLink href="https://www.youtube.com" target="_blank" rel="noopener" sx={{ margin: 1 }}>
           YouTube
-        </Link>
-        <Link href="https://www.github.com" target="_blank" rel="noopener" sx={{ margin: 1 }}>
+        </MLink>
+        <MLink href="https://www.github.com" target="_blank" rel="noopener" sx={{ margin: 1 }}>
           GitHub
-        </Link>
-        <Link href="/contact" sx={{ margin: 1 }}>
+        </MLink>
+        <MLink href="/contact" sx={{ margin: 1 }}>
           Contact
-        </Link>
+        </MLink>
       </Box> */}
     </>
   );
-}
+});
 
 export default Layout;

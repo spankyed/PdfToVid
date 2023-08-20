@@ -4,6 +4,21 @@
 import { types, Instance, flow } from "mobx-state-tree";
 import axios from 'axios';
 
+const RoutingModel = types.model({
+  currentPath: types.string,
+  params: types.map(types.string)
+}).actions(self => ({
+  setPath(path: string) {
+    self.currentPath = path;
+  },
+  setParams(params: { [key: string]:  string | undefined }) {
+    self.params.clear();
+    for (let key in params) {
+      self.params.set(key, params[key] ?? '');
+    }
+  }
+}));
+
 const Paper = types.model({
   id: types.string,
   date: types.string,
@@ -95,6 +110,10 @@ const Dashboard = types.model("Dashboard", {
 }));
 
 const Store = types.model("Store", {
+  routing: types.optional(RoutingModel, {
+    currentPath: '/',
+    params: {}
+  }),
   dashboard: types.optional(Dashboard, {
     state: "initial",
     datesList: [],
