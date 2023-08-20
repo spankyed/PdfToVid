@@ -1,59 +1,34 @@
-// src/App.js
-
-import React, { createContext } from 'react';
-import ReactDOM from 'react-dom';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { store } from './shared/store';
-import { createRoot } from 'react-dom/client';
-import './index.css';
-
+import { createContext } from 'react';
 import { RouterProvider } from 'react-router-dom'
+import { createRoot } from 'react-dom/client';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { store } from './shared/store';
 import router from './shared/routes'
-
-// import App from './App';
-
-// function App() {
-//   return (
-//     <Router>
-//       <Switch>
-//         <Route path="/" exact component={Dashboard} />
-//         {/* Other routes will go here */}
-//       </Switch>
-//     </Router>
-//   );
-// }
+import './index.css';
 
 export const StoreContext = createContext(store);
 
+const theme = createTheme({
+  typography: {
+    // fontFamily: 'Courier New, monospace',
+    // fontFamily: 'Tahoma, sans-serif',
+    // fontFamily: 'Roboto, sans-serif',
+    // fontFamily: 'Trebuchet MS, sans-serif',
+    // fontFamily: 'Roboto, monospace',
+  },
+});
+
+const App: React.FC = () => {
+
+  return (
+    <ThemeProvider theme={theme}>
+      <StoreContext.Provider value={store}>
+        <RouterProvider router={router} />
+      </StoreContext.Provider>
+    </ThemeProvider>
+  );
+}
+
 const container = document.getElementById('root');
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
-root.render(
-  <StoreContext.Provider value={store}>
-    {/* <App /> */}
-    <RouterProvider router={router} />
-  </StoreContext.Provider>
-);
-
-
-// export default App;
-
-
-
-// src/App.js
-
-// import React from 'react';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import Dashboard from './pages/Dashboard';
-
-// function App() {
-//   return (
-//     <Router>
-//       <Switch>
-//         <Route path="/" exact component={Dashboard} />
-//         {/* Other routes will go here */}
-//       </Switch>
-//     </Router>
-//   );
-// }
-
-// export default App;
+root.render(<App />);
