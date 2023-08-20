@@ -11,7 +11,7 @@ collection = client.get_or_create_collection(
 )
 
 # Load reference papers from the JSON file
-with open('/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/input/ref-papers.json', 'r') as file:
+with open('/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/assets/ref-papers.json', 'r') as file:
     ref_papers = json.load(file)
 
 # Extract titles and abstracts from the reference papers

@@ -3,7 +3,7 @@ import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Load the data from the JSON file
-with open('/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/input/ref-papers.json', 'r') as file:
+with open('/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/assets/ref-papers.json', 'r') as file:
     ref_papers = json.load(file)
 
 # Load spaCy model

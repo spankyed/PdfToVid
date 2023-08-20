@@ -10,7 +10,7 @@ import { promisify } from 'util';
 const root = '/Users/spankyed/Develop/Projects/PdfToVid/src/files';
 
 // Register the font
-registerFont(path.join(root, 'input', 'Roboto-Bold.ttf'), { family: 'Roboto' });
+registerFont(path.join(root, 'assets', 'Roboto-Bold.ttf'), { family: 'Roboto' });
 
 async function downloadImage(url: string, outputPath: string) {
   const response = await fetch(url);
@@ -56,8 +56,8 @@ export default async function createThumbnail(backgroundPath: string, themePath:
 
     // Download emoji images
     console.log('Downloading emoji images...');
-    const robotEmojiPath = path.join(root, 'input', 'robot_emoji.png');
-    const packageEmojiPath = path.join(root, 'input', 'package_emoji.png');
+    const robotEmojiPath = path.join(root, 'assets', 'robot_emoji.png');
+    const packageEmojiPath = path.join(root, 'assets', 'package_emoji.png');
     await downloadImage(getEmojiUrl('🤖'), robotEmojiPath);
     await downloadImage(getEmojiUrl('📦'), packageEmojiPath);
     const robotEmoji = await loadImage(robotEmojiPath);
@@ -119,9 +119,9 @@ export default async function createThumbnail(backgroundPath: string, themePath:
   }
 }
 
-const bgPath = path.join(root, 'input', 'background.png');
-const themePath = path.join(root, 'input', 'theme1.png');
-const decorationPath = path.join(root, 'input', 'decoration.png');
+const bgPath = path.join(root, 'assets', 'background.png');
+const themePath = path.join(root, 'assets', 'theme1.png');
+const decorationPath = path.join(root, 'assets', 'decoration.png');
 const outPath = path.join(root, 'output', 'thumbnail.jpg');
 
 createThumbnail(bgPath, themePath, decorationPath, outPath, 1280, 720);

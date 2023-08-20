@@ -153,62 +153,67 @@ async function getFiveMostRecentDays(): Promise<DayDocument[]> {
 
 // UTILITY FUNCTIONS
 
-async function initializeServer(): Promise<void> {
-  const lastRun = await getLastRunDay();
-  const today = new Date().toISOString().split('T')[0];
+  async function initializeServer(): Promise<void> {
+    const lastRun = await getLastRunDay();
+    const today = new Date().toISOString().split('T')[0];
+    console.log('today: ', today);
 
-  if (lastRun) {
-    const daysToStore = getWeekdaysBetween(lastRun, today);
+    if (lastRun) {
+      const daysToStore = getWeekdaysBetween(lastRun, today);
 
-    console.log('daysToStore: ', daysToStore); // todo test for overlap
+      console.log('daysToStore: ', daysToStore); // todo test for overlap
 
-    for (const day of daysToStore) {
-      await storeDay(day);
+      for (const day of daysToStore) {
+        await storeDay(day);
+      }
+    } else {
+      await storeDay(today);
     }
-  } else {
-    await storeDay(today);
+
+    await updateLastRunDay(today);
+
+    console.log('Server initialized and days updated.');
   }
 
-  await updateLastRunDay(today);
+  function getWeekdaysBetween(startDate: string, endDate: string): string[] {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const days: string[] = [];
 
-  console.log('Server initialized and days updated.');
-}
-
-function getWeekdaysBetween(startDate: string, endDate: string): string[] {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const days: string[] = [];
-
-  while (start <= end) {
-    const dayOfWeek = start.getDay();
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Not Sunday (0) and not Saturday (6)
-      days.push(start.toISOString().split('T')[0]);
+    while (start < end) {
+      const dayOfWeek = start.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Not Sunday (0) and not Saturday (6)
+        days.push(start.toISOString().split('T')[0]);
+      }
+      start.setDate(start.getDate() + 1);
     }
-    start.setDate(start.getDate() + 1);
+
+    return days;
   }
 
-  return days;
-}
-
-function groupDaysByMonth(days: DayDocument[]): DayList[] {
-  const grouped: { [key: string]: DayDocument[] } = {};
-
-  for (const day of days) {
-    const date = new Date(day.value);
-    const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
-    if (!grouped[monthYear]) {
-      grouped[monthYear] = [];
+  function groupDaysByMonth(days: DayDocument[]): DayList[] {
+    const grouped: { [key: string]: DayDocument[] } = {};
+  
+    for (const day of days) {
+      const date = new Date(day.value);
+      const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+      if (!grouped[monthYear]) {
+        grouped[monthYear] = [];
+      }
+      grouped[monthYear].push(day);
     }
-    grouped[monthYear].push(day);
+  
+    const result: DayList[] = Object.keys(grouped).map(month => ({
+      month,
+      days: grouped[month].sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
+    }));
+  
+    return result.sort((a, b) => {
+      const dateA = new Date(a.days[0].value);
+      const dateB = new Date(b.days[0].value);
+      return dateB.getTime() - dateA.getTime();
+    });
   }
-
-  const result: DayList[] = Object.keys(grouped).map(month => ({
-    month,
-    days: grouped[month],
-  }));
-
-  return result;
-}
 
 export {
   getPapersForDays,

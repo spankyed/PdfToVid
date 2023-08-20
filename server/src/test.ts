@@ -42,7 +42,7 @@ scrapeRefPapers(entryIds).then((arxivPapers) => {
 
   // console.log('arxivPapers: ', arxivPapers);
   const root = '/Users/spankyed/Develop/Projects/PdfToVid/server/src/files';
-  const jsonPath = path.join(root, 'input', 'ref-papers.json');
+  const jsonPath = path.join(root, 'assets', 'ref-papers.json');
   const jsonString = JSON.stringify(arxivPapers, null, 2);
 
   // fs.writeFile('arxiv-papers.json', jsonString)

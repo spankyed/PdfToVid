@@ -1,8 +1,10 @@
 import Hapi from '@hapi/hapi';
 import { getFiveMostRecentDays, getPapersForDays, getStoredDays, groupDaysByMonth, initializeServer } from './utils';
+import mocks from '../../../tests/mocks';
+const { paperList } = mocks;
+
 // import Cors from '@hapi/cors';
 
-// Initialize Hapi server
 const server = Hapi.server({
   port: 3000,
   host: 'localhost',
@@ -14,46 +16,22 @@ const server = Hapi.server({
   }
 });
 
-// dashboard data mockup
-const dateList = [{
-  month: 'July 2023',
-  days: [ { value: 'Mon, Jul 01', hasBeenScraped: false }, { value: 'Mon, Jul 01', hasBeenScraped: false }]
-}]
-const dashboardData = {
-  // initialPapersCount: 5,
-  dateList,
-  papersByDay: {
-    "2021-10-04": [],
-    "2021-10-05": [
-      {
-        id: '1',
-        imgUrl: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-        title: 'Breakfast',
-        author: '@bkristastucchio',
-      },
-      {
-        id: '1',
-        imgUrl: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-        title: 'Breakfast',
-        author: '@bkristastucchio',
-      },
-    ],
-  },
-}
-
 server.route({
   method: 'GET',
   path: '/dashboard',
   handler: (request, h) => {
     return new Promise(async (resolve, reject) => {
-      const [allDays, recentDays] = await Promise.all([getStoredDays(), getFiveMostRecentDays()]);
+      const [allDays, recentDays] = await Promise.all([
+        getStoredDays(), 
+        getFiveMostRecentDays()
+      ]);
       // ["2021-10-06", "2021-10-07", "2021-10-08"]
       const dateList = groupDaysByMonth(allDays);
       // todo replace papers below with videos for days
-      const paperList = await getPapersForDays(recentDays.map(date => date.value), 0, 7);
-      const dashboardData = { dateList, paperList }
+      // const paperList = await getPapersForDays(recentDays.map(date => date.value), 0, 7);
 
       // todo current day seems to be off (13th instead of 14th for today)
+      const dashboardData = { dateList, paperList }
       
       resolve(dashboardData)
     });
@@ -74,6 +52,7 @@ server.route({
 
 const startServer = async () => {
   initializeServer();
+  // todo only sync dates up to current date on arxiv
 
   try {
     // await server.register(Cors);
