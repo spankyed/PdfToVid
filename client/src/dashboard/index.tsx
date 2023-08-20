@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <Box sx={{  height: height, width: '10vw' }}>
+      <Box sx={{  height: height, width: '13vw' }}>
         <ButtonGroup  variant="contained" aria-label="outlined primary button group" sx={{ width: '100%', height: '5%'}}>
           <Button 
             onClick={() => handlePanelToggle('dates')} 

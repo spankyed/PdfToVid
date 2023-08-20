@@ -224,8 +224,8 @@ export {
   initializeServer,
 }
 
-// backfillDays('2023-05-01');
 // wipeAllDatastores();
+// backfillDays('2023-05-01');
 
 async function backfillDays (date: string): Promise<void> {
   const today = new Date();
@@ -240,6 +240,7 @@ async function backfillDays (date: string): Promise<void> {
 
   console.log('Backfill completed.');
 };
+
 
 async function wipeAllDatastores(): Promise<void> {
   await wipeDatastore(store.days);

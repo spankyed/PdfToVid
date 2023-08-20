@@ -79,11 +79,11 @@ const Papers: React.FC = observer(() => {
 function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
   return (
     <>
-      <ImageList cols={papers.length} sx={{ padding: 2 }}>
+      <ImageList cols={papers.length} sx={{ padding: 3 }}>
         {papers.map(paper => (
           <Link to={`/entry/${paper.id}`}>
             <ImageListItem key={paper.id}>
-              <div style={{ 
+              <div title={paper.abstract} style={{ 
                 position: 'relative',
                 width: '320px', height: '180px',
                 }}>
