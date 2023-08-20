@@ -29,7 +29,7 @@ const DateList: React.FC = observer(() => {
         <div key={month}>
           <ListItem button onClick={() => clickMonth(month)} sx={{ fontWeight: 'bolder' }}>
             <ListItemText primary={month} sx={{ 
-              borderBottom: '1px solid', 
+              borderBottom: '1px solid rgba(0, 0, 0, 0.3)', 
               paddingBottom: '4px',
               // marginLeft: '16%',
               // textAlign: 'center' 
@@ -51,7 +51,7 @@ const DateList: React.FC = observer(() => {
                         <>
                           <span style={{ 
                             padding: '4px 8px 4px 0px',
-                            borderRight: '1px solid black' 
+                            borderRight: '1px solid rgba(0, 0, 0, 0.4)' 
                           }}>
                             {formattedDay}
                           </span>

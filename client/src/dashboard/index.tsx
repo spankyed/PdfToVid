@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <Box sx={{  height: height, width: '13vw' }}>
+      <Box sx={{  height: height, width: '13vw', borderRight: '1px solid rgba(0, 0, 0, 0.3)' }}>
         <ButtonGroup  variant="contained" aria-label="outlined primary button group" sx={{ width: '100%', height: '5%'}}>
           <Button 
             onClick={() => handlePanelToggle('dates')} 
@@ -47,7 +47,7 @@ const Dashboard: React.FC = () => {
             Search
           </Button>
         </ButtonGroup>
-        <Box sx={{  maxHeight: '95%', overflow: 'auto', position: 'relative'}}>
+        <Box sx={{ maxHeight: '95%', overflow: 'auto', position: 'relative' }}>
           {
             inPanel === 'dates' 
               ? <Dates /> 

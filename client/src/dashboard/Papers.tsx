@@ -55,7 +55,7 @@ const Papers: React.FC = observer(() => {
               display: 'flex', 
               flexDirection: 'column', 
               alignItems: 'center', 
-              border: '1px dashed grey',
+              borderBottom: '1px solid rgba(0, 0, 0, 0.3)',
               paddingTop: 2,  
               paddingBottom: 2,
               backgroundColor: selectedDay === day ? 'rgba(25, 118, 210, 0.08)' : 'transparent'

@@ -27,7 +27,7 @@ const SearchPanel: React.FC = () => {
           lineHeight: '1.43',
           letterSpacing: '0.01071em',
           width: '100%',
-          borderBottom: 1,
+          borderBottom: '1px solid rgba(0, 0, 0, 0.3)',
           borderRadius: '0px', 
           marginTop: '3px',
         }}
@@ -53,7 +53,7 @@ const SearchPanel: React.FC = () => {
       <Box sx={{ }}>
 
       {searchResults.map(result => (
-        <Card key={result.title} sx={{ borderRadius: 0, borderBottom: 1 }}>
+        <Card key={result.title} sx={{ borderRadius: 0, borderBottom: '1px solid rgba(0, 0, 0, 0.3)' }}>
           <CardContent>
             <Typography variant='subtitle2' color="text.secondary">{result.date}</Typography>
             <Typography variant="h6">{result.title}</Typography>
