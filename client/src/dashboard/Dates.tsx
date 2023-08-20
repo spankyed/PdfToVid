@@ -41,12 +41,12 @@ const DateList: React.FC = observer(() => {
               {days.map(day => {
                 const [formattedDay, formattedWeekday] = reformatDate(day.value);
                 return (
-                  <Link to={`/day/${day.value}`}>
                     <ListItem 
                       button 
                       key={day.value}
                       selected={selectedDay === day.value}
                     >
+                  <Link to={`/day/${day.value}`}>
                       <ListItemText primary={
                         <>
                           <span style={{ 
@@ -62,8 +62,8 @@ const DateList: React.FC = observer(() => {
                       } sx={{ 
                         paddingLeft: '14%',
                       }}/>
-                    </ListItem>
                   </Link>
+                    </ListItem>
                 );
               })}
             </List>

@@ -1,33 +1,14 @@
 import React, { useContext } from 'react';
 import { Box, Typography, ImageList, ImageListItem, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../index';
-import { StoreType } from '../shared/store';
+import { Paper, StoreType } from '../shared/store';
 import { observer } from 'mobx-react-lite';
 
-type Paper = {
-  id: string;
-  date: string;
-  title: string;
-  abstract: string;
-  pdfLink: string;
-  authors: string[];
-  metaData: {
-    relevancy: number;
-    keywords: string[];
-  };
-  video: {
-    title: string;
-    description: string;
-    thumbnailPrompt: string;
-    scriptPrompt: string;
-    videoUrl: string;
-    thumbnailUrl: string;
-  };
-};
 
 const Papers: React.FC = observer(() => {
   const store = useContext<StoreType>(StoreContext);
+  const navigate = useNavigate();
   const { state, papersList, selectedDay, selectDay} = store.dashboard;
   
   function reformatDate(inputDate: string): string {
@@ -47,30 +28,30 @@ const Papers: React.FC = observer(() => {
   return (
     <>
       {papersList.map(({ day, papers }) => (
-        <Link to={`/day/${day}`}>
-          <Box 
-            key={day} 
-            onMouseEnter={() => selectDay(day)}
-            sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center', 
-              borderBottom: '1px solid rgba(0, 0, 0, 0.3)',
-              paddingTop: 2,  
-              paddingBottom: 2,
-              backgroundColor: selectedDay === day ? 'rgba(25, 118, 210, 0.08)' : 'transparent'
-            }}
-          >
-              <Typography variant="h5" style={{ textDecoration: 'none', marginBottom: 4 }} >
-                {reformatDate(day)}
-              </Typography>
-            {
-              papers.length === 0 
-              ? <EmptyState day={day}/> 
-              : <PapersList papers={papers} />
-            }
-          </Box>
-      </Link>
+        <Box 
+          key={day} 
+          onMouseEnter={() => selectDay(day)}
+          sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            borderBottom: '1px solid rgba(0, 0, 0, 0.3)',
+            paddingTop: 2,  
+            paddingBottom: 2,
+            backgroundColor: selectedDay === day ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+            cursor: 'pointer',
+          }}
+          onClick={() => navigate(`/day/${day}`)}
+        >
+          <Typography variant="h5" style={{ textDecoration: 'none', marginBottom: 4 }} >
+            {reformatDate(day)}
+          </Typography>
+          {
+            papers.length === 0 
+            ? <EmptyState day={day}/> 
+            : <PapersList papers={papers} />
+          }
+        </Box>
       ))}
     </>
   );
@@ -81,8 +62,8 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
     <>
       <ImageList cols={papers.length} sx={{ padding: 3 }}>
         {papers.map(paper => (
-          <Link to={`/entry/${paper.id}`}>
-            <ImageListItem key={paper.id}>
+          <Link to={`/entry/${paper.id}`} key={paper.id}>
+            <ImageListItem>
               <div title={paper.abstract} style={{ 
                 position: 'relative',
                 width: '320px', height: '180px',
@@ -93,7 +74,7 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
                   alt={paper.title}
                   >
                 </img> */}
-                <img src={paper.video.thumbnailUrl} alt={paper.title} 
+                <img src={paper.video.thumbnailUrl || 'assets/arxiv-bg.jpg'} alt={paper.title} 
                   style={{ 
                     width: '100%', 
                     height: '100%',
