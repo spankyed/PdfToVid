@@ -9,7 +9,14 @@ const height = 'calc(100vh - 65px)'
 const Layout: React.FC = () => {
   return (
     <>
-      <AppBar position="sticky" sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', boxShadow: 'none' }}>
+      <AppBar 
+        position="sticky" 
+        sx={{ 
+          borderBottom: '1px solid rgba(0, 0, 0, 0.12)', 
+          boxShadow: 'none' ,
+          // background: 'linear-gradient(to top right, #1976d2, #63a4ff)',
+          // boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="h6" component="div">
             AI Labs

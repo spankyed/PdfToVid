@@ -3,7 +3,7 @@
 import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Store, { store } from './shared/store';
+import { store } from './shared/store';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 

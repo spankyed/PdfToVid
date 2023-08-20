@@ -4,27 +4,6 @@
 import { types, Instance, flow } from "mobx-state-tree";
 import axios from 'axios';
 
-// type Paper = {
-//   id: string;
-//   date: string;
-//   title: string;
-//   abstract: string;
-//   pdfLink: string;
-//   authors: string[];
-//   metaData: {
-//     relevancy: number;
-//     keywords: string[];
-//   };
-//   video: {
-//     title: string;
-//     description: string;
-//     thumbnailPrompt: string;
-//     scriptPrompt: string;
-//     videoUrl: string;
-//     thumbnailUrl: string;
-//   };
-// };
-
 const Paper = types.model({
   id: types.string,
   date: types.string,
@@ -51,66 +30,81 @@ const Day = types.model({
   hasBeenScraped: types.boolean
 });
 
-const DayList = types.model({
-  day: types.string,
-  papers: types.array(Paper),
-});
-
-const MonthList = types.model({
+const DatesList = types.model({
   month: types.string,
   days: types.array(Day)
 });
 
-const Store = types.model("Store", {
-  // days: types.array(Day),
-  monthDaysList: types.array(MonthList),
-  dayPapersList: types.array(DayList),
-  papersForDay: types.array(Paper),
-  // other properties...
-})
+const PapersList = types.model({
+  day: types.string,
+  papers: types.array(Paper),
+});
 
-.actions(self => ({
-  fetchDashboard: flow(function* () {
+const Dashboard = types.model("Dashboard", {
+  state: types.enumeration('DashboardState', ['initial', 'loading', 'selected', 'error']),
+  datesList: types.array(DatesList),
+  papersList: types.array(PapersList),
+  selectedDay: types.string,
+  openMonth: types.string,
+  papersForDay: types.array(Paper),
+}).actions(self => ({
+  fetchDashboard: flow(function* fetchDashboard() {
     try {
+      // self.state = 'loading';
       const response = yield axios.get('http://localhost:3000/dashboard');
-      console.log('response: ', response);
-      response.data.dateList.forEach((monthList: Instance<typeof MonthList>) => {
-        console.log('monthList: ', monthList);
-        self.monthDaysList.push(monthList);
-        // self.papersForDay.push(paper);
-      });
+      const { dateList, paperList } = response.data;
+      console.log('dashboard data: ', { dateList, paperList });
+      self.papersList = paperList;
+      self.datesList = dateList;
+      self.selectedDay = dateList[0]?.days[0]?.value ?? '';
+      self.openMonth = dateList[0]?.month ?? '';
+      self.state = 'selected';
+
     } catch (error) {
       console.error("Failed to fetch dashboard", error);
     }
   }),
-  scrapePapers: flow(function* (date) { // using generator function
+  scrapePapers: flow(function* (date: string) {
     try {
       const response = yield axios.get('http://localhost:3000/scrape/' + date);
       console.log('response: ', response);
-      response.data.forEach((paper: Instance<typeof Paper>) => {
-        // self.addPaper(paper);
-      });
+      // ... handle the response ...
     } catch (error) {
       console.error("Failed to scrape papers", error);
     }
   }),
-  fetchPapers: flow(function* fetchPapers(date) { 
+  fetchPapers: flow(function* fetchPapers(date: string) {
     try {
       const response = yield axios.get('http://localhost:3000/papersByDate/' + date);
       response.data.forEach((paper: Instance<typeof Paper>) => {
         self.papersForDay.push(paper);
-        // self.addPaper(paper);
       });
     } catch (error) {
       console.error("Failed to fetch papers", error);
     }
   }),
-  // addPaper(paper: Instance<typeof Paper>) {
-  //   self.Dates.push(paper);
-  // },
+  setState(state: string) {
+    self.state = state;
+  },
+  setOpenMonth(month: string) {
+    self.openMonth = month;
+  },
+  selectDay(day: string) {
+    self.selectedDay = day;
+  },
 }));
 
-export const store = Store.create({ papers: [] });
+const Store = types.model("Store", {
+  dashboard: types.optional(Dashboard, {
+    state: "initial",
+    datesList: [],
+    papersList: [],
+    papersForDay: [],
+    selectedDay: '',
+    openMonth: '',
+  }),
+  // ... other properties for other pages ...
+});
 
+export const store = Store.create(); // instance of the root model
 export type StoreType = Instance<typeof Store>;
-export default Store;
