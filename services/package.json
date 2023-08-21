@@ -7,7 +7,7 @@
     "test": "tsx watch endpoints/worker/test.ts",
     "start": "tsx watch endpoints/client/index.ts",
     "start:eco": "pm2 start ecosystem.config.cjs",
-    "start:monit": "npm run start:eco && npm run monitor",
+    "start:monit": "npm run start:eco && pm2 monit",
     "build": "tsc -p tsconfig.json",
     "py-i": "pip install -r pip-deps.txt"
   },
