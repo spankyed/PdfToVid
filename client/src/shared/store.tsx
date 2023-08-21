@@ -4,6 +4,28 @@
 import { types, Instance, flow } from "mobx-state-tree";
 import axios from 'axios';
 
+export type Paper = {
+  id: string;
+  date: string;
+  title: string;
+  abstract: string;
+  pdfLink: string;
+  authors: string[];
+  metaData: {
+    status: number;
+    relevancy: number;
+    keywords: string[];
+  };
+  video: {
+    title: string;
+    description: string;
+    thumbnailPrompt: string;
+    scriptPrompt: string;
+    videoUrl: string;
+    thumbnailUrl: string;
+  };
+};
+
 const RoutingModel = types.model({
   currentPath: types.string,
   params: types.map(types.string)
@@ -27,6 +49,7 @@ const Paper = types.model({
   pdfLink: types.string,
   authors: types.array(types.string),
   metaData: types.model({
+    status: types.number,
     relevancy: types.number,
     keywords: types.array(types.string)
   }),
