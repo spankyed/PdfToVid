@@ -12,8 +12,8 @@ export const paperList = [
         "authors": [],
         metaData: {
           liked: true,
-          status: 1,
-          "relevancy": .5,
+          status: 3,
+          "relevancy": .9,
           "keywords": ['cat'],
         },
         // below separately generated
@@ -59,9 +59,9 @@ export const paperList = [
         "pdfLink": "https://arxiv.org/pdf/2308.05711.pdf",
         "authors": [],
         metaData: {
-          liked: true,
-          status: 3,
-          "relevancy": .9,
+          liked: false,
+          status: 1,
+          "relevancy": .5,
           "keywords": ['cat'],
         },
         // below separately generated
