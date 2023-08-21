@@ -1,6 +1,6 @@
 node_modules
 public/
-assets/
+# assets/
 .env
 *.DS_Store
 *.typegen.ts
