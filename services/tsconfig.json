@@ -8,6 +8,6 @@
     "lib": ["dom", "esnext"],
     "esModuleInterop": true
   },
-  "include": ["src"],
+  "include": ["src", "endpoints/client/index.ts", "endpoints/worker/libs", "endpoints/worker/test.ts", "endpoints/worker/functions", "endpoints/worker/main.ts", "endpoints/client/utils.ts", "endpoints/worker/test2.ts"],
   "exclude": ["node_modules"]
 }
