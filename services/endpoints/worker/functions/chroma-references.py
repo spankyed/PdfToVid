@@ -11,7 +11,7 @@ collection = client.get_or_create_collection(
 )
 
 # Load reference papers from the JSON file
-with open('/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/assets/ref-papers.json', 'r') as file:
+with open('/Users/spankyed/Develop/Projects/PdfToVid/services/files/assets/ref-papers.json', 'r') as file:
     ref_papers = json.load(file)
 
 # Extract titles and abstracts from the reference papers
@@ -53,7 +53,7 @@ similar_papers = find_similar_papers(new_paper_good)
 # print(similar_papers)
 
 # Write the similar papers to a JSON file
-output_path = '/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/output/data/similar_papers_output.json'
+output_path = '/Users/spankyed/Develop/Projects/PdfToVid/services/files/generated/test_data/similar_papers_output.json'
 with open(output_path, 'w') as output_file:
     json.dump(similar_papers, output_file, indent=4)
 

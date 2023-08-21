@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 nlp = spacy.load("en_core_web_md")
 
 # Load the data from the JSON file
-with open('/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/assets/ref-papers.json', 'r') as file:
+with open('/Users/spankyed/Develop/Projects/PdfToVid/services/files/assets/ref-papers.json', 'r') as file:
     ref_papers = json.load(file)
 
 # Define keyword weights
@@ -88,7 +88,7 @@ def default(o):
     raise TypeError
 
 # Write the similar papers to a JSON file
-output_path = '/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/output/data/similar_papers_output.json'
+output_path = '/Users/spankyed/Develop/Projects/PdfToVid/services/files/generated/test_data/similar_papers_output.json'
 with open(output_path, 'w') as output_file:
     json.dump(similar_papers, output_file, indent=4, default=default)
 

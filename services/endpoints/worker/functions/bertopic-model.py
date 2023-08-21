@@ -2,7 +2,7 @@ import json
 from bertopic import BERTopic
 
 # Load the data from the JSON file
-with open('/Users/spankyed/Develop/Projects/PdfToVid/server/src/files/output/data/arxiv-papers.json', 'r') as file:
+with open('/Users/spankyed/Develop/Projects/PdfToVid/services/files/generated/test_data/arxiv-papers.json', 'r') as file:
     data = json.load(file)
 
 # Extract abstracts from the data
