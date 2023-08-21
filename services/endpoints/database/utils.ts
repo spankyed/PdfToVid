@@ -225,7 +225,7 @@ export {
 }
 
 // wipeAllDatastores();
-// backfillDays('2023-05-01');
+// backfillDays('2023-05-01'); // ! change this to like a week ago and create beginner friendly script
 
 async function backfillDays (date: string): Promise<void> {
   const today = new Date();
