@@ -11,6 +11,7 @@ export const paperList = [
         "pdfLink": "https://arxiv.org/pdf/2308.05713.pdf",
         "authors": [],
         metaData: {
+          liked: true,
           status: 1,
           "relevancy": .5,
           "keywords": ['cat'],
@@ -22,7 +23,7 @@ export const paperList = [
           "thumbnailPrompt": "A picture of a cat",
           "scriptPrompt": "A picture of a cat on a ledge. Then jumps'",
           videoUrl: 'videos/230805713', 
-          thumbnailUrl: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', 
+          thumbnailUrl: 'default/thumbnail.jpg', 
         }
       },
       {
@@ -34,6 +35,7 @@ export const paperList = [
         "pdfLink": "https://arxiv.org/pdf/2308.05712.pdf",
         "authors": [],
         metaData: {
+          liked: true,
           status: 2,
           "relevancy": .7,
           "keywords": ['cat'],
@@ -45,7 +47,7 @@ export const paperList = [
           "thumbnailPrompt": "A picture of a cat",
           "scriptPrompt": "A picture of a cat on a ledge. Then jumps'",
           videoUrl: 'videos/230805713', 
-          thumbnailUrl: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', 
+          thumbnailUrl: 'default/thumbnail.jpg',
         }
       },
       {
@@ -57,6 +59,7 @@ export const paperList = [
         "pdfLink": "https://arxiv.org/pdf/2308.05711.pdf",
         "authors": [],
         metaData: {
+          liked: true,
           status: 3,
           "relevancy": .9,
           "keywords": ['cat'],
@@ -68,7 +71,7 @@ export const paperList = [
           "thumbnailPrompt": "A picture of a cat",
           "scriptPrompt": "A picture of a cat on a ledge. Then jumps'",
           videoUrl: 'videos/230805713', 
-          thumbnailUrl: 'assets/arxiv-bg.jpg', 
+          thumbnailUrl: '', 
           // thumbnailUrl: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', 
           // thumbnailUrl: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format', 
         }
@@ -82,6 +85,7 @@ export const paperList = [
         "pdfLink": "https://arxiv.org/pdf/2308.05710.pdf",
         "authors": [],
         metaData: {
+          liked: false,
           status: 0,
           "relevancy": .2,
           "keywords": ['cat'],
@@ -93,7 +97,7 @@ export const paperList = [
           "thumbnailPrompt": "A picture of a cat",
           "scriptPrompt": "A picture of a cat on a ledge. Then jumps'",
           videoUrl: 'videos/230805713', 
-          thumbnailUrl: 'assets/arxiv-bg.jpg', 
+          thumbnailUrl: 'default/arxiv-bg.jpg', 
           // thumbnailUrl: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e', 
           // thumbnailUrl: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=164&h=164&fit=crop&auto=format', 
         }
@@ -107,8 +111,9 @@ export const paperList = [
         "pdfLink": "https://arxiv.org/pdf/2308.05719.pdf",
         "authors": [],
         metaData: {
+          liked: false,
           status: 0,
-          "relevancy": .9,
+          "relevancy": .7,
           "keywords": ['cat'],
         },
         // below separately generated

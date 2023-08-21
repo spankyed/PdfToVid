@@ -12,6 +12,7 @@ export type Paper = {
   pdfLink: string;
   authors: string[];
   metaData: {
+    liked: boolean;
     status: number;
     relevancy: number;
     keywords: string[];
@@ -49,6 +50,7 @@ const Paper = types.model({
   pdfLink: types.string,
   authors: types.array(types.string),
   metaData: types.model({
+    liked: types.boolean,
     status: types.number,
     relevancy: types.number,
     keywords: types.array(types.string)

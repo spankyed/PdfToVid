@@ -24,7 +24,7 @@ const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
   return (
     <Box>
       <Tabs value={tabValue} onChange={handleChange}>
-        <Tab label="Review" />
+        <Tab label="Generate" />
         <Tab label="Learn" />
         <Tab label="Integrate" />
         {/* instead of integrate as separate tab, consider having in review section under meta */}

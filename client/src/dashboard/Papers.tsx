@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../index';
 import { Paper, StoreType } from '../shared/store';
 import { observer } from 'mobx-react-lite';
-
+import Thumbnail from '~/shared/components/Thumbnail';
 
 const Papers: React.FC = observer(() => {
   const store = useContext<StoreType>(StoreContext);
@@ -63,39 +63,8 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
       <ImageList cols={papers.length} sx={{ padding: 3 }}>
         {papers.map(paper => (
           <Link to={`/entry/${paper.id}`} key={paper.id}>
-            <ImageListItem>
-              <div title={paper.abstract} style={{ 
-                position: 'relative',
-                width: '320px', height: '180px',
-                }}>
-                {/* <img 
-                  // src={`${paper.imgUrl}`}
-                  src={`${paper.video.thumbnailUrl}?w=164&h=164&fit=crop&auto=format`}
-                  alt={paper.title}
-                  >
-                </img> */}
-                <img src={paper.video.thumbnailUrl || 'assets/arxiv-bg.jpg'} alt={paper.title} 
-                  style={{ 
-                    width: '100%', 
-                    height: '100%',
-                    borderRadius: '4px',
-                  }} 
-                  />
-                <div style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  padding: '8px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.6)', // Translucent black background
-                  color: 'white',
-                  textAlign: 'center',
-                  borderBottomLeftRadius: '4px',
-                  borderBottomRightRadius: '4px',
-                }}>
-                  {paper.title}
-                </div>
-              </div>
+            <ImageListItem sx={{ margin: 1 }}>
+              <Thumbnail paper={paper} />
             </ImageListItem>
           </Link>
         ))}
