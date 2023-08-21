@@ -207,7 +207,7 @@ const Entry = {
 }
 
 // EntryDetails Page
-const EntryDetails: React.FC<{ entry: any }> = ({ entry }) => {
+const EntryDetails: React.FC<{}> = () => {
   return (
     <Box padding={3}>
       <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={3}>

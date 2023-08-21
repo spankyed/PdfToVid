@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { StoreContext } from '../../index';
 import { Paper, StoreType } from '../store';
 import { observer } from 'mobx-react-lite';
@@ -18,8 +18,10 @@ const colors = {
 }
 
 function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean }): React.ReactElement {
+  const onThumbnailClick = (e) => e.stopPropagation()
+
   return (
-    <Link to={`/entry/${paper.id}`} key={paper.id}>
+    <Link to={`/entry/${paper.id}`} onClick={onThumbnailClick} key={paper.id}>
       <div 
         style={{ 
           position: 'relative', 
@@ -53,53 +55,43 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
   
   return (
     <>
-
-        <ButtonGroup 
-          variant='outlined' 
-          aria-label="paper actions"
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            // padding: '8px',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)', // Translucent black background
-            // color: 'white',
-            // textAlign: 'center',
-            borderBottomLeftRadius: '4px',
-            borderBottomRightRadius: '4px',
-          }}
-        >
-
+      <ButtonGroup 
+        variant='outlined' 
+        aria-label="paper actions"
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          // padding: '8px',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)', // Translucent black background
+          // color: 'white',
+          // textAlign: 'center',
+          borderBottomLeftRadius: '4px',
+          borderBottomRightRadius: '4px',
+        }}
+      >
         <Like paper={paper} allRed={true}/>
-        {
-          !isUploaded(paper) && (
-            <>
-              <Button>
-                <Tooltip title={statusFrom(paper).action}>
-                  {statusFrom(paper).icon}
+      {
+        !isUploaded(paper) && (
+          <>
+            <Button>
+              <Tooltip title={statusFrom(paper).action}>
+                {statusFrom(paper).icon}
+              </Tooltip>
+            </Button>
+          {
+            paper.metaData.status !== 0 && (
+              <Button disabled={hideDelete(paper)}>
+                <Tooltip title='Delete'>
+                  <DeleteIcon color={hideDelete(paper) ? undefined : 'error'} style={{ marginRight: '4px' }}/>
                 </Tooltip>
               </Button>
-              {/* <Button>
-                <Tooltip title='View'>
-                  <Link to={`/entry/${paper.id}`}>
-                    <VisibilityIcon color="info" style={{ marginRight: '4px' }} />
-                  </Link>
-                </Tooltip>
-              </Button> */}
-            {
-              paper.metaData.status !== 0 && (
-                <Button disabled={hideDelete(paper)}>
-                  <Tooltip title='Delete'>
-                    <DeleteIcon color={hideDelete(paper) ? undefined : 'error'} style={{ marginRight: '4px' }}/>
-                  </Tooltip>
-                </Button>
-              )
-            }
-            </>
-          )
-        }
-        </ButtonGroup>
-
+            )
+          }
+          </>
+        )
+      }
+      </ButtonGroup>
     </>
   )
 }

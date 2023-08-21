@@ -25,6 +25,10 @@ const Papers: React.FC = observer(() => {
     return `${weekday} ${month} ${day}`;
   }
   
+  const onDayClick = day => (e) => {
+    navigate(`/day/${day}`);
+  }
+
   return (
     <>
       {papersList.map(({ day, papers }) => (
@@ -41,7 +45,7 @@ const Papers: React.FC = observer(() => {
             backgroundColor: selectedDay === day ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
             cursor: 'pointer',
           }}
-          onClick={() => navigate(`/day/${day}`)}
+          onClick={onDayClick(day)}
         >
           <Typography variant="h5" style={{ textDecoration: 'none', marginBottom: 4 }} >
             {reformatDate(day)}
@@ -62,11 +66,9 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
     <>
       <ImageList cols={papers.length} sx={{ padding: 3 }}>
         {papers.map(paper => (
-          <Link to={`/entry/${paper.id}`} key={paper.id}>
-            <ImageListItem sx={{ margin: 1 }}>
-              <Thumbnail paper={paper} />
-            </ImageListItem>
-          </Link>
+          <ImageListItem sx={{ margin: 1 }} key={paper.id}>
+            <Thumbnail paper={paper} />
+          </ImageListItem>
         ))}
       </ImageList>
 
