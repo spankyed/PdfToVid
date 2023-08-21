@@ -1,13 +1,12 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/http/index.ts",
+  "name": "curation-services",
+  "version": "0.0.1",
+  "description": "Backend for CurateGPT",
+  "main": "endpoints/client/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch src/test.ts",
-    "start": "tsx watch src/http/index.ts",
-    "pip-install": "pip install -r pip-reqs.txt"
+    "test": "tsx watch endpoints/worker/test.ts",
+    "start": "tsx watch endpoints/client/index.ts",
+    "py-i": "pip install -r pip-deps.txt"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
