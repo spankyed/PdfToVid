@@ -56,3 +56,11 @@ process.on('unhandledRejection', (err) => {
 });
 
 init();
+
+// const PaperState = t.keyof({
+//   DISCARDED: null,
+//   SCRAPED: null,
+//   GENERATED: null,
+//   UNFINALIZED: null,
+//   UPLOADED: null,
+// });

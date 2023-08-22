@@ -1,6 +1,6 @@
 import Hapi from '@hapi/hapi';
 import { isLeft, isRight } from 'fp-ts/Either';
-import { Payload, ReadParams, postDispatcher, read } from './functions';
+import { Payload, ReadParams, postDispatcher, read } from './store';
 
 const init = async () => {
   const server = Hapi.server({

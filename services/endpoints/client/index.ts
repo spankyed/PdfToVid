@@ -1,10 +1,11 @@
 import Hapi from '@hapi/hapi';
-import { getFiveMostRecentDays, getPapersForDays, getStoredDays, groupDaysByMonth, initializeServer } from './utils';
+import { getFiveMostRecentDays, getPapersForDays, getStoredDays, groupDaysByMonth, initializeServer } from './functions';
 import mocks from '../../../tests/mocks';
 const { paperList } = mocks;
 
 // import Cors from '@hapi/cors';
 
+// client routes
 const server = Hapi.server({
   port: 3000,
   host: 'localhost',
@@ -46,12 +47,17 @@ server.route({
       console.log('request.params.date: ', request.params.date);
       // h.response('Hello World');
       resolve('Hello World')
+      // integration.worker.scrapeDate(request.params.date);
     });
   }
 });
 
+// api routes
+
+
+
 const startServer = async () => {
-  initializeServer();
+  // initializeServer();
   // todo only sync dates up to current date on arxiv
 
   try {
