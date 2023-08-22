@@ -44,7 +44,7 @@ export type TableTypes = {
 };
 type Store = { [K in keyof TableTypes]: Datastore<TableTypes[K]> };
 
-const root = '/Users/spankyed/Develop/Projects/PdfToVid/services/files/assets';
+const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets';
 const dbPath = (name: string) => path.join(root, 'database', `${name}.db`);
 
 const store: Store = {

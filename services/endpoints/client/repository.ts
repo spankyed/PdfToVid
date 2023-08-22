@@ -1,11 +1,6 @@
 import Datastore from '@seald-io/nedb';
 import path from 'path';
 
-const root = '/Users/spankyed/Develop/Projects/PdfToVid/services/files/assets';
-function dbPath(name: string) {
-  return path.join(root, 'database', `${name}.db`);
-}
-
 type DayList = {
   month: string;
   days: DayDocument[];
@@ -15,38 +10,6 @@ type PaperList = {
   day: string;
   papers: PaperDocument[];
 };
-
-type DayDocument = {
-  value: string;
-  hasBeenScraped: boolean;
-};
-
-type PaperDocument = {
-  id: string;
-  date: string;
-  title: string;
-  abstract: string;
-  pdfLink: string;
-  authors: string[];
-  metaData: {
-    relevancy: number;
-    keywords: string[];
-  };
-  video: {
-    title: string;
-    description: string;
-    thumbnailPrompt: string;
-    scriptPrompt: string;
-    videoUrl: string;
-    thumbnailUrl: string;
-  };
-};
-
-const store = {
-  days: new Datastore<DayDocument>({ filename: dbPath('days'), autoload: true }),
-  papers: new Datastore<PaperDocument>({ filename: dbPath('papers'), autoload: true }),
-  config: new Datastore<{ lastRun: string }>({ filename: dbPath('config'), autoload: true }),
-}
 
 async function storePapers(papers: PaperDocument[]): Promise<void> {
   await store.papers.insertAsync(papers);

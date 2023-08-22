@@ -1,20 +1,19 @@
 import * as t from 'io-ts';
 import { pipe } from 'fp-ts/function';
-import getStore, { DayDocument, PaperDocument } from './schema';
+import getStore from './schema';
 import { chain, left, map, tryCatch } from 'fp-ts/TaskEither';
 import { TaskEither } from 'fp-ts/lib/TaskEither';
+import { RecordTypes } from '../shared/types';
 
 const TableKey = t.keyof({
   days: null,
   papers: null,
   config: null
 });
-
 const CreateParams = t.type({
   table: TableKey,
   record: t.unknown
 });
-
 export const ReadParams = t.type({
   table: TableKey,
   query: t.union([t.unknown, t.undefined]),
@@ -22,13 +21,11 @@ export const ReadParams = t.type({
   limit: t.union([t.number, t.undefined]),
   order: t.union([t.unknown, t.undefined])
 });
-
 const UpdateParams = t.type({
   table: TableKey,
   query: t.unknown,
   updateQuery: t.unknown
 });
-
 const DeleteParams = t.type({
   table: TableKey,
   query: t.unknown
@@ -45,8 +42,6 @@ type OperationPayloads = {
 export type Dispatcher = {
   [K in keyof OperationPayloads]: (params: OperationPayloads[K]) => TaskEither<Error, any>;
 };
-
-type RecordTypes = DayDocument | PaperDocument | { lastRun: string };
 
 function create(params: t.TypeOf<typeof CreateParams>): TaskEither<Error, void> {
   const findExistingRecord = pipe(

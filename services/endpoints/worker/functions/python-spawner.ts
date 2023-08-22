@@ -3,8 +3,8 @@ import * as path from 'path';
 
 // You can define the path to the Python interpreter and the script in an environment variable or directly in the code
 const pythonInterpreter: string = process.env.PYTHON_INTERPRETER || 'python3';
-const root = '/Users/spankyed/Develop/Projects/PdfToVid/src/';
-const pythonScript: string = process.env.PYTHON_SCRIPT || path.join(root, 'fetchTestPy.py'); 
+const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/';
+const pythonScript: string = process.env.PYTHON_SCRIPT || path.join(root, 'endpoints/worker/functions/fetchTestPy.py'); 
 
 // Spawn a child process
 const python: ChildProcessWithoutNullStreams = spawn(pythonInterpreter, [pythonScript]);

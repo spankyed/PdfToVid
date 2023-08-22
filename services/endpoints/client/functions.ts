@@ -36,7 +36,7 @@ const papers = [
 import Datastore from '@seald-io/nedb';
 import path from 'path';
 
-const root = '/Users/spankyed/Develop/Projects/PdfToVid/services/files/assets';
+const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets';
 function dbPath(name: string) {
   return path.join(root, 'database', `${name}.db`);
 }

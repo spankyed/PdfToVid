@@ -27,8 +27,8 @@ const testDate = 'Fri, 11 Aug 2023'
 scrapePapersByDate(testDate).then((arxivPapers) => {
 
   // console.log('arxivPapers: ', arxivPapers);
-  const root = '/Users/spankyed/Develop/Projects/PdfToVid/services/files/assets';
-  const jsonPath = path.join(root, 'output', 'data', 'arxiv-papers.json');
+  const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets';
+  const jsonPath = path.join(root, 'generated', 'test_data', 'arxiv-papers.json');
   const jsonString = JSON.stringify(arxivPapers, null, 2);
 
   // fs.writeFile('arxiv-papers.json', jsonString)

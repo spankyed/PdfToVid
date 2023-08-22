@@ -18,9 +18,9 @@ const query = {
 };
 
 // Define the path to the output file
-const root = '/Users/spankyed/Develop/Projects/PdfToVid/src/files';
+const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/files';
 const dbPath = path.join(root, 'database', 'papers.db');
-const jsonPath = path.join(root, 'output', 'data', 'papers.json');
+const jsonPath = path.join(root, 'generated', 'test_data', 'papers.json');
 
 // Initialize NeDB
 const db = new Datastore({ filename: dbPath, autoload: true });
