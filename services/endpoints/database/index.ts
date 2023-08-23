@@ -1,4 +1,4 @@
-import { isLeft } from 'fp-ts/Either';
+import { isLeft } from 'fp-ts/lib/Either';
 import { Payload, ReadParams, postDispatcher, read } from './store';
 import createServer from '../shared/server';
 import { ports } from '../shared/constants';

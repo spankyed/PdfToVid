@@ -8,7 +8,7 @@ module.exports = {
       interpreter: 'node',
     },
     {
-      name: "db-service",
+      name: "database-service",
       script: "endpoints/database/index.ts",
       watch: ["endpoints/database"],
       interpreterArgs: '--loader tsx',

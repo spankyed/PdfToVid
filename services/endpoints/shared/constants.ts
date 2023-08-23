@@ -9,7 +9,8 @@ export const ports = {
 };
 
 export const WebPath = `http://localhost:${ports.web}`;
-export const ClientPath = `localhost:${ports.client}`;
-export const DatabasePath = `localhost:${ports.database}`;
-export const StatusPath = `localhost:${ports.status}`;
-export const WorkerPath = `localhost:${ports.worker}`;
+
+export const ClientPath = `http://localhost:${ports.client}`;
+export const DatabasePath = `http://127.0.0.1:${ports.database}`;
+export const StatusPath = `http://localhost:${ports.status}`;
+export const WorkerPath = `http://localhost:${ports.worker}`;

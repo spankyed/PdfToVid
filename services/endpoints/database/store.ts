@@ -1,8 +1,7 @@
 import * as t from 'io-ts';
-import { pipe } from 'fp-ts/function';
+import { pipe } from 'fp-ts/lib/function';
 import getStore from './schema';
-import { chain, left, map, tryCatch } from 'fp-ts/TaskEither';
-import { TaskEither } from 'fp-ts/lib/TaskEither';
+import { chain, TaskEither, left, map, tryCatch } from 'fp-ts/lib/TaskEither';
 import { RecordTypes } from '../shared/types';
 
 function create(params: t.TypeOf<typeof CreateParams>): TaskEither<Error, void> {
