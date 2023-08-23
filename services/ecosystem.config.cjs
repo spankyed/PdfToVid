@@ -21,5 +21,12 @@ module.exports = {
       interpreterArgs: '--loader tsx',
       interpreter: 'node',
     },
+    {
+      name: "status-service",
+      script: "endpoints/status/index.ts",
+      watch: ["endpoints/status"],
+      interpreterArgs: '--loader tsx',
+      interpreter: 'node',
+    },
   ],
 };
