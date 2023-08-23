@@ -4,10 +4,9 @@
   "description": "Backend for CurateGPT",
   "main": "endpoints/client/index.ts",
   "scripts": {
+    "dev": "npm run start && pm2 monit",
+    "start": "pm2 start ecosystem.config.cjs",
     "test": "tsx watch endpoints/worker/test.ts",
-    "start": "tsx watch endpoints/client/index.ts",
-    "start:eco": "pm2 start ecosystem.config.cjs",
-    "start:monit": "npm run start:eco && pm2 monit",
     "build": "tsc -p tsconfig.json",
     "py-i": "pip install -r pip-deps.txt"
   },
@@ -53,6 +52,7 @@
     "open": "^9.1.0",
     "playwright": "^1.36.1",
     "sharp": "^0.32.3",
-    "xml2js": "^0.6.0"
+    "xml2js": "^0.6.0",
+    "xstate": "^4.38.2"
   }
 }
