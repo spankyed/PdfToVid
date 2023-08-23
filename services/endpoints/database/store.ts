@@ -5,44 +5,6 @@ import { chain, left, map, tryCatch } from 'fp-ts/TaskEither';
 import { TaskEither } from 'fp-ts/lib/TaskEither';
 import { RecordTypes } from '../shared/types';
 
-const TableKey = t.keyof({
-  days: null,
-  papers: null,
-  config: null
-});
-const CreateParams = t.type({
-  table: TableKey,
-  record: t.unknown
-});
-export const ReadParams = t.type({
-  table: TableKey,
-  query: t.union([t.unknown, t.undefined]),
-  skip: t.union([t.number, t.undefined]),
-  limit: t.union([t.number, t.undefined]),
-  order: t.union([t.unknown, t.undefined])
-});
-const UpdateParams = t.type({
-  table: TableKey,
-  query: t.unknown,
-  updateQuery: t.unknown
-});
-const DeleteParams = t.type({
-  table: TableKey,
-  query: t.unknown
-});
-const CreatePayload = t.intersection([t.type({ operation: t.literal('create') }), CreateParams]);
-const UpdatePayload = t.intersection([t.type({ operation: t.literal('update') }), UpdateParams]);
-const DeletePayload = t.intersection([t.type({ operation: t.literal('delete') }), DeleteParams]);
-export const Payload = t.union([CreatePayload, UpdatePayload, DeletePayload]);
-type OperationPayloads = {
-  create: t.TypeOf<typeof CreatePayload>;
-  update: t.TypeOf<typeof UpdatePayload>;
-  delete: t.TypeOf<typeof DeletePayload>;
-};
-export type Dispatcher = {
-  [K in keyof OperationPayloads]: (params: OperationPayloads[K]) => TaskEither<Error, any>;
-};
-
 function create(params: t.TypeOf<typeof CreateParams>): TaskEither<Error, void> {
   const findExistingRecord = pipe(
     tryCatch(() => getStore(params.table).findOneAsync(params.record), e => e as Error),
@@ -84,6 +46,44 @@ function _delete(params: t.TypeOf<typeof DeleteParams>): TaskEither<Error, { mes
     map(() => ({ message: 'Record deleted successfully' }))
   );
 }
+
+const TableKey = t.keyof({
+  days: null,
+  papers: null,
+  config: null
+});
+const CreateParams = t.type({
+  table: TableKey,
+  record: t.unknown
+});
+export const ReadParams = t.type({
+  table: TableKey,
+  query: t.union([t.unknown, t.undefined]),
+  skip: t.union([t.number, t.undefined]),
+  limit: t.union([t.number, t.undefined]),
+  order: t.union([t.unknown, t.undefined])
+});
+const UpdateParams = t.type({
+  table: TableKey,
+  query: t.unknown,
+  updateQuery: t.unknown
+});
+const DeleteParams = t.type({
+  table: TableKey,
+  query: t.unknown
+});
+const CreatePayload = t.intersection([t.type({ operation: t.literal('create') }), CreateParams]);
+const UpdatePayload = t.intersection([t.type({ operation: t.literal('update') }), UpdateParams]);
+const DeletePayload = t.intersection([t.type({ operation: t.literal('delete') }), DeleteParams]);
+export const Payload = t.union([CreatePayload, UpdatePayload, DeletePayload]);
+type OperationPayloads = {
+  create: t.TypeOf<typeof CreatePayload>;
+  update: t.TypeOf<typeof UpdatePayload>;
+  delete: t.TypeOf<typeof DeletePayload>;
+};
+export type Dispatcher = {
+  [K in keyof OperationPayloads]: (params: OperationPayloads[K]) => TaskEither<Error, any>;
+};
 
 const postDispatcher: Dispatcher = { create, update, delete: _delete };
 

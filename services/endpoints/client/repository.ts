@@ -1,45 +1,78 @@
-import Datastore from '@seald-io/nedb';
-import path from 'path';
+import { database } from '../shared/integrations';
 
-type DayList = {
-  month: string;
-  days: DayDocument[];
-};
+// type PaperList = {
+//   day: string;
+//   papers: PaperDocument[];
+// };
 
-type PaperList = {
-  day: string;
-  papers: PaperDocument[];
-};
-
-async function storePapers(papers: PaperDocument[]): Promise<void> {
-  await store.papers.insertAsync(papers);
+// ________________________________________________________
+function getFiveMostRecentDays(): Promise<any> {
+  return database.read({
+    table: 'days',
+    limit: 5,
+    order: { value: -1 }
+  });
 }
 
-async function getPapersForDays(days: string[], skip: number = 0, limit: number = -1): Promise<PaperList[]> {
-  let query = store.papers.findAsync({ date: { $in: days } })
-    .sort({ date: 1, id: 1 });
-  
-  if (limit !== -1) {
-    query = query.limit(limit);
-  }
-
-  const papers: PaperDocument[] = await query.skip(skip).execAsync();
-  
-  const groupedPapers: PaperList[] = days.map(day => ({
-    day,
-    papers: papers.filter(paper => paper.date === day),
-  }));
-  
-  return groupedPapers;
+function updateLastRunDay(day: string): Promise<any> {
+  return database.update({
+    table: 'config',
+    query: { lastRun: day },
+    updateQuery: { lastRun: day }
+  });
 }
 
-async function getFiveMostRecentRecords(): Promise<any> {
-  return {
-    method: 'GET',
-    operation: 'read',
-    params: {
-      limit: 5,
-      order: { value: -1 }
-    }
-  }
+// async function getPapersForDays(days: string[], skip: number = 0, limit: number = -1): Promise<PaperList[]> {
+function getPapersForDays(days: string[], skip: number = 0, limit: number = -1): Promise<any> {
+  return database.read({
+    table: 'papers',
+    query: { value: { $in: days } },
+    skip,
+    limit,
+    // order: { value: 1 }    
+  });
+
+  // const groupedPapers: PaperList[] = days.map(day => ({
+  //   day,
+  //   papers: papers.filter(paper => paper.date === day),
+  // }));
+  
+  // return groupedPapers;
+}
+
+
+// async function getStoredDays(): Promise<DayDocument[]> {
+function getStoredDays(): Promise<any> {
+  return database.read({ table: 'days' });
+}
+
+// async function getLastRunDay(): Promise<string | null> {
+function getConfigs(): Promise<any> {
+  return database.read({ table: 'config' });
+  // return config?.lastRun || null;
+}
+
+function storePaper(papers: PaperDocument): Promise<any> {
+  return database.create({
+    table: 'papers',
+    record: papers
+  });
+}
+
+function storeDay(day: string): Promise<any> {
+  return database.create({
+    table: 'days',
+    record: { value: day, hasBeenScraped: false }
+  });
+}
+
+async function fetchDashboard(): Promise<any> {
+  return Promise.all([
+    getStoredDays(), 
+    getFiveMostRecentDays()
+  ]);
+}
+
+export default {
+  fetchDashboard,
 }

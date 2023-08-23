@@ -1,14 +1,12 @@
-import Hapi from '@hapi/hapi';
-import { isLeft, isRight } from 'fp-ts/Either';
+import { isLeft } from 'fp-ts/Either';
 import { Payload, ReadParams, postDispatcher, read } from './store';
+import createServer from '../shared/server';
+import { ports } from '../shared/constants';
 
-const init = async () => {
-  const server = Hapi.server({
-    port: 4000,
-    host: 'localhost',
-  });
+const serverConfig = { port: ports.database };
 
-  server.route({
+const routes = [
+  {
     method: 'GET',
     path: '/db',
     handler: async (request, h) => {
@@ -28,45 +26,53 @@ const init = async () => {
         return h.response({ error: 'An unexpected error occurred' }).code(500);
       }
     }
-  });
-  
-
-  server.route({
+  },
+  {
     method: 'POST',
     path: '/db',
     handler: async (request, h) => {
       const validationResult = Payload.decode(request.payload);
 
-      if (isRight(validationResult)) {
-        const validPayload = validationResult.right;
+      if (isLeft(validationResult)) {
+        return h.response({ error: 'Invalid data parameters' }).code(400);
+      }
 
-        switch (validPayload.operation) {
-          case 'create':
-            if ('record' in validPayload) {
-              return await postDispatcher.create(validPayload);
-            }
-            break;
-          case 'update':
-            if ('query' in validPayload && 'updateQuery' in validPayload) {
-              return await postDispatcher.update(validPayload);
-            }
-            break;
-          case 'delete':
-            if ('query' in validPayload) {
-              return await postDispatcher.delete(validPayload);
-            }
-            break;
-        }
+      const validPayload = validationResult.right;
+
+      switch (validPayload.operation) {
+        case 'create':
+          if ('record' in validPayload) {
+            return await postDispatcher.create(validPayload);
+          }
+          break;
+        case 'update':
+          if ('query' in validPayload && 'updateQuery' in validPayload) {
+            return await postDispatcher.update(validPayload);
+          }
+          break;
+        case 'delete':
+          if ('query' in validPayload) {
+            return await postDispatcher.delete(validPayload);
+          }
+          break;
       }
 
       return h.response({ error: 'Invalid operation or payload' }).code(400);
     }
-  });
+  }
+];
 
-  await server.start();
-  console.log('Server running on %s', server.info.uri);
-};
+(async function start () {
+  const server = createServer(serverConfig, routes);
+  
+  try {
+    // await server.register(Cors);
+    await server.start();
+  }
+  catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
 
-init();
-
-
+  console.log('Database service running on %s', server.info.uri);
+})();

@@ -1,7 +1,8 @@
 import createRequest from "../shared/request";
 import { RecordTypes } from "../shared/types";
+import { DatabasePath } from "./constants";
 
-const dbService = createRequest('http://localhost:3000');
+const dbService = createRequest(DatabasePath);
 
 type TableKey = "days" | "papers" | "config";
 
@@ -29,11 +30,9 @@ type DeleteParams = {
   query: any;
 };
 
-export async function database(record: any) {
-  return {
-    create: (params: CreateParams) => dbService.post('create', params),
-    read: (params: ReadParams) => dbService.get('read', params),
-    update: (params: UpdateParams) => dbService.post('update', params),
-    delete: (params: DeleteParams) => dbService.post('delete', params),
-  };
+export const database = {
+  create: (params: CreateParams) => dbService.post('create', params),
+  read: (params: ReadParams) => dbService.get('read', params),
+  update: (params: UpdateParams) => dbService.post('update', params),
+  delete: (params: DeleteParams) => dbService.post('delete', params),
 }

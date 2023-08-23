@@ -1,64 +1,54 @@
-import Hapi from '@hapi/hapi';
-import { getFiveMostRecentDays, getPapersForDays, getStoredDays, groupDaysByMonth, initializeServer } from './functions';
-import mocks from '../../../tests/mocks';
+import type Hapi from '@hapi/hapi';
+import { groupDaysByMonth } from './functions';
+import createServer from '../shared/server';
+import repository from './repository';
+import { worker } from './integrations';
+import { WebPath, ports } from '../shared/constants';
+import * as mocks from '../../../tests/mocks';
+
 const { paperList } = mocks;
 
-// import Cors from '@hapi/cors';
-
-// client routes
-const server = Hapi.server({
-  port: 3000,
-  host: 'localhost',
+const serverConfig: Hapi.ServerOptions | undefined = {
+  port: ports.client,
   routes: {
     cors: {
-      origin: ['http://localhost:5173'], // your allowed origin
+      origin: [WebPath], // allow web requests
       additionalHeaders: ['cache-control', 'x-requested-with']
     }
   }
-});
+};
 
-server.route({
-  method: 'GET',
-  path: '/dashboard',
-  handler: (request, h) => {
-    return new Promise(async (resolve, reject) => {
-      const [allDays, recentDays] = await Promise.all([
-        getStoredDays(), 
-        getFiveMostRecentDays()
-      ]);
-      // ["2021-10-06", "2021-10-07", "2021-10-08"]
-      const dateList = groupDaysByMonth(allDays);
-      // todo replace papers below with videos for days
-      // const paperList = await getPapersForDays(recentDays.map(date => date.value), 0, 7);
-
-      // todo current day seems to be off (13th instead of 14th for today)
-      const dashboardData = { dateList, paperList }
-      
-      resolve(dashboardData)
-    });
+const routes = [
+  {
+    method: 'GET',
+    path: '/dashboard',
+    handler: (request, h) => {
+      return new Promise(async (resolve, reject) => {
+        const [allDays, fiveRecentDays] = await repository.fetchDashboard();
+        // ["2021-10-06", "2021-10-07", "2021-10-08"]
+        const dateList = groupDaysByMonth(allDays);
+        // const paperList = await getPapersForDays(fiveRecentDays.map(date => date.value), 0, 7);
+  
+        // todo current day seems to be off (13th instead of 14th for today)
+        const dashboardData = { dateList, paperList }
+        
+        resolve(dashboardData)
+      });
+    }
+  },
+  {
+    method: 'POST',
+    path: '/scrape',
+    handler: async (request, h) => {
+      console.log('request.params.payload: ', request.params.payload);
+      const result = await worker.scrape({ date: request.params.payload });
+      return result;
+    }
   }
-});
+];
 
-server.route({
-  method: 'GET',
-  path: '/scrape/{date}',
-  handler: (request, h) => {
-    return new Promise((resolve, reject) => {
-      console.log('request.params.date: ', request.params.date);
-      // h.response('Hello World');
-      resolve('Hello World')
-      // integration.worker.scrapeDate(request.params.date);
-    });
-  }
-});
-
-// api routes
-
-
-
-const startServer = async () => {
-  // initializeServer();
-  // todo only sync dates up to current date on arxiv
+(async function start () {
+  const server = createServer(serverConfig, routes);
 
   try {
     // await server.register(Cors);
@@ -69,9 +59,5 @@ const startServer = async () => {
     process.exit(1);
   }
 
-  console.log('Server running at:', server.info.uri);
-};
-
-startServer();
-
-// todo scrape all dates between last run and today
+  console.log('Client service running at:', server.info.uri);
+})();

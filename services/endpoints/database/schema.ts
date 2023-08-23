@@ -1,5 +1,6 @@
 import Datastore from '@seald-io/nedb';
 import path from 'path';
+import { root } from '../shared/constants';
 
 // type DayList = {
 //   month: string;
@@ -15,7 +16,6 @@ export type DayDocument = {
   value: string;
   hasBeenScraped: boolean;
 };
-
 export type PaperDocument = {
   id: string;
   date: string;
@@ -36,7 +36,6 @@ export type PaperDocument = {
     thumbnailUrl: string;
   };
 };
-
 export type TableTypes = {
   days: DayDocument;
   papers: PaperDocument;
@@ -44,8 +43,7 @@ export type TableTypes = {
 };
 type Store = { [K in keyof TableTypes]: Datastore<TableTypes[K]> };
 
-const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets';
-const dbPath = (name: string) => path.join(root, 'database', `${name}.db`);
+const dbPath = (name: string) => path.join(root, 'files/assets/database', `${name}.db`);
 
 const store: Store = {
   days: new Datastore<DayDocument>({ filename: dbPath('days'), autoload: true }),
@@ -56,5 +54,3 @@ const store: Store = {
 export default function getStore<T extends keyof TableTypes>(table: T): Datastore<TableTypes[T]> {
   return store[table];
 }
-
-
