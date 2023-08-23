@@ -29,10 +29,15 @@ type DeleteParams = {
   table: TableKey;
   query: any;
 };
-
+JSON.stringify({ value: -1 })
 export const database = {
-  create: (params: CreateParams) => dbService.post('create', params),
-  read: (params: ReadParams) => dbService.get('read', params),
-  update: (params: UpdateParams) => dbService.post('update', params),
-  delete: (params: DeleteParams) => dbService.post('delete', params),
+  create: (params: CreateParams) => dbService.post('db', { operation: 'create', ...params }),
+  read: (params: ReadParams) => {
+    if (params.query) params.query = JSON.stringify(params.query);
+    if (params.order) params.order = JSON.stringify(params.order);
+
+    return dbService.get('db', { operation: 'read', ...params })
+  },
+  update: (params: UpdateParams) => dbService.post('db', { operation: 'update', ...params }),
+  delete: (params: DeleteParams) => dbService.post('db', { operation: 'delete', ...params }),
 }

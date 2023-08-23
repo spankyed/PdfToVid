@@ -4,6 +4,19 @@ import { chain, TaskEither, left, map, tryCatch } from 'fp-ts/lib/TaskEither';
 import type { RecordTypes } from '../shared/types';
 import getStore from './schema';
 
+// type casting
+export function preprocessQuery(query: any): t.TypeOf<typeof ReadPayload> {
+  return {
+    operation: query.operation,
+    table: query.table,
+    query: query.query ? JSON.parse(query.query) : undefined,
+    order: query.order ? JSON.parse(query.order) : undefined,
+    skip: query.skip ? Number(query.skip) : undefined,
+    limit: query.limit ? Number(query.limit) : undefined
+  };
+}
+
+// DB operations
 function create(params: t.TypeOf<typeof CreateParams>): TaskEither<Error, void> {
   const findExistingRecord = pipe(
     tryCatch(() => getStore(params.table).findOneAsync(params.record), e => e as Error),
@@ -62,6 +75,7 @@ export const ReadParams = t.type({
   limit: t.union([t.number, t.undefined]),
   order: t.union([t.unknown, t.undefined])
 });
+
 const UpdateParams = t.type({
   table: TableKey,
   query: t.unknown,
@@ -71,6 +85,7 @@ const DeleteParams = t.type({
   table: TableKey,
   query: t.unknown
 });
+export const ReadPayload = t.intersection([t.type({ operation: t.literal('read') }), ReadParams]);
 const CreatePayload = t.intersection([t.type({ operation: t.literal('create') }), CreateParams]);
 const UpdatePayload = t.intersection([t.type({ operation: t.literal('update') }), UpdateParams]);
 const DeletePayload = t.intersection([t.type({ operation: t.literal('delete') }), DeleteParams]);

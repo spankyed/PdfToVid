@@ -1,5 +1,5 @@
 import { isLeft } from 'fp-ts/lib/Either';
-import { Payload, ReadParams, postDispatcher, read } from './store';
+import { Payload, ReadPayload, postDispatcher, preprocessQuery, read } from './store';
 import createServer from '../shared/server';
 import { ports } from '../shared/constants';
 
@@ -10,8 +10,9 @@ const routes = [
     method: 'GET',
     path: '/db',
     handler: async (request, h) => {
-      const decoded = ReadParams.decode(request.query);
-  
+      const query = preprocessQuery(request.query);
+      const decoded = ReadPayload.decode(query);
+
       if (isLeft(decoded)) {
         return h.response({ error: 'Invalid query parameters' }).code(400);
       }
