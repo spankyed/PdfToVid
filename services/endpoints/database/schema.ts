@@ -43,7 +43,7 @@ export type TableTypes = {
 };
 type Store = { [K in keyof TableTypes]: Datastore<TableTypes[K]> };
 
-const dbPath = (name: string) => path.join(root, 'files/assets/database', `${name}.db`);
+const dbPath = (name: string) => path.join(root, 'files/database', `${name}.db`);
 
 const store: Store = {
   days: new Datastore<DayDocument>({ filename: dbPath('days'), autoload: true }),

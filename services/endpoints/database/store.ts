@@ -1,8 +1,8 @@
-import * as t from 'io-ts';
+import * as t from 'io-ts'; // ! https://github.com/gcanti/fp-ts/issues/1044
 import { pipe } from 'fp-ts/lib/function';
-import getStore from './schema';
 import { chain, TaskEither, left, map, tryCatch } from 'fp-ts/lib/TaskEither';
-import { RecordTypes } from '../shared/types';
+import type { RecordTypes } from '../shared/types';
+import getStore from './schema';
 
 function create(params: t.TypeOf<typeof CreateParams>): TaskEither<Error, void> {
   const findExistingRecord = pipe(
