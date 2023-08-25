@@ -60,15 +60,15 @@ const arxivMachine = Machine({
 });
 
 
-export type PaperDocument = {
-  id: string;
-  date: string;
-  title: string;
-  abstract: string;
-  pdfLink: string;
-  authors: string[];
-  metaData?: {
-    relevancy: number;
-    keywords?: string[];
-  };
-};
+// type PaperDocument = {
+//   id: string;
+//   date: string;
+//   title: string;
+//   abstract: string;
+//   pdfLink: string;
+//   authors: string[];
+//   metaData?: {
+//     relevancy: number;
+//     keywords?: string[];
+//   };
+// };

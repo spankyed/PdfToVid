@@ -41,8 +41,13 @@ const routes = [
     path: '/scrape',
     handler: async (request, h) => {
       console.log('request.params.payload: ', request.params.payload);
-      const result = await worker.scrape({ date: request.params.payload });
-      return result;
+      const workerResponse = await worker.scrape({ date: request.params.payload });
+
+      if (!workerResponse){
+        return { error: 'Problem scraping papers' }
+      }
+
+      return workerResponse;
     }
   }
 ];

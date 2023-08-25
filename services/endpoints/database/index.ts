@@ -1,5 +1,5 @@
 import { isLeft } from 'fp-ts/lib/Either';
-import { Payload, ReadPayload, postDispatcher, preprocessQuery, read } from './store';
+import { PostPayload, ReadPayload, postDispatcher, preprocessQuery, read } from './store';
 import createServer from '../shared/server';
 import { ports } from '../shared/constants';
 
@@ -32,7 +32,7 @@ const routes = [
     method: 'POST',
     path: '/db',
     handler: async (request, h) => {
-      const validationResult = Payload.decode(request.payload);
+      const validationResult = PostPayload.decode(request.payload);
 
       if (isLeft(validationResult)) {
         return h.response({ error: 'Invalid data parameters' }).code(400);
@@ -40,20 +40,22 @@ const routes = [
 
       const validPayload = validationResult.right;
 
-      switch (validPayload.operation) {
+      const { operation, ...params } = validPayload
+
+      switch (operation) {
         case 'create':
-          if ('record' in validPayload) {
-            return await postDispatcher.create(validPayload);
+          if ('record' in params) {
+            return await postDispatcher.create(params);
           }
           break;
         case 'update':
-          if ('query' in validPayload && 'updateQuery' in validPayload) {
-            return await postDispatcher.update(validPayload);
+          if ('query' in params && 'updateQuery' in params) {
+            return await postDispatcher.update(params);
           }
           break;
         case 'delete':
-          if ('query' in validPayload) {
-            return await postDispatcher.delete(validPayload);
+          if ('query' in params) {
+            return await postDispatcher.delete(params);
           }
           break;
       }

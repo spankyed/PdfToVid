@@ -89,16 +89,16 @@ export const ReadPayload = t.intersection([t.type({ operation: t.literal('read')
 const CreatePayload = t.intersection([t.type({ operation: t.literal('create') }), CreateParams]);
 const UpdatePayload = t.intersection([t.type({ operation: t.literal('update') }), UpdateParams]);
 const DeletePayload = t.intersection([t.type({ operation: t.literal('delete') }), DeleteParams]);
-export const Payload = t.union([CreatePayload, UpdatePayload, DeletePayload]);
+export const PostPayload = t.union([CreatePayload, UpdatePayload, DeletePayload]);
+
 type OperationPayloads = {
-  create: t.TypeOf<typeof CreatePayload>;
-  update: t.TypeOf<typeof UpdatePayload>;
-  delete: t.TypeOf<typeof DeletePayload>;
+  create: t.TypeOf<typeof CreateParams>;
+  update: t.TypeOf<typeof UpdateParams>;
+  delete: t.TypeOf<typeof DeleteParams>;
 };
 export type Dispatcher = {
   [K in keyof OperationPayloads]: (params: OperationPayloads[K]) => TaskEither<Error, any>;
 };
 
 const postDispatcher: Dispatcher = { create, update, delete: _delete };
-
 export { read, postDispatcher }
