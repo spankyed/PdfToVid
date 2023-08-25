@@ -66,7 +66,7 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
     <>
       <ImageList cols={papers.length} sx={{ padding: 3 }}>
         {papers.map(paper => (
-          <ImageListItem sx={{ margin: 1 }} key={paper.id}>
+          <ImageListItem sx={{ margin: .2 }} key={paper.id}>
             <Thumbnail paper={paper} />
           </ImageListItem>
         ))}
