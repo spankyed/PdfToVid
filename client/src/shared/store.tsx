@@ -4,28 +4,7 @@
 import { types, Instance, flow } from "mobx-state-tree";
 import axios from 'axios';
 
-export type Paper = {
-  id: string;
-  date: string;
-  title: string;
-  abstract: string;
-  pdfLink: string;
-  authors: string[];
-  metaData: {
-    liked: boolean;
-    status: number;
-    relevancy: number;
-    keywords: string[];
-  };
-  video: {
-    title: string;
-    description: string;
-    thumbnailPrompt: string;
-    scriptPrompt: string;
-    videoUrl: string;
-    thumbnailUrl: string;
-  };
-};
+export type Paper = Instance<typeof Paper>;
 
 const RoutingModel = types.model({
   currentPath: types.string,
@@ -67,7 +46,7 @@ const Paper = types.model({
 
 const Day = types.model({
   value: types.string,
-  hasBeenScraped: types.boolean
+  status: types.enumeration('DayStatus', ['pending', 'scraping', 'complete'])
 });
 
 const DatesList = types.model({
@@ -104,25 +83,25 @@ const Dashboard = types.model("Dashboard", {
       console.error("Failed to fetch dashboard", error);
     }
   }),
-  scrapePapers: flow(function* (date: string) {
-    try {
-      const response = yield axios.get('http://localhost:3000/scrape/' + date);
-      console.log('response: ', response);
-      // ... handle the response ...
-    } catch (error) {
-      console.error("Failed to scrape papers", error);
-    }
-  }),
-  fetchPapers: flow(function* fetchPapers(date: string) {
-    try {
-      const response = yield axios.get('http://localhost:3000/papersByDate/' + date);
-      response.data.forEach((paper: Instance<typeof Paper>) => {
-        self.papersForDay.push(paper);
-      });
-    } catch (error) {
-      console.error("Failed to fetch papers", error);
-    }
-  }),
+  // scrapePapers: flow(function* (date: string) {
+  //   try {
+  //     const response = yield axios.get('http://localhost:3000/scrape/' + date);
+  //     console.log('response: ', response);
+  //     // ... handle the response ...
+  //   } catch (error) {
+  //     console.error("Failed to scrape papers", error);
+  //   }
+  // }),
+  // fetchPapers: flow(function* fetchPapers(date: string) {
+  //   try {
+  //     const response = yield axios.get('http://localhost:3000/papersByDate/' + date);
+  //     response.data.forEach((paper: Instance<typeof Paper>) => {
+  //       self.papersForDay.push(paper);
+  //     });
+  //   } catch (error) {
+  //     console.error("Failed to fetch papers", error);
+  //   }
+  // }),
   setState(state: string) {
     self.state = state;
   },

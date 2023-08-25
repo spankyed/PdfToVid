@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Typography, Box, Tabs, Tab, Button, Grid, TextField } from '@mui/material';
+// import { Link } from 'react-router-dom';
+import { Typography, Box, Tabs, Tab, Button, Grid, TextField, CircularProgress, LinearProgress } from '@mui/material';
 import { Paper, StoreType } from '~/shared/store';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '..';
@@ -136,15 +136,25 @@ const VideoPapersGrid: React.FC<{ papers: Paper[] }> = ({ papers }) => {
   );
 }
 
+// const EmptyState: React.FC = () => {
+//   return (
+//     <Box display="flex" flexDirection="column" alignItems="center" gap={3} marginTop={20}>
+//       <Typography variant="h3">No Papers Processed</Typography>
+//       <Box display="flex" gap={2}>
+//         <Button variant="contained" color="primary">Full auto</Button>
+//         <Button variant="contained" color="secondary">Scrape & generate</Button>
+//         <Button variant="outlined">Just Scrape</Button>
+//       </Box>
+//     </Box>
+//   );
+// }
+
 const EmptyState: React.FC = () => {
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" gap={3} marginTop={20}>
-      <Typography variant="h3">No Papers Processed</Typography>
-      <Box display="flex" gap={2}>
-        <Button variant="contained" color="primary">Full auto</Button>
-        <Button variant="contained" color="secondary">Scrape & generate</Button>
-        <Button variant="outlined">Just Scrape</Button>
-      </Box>
+    <Box display="flex" flexDirection="column" alignItems="center" gap={3} marginTop={4}>
+      <CircularProgress />
+      <Typography variant="h3">Scraping Papers</Typography>
+      {/* <LinearProgress /> */}
     </Box>
   );
 }

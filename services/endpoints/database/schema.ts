@@ -12,10 +12,14 @@ import { root } from '../shared/constants';
 //   papers: PaperDocument[];
 // };
 
+type DayStatuses = 'pending' | 'scraping' | 'complete';
+type PaperStatuses = 0 | 1 | 2 | 3;
+
 export type DayDocument = {
   value: string;
-  hasBeenScraped: boolean;
+  status: DayStatuses;
 };
+
 export type PaperDocument = {
   id: string;
   date: string;
@@ -26,6 +30,7 @@ export type PaperDocument = {
   metaData: {
     relevancy: number;
     keywords: string[];
+    status: PaperStatuses;
   };
   video: {
     title: string;
@@ -45,7 +50,7 @@ type Store = { [K in keyof TableTypes]: Datastore<TableTypes[K]> };
 
 const dbPath = (name: string) => path.join(root, 'files/database', `${name}.db`);
 
-const store: Store = {
+export const store: Store = {
   days: new Datastore<DayDocument>({ filename: dbPath('days'), autoload: true }),
   papers: new Datastore<PaperDocument>({ filename: dbPath('papers'), autoload: true }),
   config: new Datastore<{ lastRun: string }>({ filename: dbPath('config'), autoload: true }),

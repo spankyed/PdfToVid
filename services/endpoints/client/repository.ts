@@ -1,3 +1,4 @@
+import { PaperDocument } from '../database/schema';
 import { database } from '../shared/integrations';
 
 // type PaperList = {
@@ -62,7 +63,7 @@ function storePaper(papers: PaperDocument): Promise<any> {
 function storeDay(day: string): Promise<any> {
   return database.create({
     table: 'days',
-    record: { value: day, hasBeenScraped: false }
+    record: { value: day, status: 'pending' }
   });
 }
 
@@ -75,4 +76,5 @@ async function fetchDashboard(): Promise<any> {
 
 export default {
   fetchDashboard,
+  storeDay
 }

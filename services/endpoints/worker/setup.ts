@@ -14,6 +14,10 @@ function getWeekdaysBetween(startDate: string, endDate: string): string[] {
   return days;
 }
 
+export default {
+  getWeekdaysBetween,
+}
+
 // async function initializeServer(): Promise<void> {
 //   const lastRun = await getLastRunDay();
 //   const today = new Date().toISOString().split('T')[0];
