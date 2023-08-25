@@ -7,8 +7,8 @@ import { Navigate, createBrowserRouter } from 'react-router-dom'
 import Dashboard from '../dashboard';
 // import { Outlet, useLocation } from 'react-router-dom'
 import Layout from './layout';
-import Day from '~/day/day';
-import Entry from '~/entry/entry';
+import Day from '~/day';
+import Entry from '~/entry';
 
 const routes = [{
     path: '/',

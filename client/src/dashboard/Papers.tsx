@@ -5,6 +5,8 @@ import { StoreContext } from '../index';
 import { Paper, StoreType } from '../shared/store';
 import { observer } from 'mobx-react-lite';
 import Thumbnail from '~/shared/components/Thumbnail';
+import EmptyState from '~/shared/components/Empty';
+import Scraping from '~/shared/components/Scraping';
 
 const Papers: React.FC = observer(() => {
   const store = useContext<StoreType>(StoreContext);
@@ -76,28 +78,10 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
   )
 }
 
-function EmptyState({ day }: { day: string }): React.ReactElement {
-  const store = useContext<StoreType>(StoreContext);
-  const { scrapePapers } = store.dashboard;
-
-  const scrape = () => {
-    console.log('scrapePapers');
-    scrapePapers(day);
-  }
-
+function Empty({ day }: { day: string }): React.ReactElement {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3} margin={3}>
-      <Typography variant="h3">No Papers Scraped</Typography>
-      <Box display="flex" gap={2}>
-        <Button variant="contained" color="primary" disabled>Full auto</Button>
-        <Button variant="contained" color="secondary" disabled>Scrape & generate</Button>
-        <Button 
-          variant="outlined"
-          onClick={scrape}
-        >
-          Scrape
-        </Button>
-      </Box>
+      <EmptyState day={day}/>
     </Box>
   );
 }
