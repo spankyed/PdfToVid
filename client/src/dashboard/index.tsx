@@ -5,6 +5,7 @@ import Search from './Search';
 import { Box, Button, ButtonGroup } from '@mui/material';
 import { StoreContext } from '../index';
 import { StoreType } from '../shared/store';
+import './index.css';
 
 type PanelType = 'dates' | 'search';
 
