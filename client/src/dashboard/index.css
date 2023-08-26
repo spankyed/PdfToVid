@@ -48,13 +48,13 @@
   transition: none !important;
 }
 
-.carousel-wrapper img {
+.carousel-wrapper .thumb-img {
   width: var(--img-width);
   height: var(--img-height);
   object-fit: cover;
   margin: 0 var(--img-margin);
 }
 
-.carousel-wrapper img:not(:last-child) {
+.carousel-wrapper .thumb-img:not(:last-child) {
   margin-right: var(--img-margin);
 }

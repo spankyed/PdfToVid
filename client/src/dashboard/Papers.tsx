@@ -28,6 +28,9 @@ const Papers: React.FC = observer(() => {
   }
   
   const onDayClick = day => (e) => {
+    const is = tag => e.target.tagName === tag;
+    const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
+    if (ignore) return;
     navigate(`/day/${day}`);
   }
 
@@ -47,9 +50,9 @@ const Papers: React.FC = observer(() => {
             backgroundColor: selectedDay === day ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
             cursor: 'pointer',
           }}
-          // onClick={onDayClick(day)}
+          onClick={onDayClick(day)}
         >
-          <Typography variant="h5" style={{ textDecoration: 'none', marginBottom: 4 }} >
+          <Typography variant="h5" style={{ textDecoration: 'none', marginBottom: 4, marginTop: '.5em' }} >
             {reformatDate(day)}
           </Typography>
           {
@@ -65,32 +68,6 @@ const Papers: React.FC = observer(() => {
   );
 })
 
-function PapersList2({ papers }: { papers: Paper[] }): React.ReactElement {
-  return (
-    <>
-      <ImageList cols={[...papers].splice(1).length} sx={{ padding: 3 }}>
-        {[...papers].splice(1).map(paper => (
-          <ImageListItem sx={{ margin: 2 }} key={paper.id}>
-            <Thumbnail paper={paper} />
-          </ImageListItem>
-        ))}
-      </ImageList>
-
-    </>
-  )
-}
-const totalImages = 13;
-const imagesPerPage = 4;
-const margin = 1; // in em, 1em = 16px
-
-const images = Array.from({ length: totalImages }).map((_, index) => ({
-  id: index,
-  src: `https://via.placeholder.com/250x300?text=Image+${index + 1}`,
-  alt: `Image ${index + 1}`,
-}));
-
-const emPxUnit = parseInt(getComputedStyle(document.documentElement).fontSize);
-
 function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);
   const [previousPage, setPreviousPage] = useState(2);
@@ -100,8 +77,13 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
     setCurrentPage(value);
   };
 
+  const emPxUnit = parseInt(getComputedStyle(document.documentElement).fontSize);
+  const totalImages = papers.length;
+  const imagesPerPage = 4;
+  const margin = 1; // in em, 1em = 16px
+
   return (
-    <div className="wrapper">
+    <div className="wrapper" style={{ margin: '1em' }}>
       <div className="carousel-container">
         <div
           className="carousel-wrapper"
@@ -113,19 +95,16 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
           }}
         >
           {
-            images.map((image, index) => {
+            papers.map((paper, index) => {
               const isCurrentPage = index >= (currentPage - 1) * imagesPerPage && index < currentPage * imagesPerPage;
               const isPreviousPage = index >= (previousPage - 1) * imagesPerPage && index < previousPage * imagesPerPage;
               
               const isOffscreen = !isCurrentPage && !isPreviousPage;
 
               return (
-              <img
-                key={index}
-                src={`https://via.placeholder.com/320x180?text=Image+${index + 1}`}
-                alt={`Image ${index + 1}`}
-                className={isOffscreen ? 'offscreen-image' : ''}
-              />
+                <div className={isOffscreen ? 'offscreen-image' : ''}>
+                  <Thumbnail paper={paper} />
+                </div>
               )
             })
           }
@@ -133,7 +112,6 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
         <div className="pagination-wrapper">
           <Pagination
             count={Math.ceil(totalImages / imagesPerPage)}
-            variant="outlined"
             shape="rounded"
             color="primary"
             page={currentPage}
