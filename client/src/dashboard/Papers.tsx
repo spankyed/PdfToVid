@@ -135,6 +135,7 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
             count={Math.ceil(totalImages / imagesPerPage)}
             variant="outlined"
             shape="rounded"
+            color="primary"
             page={currentPage}
             onChange={handlePageChange}
           />
