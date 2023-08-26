@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Box, Typography, ImageList, ImageListItem, Button } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { Box, Typography, ImageList, ImageListItem, Button, Pagination } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../index';
 import { Paper, StoreType } from '../shared/store';
@@ -47,7 +47,7 @@ const Papers: React.FC = observer(() => {
             backgroundColor: selectedDay === day ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
             cursor: 'pointer',
           }}
-          onClick={onDayClick(day)}
+          // onClick={onDayClick(day)}
         >
           <Typography variant="h5" style={{ textDecoration: 'none', marginBottom: 4 }} >
             {reformatDate(day)}
@@ -63,12 +63,12 @@ const Papers: React.FC = observer(() => {
   );
 })
 
-function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
+function PapersList2({ papers }: { papers: Paper[] }): React.ReactElement {
   return (
     <>
-      <ImageList cols={papers.length} sx={{ padding: 3 }}>
-        {papers.map(paper => (
-          <ImageListItem sx={{ margin: .2 }} key={paper.id}>
+      <ImageList cols={[...papers].splice(1).length} sx={{ padding: 3 }}>
+        {[...papers].splice(1).map(paper => (
+          <ImageListItem sx={{ margin: 2 }} key={paper.id}>
             <Thumbnail paper={paper} />
           </ImageListItem>
         ))}
@@ -76,6 +76,42 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
 
     </>
   )
+}
+function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalImages = 22;
+  const imagesPerPage = 4;
+
+  const images = Array.from({ length: totalImages }).map((_, index) => (
+    <img
+      key={index}
+      src={`https://via.placeholder.com/250x300?text=Image+${index + 1}`}
+      alt={`Image ${index + 1}`}
+    />
+  ));
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  return (
+    <div className="carousel-container">
+      <div
+        className="carousel-wrapper"
+        style={{ transform: `translateX(-${(currentPage - 1) * 100}%)` }}
+      >
+        {images}
+      </div>
+      <Pagination
+        count={Math.ceil(totalImages / imagesPerPage)}
+        variant="outlined"
+        shape="rounded"
+        page={currentPage}
+        onChange={handlePageChange}
+      />
+    </div>
+  ); 
 }
 
 function Empty({ day }: { day: string }): React.ReactElement {
