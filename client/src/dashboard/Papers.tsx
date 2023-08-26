@@ -79,62 +79,68 @@ function PapersList2({ papers }: { papers: Paper[] }): React.ReactElement {
     </>
   )
 }
-const totalImages = 22;
+const totalImages = 13;
 const imagesPerPage = 4;
+const margin = 1; // in em, 1em = 16px
 
 const images = Array.from({ length: totalImages }).map((_, index) => ({
   id: index,
   src: `https://via.placeholder.com/250x300?text=Image+${index + 1}`,
   alt: `Image ${index + 1}`,
 }));
+
+const emPxUnit = parseInt(getComputedStyle(document.documentElement).fontSize);
+
 function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);
-  const [previousPage, setPreviousPage] = useState(1);
+  const [previousPage, setPreviousPage] = useState(2);
 
   const handlePageChange = (event, value) => {
     setPreviousPage(currentPage);
     setCurrentPage(value);
   };
 
-  // page 1 : 0 - 3
-  // page 2 : 4 - 7
-  // page 3 : 8 - 11
-  // const startImage = (currentPage - 1) * imagesPerPage;
-  // const endImage = startImage + (imagesPerPage * 2);
-  // const visibleImages = images.slice(startImage, endImage);
-  // console.log('startImage, endImage: ', {startImage, endImage, visibleImages});
-
   return (
-    <div className="carousel-container">
-      <div
-        className="carousel-wrapper"
-        style={{ transform: `translateX(-${(currentPage - 1) * 100}%)` }}
-      >
-        {
-          images.map((image, index) => {
-            const isCurrentPage = index >= (currentPage - 1) * imagesPerPage && index < currentPage * imagesPerPage;
-            const isPreviousPage = index >= (previousPage - 1) * imagesPerPage && index < previousPage * imagesPerPage;
-            
-            const isOffscreen = !isCurrentPage && !isPreviousPage;
+    <div className="wrapper">
+      <div className="carousel-container">
+        <div
+          className="carousel-wrapper"
+          style={{ 
+            transform: `translateX(-${
+              (currentPage - 1) * 
+              (imagesPerPage * (320 + (emPxUnit * margin * 2)) )
+            }px)` 
+          }}
+        >
+          {
+            images.map((image, index) => {
+              const isCurrentPage = index >= (currentPage - 1) * imagesPerPage && index < currentPage * imagesPerPage;
+              const isPreviousPage = index >= (previousPage - 1) * imagesPerPage && index < previousPage * imagesPerPage;
+              
+              const isOffscreen = !isCurrentPage && !isPreviousPage;
 
-            return (
-            <img
-              key={index}
-              src={`https://via.placeholder.com/250x300?text=Image+${index + 1}`}
-              alt={`Image ${index + 1}`}
-              className={isOffscreen ? 'offscreen-image' : ''}
-            />
-            )
-          })
-        }
+              return (
+              <img
+                key={index}
+                src={`https://via.placeholder.com/320x180?text=Image+${index + 1}`}
+                alt={`Image ${index + 1}`}
+                className={isOffscreen ? 'offscreen-image' : ''}
+              />
+              )
+            })
+          }
+        </div>
+        <div className="pagination-wrapper">
+          <Pagination
+            count={Math.ceil(totalImages / imagesPerPage)}
+            variant="outlined"
+            shape="rounded"
+            page={currentPage}
+            onChange={handlePageChange}
+          />
+        </div>
+
       </div>
-      <Pagination
-        count={Math.ceil(totalImages / imagesPerPage)}
-        variant="outlined"
-        shape="rounded"
-        page={currentPage}
-        onChange={handlePageChange}
-      />
     </div>
   ); 
 }
