@@ -17,13 +17,11 @@
   transition: all 0.3s ease;
 }
 
-
-/* .carousel-wrapper img {
-  min-width: 25%; 
-  height: 300px;
-  object-fit: cover;
-  margin: 0 3em;
-} */
+.offscreen-image {
+  visibility: hidden;
+  pointer-events: none;
+  transition: none !important;
+}
 
 .carousel-wrapper img {
   width: calc((100% - 24em) / 4);
@@ -34,6 +32,7 @@
 .carousel-wrapper img:not(:last-child) {
   margin-right: 3em;
 }
+
 #root {
   /* max-width: 1280px;
   margin: 0 auto;
