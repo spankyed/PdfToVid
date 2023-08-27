@@ -91,7 +91,9 @@ const Dashboard = types.model("Dashboard", {
 
     try {
       yield api.scrapeDay(date);
+      yield new Promise(resolve => setTimeout(resolve, 4000));
       const status = yield api.checkStatus('days', date);
+
       if (status && status.current) {
         dayPapers.day.status = status.current;
         console.log('status.data: ', status.data);

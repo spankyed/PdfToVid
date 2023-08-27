@@ -1,4 +1,4 @@
-type Status = { current: string; updated: boolean; data: any };
+type Status = { current: string; updated?: boolean; data?: any };
 type StatusMap = { [key: string]: Status };
 type Type = 'days' | 'papers';
 
@@ -7,21 +7,23 @@ const statuses = {
   papers: {} as StatusMap
 }
 
-export function setStatus(type: Type, key: string, status: string) {
+export function setStatus(type: Type, ev: { key: string; status: string; }) {
+  const { key, status } = ev;
   if (statuses[type][key]) {
     return false;
   }
 
-  statuses[type][key].current = status;
+  statuses[type][key] = { current: status };
 
   return true;
 }
 
-export function updateStatus(type: Type, key: string, status: string) {
+export function updateStatus(type: Type, { key, status, data }: { key: string; status: string; data: any }) {
   if (!statuses[type][key]) {
     return false;
   }
   statuses[type][key].current = status;
+  statuses[type][key].data = data;
   statuses[type][key].updated = true;
   
   return true;

@@ -17,14 +17,14 @@ export const checkStatus = async (type, key) => {
       throw new Error("Failed to get status update after multiple retries.");
     }
 
-    const response = await axios.post(apiUrl + 'check-status', { type, key });
-    // console.log('response: ', response);
-    if (response.data && response.data.current && response.data.updated) {
-      return response.data;
+    const { data } = await axios.post(apiUrl + 'check-status/' + type, { key });
+    console.log('response: ', data);
+    if (data?.status && data.status.current && data.status.updated) {
+      return data.status;
     } else {
       const newDelay = delayTime(delay, elapsedTime);
       await new Promise(resolve => setTimeout(resolve, newDelay));
-      // console.log('status:new:delay: ', newDelay);
+      console.log('status:new:delay: ', newDelay);
       return makeRequest(newDelay, elapsedTime + newDelay);
     }
   };
@@ -34,8 +34,4 @@ export const checkStatus = async (type, key) => {
 
 export const getDashboardData = () => axios.get(apiUrl + 'dashboard');
 
-export const scrapeDay = (date) => axios({
-  method: 'post',
-  url: apiUrl + 'scrape',
-  data: { date },
-});
+export const scrapeDay = (date) => axios.post(apiUrl + 'scrape/' + date);

@@ -2,21 +2,22 @@ import type Hapi from '@hapi/hapi';
 import createServer, { Routes } from '../shared/server';
 import { getStatus, setStatus, updateStatus } from './functions';
 import { ports } from '../shared/constants';
-import mocks from '../../../tests/mocks';
 
 const serverConfig: Hapi.ServerOptions | undefined = { port: ports.status };
 
 const routes: Routes = [
   {
     method: 'POST',
-    path: '/check',
+    path: '/check/{type}',
     handler: async (request, h) => {
-      const { type, key } = request.payload;
-      console.log('{ type, key }: ', { type, key });
+      const type = request.params.type;
+      const key = request.payload.key;
 
-      return { current: 'complete', updated: true, data: mocks.paperList[0].papers };
+      // return { current: 'scraping'}
+      // return { current: 'scraping', updated: true }
 
       const status = getStatus(type, key);
+      console.log('real status: ', status);
 
       if (status) {
         return h.response({ status }).code(200);
@@ -27,12 +28,12 @@ const routes: Routes = [
   },
   {
     method: 'POST',
-    path: '/set',
+    path: '/set/{type}',
     handler: async (request, h) => {
-      const { type, key, status } = request.payload;
+      const type = request.params.type;
 
-      if (setStatus(type, key, status)) {
-        return h.response({ status }).code(200);
+      if (setStatus(type, request.payload)) {
+        return h.response({ status: request.payload.status }).code(200);
       } else {
         return h.response({ error: 'Unable to set status' }).code(400);
       }
@@ -40,12 +41,12 @@ const routes: Routes = [
   },
   {
     method: 'POST',
-    path: '/update',
+    path: '/update/{type}',
     handler: async (request, h) => {
-      const { type, key, status } = request.payload;
+      const type = request.params.type;
 
-      if (updateStatus(type, key, status)) {
-        return h.response({ status }).code(200);
+      if (updateStatus(type, request.payload)) {
+        return h.response({ status: request.payload.status }).code(200);
       } else {
         return h.response({ error: 'Unable to update status' }).code(400);
       }
@@ -54,7 +55,7 @@ const routes: Routes = [
 ];
 
 (async function start () {
-  // todo retrieve and sync statuses
+  // todo retrieve and sync active statuses
   const server = createServer(serverConfig, routes);
 
   try {

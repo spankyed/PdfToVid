@@ -1,57 +1,65 @@
 // https://blog.theodo.com/2022/07/simplify-your-applications-with-xstate/
 // https://www.youtube.com/watch?v=qqyQGEjWSAw
-const { Machine, actions } = require('xstate');
-const { assign } = actions;
+
+import { assign, createMachine } from 'xstate';
+import mocks from '../../../tests/mocks';
 
 const scrapeArxiv = async (context, event) => {
-  // Implement the scraping logic here
   // For now, let's return a mock list of papers
-  return [
-    { title: "Paper 1", content: "Abstract 1" },
-    { title: "Paper 2", content: "Abstract 2" },
-  ];
+  return mocks.paperList[0].papers;
 };
 
 const rankPapers = async (papers) => {
-  // Implement the ranking logic here
   // For now, let's return the papers as they are
-  return papers;
+  return mocks.paperList[0].papers;
 };
 
-const arxivMachine = Machine({
-  id: 'arxiv',
-  initial: 'pending',
+
+interface ScrapeContext {
+  date: string;
+  papers?: [];
+}
+
+export const scrapeMachine = createMachine({
+  id: 'arxiv_scraper',
+  initial: 'scraping',
+  schema: {
+    context: {} as ScrapeContext
+  },
   context: {
+    date: '',
     papers: []
   },
   states: {
-    pending: {
-      on: {
-        SCRAPE: 'scraping'
-      }
-    },
     scraping: {
       invoke: {
         src: scrapeArxiv,
         onDone: {
           target: 'ranking',
-          actions: assign({ papers: (_, event) => event.data })
+          actions: assign({ papers: (_, event) => {
+            console.log('ranking: ', event);
+            return event.data;
+          }})
         },
-        onError: 'pending'
+        onError: 'cancelled'
       }
     },
     ranking: {
       invoke: {
         src: (context) => rankPapers(context.papers),
         onDone: {
-          target: 'completed',
-          actions: assign({ papers: (_, event) => event.data })
+          target: 'complete',
+          actions: assign({ papers: (_, event) => {
+            console.log('ranking: ', event);
+            return event.data;
+          }})
         },
-        onError: 'pending'
+        onError: 'cancelled'
       }
     },
-    completed: {
-      type: 'final'
+    complete: {
+      type: 'final',
+      data: (context) => context.papers
     },
     cancelled: {
       type: 'final'

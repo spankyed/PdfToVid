@@ -2,8 +2,9 @@ import type Hapi from '@hapi/hapi';
 import { groupDaysByMonth, mapPapersToDays } from './functions';
 import createServer from '../shared/server';
 import repository from './repository';
-import { worker, status } from './integrations';
+import { worker } from './integrations';
 import { WebPath, ports } from '../shared/constants';
+import { status } from '../shared/integrations';
 import mocks from '../../../tests/mocks';
 
 const { paperList } = mocks;
@@ -39,12 +40,11 @@ const routes = [
   },
   {
     method: 'POST',
-    path: '/scrape',
+    path: '/scrape/{date}',
     handler: async (request, h) => {
-      console.log('scrape req ', request.payload);
-      // console.log('request.params.payload: ', request.data);
-      // const workerResponse = await worker.scrape({ date: request.params.payload });
-      return { status: 'scraping' };
+      const date = request.params.date;
+      const workerResponse = await worker.scrape({ date });
+      console.log('workerResponse: ', workerResponse);
 
       if (!workerResponse){
         return { error: 'Problem scraping papers' }
@@ -55,18 +55,17 @@ const routes = [
   },
   {
     method: 'POST',
-    path: '/check-status',
+    path: '/check-status/{type}',
     handler: async (request, h) => {
-      // console.log('request ', request);
-      console.log('status req ', request.payload);
-      const workerResponse = await status.check(request.payload);
-      console.log('workerResponse: ', workerResponse);
+      const type = request.params.type;
+      const statusResponse = await status.check(type, request.payload);
+      console.log('status response: ', statusResponse);
 
-      if (!workerResponse){
-        return { error: 'Problem scraping papers' }
+      if (!statusResponse){
+        return { error: 'Problem checking status' }
       }
 
-      return workerResponse;
+      return statusResponse;
     }
   }
 ];
