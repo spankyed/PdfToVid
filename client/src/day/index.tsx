@@ -22,7 +22,7 @@ const Day: React.FC<{}> = observer(() => {
 
   const componentsByState = {
     'pending': <Empty day={dayId}/>,
-    'scraping': <Scraping />,
+    'scraping': <div style={{paddingTop: '5em'}}><Scraping /></div>,
     'complete': <PageTabs papers={papers} />,
   }
 

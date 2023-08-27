@@ -111,7 +111,7 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
               const isOffscreen = !isCurrentPage && !isPreviousPage;
 
               return (
-                <div className={isOffscreen ? 'offscreen-image' : ''}>
+                <div className={isOffscreen ? 'offscreen-image' : ''} key={paper.id}>
                   <Thumbnail paper={paper} />
                 </div>
               )
