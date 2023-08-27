@@ -3,37 +3,39 @@ import axios from 'axios';
 
 // export type Paper = Instance<typeof Paper>;
 
-function getDashboardData() {
-  return axios.get('http://localhost:3000/dashboard')
-}
+const apiUrl = 'http://localhost:3000/';
 
-function scrapeDay() {
-  return axios.get('http://localhost:3000/scrape')
-}
 
-async function checkStatus(callback) {
-  let totalElapsedTime = 0;
-  let delay = 8000; // start with 8 seconds
+export const checkStatus = async (type, key) => {
+  const delayTime = (initial, elapsedTime) => {
+    const nextDelay = Math.min(initial / 2, 10000 - elapsedTime);
+    return Math.max(nextDelay, 20); // Ensure delay is never less than 20ms
+  };
 
-  while (totalElapsedTime < 10000) { // while total elapsed time is less than 10 seconds
-    try {
-      const response = await axios.get('http://localhost:3000/status-check');
-      callback(response);
-      return response;
-    } catch (error) {
-      if (totalElapsedTime + delay > 10000) {
-        delay = 10000 - totalElapsedTime; // adjust delay to not exceed 10 seconds in total
-      }
-      totalElapsedTime += delay;
-      await new Promise(resolve => setTimeout(resolve, delay));
-      delay /= 2; // halve the delay for exponential decrease
+  const makeRequest = async (delay, elapsedTime = 0) => {
+    if (elapsedTime >= 10000) {
+      throw new Error("Failed to get status update after multiple retries.");
     }
-  }
 
-  throw new Error("Failed to get status after multiple retries.");
-}
+    const response = await axios.post(apiUrl + 'check-status', { type, key });
+    // console.log('response: ', response);
+    if (response.data && response.data.current && response.data.updated) {
+      return response.data;
+    } else {
+      const newDelay = delayTime(delay, elapsedTime);
+      await new Promise(resolve => setTimeout(resolve, newDelay));
+      // console.log('status:new:delay: ', newDelay);
+      return makeRequest(newDelay, elapsedTime + newDelay);
+    }
+  };
 
-export default {
-  getDashboardData,
-  checkStatus
-}
+  return makeRequest(8000);
+};
+
+export const getDashboardData = () => axios.get(apiUrl + 'dashboard');
+
+export const scrapeDay = (date) => axios({
+  method: 'post',
+  url: apiUrl + 'scrape',
+  data: { date },
+});

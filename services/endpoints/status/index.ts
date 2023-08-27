@@ -2,6 +2,7 @@ import type Hapi from '@hapi/hapi';
 import createServer, { Routes } from '../shared/server';
 import { getStatus, setStatus, updateStatus } from './functions';
 import { ports } from '../shared/constants';
+import mocks from '../../../tests/mocks';
 
 const serverConfig: Hapi.ServerOptions | undefined = { port: ports.status };
 
@@ -11,6 +12,9 @@ const routes: Routes = [
     path: '/check',
     handler: async (request, h) => {
       const { type, key } = request.payload;
+      console.log('{ type, key }: ', { type, key });
+
+      return { current: 'complete', updated: true, data: mocks.paperList[0].papers };
 
       const status = getStatus(type, key);
 

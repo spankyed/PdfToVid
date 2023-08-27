@@ -41,8 +41,10 @@ const routes = [
     method: 'POST',
     path: '/scrape',
     handler: async (request, h) => {
-      console.log('request.params.payload: ', request.params.payload);
-      const workerResponse = await worker.scrape({ date: request.params.payload });
+      console.log('scrape req ', request.payload);
+      // console.log('request.params.payload: ', request.data);
+      // const workerResponse = await worker.scrape({ date: request.params.payload });
+      return { status: 'scraping' };
 
       if (!workerResponse){
         return { error: 'Problem scraping papers' }
@@ -55,8 +57,10 @@ const routes = [
     method: 'POST',
     path: '/check-status',
     handler: async (request, h) => {
-      console.log('request.params.payload: ', request.params.payload);
-      const workerResponse = await status.check({ date: request.params.payload });
+      // console.log('request ', request);
+      console.log('status req ', request.payload);
+      const workerResponse = await status.check(request.payload);
+      console.log('workerResponse: ', workerResponse);
 
       if (!workerResponse){
         return { error: 'Problem scraping papers' }

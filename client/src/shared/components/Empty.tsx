@@ -9,10 +9,9 @@ function EmptyState({ day }: { day: string }): React.ReactElement {
   const { scrapePapers, setDayStatus } = store.dashboard;
 
   const scrape = () => {
-    console.log('scrapePapers', day);
 
-    setDayStatus(day, 'scraping');
-    // scrapePapers(day);
+    // setDayStatus(day, 'scraping');
+    scrapePapers(day);
   }
 
   return (

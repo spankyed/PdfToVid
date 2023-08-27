@@ -1,4 +1,4 @@
-type Status = { current: string; updated: boolean };
+type Status = { current: string; updated: boolean; data: any };
 type StatusMap = { [key: string]: Status };
 type Type = 'days' | 'papers';
 
@@ -27,18 +27,18 @@ export function updateStatus(type: Type, key: string, status: string) {
   return true;
 }
 
-export function getStatus(type: Type, key: string) {
+export function getStatus(type: Type, key: string, deleteOnUpdate = true) {
   const status = statuses[type][key];
 
   if (!status) {
     return null;
   }
 
-  const { current, updated } = status;
+  const { current, updated, data } = status;
 
-  if (status.updated) {
+  if (status.updated && deleteOnUpdate) {
     delete statuses[type][key];
   }
     
-  return { current, updated };
+  return { current, updated, data };
 }

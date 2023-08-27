@@ -11,5 +11,5 @@ export const worker = {
 }
 
 export const status = {
-  check: (params: any) => statusService.post('check-status', params),
+  check: (params: any) => statusService.post('check', params),
 }

@@ -2,7 +2,7 @@
 // https://github.com/mobxjs/mobx-state-tree/issues/1415
 // https://egghead.io/lessons/react-defining-asynchronous-processes-using-flow
 import { types, Instance, flow } from "mobx-state-tree";
-import api from "./api";
+import * as api from "./api";
 
 export type Paper = Instance<typeof Paper>;
 
@@ -69,53 +69,39 @@ const Dashboard = types.model("Dashboard", {
 }).actions(self => ({
   fetchDashboard: flow(function* fetchDashboard() {
     try {
-      // self.state = 'loading';
       const response = yield api.getDashboardData();
       const { dateList, paperList } = response.data;
-      console.log('dashboard data: ', { dateList, paperList });
       self.papersList = paperList;
       self.datesList = dateList;
       self.selectedDay = dateList[0]?.days[0]?.value ?? '';
       self.openMonth = dateList[0]?.month ?? '';
       self.state = 'selected';
-
     } catch (error) {
       console.error("Failed to fetch dashboard", error);
     }
   }),
-  scrapePapers: flow(function* (date: string) {
+  scrapePapers: flow(function* (date) {
+    console.log('scrape papers', date);
+    const dayPapers = self.papersList.find(({ day }) => day.value === date);
+    if (!dayPapers) {  
+      console.error("Day not found", date);
+      return 
+    }
+    dayPapers.day.status = 'scraping';
+
     try {
-      // const response = yield axios.get('http://localhost:3000/scrape/' + date);
-      // console.log('response: ', response);
-      // ... handle the response ...
+      yield api.scrapeDay(date);
+      const status = yield api.checkStatus('days', date);
+      if (status && status.current) {
+        dayPapers.day.status = status.current;
+        console.log('status.data: ', status.data);
+        dayPapers.papers = status.data;
+      }
     } catch (error) {
       console.error("Failed to scrape papers", error);
+      // dayPapers.day.status = 'error';
     }
   }),
-  // fetchPapers: flow(function* fetchPapers(date: string) {
-  //   try {
-  //     const response = yield axios.get('http://localhost:3000/papersByDate/' + date);
-  //     response.data.forEach((paper: Instance<typeof Paper>) => {
-  //       self.papersForDay.push(paper);
-  //     });
-  //   } catch (error) {
-  //     console.error("Failed to fetch papers", error);
-  //   }
-  // }),
-  setDayStatus(dayId: string, status: Instance<typeof Day>['status']) {
-    const dayPapers = self.papersList.find(({ day }) => day.value === dayId);
-    if (dayPapers) {
-      console.log('dayPapers: ', dayPapers.day.status, status);
-      dayPapers.day.status = status;
-    }
-  },
-  // setPaperStatus(dayId: string, paperId: string, status: number) {
-  //   const day = self.papersList.find(({day}) => day === dayId);
-  //   const paper = day?.papers.find(paper => paper.id === paperId);
-  //   if (paper) {
-  //     paper.metaData.status = status;
-  //   }
-  // },
   setState(state: string) {
     self.state = state;
   },
