@@ -1,44 +1,7 @@
 import Hapi from '@hapi/hapi';
 import { ports } from '../shared/constants';
 import createServer from '../shared/server';
-import { interpret } from 'xstate';
-import { scrapeMachine } from './machine';
-import { status } from '../shared/integrations';
-
-const dispatcher = {
-  scrape: async ({ date }) => {
-    console.log('Scraping papers...');
-    await status.set('days', { key: date, status: 'scraping' });
-
-    const machine = scrapeMachine.withContext({ date: date, papers: [] });
-    const scrapeService = interpret(machine)
-      // .onTransition(state => console.log('state: ', state.value))
-      .onDone(async (doneEv) => {
-        console.log('done!', {doneEv})
-        await new Promise(resolve => setTimeout(resolve, 4000));
-        await status.update('days', { key: date, status: 'complete', data: doneEv.data });
-        // update papers in DB
-        // update status to complete
-      })
-
-    scrapeService.start();
-    // ! after scraping papers, we need to send to DB & status service
-
-    return { message: 'Scraping started!' };
-  },
-  generateMetadata: async (data) => {
-    console.log('Generating metadata...');
-    return { message: 'Metadata generation started' };
-  },
-  generateVideoData: async (data) => {
-    console.log('Generating video data...');
-    return { message: 'Video data generation started' };
-  },
-  uploadToYouTube: async (data) => {
-    console.log('Uploading to YouTube...');
-    return { message: 'Video uploaded to YouTube started' };
-  }
-};
+import dispatcher from './service/dispatcher';
 
 const serverConfig: Hapi.ServerOptions | undefined = { port: ports.worker };
 
@@ -88,11 +51,3 @@ process.on('unhandledRejection', (err) => {
   console.log(err);
   process.exit(1);
 });
-
-// const PaperState = t.keyof({
-//   DISCARDED: null,
-//   SCRAPED: null,
-//   GENERATED: null,
-//   UNFINALIZED: null,
-//   UPLOADED: null,
-// });

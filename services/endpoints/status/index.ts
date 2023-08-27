@@ -17,7 +17,6 @@ const routes: Routes = [
       // return { current: 'scraping', updated: true }
 
       const status = getStatus(type, key);
-      console.log('real status: ', status);
 
       if (status) {
         return h.response({ status }).code(200);

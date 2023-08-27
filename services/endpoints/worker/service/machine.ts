@@ -2,7 +2,7 @@
 // https://www.youtube.com/watch?v=qqyQGEjWSAw
 
 import { assign, createMachine } from 'xstate';
-import mocks from '../../../tests/mocks';
+import mocks from '../../../../tests/mocks';
 
 const scrapeArxiv = async (context, event) => {
   // For now, let's return a mock list of papers

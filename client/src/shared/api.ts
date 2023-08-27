@@ -18,13 +18,13 @@ export const checkStatus = async (type, key) => {
     }
 
     const { data } = await axios.post(apiUrl + 'check-status/' + type, { key });
-    console.log('response: ', data);
+    // console.log('response: ', data);
     if (data?.status && data.status.current && data.status.updated) {
       return data.status;
     } else {
       const newDelay = delayTime(delay, elapsedTime);
       await new Promise(resolve => setTimeout(resolve, newDelay));
-      console.log('status:new:delay: ', newDelay);
+      // console.log('status:new:delay: ', newDelay);
       return makeRequest(newDelay, elapsedTime + newDelay);
     }
   };

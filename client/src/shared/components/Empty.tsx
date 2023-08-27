@@ -6,11 +6,9 @@ import { StoreType } from '../store';
 
 function EmptyState({ day }: { day: string }): React.ReactElement {
   const store = useContext<StoreType>(StoreContext);
-  const { scrapePapers, setDayStatus } = store.dashboard;
+  const { scrapePapers } = store.dashboard;
 
   const scrape = () => {
-
-    // setDayStatus(day, 'scraping');
     scrapePapers(day);
   }
 
