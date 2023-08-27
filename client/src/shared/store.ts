@@ -2,7 +2,7 @@
 // https://github.com/mobxjs/mobx-state-tree/issues/1415
 // https://egghead.io/lessons/react-defining-asynchronous-processes-using-flow
 import { types, Instance, flow } from "mobx-state-tree";
-import axios from 'axios';
+import api from "./api";
 
 export type Paper = Instance<typeof Paper>;
 
@@ -55,7 +55,7 @@ const DatesList = types.model({
 });
 
 const PapersList = types.model({
-  day: types.string,
+  day: Day,
   papers: types.array(Paper),
 });
 
@@ -70,7 +70,7 @@ const Dashboard = types.model("Dashboard", {
   fetchDashboard: flow(function* fetchDashboard() {
     try {
       // self.state = 'loading';
-      const response = yield axios.get('http://localhost:3000/dashboard');
+      const response = yield api.getDashboardData();
       const { dateList, paperList } = response.data;
       console.log('dashboard data: ', { dateList, paperList });
       self.papersList = paperList;
@@ -83,15 +83,15 @@ const Dashboard = types.model("Dashboard", {
       console.error("Failed to fetch dashboard", error);
     }
   }),
-  // scrapePapers: flow(function* (date: string) {
-  //   try {
-  //     const response = yield axios.get('http://localhost:3000/scrape/' + date);
-  //     console.log('response: ', response);
-  //     // ... handle the response ...
-  //   } catch (error) {
-  //     console.error("Failed to scrape papers", error);
-  //   }
-  // }),
+  scrapePapers: flow(function* (date: string) {
+    try {
+      // const response = yield axios.get('http://localhost:3000/scrape/' + date);
+      // console.log('response: ', response);
+      // ... handle the response ...
+    } catch (error) {
+      console.error("Failed to scrape papers", error);
+    }
+  }),
   // fetchPapers: flow(function* fetchPapers(date: string) {
   //   try {
   //     const response = yield axios.get('http://localhost:3000/papersByDate/' + date);
@@ -102,6 +102,20 @@ const Dashboard = types.model("Dashboard", {
   //     console.error("Failed to fetch papers", error);
   //   }
   // }),
+  setDayStatus(dayId: string, status: Instance<typeof Day>['status']) {
+    const dayPapers = self.papersList.find(({ day }) => day.value === dayId);
+    if (dayPapers) {
+      console.log('dayPapers: ', dayPapers.day.status, status);
+      dayPapers.day.status = status;
+    }
+  },
+  // setPaperStatus(dayId: string, paperId: string, status: number) {
+  //   const day = self.papersList.find(({day}) => day === dayId);
+  //   const paper = day?.papers.find(paper => paper.id === paperId);
+  //   if (paper) {
+  //     paper.metaData.status = status;
+  //   }
+  // },
   setState(state: string) {
     self.state = state;
   },

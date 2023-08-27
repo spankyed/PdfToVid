@@ -1,8 +1,8 @@
 import type Hapi from '@hapi/hapi';
-import { groupDaysByMonth } from './functions';
+import { groupDaysByMonth, mapPapersToDays } from './functions';
 import createServer from '../shared/server';
 import repository from './repository';
-import { worker } from './integrations';
+import { worker, status } from './integrations';
 import { WebPath, ports } from '../shared/constants';
 import mocks from '../../../tests/mocks';
 
@@ -24,11 +24,12 @@ const routes = [
     path: '/dashboard',
     handler: (request, h) => {
       return new Promise(async (resolve, reject) => {
-        const [allDays, fiveRecentDays] = await repository.fetchDashboard();
-        // ["2021-10-06", "2021-10-07", "2021-10-08"]
+        const [allDays, lastFiveDays] = await repository.fetchDashboard();
+        const papers = await repository.getPapersForDays(lastFiveDays, 0, 7);
+        const paperList = mapPapersToDays(lastFiveDays, papers);
         const dateList = groupDaysByMonth(allDays);
-        // const paperList = await getPapersForDays(fiveRecentDays.map(date => date.value), 0, 7);
-  
+        // ! ensure paperList only includes dates in DB
+        
         // todo current day seems to be off (13th instead of 14th for today)
         const dashboardData = { dateList, paperList }
         
@@ -42,6 +43,20 @@ const routes = [
     handler: async (request, h) => {
       console.log('request.params.payload: ', request.params.payload);
       const workerResponse = await worker.scrape({ date: request.params.payload });
+
+      if (!workerResponse){
+        return { error: 'Problem scraping papers' }
+      }
+
+      return workerResponse;
+    }
+  },
+  {
+    method: 'POST',
+    path: '/check-status',
+    handler: async (request, h) => {
+      console.log('request.params.payload: ', request.params.payload);
+      const workerResponse = await status.check({ date: request.params.payload });
 
       if (!workerResponse){
         return { error: 'Problem scraping papers' }

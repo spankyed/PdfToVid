@@ -18,7 +18,7 @@ const Day: React.FC<{}> = observer(() => {
   // todo current day state and scrape papers for day
   const papers = store.dashboard.papersList[0]?.papers || [];
   // const state = store.dashboard.papersList[0]?.state || 'scraping';
-  const state = 'pending';
+  const state = 'scraping';
 
   const componentsByState = {
     'pending': <Empty day={dayId}/>,

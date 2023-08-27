@@ -1,8 +1,13 @@
-import { DayDocument } from "../database/schema";
+import { DayDocument, PaperDocument } from "../database/schema";
 
 type DayList = {
   month: string;
   days: DayDocument[];
+};
+
+type PaperList = {
+  day: DayDocument;
+  papers: PaperDocument[];
 };
 
 function groupDaysByMonth(days: DayDocument[]): DayList[] {
@@ -29,6 +34,16 @@ function groupDaysByMonth(days: DayDocument[]): DayList[] {
   });
 }
 
+function mapPapersToDays(days: DayDocument[], papers: PaperDocument[]): PaperList[] {
+  const groupedPapers: PaperList[] = days.map(day => ({
+    day,
+    papers: papers.filter(paper => paper.date === day.value),
+  }));
+  
+  return groupedPapers;
+}
+
 export {
   groupDaysByMonth,
+  mapPapersToDays,
 }

@@ -8,7 +8,7 @@ const serverConfig: Hapi.ServerOptions | undefined = { port: ports.status };
 const routes: Routes = [
   {
     method: 'POST',
-    path: '/get',
+    path: '/check',
     handler: async (request, h) => {
       const { type, key } = request.payload;
 

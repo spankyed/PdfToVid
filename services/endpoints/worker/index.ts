@@ -6,6 +6,9 @@ const dispatcher = {
   scrapePapers: async (data) => {
     // For demonstration purposes, we'll just log and return a message.
     console.log('Scraping papers...');
+
+    // ! after scraping papers, we need to send to DB & status service
+
     return { message: 'Papers scraped successfully!' };
   },
   generateMetadata: async (data) => {

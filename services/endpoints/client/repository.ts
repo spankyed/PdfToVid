@@ -15,13 +15,13 @@ function getFiveMostRecentDays(): Promise<any> {
   });
 }
 
-function updateLastRunDay(day: string): Promise<any> {
-  return database.update({
-    table: 'config',
-    query: { lastRun: day },
-    updateQuery: { lastRun: day }
-  });
-}
+// function updateLastRunDay(day: string): Promise<any> {
+//   return database.update({
+//     table: 'config',
+//     query: { lastRun: day },
+//     updateQuery: { lastRun: day }
+//   });
+// }
 
 // async function getPapersForDays(days: string[], skip: number = 0, limit: number = -1): Promise<PaperList[]> {
 function getPapersForDays(days: string[], skip: number = 0, limit: number = -1): Promise<any> {
@@ -32,22 +32,13 @@ function getPapersForDays(days: string[], skip: number = 0, limit: number = -1):
     limit,
     // order: { value: 1 }    
   });
-
-  // const groupedPapers: PaperList[] = days.map(day => ({
-  //   day,
-  //   papers: papers.filter(paper => paper.date === day),
-  // }));
-  
-  // return groupedPapers;
 }
 
 
-// async function getStoredDays(): Promise<DayDocument[]> {
 function getStoredDays(): Promise<any> {
   return database.read({ table: 'days' });
 }
 
-// async function getLastRunDay(): Promise<string | null> {
 function getConfigs(): Promise<any> {
   return database.read({ table: 'config' });
   // return config?.lastRun || null;
@@ -76,5 +67,6 @@ async function fetchDashboard(): Promise<any> {
 
 export default {
   fetchDashboard,
-  storeDay
+  storeDay,
+  getPapersForDays
 }

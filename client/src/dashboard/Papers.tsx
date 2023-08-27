@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box, Typography, ImageList, ImageListItem, Button, Pagination } from '@mui/material';
+import { Box, Typography, Pagination } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../index';
 import { Paper, StoreType } from '../shared/store';
@@ -27,43 +27,52 @@ const Papers: React.FC = observer(() => {
     return `${weekday} ${month} ${day}`;
   }
   
-  const onDayClick = day => (e) => {
+  const onDayClick = day => e => {
     const is = tag => e.target.tagName === tag;
     const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
+
     if (ignore) return;
-    navigate(`/day/${day}`);
+
+    navigate(`/day/${day.value}`);
   }
+
+  // const is = a => b => a === b;
 
   return (
     <>
-      {papersList.map(({ day, papers }) => (
-        <Box 
-          key={day} 
-          onMouseEnter={() => selectDay(day)}
-          sx={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            borderBottom: '1px solid rgba(0, 0, 0, 0.3)',
-            paddingTop: 2,  
-            paddingBottom: 2,
-            backgroundColor: selectedDay === day ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
-            cursor: 'pointer',
-          }}
-          onClick={onDayClick(day)}
-        >
-          <Typography variant="h5" style={{ textDecoration: 'none', marginBottom: 4, marginTop: '.5em' }} >
-            {reformatDate(day)}
-          </Typography>
-          {
-            papers.length === 0 
-            ? <Empty day={day}/> 
-            : papers.length === 0 
-              ? <Scraping />
-              : <PapersList papers={papers} />
-          }
-        </Box>
-      ))}
+      {papersList.map(({ day, papers }) => {
+        const { value, status } = day;
+        const contentByStatus = {
+          pending: <Empty day={value} />,
+          scraping: <Scraping />,
+          complete: <PapersList papers={papers} />,
+        };
+        
+        return (
+          <Box 
+            key={value} 
+            onMouseEnter={() => selectDay(value)}
+            sx={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              borderBottom: '1px solid rgba(0, 0, 0, 0.3)',
+              paddingTop: 2,  
+              paddingBottom: 2,
+              backgroundColor: selectedDay === value ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+              cursor: 'pointer',
+            }}
+            onClick={onDayClick(day)}
+          >
+            <Typography variant="h5" style={{ textDecoration: 'none', marginBottom: 4, marginTop: '.5em' }} >
+              {reformatDate(value)}
+            </Typography>
+            {
+              contentByStatus[status]
+            }
+          </Box>
+        );
+      })}
     </>
   );
 })
