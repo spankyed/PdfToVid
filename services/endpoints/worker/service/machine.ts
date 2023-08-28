@@ -24,13 +24,14 @@ const rankPapers = async (ev, ctx) => {
   const getRelevancy = runPythonScript(path.join(root, 'relevancy-semantic-sbert.py')) 
 
   const papers_with_score = await getRelevancy(ev.papers) 
+  const dataObject = extractAndParseData(papers_with_score);
 
   console.log('Python script finished successfully.');
-  console.log('papers_with_score: ', papers_with_score);
-  // console.log('Data string: ', JSON.parse(data));
+  console.log('papers_with_score: ', {dataObject});
+  // console.log('Data string: ', JSON.parse(dataObject));
   // console.error(error.message);
 
-  return papers_with_score;
+  return dataObject;
   // return mocks.paperList[0].papers;
 };
 
@@ -87,6 +88,21 @@ export const scrapeMachine = createMachine({
   }
 });
 
+function extractAndParseData(dataString: string): any | null {
+  const match = /###BEGIN_DATA###([\s\S]*?)###END_DATA###/.exec(dataString);
+  const extractedData = match && match[1].trim();
+
+  if (extractedData) {
+      try {
+          return JSON.parse(extractedData);
+      } catch (error) {
+          console.error("Failed to parse the extracted data:", error);
+          return null;
+      }
+  } else {
+      return null;
+  }
+}
 
 // type PaperDocument = {
 //   id: string;
