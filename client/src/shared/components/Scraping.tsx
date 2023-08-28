@@ -12,7 +12,7 @@ const Scraping: React.FC = () => {
   // const { checkStatus } = store.dashboard;
   // todo determine and show current progress
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" gap={3} marginTop={4} marginBottom={4}>
+    <Box display="flex" flexDirection="column" alignItems="center" gap={3} marginTop={3} marginBottom={4}>
       <Typography variant="h3">
         Scraping
         <Description fontSize="inherit" sx={{margin: 1, marginBottom: 2}} />

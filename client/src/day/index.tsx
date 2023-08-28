@@ -39,15 +39,15 @@ const PageTitle: React.FC<{ date: string }> = ({ date }) => {
   const formattedDate = useMemo(() => {
     const dateObj = new Date(date);
     const formatted = dateObj.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'long',
+      weekday: 'short',
+      month: 'short',
       day: '2-digit',
       year: 'numeric'
     });
 
-    const [dayName, month, day, year] = formatted.replaceAll(',', '') .split(' ');
-    // return [`${dayName}, ${month} ${day}, ${year}`, dayName];
-    return `${dayName}, ${month} ${day}, ${year}`;
+    const [weekday, month, day, year] = formatted.replaceAll(',', '') .split(' ');
+    // return [`${weekday}, ${month} ${day}, ${year}`, weekday];
+    return `${weekday}, ${day} ${month} ${year}`;
   }, [date]);
 
   return (
