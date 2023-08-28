@@ -1,41 +1,36 @@
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
-import * as path from 'path';
 
-// You can define the path to the Python interpreter and the script in an environment variable or directly in the code
-const pythonInterpreter: string = process.env.PYTHON_INTERPRETER || 'python3';
-const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/';
-const pythonScript: string = process.env.PYTHON_SCRIPT || path.join(root, 'endpoints/worker/functions/fetchTestPy.py'); 
+export function runPythonScript(scriptPath: string): (args: any) => Promise<string> {
+    return (args) => new Promise((resolve, reject) => {
+        // console.log('args: ', args);
+        const python: ChildProcessWithoutNullStreams = spawn(
+            process.env.PYTHON_INTERPRETER || 'python3', 
+            [scriptPath, JSON.stringify(args)]
+        );
 
-// Spawn a child process
-const python: ChildProcessWithoutNullStreams = spawn(pythonInterpreter, [pythonScript]);
+        let dataString = '';
+        let errorString = '';
 
-let dataString: string = '';
-let errorString: string = '';
+        // python.stdout.on('data', (data: Buffer) => dataString += data.toString());
+        // python.stderr.on('data', (data: Buffer) => errorString += data.toString());
+        python.stdout.on('data', (data: Buffer) => {
+            // console.log('Python STDOUT:', data.toString());
+            dataString += data.toString();
+        });
 
-// Listen for data on the stdout stream and append it to dataString
-python.stdout.on('data', (data: Buffer) => {
-  console.log('data: ', data.toJSON());
-    dataString += data.toString();
-});
+        python.stderr.on('data', (data: Buffer) => {
+            console.log('Python STDERR:', data.toString());
+            errorString += data.toString();
+        });
 
-// Listen for data on the stderr stream, which will include any error messages from Python, and append it to errorString
-python.stderr.on('data', (data: Buffer) => {
-    errorString += data.toString();
-});
+        python.on('close', (code: number) => {
+            if (code !== 0) {
+                reject(new Error(`Python script exited with code ${code}: ${errorString}`));
+            } else {
+                resolve(dataString);
+            }
+        });
 
-// When the Python script finishes, check for errors and log the output or errors
-python.on('close', (code: number|null) => {
-    if (code !== 0) {
-        console.error(`Python script exited with code ${code}`);
-        console.error('Error string: ', errorString);
-    } else {
-        console.log('Python script finished successfully.');
-        console.log('dataString: ', dataString);
-        console.log('Data string: ', JSON.parse(dataString));
-    }
-});
-
-// If an error occurs in the child process, log it
-python.on('error', (err: Error) => {
-    console.error('Failed to start Python script.', err);
-});
+        python.on('error', (err: Error) => reject(new Error(`Failed to start Python script: ${err.message}`)));
+    });
+}

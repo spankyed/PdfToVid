@@ -22,21 +22,24 @@ import { status } from '../../shared/integrations';
 export default {
   scrape: async ({ date }) => {
     console.log('Scraping papers...');
-    await status.set('days', { key: date, status: 'scraping' });
+    // const resp = await status.set('days', { key: date, status: 'scraping' });
+    // console.log('resp: ', resp);
 
     const machine = scrapeMachine.withContext({ date: date, papers: [] });
     const scrapeService = interpret(machine)
       // .onTransition(state => console.log('state: ', state.value))
-      .onDone(async (doneEv) => {
-        console.log('done!', {doneEv})
-        await new Promise(resolve => setTimeout(resolve, 4000));
-        await status.update('days', { key: date, status: 'complete', data: doneEv.data });
-        // update papers in DB
+      .onDone(async ({data}) => {
+        // console.log('done!', data)
+
+        // await new Promise(resolve => setTimeout(resolve, 4000));
+
+        // ! after scraping papers, we need to send to DB & status service
         // update status to complete
+        // await status.update('days', { key: date, status: 'complete', data: doneEv.data });
+        // update papers in DB
       })
 
     scrapeService.start();
-    // ! after scraping papers, we need to send to DB & status service
 
     return { message: 'Scraping started!' };
   },

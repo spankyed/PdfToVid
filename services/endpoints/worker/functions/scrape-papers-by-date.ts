@@ -32,8 +32,19 @@ const extractPaperDetails = async (context: BrowserContext, link: string): Promi
   return { id, title, abstract, pdfLink };
 };
 
-export default async function scrapePapersByDate(date: string) {
-  const browser = await chromium.launch({ headless: false });
+export default async function scrapePapersByDate(rawDate: string) {
+  const date = new Date(rawDate);
+  const formatted = date.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric'
+  });
+  const [weekday, month, day, year] = formatted.replaceAll(',', '') .split(' ');
+  const formattedDate = `${weekday}, ${day} ${month} ${year}`;
+  console.log('date: ', {rawDate, formattedDate});
+
+  const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext();
   let paperDetails: Entry[] = [];
 
@@ -43,7 +54,7 @@ export default async function scrapePapersByDate(date: string) {
   await page.waitForLoadState('domcontentloaded');
 
   const dates = await page.$$eval('h3', (nodes: HTMLElement[]) => nodes.map(n => n.textContent || ''));
-  const dateIndex = dates.findIndex(d => d === date);
+  const dateIndex = dates.findIndex(d => d === formattedDate);
 
   if (dateIndex !== -1) {
     const paperLists = await page.$$('dl');
