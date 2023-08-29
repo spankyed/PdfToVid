@@ -1,3 +1,5 @@
+import repository from '../repository';
+
 function getWeekdaysBetween(startDate: string, endDate: string): string[] {
   const start = new Date(startDate);
   const end = new Date(endDate);
@@ -14,28 +16,30 @@ function getWeekdaysBetween(startDate: string, endDate: string): string[] {
   return days;
 }
 
-export default {
-  getWeekdaysBetween,
+async function initializeServer(): Promise<void> {
+  const configs = await repository.getConfigs();
+  const lastRun = configs[0].lastRun || null;
+  const today = new Date().toISOString().split('T')[0];
+  console.log('today: ', today);
+
+  if (lastRun) {
+    const daysToStore = getWeekdaysBetween(lastRun, today);
+
+    console.log('daysToStore: ', daysToStore); // todo test for overlap
+
+    for (const day of daysToStore) {
+      await repository.storeDay(day);
+    }
+  } else {
+    await repository.storeDay(today);
+  }
+
+  await repository.updateLastRunDay(today);
+
+  console.log('Server initialized and days updated.');
 }
 
-// async function initializeServer(): Promise<void> {
-//   const lastRun = await getLastRunDay();
-//   const today = new Date().toISOString().split('T')[0];
-//   console.log('today: ', today);
-
-//   if (lastRun) {
-//     const daysToStore = getWeekdaysBetween(lastRun, today);
-
-//     console.log('daysToStore: ', daysToStore); // todo test for overlap
-
-//     for (const day of daysToStore) {
-//       await storeDay(day);
-//     }
-//   } else {
-//     await storeDay(today);
-//   }
-
-//   await updateLastRunDay(today);
-
-//   console.log('Server initialized and days updated.');
-// }
+export default {
+  getWeekdaysBetween,
+  initializeServer,
+}
