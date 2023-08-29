@@ -5,9 +5,9 @@ import repository from './repository';
 import { worker } from './integrations';
 import { WebPath, ports } from '../shared/constants';
 import { status } from '../shared/integrations';
-import mocks from '../../../tests/mocks';
+// import mocks from '../../../tests/mocks';
 
-const { paperList } = mocks;
+// const { paperList } = mocks;
 
 const serverConfig: Hapi.ServerOptions | undefined = {
   port: ports.client,

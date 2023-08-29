@@ -1,6 +1,9 @@
 export const paperList = [
   {
-    day: '2023-08-19',
+    day: {
+      value: '2023-08-19',
+      status: 'complete',
+    },
     papers: [
       {
         // initial data upon scrape & filter/rank
@@ -132,23 +135,40 @@ export const paperList = [
     ]
   },
   {
-    day: '2023-08-18',
+    day: {
+      value: '2023-08-18',
+      status: 'pending',
+    },
     papers: [
     ]
   },
   {
-    day: '2023-08-17',
+    day: {
+      value: '2023-08-17',
+      status: 'pending',
+    },
     papers: [
     ],
   },
   {
-    day: '2023-08-16',
+    day: {
+      value: '2023-08-16',
+      status: 'pending',
+    },
     papers: [
     ],
   },
   {
-    day: '2023-08-15',
+    day: {
+      value: '2023-08-15',
+      status: 'pending',
+    },
     papers: [
     ],
   },
 ]
+
+
+
+
+
