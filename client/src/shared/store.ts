@@ -28,25 +28,25 @@ const Paper = types.model({
   abstract: types.string,
   pdfLink: types.string,
   authors: types.array(types.string),
-  metaData: types.model({
-    liked: types.boolean,
+  metaData: types.optional(types.model({
     status: types.number,
     relevancy: types.number,
-    keywords: types.array(types.string)
-  }),
-  video: types.model({
-    title: types.string,
-    description: types.string,
-    thumbnailPrompt: types.string,
-    scriptPrompt: types.string,
-    videoUrl: types.string,
-    thumbnailUrl: types.string
-  })
+    liked: types.optional(types.boolean, false),
+    keywords: types.optional(types.array(types.string), []),
+  }), { status: 0, relevancy: 0 }),
+  video: types.optional(types.model({
+    title: types.optional(types.string, ''),
+    description: types.optional(types.string, ''),
+    thumbnailPrompt: types.optional(types.string, ''),
+    scriptPrompt: types.optional(types.string, ''),
+    videoUrl: types.optional(types.string, ''),
+    thumbnailUrl: types.optional(types.string, '')
+  }), {}),
 });
 
 const Day = types.model({
   value: types.string,
-  status: types.enumeration('DayStatus', ['pending', 'scraping', 'complete'])
+  status: types.enumeration('DayStatus', ['pending', 'scraping', 'ranking', 'complete'])
 });
 
 const DatesList = types.model({
@@ -91,15 +91,39 @@ const Dashboard = types.model("Dashboard", {
 
     try {
       yield api.scrapeDay(date);
-      yield new Promise(resolve => setTimeout(resolve, 4000)); // 4 second delay
+
+      yield new Promise(resolve => setTimeout(resolve, 4000)); // 4 second delay before we begin checking status
+
       const status = yield api.checkStatus('days', date);
 
-      if (status && status.current) {
-        dayPapers.day.status = status.current;
-        dayPapers.papers = status.data;
+      const checkFailed = !status || !status.current || status.current === 'error';
+
+      if (checkFailed) {
+        console.error("Failed to scrape papers: [bad status]", status?.current);
       }
+      
+      dayPapers.day.status = status.current;
+
+      if (status.current === 'ranking') {
+        yield new Promise(resolve => setTimeout(resolve, 18000)); // 4 second delay before we begin checking status
+
+        const newStatus = yield api.checkStatus('days', date);
+        dayPapers.day.status = newStatus.current;
+        console.log('complete status.data: ', newStatus.data);
+        dayPapers.papers = newStatus.data;
+      } else {
+        if (status.current !== 'complete') {
+          console.error("Failed to scrape papers: [incomplete]", status?.current);
+        }
+
+        dayPapers.day.status = status.current;
+        dayPapers.papers = JSON.parse(status.data);
+        console.log('complete status.data: ', status.data);
+      }
+
+      // console.log('complete status: ', status);
     } catch (error) {
-      console.error("Failed to scrape papers", error);
+      console.error("Failed to scrape papers: [unknown]", error);
       // dayPapers.day.status = 'error';
     }
   }),

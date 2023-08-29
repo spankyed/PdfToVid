@@ -1,6 +1,6 @@
 import type Hapi from '@hapi/hapi';
 import createServer, { Routes } from '../shared/server';
-import { getStatus, setStatus, updateStatus } from './functions';
+import { getStatusEntry, addStatusEntry, updateStatusEntry } from './functions';
 import { ports } from '../shared/constants';
 
 const serverConfig: Hapi.ServerOptions | undefined = { port: ports.status };
@@ -16,7 +16,7 @@ const routes: Routes = [
       // return { current: 'scraping'}
       // return { current: 'scraping', updated: true }
 
-      const status = getStatus(type, key);
+      const status = getStatusEntry(type, key);
 
       if (status) {
         return h.response({ status }).code(200);
@@ -25,13 +25,14 @@ const routes: Routes = [
       }
     }
   },
+  
   {
     method: 'POST',
     path: '/set/{type}',
     handler: async (request, h) => {
       const type = request.params.type;
 
-      if (setStatus(type, request.payload)) {
+      if (addStatusEntry(type, request.payload)) {
         return h.response({ status: request.payload.status }).code(200);
       } else {
         return h.response({ error: 'Unable to set status' }).code(400);
@@ -44,7 +45,7 @@ const routes: Routes = [
     handler: async (request, h) => {
       const type = request.params.type;
 
-      if (updateStatus(type, request.payload)) {
+      if (updateStatusEntry(type, request.payload)) {
         return h.response({ status: request.payload.status }).code(200);
       } else {
         return h.response({ error: 'Unable to update status' }).code(400);

@@ -12,7 +12,7 @@ import { root } from '../shared/constants';
 //   papers: PaperDocument[];
 // };
 
-type DayStatuses = 'pending' | 'scraping' | 'complete';
+type DayStatuses = 'pending' | 'scraping' | 'ranking' | 'complete';
 type PaperStatuses = 0 | 1 | 2 | 3;
 
 export type DayDocument = {
@@ -25,14 +25,15 @@ export type PaperDocument = {
   date: string;
   title: string;
   abstract: string;
-  pdfLink: string;
-  authors: string[];
+  pdfLink: string; // todo remove property as it can be derived from id
+  authors?: string[];
   metaData: {
     relevancy: number;
-    keywords: string[];
+    liked?: boolean;
+    keywords?: string[];
     status: PaperStatuses;
   };
-  video: {
+  video?: {
     title: string;
     description: string;
     thumbnailPrompt: string;
@@ -54,6 +55,16 @@ export const store: Store = {
   days: new Datastore<DayDocument>({ filename: dbPath('days'), autoload: true }),
   papers: new Datastore<PaperDocument>({ filename: dbPath('papers'), autoload: true }),
   config: new Datastore<{ lastRun: string }>({ filename: dbPath('config'), autoload: true }),
+};
+
+type TableKeys = {
+  [K in keyof typeof store]: string;
+};
+
+export const tableKeys: TableKeys = {
+  days: 'value',
+  papers: 'id',
+  config: 'id',
 };
 
 export default function getStore<T extends keyof TableTypes>(table: T): Datastore<TableTypes[T]> {

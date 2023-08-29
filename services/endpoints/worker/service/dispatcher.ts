@@ -1,6 +1,7 @@
 import { interpret } from 'xstate';
-import { scrapeMachine } from '../service/machine';
+import { scrapeMachine } from './machine';
 import { status } from '../../shared/integrations';
+import repository from '../repository';
 
 // fetch all papers today
 // filter title/abstract by keywords/vector search
@@ -22,21 +23,45 @@ import { status } from '../../shared/integrations';
 export default {
   scrape: async ({ date }) => {
     console.log('Scraping papers...');
-    // const resp = await status.set('days', { key: date, status: 'scraping' });
-    // console.log('resp: ', resp);
+    const statusSetSuccess = await status.set('days', { key: date, status: 'scraping' });
+    // const statusSetSuccess = await Promise.all([
+    //   repository.updateDayStatus(date, 'scraping'),
+    //   status.set('days', { key: date, status: 'scraping' }),
+    // ])
+    
+    console.log('DB and status set: ', statusSetSuccess);
 
     const machine = scrapeMachine.withContext({ date: date, papers: [] });
     const scrapeService = interpret(machine)
-      // .onTransition(state => console.log('state: ', state.value))
+      .onTransition(async (state, { data }) => {
+        console.log('state: ', state.value)
+        if (state.value === 'ranking') {
+          await status.update('days', { key: date, status: 'ranking' });
+          // const statusSetSuccess = await Promise.all([
+          //   repository.updateDayStatus(date, 'scraping'),
+          //   status.update('days', { key: date, status: 'ranking' })
+          // ])
+        }
+      })
       .onDone(async ({data}) => {
-        // console.log('done!', data)
+        console.log('done!', data)
+        await new Promise(resolve => setTimeout(resolve, 4000));
 
-        // await new Promise(resolve => setTimeout(resolve, 4000));
+        // const dayPapers = {
+        //   day: { value: date, status: 'complete' },
+        //   papers: data,
+        // }
 
-        // ! after scraping papers, we need to send to DB & status service
-        // update status to complete
-        // await status.update('days', { key: date, status: 'complete', data: doneEv.data });
-        // update papers in DB
+        // await Promise.all([
+        //   repository.storePapers(data),
+        //   repository.updateDayStatus(date, 'complete'),
+        //   status.set('days', { key: date, status: 'complete', data: dayPapers, final: true }),
+        // ])
+
+        const papers = data.map(p => ({ ...p, date: date, metaData: { ...p.metaData, status: 0 } }));
+        const orderedPapers = papers.sort((a, b) => b.metaData.relevancy - a.metaData.relevancy); // order by relevancy
+
+        await status.update('days', { key: date, status: 'complete', data: orderedPapers, final: true });
       })
 
     scrapeService.start();

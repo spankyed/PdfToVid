@@ -16,9 +16,9 @@ function EmptyState({ day }: { day: string }): React.ReactElement {
     <>
       <Typography variant="h3">No Papers Scraped</Typography>
       <Box display="flex" gap={2}>
-        <Button variant="contained" color="primary" disabled>Full auto</Button>
-        <Button variant="contained" color="secondary" disabled>Scrape & generate</Button>
-        <Button variant="outlined" onClick={scrape}>Scrape</Button>
+        <Button variant="contained" color="primary" disabled>Fully auto</Button>
+        <Button variant="contained" color="secondary" disabled>Generate Content</Button>
+        <Button variant="outlined" onClick={scrape}>Scrape & Rank</Button>
       </Box>
     </>
   );

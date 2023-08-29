@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite';
 import Thumbnail from '~/shared/components/Thumbnail';
 import EmptyState from '~/shared/components/Empty';
 import Scraping from '~/shared/components/Scraping';
+import Ranking from '~/shared/components/Ranking';
 
 const Papers: React.FC = observer(() => {
   const store = useContext<StoreType>(StoreContext);
@@ -42,9 +43,11 @@ const Papers: React.FC = observer(() => {
     <>
       {papersList.map(({ day, papers }) => {
         const { value, status } = day;
+
         const contentByStatus = {
           pending: <Empty day={value} />,
           scraping: <Scraping />,
+          ranking: <Ranking />,
           complete: <PapersList papers={papers} />,
         };
         
