@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { StoreContext } from '../../index';
 import { Paper, StoreType } from '../store';
 import { observer } from 'mobx-react-lite';
 import { getThumbnailUrl, statuses } from '../constants';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Like from './Like';
 import Relevancy from './Relevancy';
 import Zoom from '@mui/material/Zoom';
@@ -18,35 +19,40 @@ const colors = {
 }
 
 function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean }): React.ReactElement {
-  const onThumbnailClick = (e) => e.stopPropagation()
+  const onThumbnailClick = (e) => {
+    const is = tag => e.target.tagName === tag;
+    const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
 
+    if (ignore) return;
+
+    Navigate({ to: `/entry/${paper.id}` });
+  }
   return (
-    <Link to={`/entry/${paper.id}`} onClick={onThumbnailClick} key={paper.id}>
-      <div 
+    <div
+      onClick={onThumbnailClick} key={paper.id}
+      style={{ 
+        position: 'relative', 
+        width: '320px', 
+        height: '180px',  
+        borderBottom: `10px solid ${colors[paper.metaData.status]}`,
+        borderBottomRightRadius: '4px',
+        borderBottomLeftRadius: '4px',
+        boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none', 
+      }}
+      className='thumb-img'
+    >
+      <img src={getThumbnailUrl(paper)} alt={paper.title} 
         style={{ 
-          position: 'relative', 
-          width: '320px', 
-          height: '180px',  
-          borderBottom: `10px solid ${colors[paper.metaData.status]}`,
-          borderBottomRightRadius: '4px',
-          borderBottomLeftRadius: '4px',
-          boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none', 
-        }}
-        className='thumb-img'
-      >
-        <img src={getThumbnailUrl(paper)} alt={paper.title} 
-          style={{ 
-            width: '100%', 
-            height: '100%',
-            borderRadius: '4px',
-            borderBottomRightRadius: '0px',
-            borderBottomLeftRadius: '0px',
-        }}/>
-        {/* <LikeBtn paper={paper} /> */}
-        <Actions paper={paper} />
-        <PaperTitle paper={paper} />
-      </div>
-    </Link>
+          width: '100%', 
+          height: '100%',
+          borderRadius: '4px',
+          borderBottomRightRadius: '0px',
+          borderBottomLeftRadius: '0px',
+      }}/>
+      {/* <LikeBtn paper={paper} /> */}
+      <Actions paper={paper} />
+      <PaperTitle paper={paper} />
+    </div>
   )
 }
 function Actions ({ paper }: { paper: Paper }): React.ReactElement {
@@ -54,6 +60,13 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
   const isUploaded = (paper: Paper) => paper.metaData.status === 3
   const hideDelete = (paper: Paper) => isUploaded(paper) || paper.metaData.status === 0
   
+  const onViewClick = (e) => {
+    e.stopPropagation()
+
+    window.open(`https://arxiv.org/abs/${paper.id}`, '_blank')
+  }
+
+
   return (
     <>
       <ButtonGroup 
@@ -72,6 +85,11 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
         }}
       >
         <Like paper={paper} allRed={true}/>
+        <Button onClick={onViewClick}>
+          <Tooltip title='View on Arxiv'>
+            <VisibilityIcon color="info" style={{ marginRight: '4px' }} />
+          </Tooltip>
+        </Button>
       {
         !isUploaded(paper) && (
           <>
