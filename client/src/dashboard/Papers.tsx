@@ -17,8 +17,8 @@ const Papers: React.FC = observer(() => {
   function reformatDate(inputDate: string): string {
     const date = new Date(inputDate);
     const formatted = date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'long',
+      weekday: 'short',
+      month: 'short',
       day: '2-digit'
     });
   
