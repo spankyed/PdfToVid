@@ -41,7 +41,7 @@ export default async function scrapePapersByDate(rawDate: string) {
     year: 'numeric'
   });
   const [weekday, month, day, year] = formatted.replaceAll(',', '') .split(' ');
-  const formattedDate = `${weekday}, ${day} ${month} ${year}`;
+  const formattedDate = `${weekday}, ${parseInt(day)} ${month} ${year}`;
   console.log('date: ', {rawDate, formattedDate});
 
   const browser = await chromium.launch({ headless: true });
