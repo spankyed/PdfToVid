@@ -10,10 +10,10 @@ function getConfigs(): Promise<any> {
   // return config?.lastRun || null;
 }
 
-function storePaper(papers: PaperDocument): Promise<any> {
+function storePaper(paper: PaperDocument): Promise<any> {
   return database.create({
     table: 'papers',
-    record: papers
+    record: paper
   });
 }
 
@@ -42,7 +42,7 @@ function storeDay(day: string): Promise<any> {
 function updateLastRunDay(day: string): Promise<any> {
   return database.update({
     table: 'config',
-    query: { lastRun: day },
+    query: { lastRun: { $exists: true } },
     updateQuery: { lastRun: day }
   });
 }
@@ -50,6 +50,7 @@ function updateLastRunDay(day: string): Promise<any> {
 export default {
   getConfigs,
   storeDay,
+  storePaper,
   storePapers,
   updateDayStatus,
   updateLastRunDay

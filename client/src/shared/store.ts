@@ -80,6 +80,7 @@ const Dashboard = types.model("Dashboard", {
       console.error("Failed to fetch dashboard", error);
     }
   }),
+
   scrapePapers: flow(function* (date) {
     console.log('scrape papers', date);
     const dayPapers = self.papersList.find(({ day }) => day.value === date);
@@ -105,7 +106,9 @@ const Dashboard = types.model("Dashboard", {
       dayPapers.day.status = status.current;
 
       if (status.current === 'ranking') {
-        yield new Promise(resolve => setTimeout(resolve, 18000)); // 4 second delay before we begin checking status
+        // ! need to increase this or use a different strategy
+        // todo estimate time based on number of scraped papers
+        yield new Promise(resolve => setTimeout(resolve, 45000)); // 4 second delay before we begin checking status
 
         const newStatus = yield api.checkStatus('days', date);
         dayPapers.day.status = newStatus.current;
@@ -138,6 +141,28 @@ const Dashboard = types.model("Dashboard", {
   },
 }));
 
+const DayPage = types.model({
+  papers: types.array(Paper),
+  state: types.enumeration('DayState', ['pending', 'scraping', 'ranking', 'complete']),
+}).actions(self => ({
+  fetchPapersForDay: flow(function* fetchPapersForDay(dayId) {
+    try {
+      if (!dayId) {  
+        console.error("Day not found", dayId);
+        return 
+      }
+      console.log('dayId: ', dayId);
+      const response = yield api.getPapersForDay(dayId);
+      const papers = response.data;
+      console.log('papers for day: ', papers);
+      self.papers = papers;
+      self.state = 'complete';
+    } catch (error) {
+      console.error("Failed to fetch dashboard", error);
+    }
+  }),
+}));
+
 const Store = types.model("Store", {
   routing: types.optional(RoutingModel, {
     currentPath: '/',
@@ -150,6 +175,10 @@ const Store = types.model("Store", {
     papersForDay: [],
     selectedDay: '',
     openMonth: '',
+  }),
+  dayPage: types.optional(DayPage, {
+    papers: [],
+    state: 'pending',
   }),
   // ... other properties for other pages ...
 });

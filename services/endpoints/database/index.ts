@@ -32,6 +32,7 @@ const routes = [
     method: 'POST',
     path: '/db',
     handler: async (request, h) => {
+      // console.log('db request: ', request.payload );
       const validationResult = PostPayload.decode(request.payload);
 
       if (isLeft(validationResult)) {

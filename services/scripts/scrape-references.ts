@@ -1,4 +1,4 @@
-import scrapeRefPapers from "./functions/scrape-ref-papers";
+import scrapeRefPapers from "../endpoints/worker/functions/scrape-ref-papers";
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -36,13 +36,19 @@ const entryIds =  [
   '2307.09721',
   '2210.02441',
   '2307.10680',
+  // after sep 1
+  '2208.03299',
+  '2308.13916',
+  '2308.13724',
+  '2308.14296',
+  '2305.01157',
 ]
 
 scrapeRefPapers(entryIds).then((arxivPapers) => {
 
   // console.log('arxivPapers: ', arxivPapers);
   const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets';
-  const jsonPath = path.join(root, 'assets', 'ref-papers.json');
+  const jsonPath = path.join(root, 'research-papers.json');
   const jsonString = JSON.stringify(arxivPapers, null, 2);
 
   // fs.writeFile('arxiv-papers.json', jsonString)
@@ -54,8 +60,6 @@ scrapeRefPapers(entryIds).then((arxivPapers) => {
       console.error('Error writing to file:', err);
     });
 });
-
-
 
 
 // fetch all papers today

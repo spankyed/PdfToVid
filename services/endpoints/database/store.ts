@@ -2,7 +2,7 @@ import * as t from 'io-ts'; // ! https://github.com/gcanti/fp-ts/issues/1044
 import { pipe } from 'fp-ts/lib/function';
 import { chain, TaskEither, left, map, tryCatch } from 'fp-ts/lib/TaskEither';
 import type { RecordTypes } from '../shared/types';
-import getStore from './schema';
+import getStore, { tableKeys } from './schema';
 
 // type casting
 export function preprocessQuery(query: any): t.TypeOf<typeof ReadPayload> {
@@ -17,6 +17,31 @@ export function preprocessQuery(query: any): t.TypeOf<typeof ReadPayload> {
 }
 
 // DB operations
+// function create(params: t.TypeOf<typeof CreateParams>): TaskEither<Error, void> {
+//   const records = Array.isArray(params.record) ? params.record : [params.record];
+//   const uniqueField = tableKeys[params.table];
+//   const valuesToCheck = records.map(record => (record as any)[uniqueField]);
+//   // console.log('records: ', records);
+//   // console.log('uniqueField: ', uniqueField);
+//   // console.log('valuesToCheck: ', valuesToCheck);
+
+//   const findExistingRecords = pipe(
+//     tryCatch(() => getStore(params.table).findOneAsync({ value: { $in: valuesToCheck } }), e => e as Error),
+//     map(existingRecord => {
+//       return existingRecord ? left(new Error('One or more records already exist')) : {};
+//     })
+//   );
+
+//   const insertRecords = pipe(
+//     tryCatch(() => getStore(params.table).insertAsync(records as RecordTypes[]), e => e as Error),
+//     map(() => {})
+//   );
+
+//   return pipe(
+//     findExistingRecords,
+//     chain(() => insertRecords)
+//   );
+// }
 function create(params: t.TypeOf<typeof CreateParams>): TaskEither<Error, void> {
   const findExistingRecord = pipe(
     tryCatch(() => getStore(params.table).findOneAsync(params.record), e => e as Error),
@@ -66,7 +91,7 @@ const TableKey = t.keyof({
 });
 const CreateParams = t.type({
   table: TableKey,
-  record: t.unknown
+  record: t.union([t.unknown, t.array(t.unknown)])
 });
 export const ReadParams = t.type({
   table: TableKey,

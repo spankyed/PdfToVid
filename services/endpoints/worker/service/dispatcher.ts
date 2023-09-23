@@ -45,21 +45,15 @@ export default {
       })
       .onDone(async ({data}) => {
         console.log('done!', data)
-        await new Promise(resolve => setTimeout(resolve, 4000));
+        // await new Promise(resolve => setTimeout(resolve, 4000));
+        // storePaper
+        await Promise.all([
+          ...data.map(repository.storePaper),
+          repository.updateDayStatus(date, 'complete'),
+        ])
 
-        // const dayPapers = {
-        //   day: { value: date, status: 'complete' },
-        //   papers: data,
-        // }
-
-        // await Promise.all([
-        //   repository.storePapers(data),
-        //   repository.updateDayStatus(date, 'complete'),
-        //   status.set('days', { key: date, status: 'complete', data: dayPapers, final: true }),
-        // ])
-
-        const papers = data.map(p => ({ ...p, date: date, metaData: { ...p.metaData, status: 0 } }));
-        const orderedPapers = papers.sort((a, b) => b.metaData.relevancy - a.metaData.relevancy); // order by relevancy
+        const papers = data.map((p: { metaData: any; }) => ({ ...p, date: date, metaData: { ...p.metaData, status: 0 } }));
+        const orderedPapers = papers.sort((a: { metaData: { relevancy: number; }; }, b: { metaData: { relevancy: number; }; }) => b.metaData.relevancy - a.metaData.relevancy); // order by relevancy
 
         await status.update('days', { key: date, status: 'complete', data: orderedPapers, final: true });
       })
@@ -68,15 +62,15 @@ export default {
 
     return { message: 'Scraping started!' };
   },
-  generateMetadata: async (data) => {
+  generateMetadata: async (data: any) => {
     console.log('Generating metadata...');
     return { message: 'Metadata generation started' };
   },
-  generateVideoData: async (data) => {
+  generateVideoData: async (data: any) => {
     console.log('Generating video data...');
     return { message: 'Video data generation started' };
   },
-  uploadToYouTube: async (data) => {
+  uploadToYouTube: async (data: any) => {
     console.log('Uploading to YouTube...');
     return { message: 'Video uploaded to YouTube started' };
   }

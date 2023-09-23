@@ -13,9 +13,9 @@ export const checkStatus = async (type, key) => {
   };
 
   const makeRequest = async (delay, elapsedTime = 0) => {
-    if (elapsedTime >= 10000) {
-      throw new Error("Failed to get status update after multiple retries.");
-    }
+    // if (elapsedTime >= 10000) {
+    //   throw new Error("Failed to get status update after multiple retries.");
+    // }
 
     const { data } = await axios.post(apiUrl + 'check-status/' + type, { key });
     // console.log('response: ', data);
@@ -33,5 +33,7 @@ export const checkStatus = async (type, key) => {
 };
 
 export const getDashboardData = () => axios.get(apiUrl + 'dashboard');
+
+export const getPapersForDay = (day) => axios.get(apiUrl + 'papers/' + day);
 
 export const scrapeDay = (date) => axios.post(apiUrl + 'scrape/' + date);

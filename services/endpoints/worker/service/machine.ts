@@ -12,6 +12,8 @@ const scrapeArxiv = async ({ date }) => {
   // await new Promise(resolve => setTimeout(resolve, 4000));
   if (!date) throw new Error('No date provided.');
   const papers = await scrapePapersByDate(date);
+  console.log('papers: ', papers);
+  if (!papers) throw new Error('No papers scraped.');
   // console.log('Scraping finished successfully.', { papers });
 
   return papers;
@@ -27,10 +29,11 @@ const rankPapers = async (ev, ctx) => {
   const papers_with_score = await getRelevancy(ev.papers) 
   const dataObject = extractAndParseData(papers_with_score);
 
-  console.log('Python script finished successfully.');
-  console.log('papers_with_score: ', {dataObject});
+  // console.log('Python script finished successfully.');
+  // console.log('papers_with_score: ', {dataObject});
   // console.error(error.message);
 
+  console.log('dataObject: ', dataObject);
   return dataObject;
   // return mocks.paperList[0].papers;
 };

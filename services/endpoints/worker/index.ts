@@ -2,6 +2,7 @@ import Hapi from '@hapi/hapi';
 import { ports } from '../shared/constants';
 import createServer from '../shared/server';
 import dispatcher from './service/dispatcher';
+// import setup from './service/setup';
 
 const serverConfig: Hapi.ServerOptions | undefined = { port: ports.worker };
 
@@ -27,7 +28,7 @@ const routes = [
 ];
 
 (async function start () {
-  // initializeServer();
+  // setup.initializeServer();
   // todo scrape all dates between last run and today
   // if last run was today, do nothing
   // todo only sync dates up to current date on arxiv

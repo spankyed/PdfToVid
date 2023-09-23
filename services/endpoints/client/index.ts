@@ -38,6 +38,18 @@ const routes = [
       });
     }
   },
+  // fetch papers for day
+  {
+    method: 'GET',
+    path: '/papers/{date}',
+    handler: (request, h) => {
+      return new Promise(async (resolve, reject) => {
+        const date = request.params.date;
+        const papers = await repository.getPapersForDays([date]);
+        resolve(papers)
+      });
+    }
+  },
   {
     method: 'POST',
     path: '/scrape/{date}',

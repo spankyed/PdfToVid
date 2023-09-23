@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 // import { Link } from 'react-router-dom';
 import { Typography, Box, Tabs, Tab, Button, Grid, TextField, CircularProgress, LinearProgress } from '@mui/material';
 import { Paper, StoreType } from '~/shared/store';
@@ -15,10 +15,11 @@ const Day: React.FC<{}> = observer(() => {
   const store = useContext<StoreType>(StoreContext);
   const dayId = store.routing.params.get('dayId') ?? '';
   
-  // todo current day state and scrape papers for day
-  const papers = store.dashboard.papersList[0]?.papers || [];
-  // const state = store.dashboard.papersList[0]?.state || 'scraping';
-  const state = 'scraping';
+  const { papers, state } = store.dayPage;
+
+  useEffect(() => {
+    store.dayPage.fetchPapersForDay(dayId);
+  }, [dayId]);
 
   const componentsByState = {
     'pending': <Empty day={dayId}/>,

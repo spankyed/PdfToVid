@@ -6,7 +6,7 @@ type TableKey = "days" | "papers" | "config";
 
 type CreateParams = {
   table: TableKey;
-  record: RecordTypes;
+  record: RecordTypes | RecordTypes[];
 };
 
 type ReadParams = {
@@ -37,7 +37,7 @@ export const database = {
     if (params.query) params.query = JSON.stringify(params.query);
     if (params.order) params.order = JSON.stringify(params.order);
 
-    return dbService.get('db', { operation: 'read', ...params })
+    return dbService.get<RecordTypes[]>('db', { operation: 'read', ...params })
   },
   update: (params: UpdateParams) => dbService.post('db', { operation: 'update', ...params }),
   delete: (params: DeleteParams) => dbService.post('db', { operation: 'delete', ...params }),

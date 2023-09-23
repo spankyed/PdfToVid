@@ -22,19 +22,24 @@ async function initializeServer(): Promise<void> {
   const today = new Date().toISOString().split('T')[0];
   console.log('today: ', today);
 
+  console.log('lastRun: ', lastRun);
   if (lastRun) {
     const daysToStore = getWeekdaysBetween(lastRun, today);
 
     console.log('daysToStore: ', daysToStore); // todo test for overlap
 
     for (const day of daysToStore) {
-      await repository.storeDay(day);
+      console.log('repository: ', repository);
+      const ret1 = await repository.storeDay(day);
+      console.log('ret1: ', ret1);
     }
   } else {
-    await repository.storeDay(today);
+    const ret2 = await repository.storeDay(today);
+    console.log('ret2: ', ret2);
   }
 
-  await repository.updateLastRunDay(today);
+  const ret3 = await repository.updateLastRunDay(today);
+  console.log('ret3: ', ret3);
 
   console.log('Server initialized and days updated.');
 }
