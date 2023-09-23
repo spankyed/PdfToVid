@@ -23,11 +23,11 @@ import repository from '../repository';
 export default {
   scrape: async ({ date }) => {
     console.log('Scraping papers...');
-    const statusSetSuccess = await status.set('days', { key: date, status: 'scraping' });
-    // const statusSetSuccess = await Promise.all([
-    //   repository.updateDayStatus(date, 'scraping'),
-    //   status.set('days', { key: date, status: 'scraping' }),
-    // ])
+    // const statusSetSuccess = await status.set('days', { key: date, status: 'scraping' });
+    const statusSetSuccess = await Promise.all([
+      // repository.updateDayStatus(date, 'scraping'),
+      status.set('days', { key: date, status: 'scraping' }),
+    ])
     
     console.log('DB and status set: ', statusSetSuccess);
 
@@ -36,11 +36,11 @@ export default {
       .onTransition(async (state, { data }) => {
         console.log('state: ', state.value)
         if (state.value === 'ranking') {
-          await status.update('days', { key: date, status: 'ranking' });
-          // const statusSetSuccess = await Promise.all([
-          //   repository.updateDayStatus(date, 'scraping'),
-          //   status.update('days', { key: date, status: 'ranking' })
-          // ])
+          // await status.update('days', { key: date, status: 'ranking' });
+          const statusSetSuccess = await Promise.all([
+            // repository.updateDayStatus(date, 'scraping'),
+            status.update('days', { key: date, status: 'ranking' })
+          ])
         }
       })
       .onDone(async ({data}) => {

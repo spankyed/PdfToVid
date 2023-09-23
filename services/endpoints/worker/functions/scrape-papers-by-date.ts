@@ -1,79 +1,70 @@
-import { chromium, Page, BrowserContext } from 'playwright';
+import axios from "axios";
+import { parseStringPromise } from "xml2js";
 
-interface Entry {
+const ARXIV_OAI_ENDPOINT = "http://export.arxiv.org/oai2?";
+
+interface Paper {
   id: string;
   title: string;
   abstract: string;
-  author: { name: string }[];
   pdfLink: string;
-  published: string;
+  authors: string[];
 }
 
-const extractPaperDetails = async (context: BrowserContext, link: string): Promise<Entry> => {
-  const page = await context.newPage();
-  await page.goto(link);
-  
-  const id = await page.$eval('[name="citation_arxiv_id"]', (node: HTMLMetaElement) => node.content);
-  const title = await page.$eval('.title', (node: HTMLElement) => 
-    node.textContent?.replace("Title:", "").trim() || ''); // remove "Title:" from title
-  const abstract = await page.$eval('.abstract', (node: HTMLElement) => 
-    node.textContent?.replace("Abstract:", "").trim() || ''); // remove "Abstract:" from abstract
-  const author = await page.$$eval('.authors a', (nodes: HTMLElement[]) => nodes.map(n => ({ name: n.textContent?.trim() || '' })));
-
-  // const pdfLink = await page.$eval('.full-text a', (node: HTMLAnchorElement) => node.href);
-  // https://arxiv.org/pdf/2308.05713.pdf
-  const pdfLink = `https://arxiv.org/pdf/${id}.pdf`
-  
-  const published = await page.$eval('[name="citation_date"]', (node: HTMLMetaElement) => node.content);
-
-  await page.close();
-
-  // return { id, title, abstract, author, pdfLink, published };
-  return { id, title, abstract, pdfLink };
+const constructQuery = (date: string): string => {
+  const formattedDate = new Date(date).toISOString().split("T")[0];
+  return `verb=ListRecords&from=${formattedDate}&until=${formattedDate}&set=cs&metadataPrefix=arXiv`;
 };
 
-export default async function scrapePapersByDate(rawDate: string) {
-  const date = new Date(rawDate);
-  const formatted = date.toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: '2-digit',
-    year: 'numeric'
-  });
-  const [weekday, month, day, year] = formatted.replaceAll(',', '') .split(' ');
-  const formattedDate = `${weekday}, ${parseInt(day)} ${month} ${year}`;
-  console.log('date: ', {rawDate, formattedDate});
+const isAIPaper = (record: any): boolean => {
+  const categories = record.metadata[0]["arXiv"][0].categories[0].split(" ");
+  return categories.includes("cs.AI");
+};
 
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
-  let paperDetails: Entry[] = [];
+const extractPaperData = (record: any): Paper => {
+  const metadata = record.metadata[0]["arXiv"];
+  return {
+    id: metadata[0].id[0],
+    title: metadata[0].title[0],
+    abstract: metadata[0].abstract[0],
+    pdfLink: `http://arxiv.org/pdf/${metadata[0].id[0]}.pdf`,
+    authors: metadata[0].authors[0].author.map(
+      (author: any) =>
+        `${author.keyname[0]} ${author.forenames ? author.forenames[0] : ""}`
+    ),
+  };
+};
 
-  const page = await context.newPage();
-  await page.goto('https://arxiv.org/list/cs.AI/recent');
-  await page.click('a:has-text("all")');
-  await page.waitForLoadState('domcontentloaded');
+export default async function scrapePapersByDate(date: string): Promise<Paper[]> {
+  try {
+    const response = await axios.get(ARXIV_OAI_ENDPOINT + constructQuery(date));
 
-  const dates = await page.$$eval('h3', (nodes: HTMLElement[]) => nodes.map(n => n.textContent || ''));
-  const dateIndex = dates.findIndex(d => d === formattedDate);
+    if (response.status !== 200) {
+      throw new Error("Error fetching data from ArXiv OAI endpoint");
+    }
 
-  if (dateIndex !== -1) {
-    const paperLists = await page.$$('dl');
-    const entries = await paperLists[dateIndex].$$eval('dt', (nodes: HTMLElement[]) => nodes.map(n => {
-      const links = n.querySelectorAll('a');
-      return {
-        number: n.textContent || '',
-        link: (links[1] as HTMLAnchorElement)?.href || ''
-      };
-    }));
+    const parsedData = await parseStringPromise(response.data);
 
-    const paperDetailsPromises = entries.map(entry => extractPaperDetails(context, entry.link));
-    paperDetails = await Promise.all(paperDetailsPromises);
-    // paperDetails.forEach(details => console.log(details));
-  } else {
-    console.log('Date not found');
+    if (parsedData["OAI-PMH"] && parsedData["OAI-PMH"].error) {
+      console.error(
+        "Error received from ArXiv OAI endpoint:",
+        parsedData["OAI-PMH"].error[0]
+      );
+      return [];
+    }
+
+    return parsedData["OAI-PMH"].ListRecords[0].record
+      .filter(isAIPaper)
+      .map(extractPaperData);
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
-
-  await browser.close();
-
-  return paperDetails
 };
+
+// Example usage
+// scrapePapersByDate('2023-09-21').then(papers => {
+//   console.log(papers);
+// }).catch(error => {
+//   console.error('Error fetching papers:', error);
+// });
