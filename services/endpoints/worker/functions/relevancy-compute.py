@@ -1,71 +1,87 @@
 import json
-import argparse
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
+import chromadb
 from sentence_transformers import SentenceTransformer
-from multiprocessing import Pool, cpu_count
 
 # Load SBERT model
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 pathRefPapers = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets/ref-papers.json'
+COLLECTION_NAME = "paper-embeddings"
 
-with open(pathRefPapers, 'r') as file:
-    ref_papers = json.load(file)
+def get_collection_or_create(collection_name=COLLECTION_NAME):
+    client = chromadb.Client()
+    
+    # Check if the collection already exists, if not, create it
+    if collection_name not in client.list_collections():
+        try:
+            client.create_collection(collection_name)
+        except Exception as e:
+            if "already exists" not in str(e):
+                raise e
 
-def compute_cosine_similarity(embedding1, embedding2):
-    return cosine_similarity([embedding1], [embedding2])[0][0]
+    return client.get_collection(collection_name)
 
-def compute_relevancy_score(paper):
-    paper_text = paper['title'] + ". " + paper['abstract']
-    paper_embedding = model.encode(paper_text)
+def log_field_types_to_json(paper, output_file_path):
+    """
+    Logs the type of each field in the given paper to a JSON file.
+    
+    Args:
+    - paper (dict): Dictionary containing paper fields.
+    - output_file_path (str): Path to the output JSON file.
+    """
+    field_types = {}
 
-    similarity_scores = []
+    for key, value in paper.items():
+        field_types[key] = str(type(value))
 
-    for ref_paper in ref_papers:
-        ref_paper_text = ref_paper['title'] + ". " + ref_paper['abstract']
-        ref_paper_embedding = model.encode(ref_paper_text)
+    with open(output_file_path, 'w') as file:
+        json.dump(field_types, file, indent=4)
+
+def store_paper_embeddings_in_chroma(papers, collection_name=COLLECTION_NAME):
+    log_field_types_to_json(papers[0], '/Users/spankyed/Develop/Projects/CurateGPT/services/files/generated/test_data/paper_field_types.json')
+    collection = get_collection_or_create(collection_name)
+
+    embeddings = [model.encode(paper['title'] + ". " + paper['abstract']) for paper in papers]
+
+    collection.add(
+        documents=embeddings,
+        metadatas=papers,
+        ids=[paper['id'] for paper in papers]
+    )
+
+def compute_relevancy_scores(papers):
+    collection = get_collection_or_create(COLLECTION_NAME)
+
+    # Try querying the collection to see if it's populated
+    try:
+        sample_paper_text = papers[0]['title'] + ". " + papers[0]['abstract']
+        sample_query_embedding = model.encode(sample_paper_text)
+        collection.query(query_texts=[sample_query_embedding], n_results=1)
+    except Exception as e:
+        # If an error occurs, assume the collection is empty and populate it
+        with open(pathRefPapers, 'r') as file:
+            ref_papers = json.load(file)
+        store_paper_embeddings_in_chroma(ref_papers)
+
+    for paper in papers:
+        paper_text = paper['title'] + ". " + paper['abstract']
+        query_embedding = model.encode(paper_text)
+        results = collection.query(query_texts=[query_embedding], n_results=5)
         
-        similarity_scores.append(compute_cosine_similarity(paper_embedding, ref_paper_embedding))
+        # Get the average of top 5 similarity scores
+        relevancy_scores = [res['score'] for res in results[0]]
+        avg_relevancy = sum(relevancy_scores) / len(relevancy_scores)
 
-    # Sort the scores and take the average of the top 5
-    top_5_scores = sorted(similarity_scores, reverse=True)[:5]
-    relevancy_score = sum(top_5_scores) / len(top_5_scores)
-
-    # Add the relevancy score to the paper's metaData
-    if 'metaData' not in paper:
-        paper['metaData'] = {}
-    paper['metaData']['relevancy'] = relevancy_score
-
-    return paper
-
-def compute_relevancy_for_batch(papers_batch):
-    return [compute_relevancy_score(paper) for paper in papers_batch]
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Compute relevancy scores for a list of papers.')
-    parser.add_argument('papers_list', type=str, help='List of papers in JSON format.')
-    args = parser.parse_args()
-
-    papers = json.loads(args.papers_list)
-
-    # Split the papers into batches for parallel processing
-    num_cores = cpu_count()
-    batch_size = len(papers) // num_cores
-    paper_batches = [papers[i:i + batch_size] for i in range(0, len(papers), batch_size)]
-
-    with Pool(num_cores) as pool:
-        results_batches = pool.map(compute_relevancy_for_batch, paper_batches)
-
-    # Flatten the results
-    flattened_results = [item for sublist in results_batches for item in sublist]
+        # Add the relevancy score to the paper's metaData
+        paper['metaData'] = paper.get('metaData', {})
+        paper['metaData']['relevancy'] = avg_relevancy
 
     try:
-        print("###BEGIN_DATA###")
-        print(json.dumps(flattened_results, default=lambda o: float(o) if isinstance(o, np.float32) else o))
-        print("###END_DATA###")
         output_path = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/generated/test_data/papers_relevancy.json'
         with open(output_path, 'w') as output_file:
-            json.dump(flattened_results, output_file, indent=4, default=lambda o: float(o) if isinstance(o, np.float32) else o)
+            json.dump(papers, output_file, indent=4, default=lambda o: float(o) if isinstance(o, np.float32) else o)
     except Exception as e:
         print(f"Error: {e}")
+
+    return papers
+

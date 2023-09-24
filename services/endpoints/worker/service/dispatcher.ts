@@ -44,7 +44,8 @@ export default {
         }
       })
       .onDone(async ({data}) => {
-        console.log('done!', data)
+        console.log('done scraping & ranking!')
+
         // await new Promise(resolve => setTimeout(resolve, 4000));
         // storePaper
         await Promise.all([

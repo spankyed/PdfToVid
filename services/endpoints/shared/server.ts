@@ -1,4 +1,4 @@
-import Hapi from '@hapi/hapi';
+import * as Hapi from '@hapi/hapi';
 // import Cors from '@hapi/cors';
 
 export type Routes = (Hapi.ServerRoute<Hapi.ReqRefDefaults> | Hapi.ServerRoute<Hapi.ReqRefDefaults>[])[]

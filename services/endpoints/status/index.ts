@@ -1,4 +1,4 @@
-import type Hapi from '@hapi/hapi';
+import type * as Hapi from '@hapi/hapi';
 import createServer, { Routes } from '../shared/server';
 import { getStatusEntry, addStatusEntry, updateStatusEntry } from './functions';
 import { ports } from '../shared/constants';
