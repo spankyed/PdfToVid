@@ -106,9 +106,8 @@ const Dashboard = types.model("Dashboard", {
       dayPapers.day.status = status.current;
 
       if (status.current === 'ranking') {
-        // ! need to increase this or use a different strategy
         // todo estimate time based on number of scraped papers
-        yield new Promise(resolve => setTimeout(resolve, 45000)); // 4 second delay before we begin checking status
+        // yield new Promise(resolve => setTimeout(resolve, 45000)); // 4 second delay before we begin checking status
 
         const newStatus = yield api.checkStatus('days', date);
         dayPapers.day.status = newStatus.current;
