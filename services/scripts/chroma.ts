@@ -2,6 +2,7 @@ import chromadb from "chromadb";
 import { pipeline, env } from "@xenova/transformers";
 import * as fs from "fs";
 
+env.localModelPath = "/Users/spankyed/develop/projects/all-models";
 const client = new chromadb.ChromaClient();
 const COLLECTION_NAME = "paper-embeddings";
 const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
@@ -9,7 +10,9 @@ const PATH_REF_PAPERS =
   "/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets/ref-papers.json";
 
 async function createSBertEmbeddingFunction(modelName: string) {
-  const extractor = await pipeline("feature-extraction", modelName);
+  const extractor = await pipeline("feature-extraction", modelName, {
+    quantized: false,
+});
 
   const generate = async (texts: string[]): Promise<number[][]> => {
     const embeddings: number[][] = await Promise.all(
@@ -35,19 +38,20 @@ async function storePaperEmbeddingsInChroma(
 ) {
   const existingCollections = await client.listCollections();
   console.log('existingCollections: ', existingCollections);
-  // if (existingCollections.map((c) => c.name).includes(collectionName)) {
-  //   // await client.deleteCollection({ name: COLLECTION_NAME });
-  //   await client.createCollection({ name: collectionName, embeddingFunction: embedder });
-  // }
-  // const embeddings = await embedder.generate(
-  //   papers.map((paper) => paper.title + ". " + paper.abstract)
-  // );
+  if (existingCollections.map((c) => c.name).includes(collectionName)) {
+    await client.deleteCollection({ name: COLLECTION_NAME });
+    await client.createCollection({ name: collectionName, embeddingFunction: embedder, metadata: { "hnsw:space": "cosine" } });
+  }
+  const embeddings = await embedder.generate(
+    papers.map((paper) => paper.title + ". " + paper.abstract)
+  );
   const collection = await client.getCollection({
     name: collectionName,
     embeddingFunction: embedder,
   });
 
   await collection.add({
+    embeddings: embeddings,
     documents: papers.map((paper) => paper.title + ". " + paper.abstract),
     ids: papers.map((paper) => paper.id),
   });

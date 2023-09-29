@@ -70,7 +70,8 @@ export async function getRelevancyScores(
   console.log("Number of papers:", papers.length);
 
   // Prepare all texts for querying
-  const paperTexts = papers.map((paper) => paper.title + ". " + paper.abstract);
+  const paperTexts = papers.map((paper) => paper.title + ". " + paper.abstract)
+    .slice(0, 125); // ! TODO: Remove this slice
 
   try {
     // Send all queries at once
@@ -78,21 +79,22 @@ export async function getRelevancyScores(
       queryTexts: paperTexts,
       nResults: nResults,
     });
+    // console.log('results: ', results);
 
     // Map over results and papers to set relevancy properties
     papers.forEach((paper, index) => {
       const relevancyScores = results.distances?.[index]
       ? results.distances?.[index]
       : [];
-      console.log('relevancyScores: ', relevancyScores);
+      // console.log('relevancyScores: ', relevancyScores);
       const avgRelevancy =
         relevancyScores.reduce((a, b) => a + b, 0) /
         (relevancyScores.length || 1);
 
       paper.metaData = paper.metaData || {};
-      paper.metaData.relevancy = avgRelevancy;
+      paper.metaData.relevancy = avgRelevancy ? 1 - avgRelevancy : 0;
 
-      console.log("Avg Relevancy for paper:", paper.id, "is:", avgRelevancy);
+      // console.log("Avg Relevancy for paper:", paper.id, "is:", avgRelevancy);
     });
   } catch (err) {
     console.error(err);
