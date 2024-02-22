@@ -38,11 +38,13 @@ const extractPaperData = (record: any): Paper => {
 export default async function scrapePapersByDate(date: string): Promise<Paper[]> {
   try {
     const response = await axios.get(ARXIV_OAI_ENDPOINT + constructQuery(date));
+    // console.log('scraped papers: ', response);
 
     if (response.status !== 200) {
       throw new Error("Error fetching data from ArXiv OAI endpoint");
     }
 
+    console.log('response.data: ', response.data);
     const parsedData = await parseStringPromise(response.data);
 
     if (parsedData["OAI-PMH"] && parsedData["OAI-PMH"].error) {

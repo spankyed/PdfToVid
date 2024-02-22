@@ -70,9 +70,12 @@ const Dashboard = types.model("Dashboard", {
   fetchDashboard: flow(function* fetchDashboard() {
     try {
       const response = yield api.getDashboardData();
+      console.log('response: ', response);
       const { dateList, paperList } = response.data;
       self.papersList = paperList;
+      console.log(1);
       self.datesList = dateList;
+      console.log(2);
       self.selectedDay = dateList[0]?.days[0]?.value ?? '';
       self.openMonth = dateList[0]?.month ?? '';
       self.state = 'selected';

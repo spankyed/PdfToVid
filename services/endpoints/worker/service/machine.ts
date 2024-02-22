@@ -5,13 +5,16 @@ import { assign, createMachine } from 'xstate';
 // import mocks from '../../../../tests/mocks';
 import scrapePapersByDate from '../functions/scrape-papers-by-date';
 import { getRelevancyScores } from '../functions/relevancy-compute';
+import * as fs from 'fs';
 
 
 const scrapeArxiv = async ({ date }) => {
   console.log('scraping papers');
   if (!date) throw new Error('No date provided.');
   const papers = await scrapePapersByDate(date);
-  // console.log('papers: ', papers);
+  console.log('papers: ', papers);
+  fs.writeFileSync("/Users/spankyed/Develop/Projects/CurateGPT/services/files/log/" + date + ".json", JSON.stringify(papers));
+
   if (!papers) throw new Error('No papers scraped.');
   // console.log('Scraping finished successfully.', { papers });
 

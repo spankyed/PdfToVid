@@ -43,6 +43,7 @@ export function preprocessQuery(query: any): t.TypeOf<typeof ReadPayload> {
 //   );
 // }
 function create(params: t.TypeOf<typeof CreateParams>): TaskEither<Error, void> {
+  console.log('create: ', params);
   const findExistingRecord = pipe(
     tryCatch(() => getStore(params.table).findOneAsync(params.record), e => e as Error),
     map(existingRecord => existingRecord ? left(new Error('Record already exists')) : {})
@@ -71,6 +72,7 @@ function read(params: t.TypeOf<typeof ReadParams>): TaskEither<Error, any[]> {
 }
 
 function update(params: t.TypeOf<typeof UpdateParams>): TaskEither<Error, { message: string }> {
+  console.log('params: ', params);
   return pipe(
     tryCatch(() => getStore(params.table).updateAsync(params.query, params.updateQuery, { upsert: true }), e => e as Error),
     map(() => ({ message: 'Record updated successfully' }))

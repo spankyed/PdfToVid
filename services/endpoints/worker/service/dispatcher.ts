@@ -44,14 +44,18 @@ export default {
         }
       })
       .onDone(async ({data}) => {
+        console.log('data: ', data);
         console.log('done scraping & ranking!')
 
         // await new Promise(resolve => setTimeout(resolve, 4000));
         // storePaper
-        await Promise.all([
+        const res = await Promise.all([
           ...data.map(repository.storePaper),
+          // repository.storePaper(data[0]),
           repository.updateDayStatus(date, 'complete'),
         ])
+        console.log('completed date: ', date);
+        // console.log('ress: ', res);
 
         const papers = data.map((p: { metaData: any; }) => ({ ...p, date: date, metaData: { ...p.metaData, status: 0 } }));
         const orderedPapers = papers.sort((a: { metaData: { relevancy: number; }; }, b: { metaData: { relevancy: number; }; }) => b.metaData.relevancy - a.metaData.relevancy); // order by relevancy

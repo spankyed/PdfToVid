@@ -25,6 +25,7 @@ function storePapers(papers: PaperDocument[]): Promise<any> {
 }
 
 function updateDayStatus(day: string, status: string): Promise<any> {
+  console.log('day: ', day);
   return database.update({
     table: 'days',
     query: { value: day },
