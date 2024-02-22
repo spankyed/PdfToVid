@@ -1,0 +1,19 @@
+Curategpt
+
+- Rewrite front end jotai
+    - Rename papers-list and other poorly named lists/components
+- Rewrite backend. Rename services folder to -> src
+    - Remove status service, incorporate into client. Have worker ping client
+        - Rename client to web
+    - Mysql database
+        - Remove database service. Mysql allows for multiple connects
+    - Remove state machine
+        - Make better use of worker/service folder
+    - Move files -> worker folder. Remove database files
+    - Break client/index into a new file client/service.ts. keep repository.ts
+    - Rename scripts folder -> maintenance and organize contents
+        - Consider spinning up server that stays alive
+        - Create settings UI to interact with maintenance scripts
+
+
+Send url of project to include on https://info.arxiv.org/help/api/basics.html#community
