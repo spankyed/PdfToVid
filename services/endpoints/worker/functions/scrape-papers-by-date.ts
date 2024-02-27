@@ -1,7 +1,8 @@
 import axios from "axios";
 import { parseStringPromise } from "xml2js";
 
-const ARXIV_OAI_ENDPOINT = "http://export.arxiv.org/oai2?";
+const ARXIV_API_ENDPOINT = "https://export.arxiv.org/api/query?";
+const maxResults = 1000;
 
 interface Paper {
   id: string;
@@ -11,61 +12,57 @@ interface Paper {
   authors: string[];
 }
 
-const constructQuery = (date: string): string => {
-  const formattedDate = new Date(date).toISOString().split("T")[0];
-  return `verb=ListRecords&from=${formattedDate}&until=${formattedDate}&set=cs&metadataPrefix=arXiv`;
+const createArxivQuery = (dateString: string): string => {
+    const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
+    const match = dateString.match(dateRegex);
+
+    if (!match) {
+        throw new Error('Invalid date format. Please use YYYY-MM-DD.');
+    }
+
+    const [year, month, day] = match.slice(1);
+    const formattedDate = `${year}${month}${day}`;
+
+    return `search_query=cat:cs.AI+AND+submittedDate:[${formattedDate}0000+TO+${formattedDate}2359]&start=0&max_results=${maxResults}`;
 };
 
-const isAIPaper = (record: any): boolean => {
-  const categories = record.metadata[0]["arXiv"][0].categories[0].split(" ");
-  return categories.includes("cs.AI");
-};
-
-const extractPaperData = (record: any): Paper => {
-  const metadata = record.metadata[0]["arXiv"];
+const extractPaperData = (entry: any): Paper => {
   return {
-    id: metadata[0].id[0],
-    title: metadata[0].title[0],
-    abstract: metadata[0].abstract[0],
-    pdfLink: `http://arxiv.org/pdf/${metadata[0].id[0]}.pdf`,
-    authors: metadata[0].authors[0].author.map(
+    id: entry.id[0],
+    title: entry.title[0],
+    abstract: entry.summary[0],
+    pdfLink: entry.link.find((link: any) => link.$.title === 'pdf').$.href,
+    authors: entry.author.map(
       (author: any) =>
-        `${author.keyname[0]} ${author.forenames ? author.forenames[0] : ""}`
+        `${author.name[0]}`
     ),
   };
 };
 
 export default async function scrapePapersByDate(date: string): Promise<Paper[]> {
+  console.log('date: ', date);
   try {
-    const response = await axios.get(ARXIV_OAI_ENDPOINT + constructQuery(date));
-    // console.log('scraped papers: ', response);
+    const query = createArxivQuery(date);
+    const url = ARXIV_API_ENDPOINT + query;
+    console.log('url: ', url);
+    const response = await axios.get(url);
 
     if (response.status !== 200) {
-      throw new Error("Error fetching data from ArXiv OAI endpoint");
+      throw new Error("Error fetching data from ArXiv API endpoint");
     }
 
-    console.log('response.data: ', response.data);
     const parsedData = await parseStringPromise(response.data);
-
-    if (parsedData["OAI-PMH"] && parsedData["OAI-PMH"].error) {
-      console.error(
-        "Error received from ArXiv OAI endpoint:",
-        parsedData["OAI-PMH"].error[0]
-      );
-      return [];
-    }
-
-    return parsedData["OAI-PMH"].ListRecords[0].record
-      .filter(isAIPaper)
-      .map(extractPaperData);
+    const entries = parsedData.feed.entry || [];
+    // console.log('entries: ', entries);
+    return entries.map(extractPaperData);
   } catch (err) {
     console.error(err);
     throw err;
   }
-};
+}
 
 // Example usage
-// scrapePapersByDate('2023-09-21').then(papers => {
+// scrapePapersByDate('2024-02-21').then(papers => {
 //   console.log(papers);
 // }).catch(error => {
 //   console.error('Error fetching papers:', error);
