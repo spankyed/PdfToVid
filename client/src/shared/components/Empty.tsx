@@ -1,12 +1,16 @@
 import React, { useContext } from 'react';
 import { Typography, Box, Button } from '@mui/material';
-import { StoreContext } from '~/index';
-import { StoreType } from '../store';
+import { useAtom } from 'jotai';
+import { scrapePapersAtom } from '../store';
+// import { StoreContext } from '~/index';
+// import { StoreType } from '../store';
 
 
 function EmptyState({ day }: { day: string }): React.ReactElement {
-  const store = useContext<StoreType>(StoreContext);
-  const { scrapePapers } = store.dashboard;
+  // const store = useContext<StoreType>(StoreContext);
+  // const { scrapePapers } = store.dashboard;
+
+  const [, scrapePapers] = useAtom(scrapePapersAtom);
 
   const scrape = () => {
     scrapePapers(day);

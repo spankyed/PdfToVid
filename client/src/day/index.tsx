@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 // import { Link } from 'react-router-dom';
 import { Typography, Box, Tabs, Tab, Button, Grid, TextField, CircularProgress, LinearProgress } from '@mui/material';
-import { Paper, StoreType } from '~/shared/store';
+// import { Paper, StoreType } from '~/shared/store';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '..';
+// import { StoreContext } from '..';
 import PapersTable from './PapersTable';
 import Scraping from '~/shared/components/Scraping';
 import EmptyState from '~/shared/components/Empty';
@@ -12,13 +12,15 @@ import SearchAndActions from './SearchActions';
 // import SearchIcon from '@mui/icons-material/Search';
 
 const Day: React.FC<{}> = observer(() => {
-  const store = useContext<StoreType>(StoreContext);
-  const dayId = store.routing.params.get('dayId') ?? '';
+  // const store = useContext<StoreType>(StoreContext);
+  // const dayId = store.routing.params.get('dayId') ?? '';
+  const dayId = '2';
   
-  const { papers, state } = store.dayPage;
+  // const { papers, state } = store.dayPage;
+  const { papers, state } = { };
 
   useEffect(() => {
-    store.dayPage.fetchPapersForDay(dayId);
+    // store.dayPage.fetchPapersForDay(dayId);
   }, [dayId]);
 
   const componentsByState = {

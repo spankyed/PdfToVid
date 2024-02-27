@@ -1,26 +1,25 @@
 import React, { useContext, useEffect, useState} from 'react';
-import Dates from './Dates';
-import Papers from './Papers';
-import Search from './Search';
+import Dates from './dates/Dates';
+import Papers from './papers/Papers';
+import Search from './search/Search';
 import { Box, Button, ButtonGroup } from '@mui/material';
-import { StoreContext } from '../index';
-import { StoreType } from '../shared/store';
+// import { StoreContext } from '../index';
+// import { StoreType } from '../shared/store';
 import './index.css';
+import { useAtom } from 'jotai';
+import { fetchDashboardDataAtom } from '~/shared/store';
 
 type PanelType = 'dates' | 'search';
 
 const height = 'calc(100vh - 65px)'
 
 const Dashboard: React.FC = () => {
-  // ! this component is not using mobx-react-lite observer and is therefore not reactive
-  const store = useContext<StoreType>(StoreContext);
-  const { state, fetchDashboard, setState } = store.dashboard;
+  const [, fetchData] = useAtom(fetchDashboardDataAtom);
 
-  if (state === "initial") {
-    setState('loading');
-    fetchDashboard();
-  }
-
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+  
   const [inPanel, setPanel] = useState<PanelType>('dates');
   
   const handlePanelToggle = (view: PanelType) => {

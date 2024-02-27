@@ -1,18 +1,21 @@
 import React, { useContext, useState } from 'react';
 import { Box, Typography, Pagination } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { StoreContext } from '../index';
-import { Paper, StoreType } from '../shared/store';
 import { observer } from 'mobx-react-lite';
 import Thumbnail from '~/shared/components/Thumbnail';
 import EmptyState from '~/shared/components/Empty';
 import Scraping from '~/shared/components/Scraping';
 import Ranking from '~/shared/components/Ranking';
+import { useAtom } from 'jotai';
+import { Paper, papersListAtom, selectedDayAtom } from '../../shared/store';
 
 const Papers: React.FC = observer(() => {
-  const store = useContext<StoreType>(StoreContext);
   const navigate = useNavigate();
-  const { state, papersList, selectedDay, selectDay} = store.dashboard;
+  // const store = useContext<StoreType>(StoreContext);
+  // const { state, papersList, selectedDay, selectDay} = store.dashboard;
+
+  const [papersList] = useAtom(papersListAtom);
+  const [selectedDay, setSelectedDay] = useAtom(selectedDayAtom);
   
   function reformatDate(inputDate: string): string {
     const date = new Date(inputDate);
@@ -53,8 +56,8 @@ const Papers: React.FC = observer(() => {
         
         return (
           <Box 
-            key={value} 
-            onMouseEnter={() => selectDay(value)}
+            key={'day-' + value} 
+            onMouseEnter={() => setSelectedDay(value)}
             sx={{ 
               display: 'flex', 
               flexDirection: 'column', 

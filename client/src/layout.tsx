@@ -2,14 +2,21 @@ import React, { useContext, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Breadcrumbs, Box, Link as MLink} from '@mui/material';
 import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import { StoreContext } from '..';
 import { observer } from 'mobx-react-lite';
+import { atomWithLocation } from 'jotai-location'
+import { useAtom } from 'jotai';
 
 const height = 'calc(100vh - 65px)';
+
+const locationAtom = atomWithLocation()
 
 const BreadcrumbComponent: React.FC<{ currentPath: string, breadcrumbs: any[] }> = ({ currentPath, breadcrumbs }) => {
   if (currentPath === '/papers') return null;
   
+
+  // const [loc, setLoc] = useAtom(locationAtom)
+
+
   const navigate = useNavigate();
 
   function reformatDate(inputDate) {
@@ -53,17 +60,9 @@ const BreadcrumbComponent: React.FC<{ currentPath: string, breadcrumbs: any[] }>
 };
 
 const Layout: React.FC = observer(() => {
-  const location = useLocation();
-  const params = useParams();
-  const store = useContext(StoreContext);
+  const [location, setLoc] = useAtom(locationAtom)
 
-  useEffect(() => {
-    store.routing.setPath(location.pathname);
-    store.routing.setParams(params);
-  }, [location, params, store]);
-
-  const { currentPath } = store.routing;
-
+  const currentPath = location.pathname || '';
   const generateBreadcrumbs = () => {
     const parts = currentPath.split("/").filter(Boolean);
     return parts.map(part => (part.charAt(0).toUpperCase() + part.slice(1)));

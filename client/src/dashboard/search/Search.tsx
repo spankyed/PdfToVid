@@ -2,14 +2,14 @@
 
 import React, { useContext } from 'react';
 import { TextField, Box, Card, CardContent, Typography, Button } from '@mui/material';
-import { StoreContext } from '../index';
-import { StoreType } from '../shared/store';
 import { Link } from 'react-router-dom';
+import { useAtom } from 'jotai';
 
 const SearchPanel: React.FC = () => {
-  const store = useContext<StoreType>(StoreContext);
+  // const [searchData, setSearchData] = useAtom(searchDataAtom);
   // const searchResults = store.searchResults;
 
+  
   const result = {
     title: 'Testing GPT-4 with Wolfram Alpha an...',
     date: '2021-10-01',

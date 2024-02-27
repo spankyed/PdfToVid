@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { Typography, Box, LinearProgress } from '@mui/material';
-import { StoreContext } from '~/index';
-import { StoreType } from '../store';
+// import { StoreContext } from '~/index';
+// import { StoreType } from '../store';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 // In your component's render method:
 
 
 const Ranking: React.FC = () => {
-  const store = useContext<StoreType>(StoreContext);
+  // const store = useContext<StoreType>(StoreContext);
   // const { checkStatus } = store.dashboard;
   // todo determine and show current progress
   return (

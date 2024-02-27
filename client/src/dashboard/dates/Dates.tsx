@@ -1,13 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { List, ListItem, ListItemText, ListSubheader, Collapse } from '@mui/material';
-import { StoreContext } from '../index';
-import { StoreType } from '../shared/store';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
+import { datesListAtom, selectedDayAtom, openMonthAtom } from '../../shared/store'; // Import your Jotai atoms
+import { useAtom } from 'jotai';
 
 const DateList: React.FC = observer(() => {
-  const store = useContext<StoreType>(StoreContext);
-  const { datesList, selectedDay, openMonth, setOpenMonth, selectDay } = store.dashboard;
+  // const store = useContext<StoreType>(StoreContext);
+  // const { datesList, selectedDay, openMonth, setOpenMonth, selectDay } = store.dashboard;
+
+  const [datesList] = useAtom(datesListAtom);
+  const [selectedDay] = useAtom(selectedDayAtom);
+  const [openMonth, setOpenMonth] = useAtom(openMonthAtom);
 
   const clickMonth = (month: string) => {
     setOpenMonth(openMonth === month ? '' : month);
@@ -41,7 +45,7 @@ const DateList: React.FC = observer(() => {
               {days.map(day => {
                 const [formattedDay, formattedWeekday] = reformatDate(day.value);
                 return (
-                  <Link to={`/day/${day.value}`} key={day.value}>
+                  <Link to={`/day/${day.value}`} key={'date-' + day.value}>
                     <ListItem 
                       button 
                       selected={selectedDay === day.value}

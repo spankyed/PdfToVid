@@ -2,9 +2,9 @@ import { Button } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { observer } from "mobx-react-lite";
-import { Paper } from "../store";
+// import { Paper } from "../store";
 
-function Like ({ paper, allRed }: { paper: Paper, allRed?: boolean }): React.ReactElement {
+function Like ({ paper, allRed }: { paper: any, allRed?: boolean }): React.ReactElement {
   return (
     <Button>
       {/* <Fab aria-label="like">
@@ -15,7 +15,8 @@ function Like ({ paper, allRed }: { paper: Paper, allRed?: boolean }): React.Rea
         }
       </Fab> */}
       {
-        paper.metaData.liked 
+        // paper.metaData.liked 
+        true
           ? <FavoriteIcon color="error" />
           : <FavoriteBorderIcon color={allRed ? 'error' : 'action'} />
       }
