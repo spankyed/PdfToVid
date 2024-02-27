@@ -1,4 +1,4 @@
-import { store } from '../src/database/schema';
+import { store } from '../database/schema';
 import type Datastore from '@seald-io/nedb';
 
 // https://github.com/spankyed/CurateGPT/blob/e956c911021ba42d4f75ea75853a7ab8e0248b90/server/src/http/utils.ts#L136

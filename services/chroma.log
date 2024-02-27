@@ -16,3 +16,6 @@
 [32mINFO[0m:     [27-02-2024 01:07:53] ::1:50206 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
 [36mDEBUG[0m:    [27-02-2024 01:07:59] Starting component PersistentLocalHnswSegment
 [32mINFO[0m:     [27-02-2024 01:07:59] ::1:50203 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 01:12:56] ::1:52322 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 01:12:56] ::1:52324 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 01:13:02] ::1:52322 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200

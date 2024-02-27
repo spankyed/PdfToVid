@@ -8,7 +8,7 @@
     "chroma": "chroma run --path /Users/spankyed/Develop/Projects/CurateGPT/services/database/chroma",
     "start": "pm2 start ecosystem.config.cjs",
     "start:client": "tsx watch src/client/index.ts",
-    "maint": "tsx maintenance/index.ts",
+    "maint": "tsx src/maintenance/index.ts",
     "scrape": "tsx watch src/worker/functions/scrape-papers-by-date.ts",
     "test": "tsx watch src/worker/test.ts",
     "build": "tsc -p tsconfig.json",

@@ -1,4 +1,4 @@
-import { store } from '../src/database/schema';
+import { store } from '../database/schema';
 import type Datastore from '@seald-io/nedb';
 
 async function wipeAllDatastores(): Promise<void> {

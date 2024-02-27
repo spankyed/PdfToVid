@@ -1,5 +1,5 @@
-import { postDispatcher as db } from '../src/database/store';
-import setup from '../src/worker/service/setup';
+import { postDispatcher as db } from '../database/store';
+import setup from '../worker/service/setup';
 
 export async function backfillDays (date: string): Promise<void> {
   const today = new Date();
