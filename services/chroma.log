@@ -59,3 +59,12 @@
 [32mINFO[0m:     [26-02-2024 21:48:07] ::1:65093 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
 [36mDEBUG[0m:    [26-02-2024 21:48:11] Starting component PersistentLocalHnswSegment
 [32mINFO[0m:     [26-02-2024 21:48:11] ::1:65091 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 00:22:13] ::1:63142 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 00:22:13] ::1:63144 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 00:22:21] ::1:63142 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 00:22:33] ::1:63403 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 00:22:33] ::1:63405 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 00:22:41] ::1:63403 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 00:23:49] ::1:64041 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 00:23:49] ::1:64042 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 00:23:55] ::1:64041 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200

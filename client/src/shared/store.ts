@@ -116,7 +116,7 @@ export const scrapePapersAtom = atom(
       await api.scrapeDay(date);
 
       // todo refactor to provide status updates async
-      await new Promise(resolve => setTimeout(resolve, 7000)); // 4 second delay before we begin checking status
+      await new Promise(resolve => setTimeout(resolve, 10000)); // 4 second delay before we begin checking status
       const status = await checkStatus('days', date);
 
       // Update the papers list based on the status

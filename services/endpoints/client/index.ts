@@ -1,10 +1,7 @@
 import type Hapi from '@hapi/hapi';
-import { groupDaysByMonth, mapPapersToDays } from './functions';
 import createServer from '../shared/server';
-import repository from './repository';
-import { worker } from './integrations';
 import { WebPath, ports } from '../shared/constants';
-import { status } from '../shared/integrations';
+import { routes } from './routes';
 // import mocks from '../../../tests/mocks';
 
 // const { paperList } = mocks;
@@ -18,69 +15,6 @@ const serverConfig: Hapi.ServerOptions | undefined = {
     }
   }
 };
-
-const routes = [
-  {
-    method: 'GET',
-    path: '/dashboard',
-    handler: (request, h) => {
-      return new Promise(async (resolve, reject) => {
-        const [allDays, lastFiveDays] = await repository.fetchDashboard();
-        const papers = await repository.getPapersForDays(lastFiveDays, 0, 7);
-        const paperList = mapPapersToDays(lastFiveDays, papers);
-        const dateList = groupDaysByMonth(allDays);
-        // ! ensure paperList only includes dates in DB
-        
-        // todo current day seems to be off (13th instead of 14th for today)
-        const dashboardData = { dateList, paperList }
-        
-        resolve(dashboardData)
-      });
-    }
-  },
-  // fetch papers for day
-  {
-    method: 'GET',
-    path: '/papers/{date}',
-    handler: (request, h) => {
-      return new Promise(async (resolve, reject) => {
-        const date = request.params.date;
-        const papers = await repository.getPapersForDays([date]);
-        resolve(papers)
-      });
-    }
-  },
-  {
-    method: 'POST',
-    path: '/scrape/{date}',
-    handler: async (request, h) => {
-      const date = request.params.date;
-      const workerResponse = await worker.scrape({ date });
-      console.log('workerResponse: ', workerResponse);
-
-      if (!workerResponse){
-        return { error: 'Problem scraping papers' }
-      }
-
-      return workerResponse;
-    }
-  },
-  {
-    method: 'POST',
-    path: '/check-status/{type}',
-    handler: async (request, h) => {
-      const type = request.params.type;
-      const statusResponse = await status.check(type, request.payload);
-      console.log('status response: ', statusResponse);
-
-      if (!statusResponse){
-        return { error: 'Problem checking status' }
-      }
-
-      return statusResponse;
-    }
-  }
-];
 
 (async function start () {
   const server = createServer(serverConfig, routes);

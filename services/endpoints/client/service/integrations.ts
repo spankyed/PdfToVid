@@ -1,5 +1,5 @@
-import { WorkerPath } from "../shared/constants";
-import createRequest from "../shared/request";
+import { WorkerPath } from "../../shared/constants";
+import createRequest from "../../shared/request";
 
 const workerService = createRequest(WorkerPath);
 
