@@ -5,6 +5,7 @@
   "main": "endpoints/client/index.ts",
   "scripts": {
     "dev": "npm run start && pm2 monit",
+    "chroma": "chroma run --path /Users/spankyed/Develop/Projects/CurateGPT/services/files/database/chroma",
     "start": "pm2 start ecosystem.config.cjs",
     "start:client": "tsx watch endpoints/client/index.ts",
     "script": "tsx scripts/index.ts",
