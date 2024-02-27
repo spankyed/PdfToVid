@@ -28,5 +28,5 @@ const serverConfig: Hapi.ServerOptions | undefined = {
     process.exit(1);
   }
 
-  console.log('Client service running at:', server.info.uri);
+  console.log('Web server running at:', server.info.uri);
 })();

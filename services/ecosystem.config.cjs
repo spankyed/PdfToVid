@@ -2,8 +2,8 @@ module.exports = {
   apps: [
     {
       name: "client-service",
-      script: "src/client/index.ts",
-      watch: ["src/client"],
+      script: "src/web/index.ts",
+      watch: ["src/web"],
       interpreterArgs: '--loader tsx',
       interpreter: 'node',
     },
