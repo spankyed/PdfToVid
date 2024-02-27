@@ -7,7 +7,7 @@ const client = new chromadb.ChromaClient();
 const COLLECTION_NAME = "paper-embeddings";
 const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
 const PATH_REF_PAPERS =
-  "/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets/ref-papers.json";
+  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/ref-papers.json";
 
 async function createSBertEmbeddingFunction(modelName: string) {
   const extractor = await pipeline("feature-extraction", modelName, {

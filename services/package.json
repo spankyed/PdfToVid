@@ -5,10 +5,10 @@
   "main": "endpoints/client/index.ts",
   "scripts": {
     "dev": "npm run start && pm2 monit",
-    "chroma": "chroma run --path /Users/spankyed/Develop/Projects/CurateGPT/services/files/database/chroma",
+    "chroma": "chroma run --path /Users/spankyed/Develop/Projects/CurateGPT/services/database/chroma",
     "start": "pm2 start ecosystem.config.cjs",
     "start:client": "tsx watch endpoints/client/index.ts",
-    "script": "tsx scripts/index.ts",
+    "maint": "tsx maintenance/index.ts",
     "scrape": "tsx watch endpoints/worker/functions/scrape-papers-by-date.ts",
     "test": "tsx watch endpoints/worker/test.ts",
     "build": "tsc -p tsconfig.json",

@@ -1,70 +1,18 @@
-[33mWARNING[0m:  [26-02-2024 00:43:35] chroma_server_nofile is set to 65535, but this is less than current soft limit of 1048575. chroma_server_nofile will not be set.
-[32mINFO[0m:     [26-02-2024 00:43:35] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-[36mDEBUG[0m:    [26-02-2024 00:43:35] Starting component System
-[36mDEBUG[0m:    [26-02-2024 00:43:35] Starting component OpenTelemetryClient
-[36mDEBUG[0m:    [26-02-2024 00:43:35] Starting component SimpleAssignmentPolicy
-[36mDEBUG[0m:    [26-02-2024 00:43:35] Starting component SqliteDB
-[36mDEBUG[0m:    [26-02-2024 00:43:35] Starting component QuotaEnforcer
-[36mDEBUG[0m:    [26-02-2024 00:43:35] Starting component Posthog
-[36mDEBUG[0m:    [26-02-2024 00:43:35] Starting component LocalSegmentManager
-[36mDEBUG[0m:    [26-02-2024 00:43:35] Starting component SegmentAPI
-[32mINFO[0m:     [26-02-2024 00:43:35] Started server process [[36m40904[0m]
-[32mINFO[0m:     [26-02-2024 00:43:35] Waiting for application startup.
-[32mINFO[0m:     [26-02-2024 00:43:35] Application startup complete.
-[32mINFO[0m:     [26-02-2024 00:43:35] Uvicorn running on [1mhttp://localhost:8000[0m (Press CTRL+C to quit)
-[32mINFO[0m:     [26-02-2024 00:44:00] ::1:64970 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:44:00] ::1:64977 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:44:00] ::1:64970 - "POST /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:44:02] ::1:64977 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[36mDEBUG[0m:    [26-02-2024 00:44:02] Starting component PersistentLocalHnswSegment
-[32mINFO[0m:     [26-02-2024 00:44:02] ::1:64970 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/add HTTP/1.1" 201
-[32mINFO[0m:     [26-02-2024 00:44:02] ::1:64977 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:44:02] ::1:64970 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:44:42] ::1:65346 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:44:42] ::1:65348 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:44:43] ::1:65346 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:48:33] ::1:51248 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:48:33] ::1:51250 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:48:33] ::1:51248 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:51:36] ::1:52795 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:51:36] ::1:52797 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:51:37] ::1:52795 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:53:16] ::1:53605 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:53:16] ::1:53607 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:53:17] ::1:53605 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:55:06] ::1:54506 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:55:06] ::1:54508 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:55:07] ::1:54506 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:56:25] ::1:55181 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:56:25] ::1:55183 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 00:56:30] ::1:55181 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 01:00:08] ::1:57121 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 01:00:08] ::1:57123 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 01:00:15] ::1:57121 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[33mWARNING[0m:  [26-02-2024 21:18:06] chroma_server_nofile is set to 65535, but this is less than current soft limit of 1048575. chroma_server_nofile will not be set.
-[32mINFO[0m:     [26-02-2024 21:18:06] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-[36mDEBUG[0m:    [26-02-2024 21:18:06] Starting component System
-[36mDEBUG[0m:    [26-02-2024 21:18:06] Starting component OpenTelemetryClient
-[36mDEBUG[0m:    [26-02-2024 21:18:06] Starting component SimpleAssignmentPolicy
-[36mDEBUG[0m:    [26-02-2024 21:18:06] Starting component SqliteDB
-[36mDEBUG[0m:    [26-02-2024 21:18:06] Starting component QuotaEnforcer
-[36mDEBUG[0m:    [26-02-2024 21:18:06] Starting component Posthog
-[36mDEBUG[0m:    [26-02-2024 21:18:06] Starting component LocalSegmentManager
-[36mDEBUG[0m:    [26-02-2024 21:18:06] Starting component SegmentAPI
-[32mINFO[0m:     [26-02-2024 21:18:06] Started server process [[36m94350[0m]
-[32mINFO[0m:     [26-02-2024 21:18:06] Waiting for application startup.
-[32mINFO[0m:     [26-02-2024 21:18:06] Application startup complete.
-[32mINFO[0m:     [26-02-2024 21:18:06] Uvicorn running on [1mhttp://localhost:8000[0m (Press CTRL+C to quit)
-[32mINFO[0m:     [26-02-2024 21:48:07] ::1:65091 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [26-02-2024 21:48:07] ::1:65093 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[36mDEBUG[0m:    [26-02-2024 21:48:11] Starting component PersistentLocalHnswSegment
-[32mINFO[0m:     [26-02-2024 21:48:11] ::1:65091 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [27-02-2024 00:22:13] ::1:63142 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [27-02-2024 00:22:13] ::1:63144 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [27-02-2024 00:22:21] ::1:63142 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [27-02-2024 00:22:33] ::1:63403 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [27-02-2024 00:22:33] ::1:63405 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [27-02-2024 00:22:41] ::1:63403 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
-[32mINFO[0m:     [27-02-2024 00:23:49] ::1:64041 - "GET /api/v1/collections HTTP/1.1" 200
-[32mINFO[0m:     [27-02-2024 00:23:49] ::1:64042 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
-[32mINFO[0m:     [27-02-2024 00:23:55] ::1:64041 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[33mWARNING[0m:  [27-02-2024 01:07:40] chroma_server_nofile is set to 65535, but this is less than current soft limit of 1048575. chroma_server_nofile will not be set.
+[32mINFO[0m:     [27-02-2024 01:07:40] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+[36mDEBUG[0m:    [27-02-2024 01:07:40] Starting component System
+[36mDEBUG[0m:    [27-02-2024 01:07:40] Starting component OpenTelemetryClient
+[36mDEBUG[0m:    [27-02-2024 01:07:40] Starting component SimpleAssignmentPolicy
+[36mDEBUG[0m:    [27-02-2024 01:07:40] Starting component SqliteDB
+[36mDEBUG[0m:    [27-02-2024 01:07:40] Starting component QuotaEnforcer
+[36mDEBUG[0m:    [27-02-2024 01:07:40] Starting component Posthog
+[36mDEBUG[0m:    [27-02-2024 01:07:40] Starting component LocalSegmentManager
+[36mDEBUG[0m:    [27-02-2024 01:07:40] Starting component SegmentAPI
+[32mINFO[0m:     [27-02-2024 01:07:40] Started server process [[36m63627[0m]
+[32mINFO[0m:     [27-02-2024 01:07:40] Waiting for application startup.
+[32mINFO[0m:     [27-02-2024 01:07:40] Application startup complete.
+[32mINFO[0m:     [27-02-2024 01:07:40] Uvicorn running on [1mhttp://localhost:8000[0m (Press CTRL+C to quit)
+[32mINFO[0m:     [27-02-2024 01:07:53] ::1:50203 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 01:07:53] ::1:50206 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[36mDEBUG[0m:    [27-02-2024 01:07:59] Starting component PersistentLocalHnswSegment
+[32mINFO[0m:     [27-02-2024 01:07:59] ::1:50203 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200

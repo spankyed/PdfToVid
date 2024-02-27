@@ -47,7 +47,7 @@ const entryIds =  [
 scrapeRefPapers(entryIds).then((arxivPapers) => {
 
   // console.log('arxivPapers: ', arxivPapers);
-  const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets';
+  const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated';
   const jsonPath = path.join(root, 'research-papers.json');
   const jsonString = JSON.stringify(arxivPapers, null, 2);
 

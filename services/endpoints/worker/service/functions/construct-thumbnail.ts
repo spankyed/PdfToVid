@@ -7,7 +7,7 @@ import fetch from 'node-fetch';
 import { pipeline } from 'stream';
 import { promisify } from 'util';
 
-const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/files';
+const root = '/Users/spankyed/Develop/Projects/CurateGPT/services/endpoints/worker/service';
 
 // Register the font
 registerFont(path.join(root, 'assets', 'Roboto-Bold.ttf'), { family: 'Roboto' });

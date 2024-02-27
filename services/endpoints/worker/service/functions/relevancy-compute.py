@@ -5,7 +5,7 @@ from sentence_transformers import SentenceTransformer
 # Load SBERT model
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
-pathRefPapers = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets/ref-papers.json'
+pathRefPapers = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/ref-papers.json'
 COLLECTION_NAME = "paper-embeddings"
 
 def get_collection_or_create(collection_name=COLLECTION_NAME):

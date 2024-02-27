@@ -1,4 +1,4 @@
-// scripts/script.ts
+// maintenance/index.ts
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 

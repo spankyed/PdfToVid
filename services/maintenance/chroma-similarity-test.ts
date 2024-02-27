@@ -10,7 +10,7 @@ type Paper = {
     }
 };
 
-const pathRefPapers: string = '/Users/spankyed/Develop/Projects/CurateGPT/services/files/assets/ref-papers.json';
+const pathRefPapers: string = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/ref-papers.json';
 let ref_papers: Paper[] = JSON.parse(fs.readFileSync(pathRefPapers, 'utf-8'));
 
 function computeCosineSimilarity(A: number[], B: number[]): number {
