@@ -1,4 +1,4 @@
-import scrapeRefPapers from "../endpoints/worker/functions/scrape-ref-papers";
+import scrapeRefPapers from "../src/worker/functions/scrape-ref-papers";
 import { promises as fs } from 'fs';
 import path from 'path';
 

@@ -13,7 +13,7 @@ async function run(title: string, script: string) {
 
   // Type into the email and password inputs
   await page.type('input[type="text"]', process.env.EMAIL ?? '');
-  await page.type('input[type="password"]', process.env.TASKCURD ?? '');
+  await page.type('input[type="password"]', process.env.PICTORY_PASS ?? '');
 
   // Click the submit button and wait for navigation to complete
   await Promise.all([
