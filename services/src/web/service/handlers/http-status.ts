@@ -1,4 +1,3 @@
-import { cons } from "fp-ts/lib/ReadonlyNonEmptyArray";
 import { io } from "../..";
 // async function checkStatus(request, h) {
 //   const status = {
