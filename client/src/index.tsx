@@ -11,6 +11,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from './layout';
 import Dashboard from './dashboard';
 import './index.css';
+import SocketListener from './shared/store/listeners-hook';
 
 const router = createBrowserRouter([
   {
@@ -35,10 +36,12 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
+
   return (
     <ThemeProvider theme={theme}>
       <Provider>
         <RouterProvider router={router} />
+        <SocketListener />
       </Provider>
     </ThemeProvider>
   );

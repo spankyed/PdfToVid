@@ -15,8 +15,7 @@ export const fetchDashboardDataAtom = atom(
       const response = await api.getDashboardData();
       const { dateList, paperList } = response.data;
       console.log('dateList: ', dateList);
-
-      console.log('set dateList: ');
+      console.log('paperList: ', paperList);
       set(datesListAtom, dateList);
       set(papersListAtom, paperList);
       set(selectedDayAtom, dateList[0]?.days[0]?.value ?? '');
