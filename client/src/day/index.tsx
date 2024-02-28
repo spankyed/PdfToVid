@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 // import { Link } from 'react-router-dom';
 import { Typography, Box, Tabs, Tab, Button, Grid, TextField, CircularProgress, LinearProgress } from '@mui/material';
 // import { Paper, StoreType } from '~/shared/store';
-import { observer } from 'mobx-react-lite';
 // import { StoreContext } from '..';
 import PapersTable from './PapersTable';
 import Scraping from '~/shared/components/Scraping';
 import EmptyState from '~/shared/components/Empty';
 import VideoPapersGrid from './VideosGrid';
 import SearchAndActions from './SearchActions';
+import { Paper } from '~/shared/store';
 // import SearchIcon from '@mui/icons-material/Search';
 
-const Day: React.FC<{}> = observer(() => {
+function Day(): React.ReactElement {
   // const store = useContext<StoreType>(StoreContext);
   // const dayId = store.routing.params.get('dayId') ?? '';
   const dayId = '2';
@@ -36,7 +36,7 @@ const Day: React.FC<{}> = observer(() => {
       {componentsByState[state]}
     </Box>
   );
-})
+}
 
 const PageTitle: React.FC<{ date: string }> = ({ date }) => {
   // const [formattedDate, weekday] = useMemo(() => {

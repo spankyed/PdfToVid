@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Box, Typography, Pagination } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
 import Thumbnail from '~/shared/components/Thumbnail';
 import EmptyState from '~/shared/components/Empty';
 import Scraping from '~/shared/components/Scraping';
@@ -9,7 +8,7 @@ import Ranking from '~/shared/components/Ranking';
 import { useAtom } from 'jotai';
 import { Paper, papersListAtom, selectedDayAtom } from '../../shared/store';
 
-const Papers: React.FC = observer(() => {
+function Papers(): React.ReactElement {
   const navigate = useNavigate();
   // const store = useContext<StoreType>(StoreContext);
   // const { state, papersList, selectedDay, selectDay} = store.dashboard;
@@ -81,7 +80,7 @@ const Papers: React.FC = observer(() => {
       })}
     </>
   );
-})
+}
 
 function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);

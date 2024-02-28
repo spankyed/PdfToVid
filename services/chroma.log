@@ -19,3 +19,76 @@
 [32mINFO[0m:     [27-02-2024 01:12:56] ::1:52322 - "GET /api/v1/collections HTTP/1.1" 200
 [32mINFO[0m:     [27-02-2024 01:12:56] ::1:52324 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
 [32mINFO[0m:     [27-02-2024 01:13:02] ::1:52322 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 09:45:22] Shutting down
+[32mINFO[0m:     [27-02-2024 09:45:22] Waiting for application shutdown.
+[36mDEBUG[0m:    [27-02-2024 09:45:22] Stopping component System
+[36mDEBUG[0m:    [27-02-2024 09:45:22] Stopping component SegmentAPI
+[36mDEBUG[0m:    [27-02-2024 09:45:22] Stopping component PersistentLocalHnswSegment
+[36mDEBUG[0m:    [27-02-2024 09:45:22] Stopping component LocalSegmentManager
+[36mDEBUG[0m:    [27-02-2024 09:45:22] Stopping component Posthog
+[36mDEBUG[0m:    [27-02-2024 09:45:22] Stopping component QuotaEnforcer
+[36mDEBUG[0m:    [27-02-2024 09:45:22] Stopping component SqliteDB
+[36mDEBUG[0m:    [27-02-2024 09:45:22] Stopping component SimpleAssignmentPolicy
+[36mDEBUG[0m:    [27-02-2024 09:45:22] Stopping component OpenTelemetryClient
+[32mINFO[0m:     [27-02-2024 09:45:22] Application shutdown complete.
+[32mINFO[0m:     [27-02-2024 09:45:22] Finished server process [[36m63627[0m]
+[33mWARNING[0m:  [27-02-2024 21:39:20] chroma_server_nofile is set to 65535, but this is less than current soft limit of 1048575. chroma_server_nofile will not be set.
+[32mINFO[0m:     [27-02-2024 21:39:20] Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+[36mDEBUG[0m:    [27-02-2024 21:39:20] Starting component System
+[36mDEBUG[0m:    [27-02-2024 21:39:20] Starting component OpenTelemetryClient
+[36mDEBUG[0m:    [27-02-2024 21:39:20] Starting component SimpleAssignmentPolicy
+[36mDEBUG[0m:    [27-02-2024 21:39:20] Starting component SqliteDB
+[36mDEBUG[0m:    [27-02-2024 21:39:20] Starting component QuotaEnforcer
+[36mDEBUG[0m:    [27-02-2024 21:39:20] Starting component Posthog
+[36mDEBUG[0m:    [27-02-2024 21:39:20] Starting component LocalSegmentManager
+[36mDEBUG[0m:    [27-02-2024 21:39:20] Starting component SegmentAPI
+[32mINFO[0m:     [27-02-2024 21:39:20] Started server process [[36m81135[0m]
+[32mINFO[0m:     [27-02-2024 21:39:20] Waiting for application startup.
+[32mINFO[0m:     [27-02-2024 21:39:20] Application startup complete.
+[32mINFO[0m:     [27-02-2024 21:39:20] Uvicorn running on [1mhttp://localhost:8000[0m (Press CTRL+C to quit)
+[32mINFO[0m:     [27-02-2024 21:47:53] ::1:52299 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:47:53] ::1:52301 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[36mDEBUG[0m:    [27-02-2024 21:47:57] Starting component PersistentLocalHnswSegment
+[32mINFO[0m:     [27-02-2024 21:47:57] ::1:52299 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:51:58] ::1:54140 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:51:58] ::1:54141 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:52:02] ::1:54140 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:57:28] ::1:56530 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:57:28] ::1:56531 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:57:32] ::1:56530 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:58:04] ::1:56879 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:58:04] ::1:56881 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:58:07] ::1:56879 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:58:45] ::1:57248 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:58:45] ::1:57250 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:58:50] ::1:57248 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:59:33] ::1:57692 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:59:33] ::1:57694 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 21:59:36] ::1:57692 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:00:19] ::1:58089 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:00:19] ::1:58091 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:00:23] ::1:58089 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:05:39] ::1:60271 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:05:39] ::1:60273 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:05:43] ::1:60271 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:07:08] ::1:60920 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:07:08] ::1:60921 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:07:12] ::1:60920 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:08:54] ::1:61724 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:08:54] ::1:61726 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:08:58] ::1:61724 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:22:18] ::1:51000 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:22:18] ::1:51002 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:22:22] ::1:51000 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:22:43] ::1:51290 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:22:43] ::1:51291 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 22:22:46] ::1:51290 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 23:30:42] ::1:62467 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 23:30:42] ::1:62468 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 23:30:48] ::1:62467 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 23:34:16] ::1:64063 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 23:34:16] ::1:64064 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 23:34:21] ::1:64063 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 23:43:08] ::1:51242 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 23:43:08] ::1:51243 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [27-02-2024 23:43:12] ::1:51242 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200

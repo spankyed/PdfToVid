@@ -1,4 +1,3 @@
-import { observer } from "mobx-react-lite";
 import { Paper } from "../store";
 import { Tooltip } from "@mui/material";
 
@@ -36,5 +35,4 @@ function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React
   )
 }
 
-// export default observer(Relevancy);
 export default Relevancy;

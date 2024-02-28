@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Breadcrumbs, Box, Link as MLink} from '@mui/material';
 import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
 import { atomWithLocation } from 'jotai-location'
 import { useAtom } from 'jotai';
 
@@ -59,7 +58,7 @@ const BreadcrumbComponent: React.FC<{ currentPath: string, breadcrumbs: any[] }>
   );
 };
 
-const Layout: React.FC = observer(() => {
+function Layout(): React.ReactElement {
   const [location, setLoc] = useAtom(locationAtom)
 
   const currentPath = location.pathname || '';
@@ -103,6 +102,6 @@ const Layout: React.FC = observer(() => {
       </Box> */}
     </>
   );
-});
+};
 
 export default Layout;

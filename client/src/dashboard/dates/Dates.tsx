@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { List, ListItem, ListItemText, ListSubheader, Collapse } from '@mui/material';
-import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { datesListAtom, selectedDayAtom, openMonthAtom } from '../../shared/store'; // Import your Jotai atoms
 import { useAtom } from 'jotai';
 
-const DateList: React.FC = observer(() => {
+function DateList(): React.ReactElement {
   // const store = useContext<StoreType>(StoreContext);
   // const { datesList, selectedDay, openMonth, setOpenMonth, selectDay } = store.dashboard;
 
@@ -75,6 +74,6 @@ const DateList: React.FC = observer(() => {
       ))}
     </List>
   );
-})
+}
 
 export default DateList;

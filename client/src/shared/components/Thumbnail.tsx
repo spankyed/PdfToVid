@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
-import { Link, Navigate } from 'react-router-dom';
-import { StoreContext } from '../../index';
-import { Paper, StoreType } from '../store';
-import { observer } from 'mobx-react-lite';
+import { Link, useNavigate } from 'react-router-dom';
+import { Paper } from '../store';
 import { getThumbnailUrl, statuses } from '../constants';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -19,13 +17,17 @@ const colors = {
 }
 
 function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean }): React.ReactElement {
+  const navigate = useNavigate();
+
   const onThumbnailClick = (e) => {
+
     const is = tag => e.target.tagName === tag;
     const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
 
     if (ignore) return;
 
-    Navigate({ to: `/entry/${paper.id}` });
+    console.log('paper: ', paper);
+    navigate(`/entry/${paper.id}`);
   }
   return (
     <div
@@ -159,4 +161,4 @@ function PaperTitle ({ paper }: { paper: Paper }): React.ReactElement {
   )
 }
 
-export default observer(Thumbnail);
+export default Thumbnail;

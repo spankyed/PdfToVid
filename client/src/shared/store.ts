@@ -122,7 +122,7 @@ export const scrapePapersAtom = atom(
       // Update the papers list based on the status
       papersList[index].day.status = status.current;
       if (status.current === 'complete') {
-        console.log('status.data: ', status.data);
+        // console.log('status.data: ', status.data);
         // papersList[index].papers = JSON.parse(status.data);
         papersList[index].papers = status.data;
       }
