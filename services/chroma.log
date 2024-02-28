@@ -92,3 +92,15 @@
 [32mINFO[0m:     [27-02-2024 23:43:08] ::1:51242 - "GET /api/v1/collections HTTP/1.1" 200
 [32mINFO[0m:     [27-02-2024 23:43:08] ::1:51243 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
 [32mINFO[0m:     [27-02-2024 23:43:12] ::1:51242 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:28:27] ::1:62155 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:28:27] ::1:62156 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:28:36] ::1:62155 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:30:22] ::1:63123 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:30:22] ::1:63124 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:30:30] ::1:63123 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:33:39] ::1:64617 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:33:39] ::1:64618 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:33:49] ::1:64617 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:34:34] ::1:65140 - "GET /api/v1/collections HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:34:34] ::1:65141 - "GET /api/v1/collections/paper-embeddings HTTP/1.1" 200
+[32mINFO[0m:     [28-02-2024 03:34:42] ::1:65140 - "POST /api/v1/collections/e91ffa5e-764e-4e28-bfe7-088eec5e6517/query HTTP/1.1" 200

@@ -1,6 +1,17 @@
-import { groupDaysByMonth, mapPapersToDays } from './functions';
+import { groupDaysByMonth, mapPapersToDays } from '../utils';
 import repository from '../repository';
-import { worker } from './integrations';
+
+import { WorkerPath } from "../../../shared/constants";
+import createRequest from "../../../shared/request";
+
+const workerService = createRequest(WorkerPath);
+
+export const worker = {
+  scrape: (params: any) => workerService.post('scrape', params),
+  generate: (params: any) => workerService.post('generate', params),
+  auto: (params: any) => workerService.post('auto', params),
+  // completion: (params: any) => workerService.post('auto', params),
+}
 
 function getDashboard(request, h){
   return new Promise(async (resolve, reject) => {

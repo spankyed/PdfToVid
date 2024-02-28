@@ -1,6 +1,6 @@
 import createRequest from "../shared/request";
 import { RecordTypes } from "../shared/types";
-import { DatabasePath, StatusPath } from "./constants";
+import { DatabasePath } from "./constants";
 
 type TableKey = "days" | "papers" | "config";
 
@@ -29,7 +29,6 @@ type DeleteParams = {
 };
 
 const dbService = createRequest(DatabasePath);
-const statusService = createRequest(StatusPath);
 
 export const database = {
   create: (params: CreateParams) => dbService.post('db', { operation: 'create', ...params }),
@@ -41,10 +40,4 @@ export const database = {
   },
   update: (params: UpdateParams) => dbService.post('db', { operation: 'update', ...params }),
   delete: (params: DeleteParams) => dbService.post('db', { operation: 'delete', ...params }),
-}
-
-export const status = {
-  check: (type: any, params: any) => statusService.post(`check/${type}`, params),
-  set: (type: any, params: any) => statusService.post(`set/${type}`, params),
-  update: (type: any, params: any) => statusService.post(`update/${type}`, params),
 }

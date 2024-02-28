@@ -1,5 +1,5 @@
-import { PaperDocument } from '../database/schema';
-import { database } from '../shared/integrations';
+import { PaperDocument } from '../../database/schema';
+import { database } from '../../shared/integrations';
 // import { RecordTypes } from '../shared/types';
 
 function getFiveMostRecentDays(): Promise<any> {

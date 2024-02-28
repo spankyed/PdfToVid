@@ -1,12 +1,13 @@
-import type Hapi from '@hapi/hapi';
 import createServer from '../shared/server';
 import { WebPath, ports } from '../shared/constants';
-import { routes } from './routes';
-// import mocks from '../../../tests/mocks';
+import { routes } from './service/routes';
+import { Server as IOServer } from 'socket.io';
+// import eventHandlers from './service/handlers/socket';
 
+// import mocks from '../../../tests/mocks';
 // const { paperList } = mocks;
 
-const serverConfig: Hapi.ServerOptions | undefined = {
+const server = createServer({
   port: ports.client,
   routes: {
     cors: {
@@ -14,10 +15,29 @@ const serverConfig: Hapi.ServerOptions | undefined = {
       additionalHeaders: ['cache-control', 'x-requested-with']
     }
   }
-};
+}, routes);
+
+export const io = new IOServer(server.listener, {
+  cors: {
+    origin: "http://localhost:5173", // Client-side application origin
+    methods: ["GET", "POST"], // Allowed HTTP methods
+    // allowedHeaders: ["my-custom-header"],
+    credentials: true // Allow sending cookies from the client
+  }
+});
+
+export let user = '';
 
 (async function start () {
-  const server = createServer(serverConfig, routes);
+
+  io.on('connection', (socket) => {
+    console.log('A user connected by ws!', socket.id);
+    user = socket.id;
+    // Object.keys(eventHandlers).forEach((event) => {
+    //   const handler = eventHandlers[event as keyof typeof eventHandlers] || (() => {});
+    //   socket.on(event, handler);
+    // });
+  });
 
   try {
     // await server.register(Cors);

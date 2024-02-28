@@ -4,12 +4,19 @@ import * as fs from 'fs';
 import scrapePapersByDate from './functions/scrape-papers-by-date'; // Assume this exists
 import { getRelevancyScores } from './functions/relevancy-compute'; // Assume this exists
 import repository from '../repository'; // Assume this exists
-import { status } from '../../shared/integrations'; // Assume this exists
+import { ClientPath } from '../../shared/constants';
+import createRequest from '../../shared/request';
+
+const clientService = createRequest(ClientPath);
+
+export const status = {
+  update: (type: any, params: any) => clientService.post(`work-status/${type}`, params),
+}
 
 const scrapeAndRankPapers = async (date: string) => {
   console.log('Scraping papers...');
 
-  await status.set('days', { key: date, status: 'scraping' });
+  // await status.set('days', { key: date, status: 'scraping' });
   const papers = await scrapePapersByDate(date);
 
   if (papers.length === 0) {
@@ -20,6 +27,7 @@ const scrapeAndRankPapers = async (date: string) => {
   fs.writeFileSync(`${pathToLogs}/${date}.json`, JSON.stringify(papers));
   console.log('Papers scraped, proceeding to ranking...');
 
+   // !
   await status.update('days', { key: date, status: 'ranking' });
   const rankedPapers = await getRelevancyScores(papers);
   const mPapers = rankedPapers.map((p: { metaData: any; }) => ({ ...p, date: date, metaData: { ...p.metaData, status: 0 } }));
@@ -27,6 +35,8 @@ const scrapeAndRankPapers = async (date: string) => {
 
   await Promise.all(sortedPapers.map(paper => repository.storePaper(paper)));
   await repository.updateDayStatus(date, 'complete');
+
+   // !
   await status.update('days', { key: date, status: 'complete', data: sortedPapers, final: true });
 
   console.log('Scraping, ranking, and storing completed for date:', date);
