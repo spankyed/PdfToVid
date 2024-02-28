@@ -8,7 +8,7 @@ import Scraping from '~/shared/components/Scraping';
 import EmptyState from '~/shared/components/Empty';
 import VideoPapersGrid from './VideosGrid';
 import SearchAndActions from './SearchActions';
-import { Paper } from '~/shared/store';
+import { Paper } from '~/shared/store/types';
 // import SearchIcon from '@mui/icons-material/Search';
 
 function Day(): React.ReactElement {

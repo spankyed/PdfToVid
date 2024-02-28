@@ -1,56 +1,12 @@
 import { atom } from 'jotai';
-import * as api from './api';
-import { checkStatus } from './api';
-
-type DayStatus = 'pending' | 'scraping' | 'ranking' | 'complete' | 'error';
-
-interface Day {
-  value: string;
-  status: DayStatus;
-}
-
-interface DatesList {
-  month: string;
-  days: Day[];
-}
-interface MetaData {
-  status: number;
-  relevancy: number;
-  liked: boolean;
-  keywords: string[];
-}
-
-interface Video {
-  title: string;
-  description: string;
-  thumbnailPrompt: string;
-  scriptPrompt: string;
-  videoUrl: string;
-  thumbnailUrl: string;
-}
-
-export interface Paper {
-  id: string;
-  date: string;
-  title: string;
-  abstract: string;
-  pdfLink: string;
-  authors: string[];
-  metaData: MetaData;
-  video: Video;
-}
-
-interface PapersList {
-  day: Day;
-  papers: Paper[];
-}
+import * as api from '../api';
+import { DatesList, PapersList } from './types';
 
 // export const dashboardStateAtom = atom('initial');
 export const datesListAtom = atom<DatesList[]>([]);
 export const selectedDayAtom = atom<string>('');
 export const openMonthAtom = atom<string>('');
 export const papersListAtom = atom<PapersList[]>([]);
-
 export const fetchDashboardDataAtom = atom(
   null, // write-only atom
   async (get, set) => {
@@ -72,31 +28,6 @@ export const fetchDashboardDataAtom = atom(
     }
   }
 );
-
-
-// Scrape Papers Atom
-// export const scrapePapersAtom = atom(
-//   null,
-//   async (get, set, date) => {
-//     // const dashboard = get(dashboardStateAtom);
-//     // const dayPapers = dashboard.papersList.find(({ day }) => day.value === date);
-    
-//     // if (!dayPapers) {
-//     if (!date) {
-//       console.error("Day not found", date);
-//       return;
-//     }
-
-//     try {
-//       await api.scrapeDay(date);
-//       // Continue with the rest of the scraping logic...
-//       // Update the dashboardStateAtom with the new data
-//     } catch (error) {
-//       console.error("Failed to scrape papers: [unknown]", error);
-//     }
-//   }
-// );
-
 export const scrapePapersAtom = atom(
   null,
   async (get, set, date) => {
@@ -109,27 +40,13 @@ export const scrapePapersAtom = atom(
     }
 
     try {
-      // Update status to 'scraping'
       papersList[index].day.status = 'scraping';
       set(papersListAtom, [...papersList]);
 
       await api.scrapeDay(date);
-
-      // todo refactor to provide status updates async
-      await new Promise(resolve => setTimeout(resolve, 10000)); // 4 second delay before we begin checking status
-      const status = await checkStatus('days', date);
-
-      // Update the papers list based on the status
-      papersList[index].day.status = status.current;
-      if (status.current === 'complete') {
-        // console.log('status.data: ', status.data);
-        // papersList[index].papers = JSON.parse(status.data);
-        papersList[index].papers = status.data;
-      }
-      set(papersListAtom, [...papersList]);
-
     } catch (error) {
       console.error("Scraping failed:", error);
+
       papersList[index].day.status = 'error';
       set(papersListAtom, [...papersList]);
     }

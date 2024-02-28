@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Button, Grid, Card, CardMedia, CardActions, TextField, Chip, Fab, ButtonGroup, Tooltip } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Paper, StoreType } from '~/shared/store';
+import { Paper } from '~/shared/store/types';
 import { statuses } from '~/shared/constants';
 import Like from '~/shared/components/Like';
 import Relevancy from '~/shared/components/Relevancy';

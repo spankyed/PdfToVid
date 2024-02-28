@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { Paper } from '../store';
+import { Paper } from '~/shared/store/types';
 import { getThumbnailUrl, statuses } from '../constants';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';

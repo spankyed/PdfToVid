@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-// import { Paper } from "../store";
+import { Paper } from '~/shared/store/types';
 
 function Like ({ paper, allRed }: { paper: any, allRed?: boolean }): React.ReactElement {
   return (
