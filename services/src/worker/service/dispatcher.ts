@@ -1,7 +1,4 @@
-import { interpret } from 'xstate';
-import { scrapeMachine } from './machine';
-import { status } from '../../shared/integrations';
-import repository from '../repository';
+import scrapeAndRankPapers from './scrape';
 
 // fetch all papers today
 // filter title/abstract by keywords/vector search
@@ -22,51 +19,11 @@ import repository from '../repository';
 
 export default {
   scrape: async ({ date }) => {
-    console.log('Scraping papers...');
-    // const statusSetSuccess = await status.set('days', { key: date, status: 'scraping' });
-    const statusSetSuccess = await Promise.all([
-      // repository.updateDayStatus(date, 'scraping'),
-      status.set('days', { key: date, status: 'scraping' }),
-    ])
-    
-    console.log('DB and status set: ', statusSetSuccess);
-
-    const machine = scrapeMachine.withContext({ date: date, papers: [] });
-    const scrapeService = interpret(machine)
-      .onTransition(async (state, { data }) => {
-        console.log('state: ', state.value)
-        if (state.value === 'ranking') {
-          // await status.update('days', { key: date, status: 'ranking' });
-          const statusSetSuccess = await Promise.all([
-            // repository.updateDayStatus(date, 'scraping'),
-            status.update('days', { key: date, status: 'ranking' })
-          ])
-        }
-      })
-      .onDone(async ({data}) => {
-        console.log('data: ', data);
-        console.log('done scraping & ranking!')
-
-        // await new Promise(resolve => setTimeout(resolve, 4000));
-        // storePaper
-        const res = await Promise.all([
-          ...data.map(repository.storePaper),
-          // repository.storePaper(data[0]),
-          repository.updateDayStatus(date, 'complete'),
-        ])
-        console.log('completed date: ', date);
-        // console.log('ress: ', res);
-
-        const papers = data.map((p: { metaData: any; }) => ({ ...p, date: date, metaData: { ...p.metaData, status: 0 } }));
-        const orderedPapers = papers.sort((a: { metaData: { relevancy: number; }; }, b: { metaData: { relevancy: number; }; }) => b.metaData.relevancy - a.metaData.relevancy); // order by relevancy
-
-        await status.update('days', { key: date, status: 'complete', data: orderedPapers, final: true });
-      })
-
-    scrapeService.start();
+    scrapeAndRankPapers(date);
 
     return { message: 'Scraping started!' };
   },
+  // mock implementations
   generateMetadata: async (data: any) => {
     console.log('Generating metadata...');
     return { message: 'Metadata generation started' };
