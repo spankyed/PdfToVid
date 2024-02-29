@@ -77,6 +77,7 @@ async function testSimilarity(doc1) {
   // Sort the scores and take the average of the top 5
   let top_5_scores: number[] = similarity_scores.sort((a, b) => b - a).slice(0, 5);
   let relevancy_score: number = top_5_scores.reduce((acc, val) => acc + val, 0) / top_5_scores.length;
+  console.log('Manual \n -----------------');
   console.log('similarity_scores: ', similarity_scores);
   console.log('relevancy_score: ', relevancy_score);
 
@@ -103,6 +104,7 @@ async function testSimilarity2(doc1) {
     (relevancyScores.length || 1);
 
 
+  console.log('\nChroma \n -----------------');
   console.log('similarity_scores: ', relevancyScores);
   console.log('relevancy_score: ', 1 - avgRelevancy);
 }

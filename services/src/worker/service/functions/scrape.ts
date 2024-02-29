@@ -27,7 +27,6 @@ const scrapeAndRankPapers = async (date: string) => {
   fs.writeFileSync(`${pathToLogs}/${date}.json`, JSON.stringify(papers));
   console.log('Papers scraped, proceeding to ranking...');
 
-   // !
   await status.update('days', { key: date, status: 'ranking' });
   const rankedPapers = await getRelevancyScores(papers);
   const mPapers = rankedPapers.map((p: { metaData: any; }) => ({ ...p, date: date, metaData: { ...p.metaData, status: 0 } }));
@@ -36,7 +35,6 @@ const scrapeAndRankPapers = async (date: string) => {
   await Promise.all(sortedPapers.map(paper => repository.storePaper(paper)));
   await repository.updateDayStatus(date, 'complete');
 
-   // !
   await status.update('days', { key: date, status: 'complete', data: sortedPapers, final: true });
 
   console.log('Scraping, ranking, and storing completed for date:', date);
