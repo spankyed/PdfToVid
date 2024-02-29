@@ -5,3 +5,4 @@ build
 *.typegen.ts
 .vscode
 .idea
+chroma.log
