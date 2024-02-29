@@ -40,7 +40,10 @@ async function storePaperEmbeddingsInChroma(
   console.log('existingCollections: ', existingCollections);
   if (existingCollections.map((c) => c.name).includes(collectionName)) {
     await client.deleteCollection({ name: COLLECTION_NAME });
-    await client.createCollection({ name: collectionName, embeddingFunction: embedder, metadata: { "hnsw:space": "cosine" } });
+    await client.createCollection({ name: collectionName,
+      embeddingFunction: embedder,
+      metadata: { "hnsw:space": "cosine" }
+    });
   }
   const embeddings = await embedder.generate(
     papers.map((paper) => paper.title + ". " + paper.abstract)
