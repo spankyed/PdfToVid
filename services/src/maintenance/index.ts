@@ -1,34 +1,56 @@
-// maintenance/index.ts
-import * as path from 'path';
-import { fileURLToPath } from 'url';
+import repository from '../repository';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+function getWeekdaysBetween(startDate: string, endDate: string): string[] {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const days: string[] = [];
 
-async function runScript(scriptName: string) {
-  console.log(`Running script '${scriptName}'`);
-  const scriptFile = `${scriptName}.ts`;
-
-  if (!scriptFile) {
-    console.error(`Script '${scriptName}' not found.`);
-    process.exit(1);
+  while (start < end) {
+    const dayOfWeek = start.getDay();
+    if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Not Sunday (0) and not Saturday (6)
+      days.push(start.toISOString().split('T')[0]);
+    }
+    start.setDate(start.getDate() + 1);
   }
 
-  const scriptPath = path.join(__dirname, scriptFile);
+  return days;
+}
 
-  try {
-    await import(scriptPath);
-  } catch (error) {
-    console.error(`Error running script '${scriptFile}':`, error);
-    process.exit(1);
+async function initializeServer(): Promise<void> {
+  const configs = await repository.getConfigs();
+  const lastRun = configs[0].lastRun || null;
+  const today = new Date().toISOString().split('T')[0];
+  console.log('today: ', today);
+
+  console.log('lastRun: ', lastRun);
+  if (lastRun) {
+    const daysToStore = getWeekdaysBetween(lastRun, today);
+
+    console.log('daysToStore: ', daysToStore); // todo test for overlap
+
+    for (const day of daysToStore) {
+      console.log('repository: ', repository);
+      const ret1 = await repository.storeDay(day);
+      console.log('ret1: ', ret1);
+    }
+  } else {
+    const ret2 = await repository.storeDay(today);
+    console.log('ret2: ', ret2);
   }
+
+  const ret3 = await repository.updateLastRunDay(today);
+  console.log('ret3: ', ret3);
+
+  console.log('Server initialized and days updated.');
 }
 
-const args = process.argv.slice(2);
-
-if (args.length !== 1) {
-  console.error('Usage: ts-node -r ts-node/register scripts/script.ts <script-name>');
-  process.exit(1);
+export default {
+  getWeekdaysBetween,
+  initializeServer,
 }
 
-const scriptName = args[0];
-runScript(scriptName);
+// setup.initializeServer();
+// todo scrape all dates between last run and today
+// if last run was today, do nothing
+// todo only sync dates up to current date on arxiv
+// ? start interval to scrape new papers every 24 hours?

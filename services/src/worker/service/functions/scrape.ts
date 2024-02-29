@@ -1,16 +1,16 @@
 // https://blog.theodo.com/2022/07/simplify-your-applications-with-xstate/
 // https://www.youtube.com/watch?v=qqyQGEjWSAw
 import * as fs from 'fs';
-import scrapePapersByDate from './functions/scrape-papers-by-date'; // Assume this exists
-import { getRelevancyScores } from './functions/relevancy-compute'; // Assume this exists
+import scrapePapersByDate from './scrape-papers-by-date'; // Assume this exists
+import { getRelevancyScores } from './relevancy-compute'; // Assume this exists
 import repository from '../repository'; // Assume this exists
-import { ClientPath } from '../../shared/constants';
-import createRequest from '../../shared/request';
+import { WebServerPath } from '../../../shared/constants';
+import createRequest from '../../../shared/request';
 
-const clientService = createRequest(ClientPath);
+const webService = createRequest(WebServerPath);
 
 export const status = {
-  update: (type: any, params: any) => clientService.post(`work-status/${type}`, params),
+  update: (type: any, params: any) => webService.post(`work-status/${type}`, params),
 }
 
 const scrapeAndRankPapers = async (date: string) => {

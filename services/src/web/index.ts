@@ -1,5 +1,5 @@
 import createServer from '../shared/server';
-import { WebPath, ports } from '../shared/constants';
+import { ClientPath, ports } from '../shared/constants';
 import { routes } from './service/routes';
 import { Server as IOServer } from 'socket.io';
 // import eventHandlers from './service/handlers/socket';
@@ -8,10 +8,10 @@ import { Server as IOServer } from 'socket.io';
 // const { paperList } = mocks;
 
 const server = createServer({
-  port: ports.client,
+  port: ports.web,
   routes: {
     cors: {
-      origin: [WebPath], // allow web requests
+      origin: [ClientPath], // allow web requests
       additionalHeaders: ['cache-control', 'x-requested-with']
     }
   }
@@ -19,10 +19,10 @@ const server = createServer({
 
 export const io = new IOServer(server.listener, {
   cors: {
-    origin: "http://localhost:5173", // Client-side application origin
-    methods: ["GET", "POST"], // Allowed HTTP methods
+    origin: ClientPath,
+    methods: ["GET", "POST"],
     // allowedHeaders: ["my-custom-header"],
-    credentials: true // Allow sending cookies from the client
+    // credentials: true // Allow sending cookies from the client
   }
 });
 

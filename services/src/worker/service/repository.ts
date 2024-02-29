@@ -1,5 +1,5 @@
-import { PaperDocument } from '../database/schema';
-import { database } from '../shared/integrations';
+import { PaperDocument } from '../../database/schema';
+import { database } from '../../shared/integrations';
 
 // function getStoredDays(): Promise<any> {
 //   return database.read({ table: 'days' });

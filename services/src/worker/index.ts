@@ -28,12 +28,6 @@ const routes = [
 ];
 
 (async function start () {
-  // setup.initializeServer();
-  // todo scrape all dates between last run and today
-  // if last run was today, do nothing
-  // todo only sync dates up to current date on arxiv
-  // ? start interval to scrape new papers every 24 hours?
-
   const server = createServer(serverConfig, routes);
 
   try {
