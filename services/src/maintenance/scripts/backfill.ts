@@ -1,4 +1,4 @@
-import { DateTable } from '../shared/schema';
+import { DateTable } from '../../shared/schema';
 
 // May 1, 2023
 backfillDays('2023-05-01');
