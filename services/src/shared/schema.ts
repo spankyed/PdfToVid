@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 
-const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database';
+const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/sqlite';
 // Setting up the database connection
 export const sequelize = new Sequelize({
   dialect: 'sqlite',
