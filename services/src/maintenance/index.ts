@@ -17,7 +17,7 @@ function getWeekdaysBetween(startDate: string, endDate: string): string[] {
 }
 
 async function initializeServer(): Promise<void> {
-  const configs = await repository.getConfigs();
+  const configs = await repository.getConfigs(); // ! repository deleted, use sequalize
   const lastRun = configs[0].lastRun || null;
   const today = new Date().toISOString().split('T')[0];
   console.log('today: ', today);

@@ -8,13 +8,6 @@ module.exports = {
       interpreter: 'node',
     },
     {
-      name: "database-service",
-      script: "src/database/index.ts",
-      watch: ["src/database"],
-      interpreterArgs: '--loader tsx',
-      interpreter: 'node',
-    },
-    {
       name: "worker-service",
       script: "src/worker/index.ts",
       watch: ["src/worker"],

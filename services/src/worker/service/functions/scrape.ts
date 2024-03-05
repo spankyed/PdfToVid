@@ -34,6 +34,7 @@ const scrapeAndRankPapers = async (date: string) => {
 
   await Promise.all(sortedPapers.map(paper => repository.storePaper(paper)));
   await repository.updateDayStatus(date, 'complete');
+  // await repository.addPapersForDay(date, 'complete');
 
   await status.update('days', { key: date, status: 'complete', data: sortedPapers, final: true });
 

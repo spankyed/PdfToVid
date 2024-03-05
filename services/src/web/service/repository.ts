@@ -1,42 +1,102 @@
-import { PaperDocument } from '../../database/schema';
-import { database } from '../../shared/integrations';
-// import { RecordTypes } from '../shared/types';
+import { DateTable, PapersTable } from "../../shared/schema";
+import { Sequelize, DataTypes, Op } from 'sequelize';
 
-function getFiveMostRecentDays(): Promise<any> {
-  return database.read({
-    table: 'days',
+// type DayStatuses = 'pending' | 'scraping' | 'ranking' | 'complete';
+// type PaperStatuses = 0 | 1 | 2 | 3;
+// export type DayDocument = {
+//   value: string;
+//   status: DayStatuses;
+// };
+
+// export type PaperDocument = {
+//   id: string;
+//   date: string;
+//   title: string;
+//   abstract: string;
+//   pdfLink: string; // todo remove property as it can be derived from id
+//   authors?: string[];
+//   metaData: {
+//     relevancy: number;
+//     liked?: boolean;
+//     keywords?: string[];
+//     status: PaperStatuses;
+//   };
+//   video?: {
+//     title: string;
+//     description: string;
+//     thumbnailPrompt: string;
+//     scriptPrompt: string;
+//     videoUrl: string;
+//     thumbnailUrl: string;
+//   };
+// };
+// export type TableTypes = {
+//   days: DayDocument;
+//   papers: PaperDocument;
+//   config: { lastRun: string };
+// };
+
+function getFiveMostRecentDays() {
+  return DateTable.findAll({
     limit: 5,
-    order: { value: -1 }
+    order: [['value', 'DESC']],
+    raw: true, // This tells Sequelize to return plain objects
   });
 }
 
-function getPapersForDays(days: string[], skip: number = 0, limit: number = -1): Promise<PaperDocument[]> {
-  return database.read({
-    table: 'papers',
-    query: { value: { $in: days } },
-    skip,
-    limit,
-    // order: { value: 1 }    
+// function getPapersForDays(days: any, skip = 0, limit: number | null = null) {
+//   return PapersTable.findAll({
+//     where: { 
+//       // Assuming there's a direct or indirect way to filter papers by 'days'
+//       // This may require adjustments based on your schema
+//       date: days 
+//     },
+//     offset: skip,
+//     limit: limit === -1 || limit === null ? undefined : limit,
+//     // Add order if needed, example: order: [['date', 'ASC']]
+//     raw: true, // This tells Sequelize to return plain objects
+//   });
+// }
+
+type DaysInput = string | string[];
+
+// The function returns a Promise that resolves to an array of PaperDocument objects
+  function getPapersForDays(
+  days: DaysInput,
+  skip = 0,
+  limit: number | null = null
+): Promise<any[]> {
+  const whereClause = Array.isArray(days)
+    ? { date: { [Op.in]: days } }
+    : { date: days };
+
+  return PapersTable.findAll({
+    where: whereClause,
+    offset: skip,
+    limit: limit === -1 || limit === null ? undefined : limit,
+    raw: true,
   });
 }
 
-function getStoredDays(): Promise<any> {
-  return database.read({ table: 'days' });
-}
-
-function storeDay(day: string): Promise<any> {
-  return database.create({
-    table: 'days',
-    record: { value: day, status: 'pending' }
+function getStoredDays() {
+  return DateTable.findAll({
+    raw: true, // This tells Sequelize to return plain objects
   });
 }
 
-async function fetchDashboard(): Promise<any> {
-  return Promise.all([
-    getStoredDays(), 
-    getFiveMostRecentDays()
-  ]);
+function storeDay(day: any) {
+  return DateTable.create({
+    value: day,
+    status: 'pending'
+  });
 }
+
+async function fetchDashboard() {
+  const storedDaysPromise = getStoredDays();
+  const fiveMostRecentDaysPromise = getFiveMostRecentDays();
+  return Promise.all([storedDaysPromise, fiveMostRecentDaysPromise]);
+}
+
 
 export default {
   fetchDashboard,
