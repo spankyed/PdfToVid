@@ -54,13 +54,12 @@ export const scrapePapersAtom = atom(
 
 
 // Day Page state atom
-const dayPageStateAtom = atom({
+export const dayPageStateAtom = atom({
   papers: [],
   state: 'pending',
 });
-
 // Fetch Papers for Day Atom
-const fetchPapersForDayAtom = atom(
+export const fetchPapersForDayAtom = atom(
   null,
   async (get, set, dayId) => {
     if (!dayId) {

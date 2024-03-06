@@ -9,15 +9,28 @@ import EmptyState from '~/shared/components/Empty';
 import VideoPapersGrid from './VideosGrid';
 import SearchAndActions from './SearchActions';
 import { Paper } from '~/shared/store/types';
+import { useAtom } from 'jotai';
+import { fetchPapersForDayAtom, dayPageStateAtom } from '~/shared/store';
 // import SearchIcon from '@mui/icons-material/Search';
+import { useParams } from 'react-router-dom'; // Import useParams
+
 
 function Day(): React.ReactElement {
   // const store = useContext<StoreType>(StoreContext);
   // const dayId = store.routing.params.get('dayId') ?? '';
-  const dayId = '2';
+  let { dayId } = useParams<{ dayId: string }>();
+
+  dayId = dayId || '';
+
+  const [, fetchData] = useAtom(fetchPapersForDayAtom);
+  const [dayPage] = useAtom(dayPageStateAtom);
+
+  useEffect(() => {
+    fetchData(dayId);
+  }, [fetchData]);
   
-  // const { papers, state } = store.dayPage;
-  const { papers, state } = { };
+  const { papers, state } = dayPage;
+  // const { papers, state } = { state: 'complete', papers: [] as Paper[]};
 
   useEffect(() => {
     // store.dayPage.fetchPapersForDay(dayId);
