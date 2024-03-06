@@ -25,36 +25,28 @@ export const PapersTable = sequelize.define('PapersTable', {
   date: DataTypes.STRING,
   title: DataTypes.STRING,
   abstract: DataTypes.STRING,
-  authors: DataTypes.STRING, // Consider JSON storage or a related table for multiple authors
-});
-
-export const PaperMetaDataTable = sequelize.define('PaperMetaDataTable', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  paperId: DataTypes.STRING,
+  authors: DataTypes.STRING, // semi-colon separated list
+  // metadata
+  status: DataTypes.INTEGER,
   relevancy: DataTypes.INTEGER,
   liked: DataTypes.BOOLEAN,
-  keywords: DataTypes.STRING, // Consider JSON storage
-  status: DataTypes.INTEGER
+  keywords: DataTypes.STRING, // semi-colon separated list
 });
 
-export const PaperVideosTable = sequelize.define('PaperVideosTable', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  paperId: DataTypes.STRING,
-  title: DataTypes.STRING,
-  description: DataTypes.STRING,
-  thumbnailPrompt: DataTypes.STRING,
-  scriptPrompt: DataTypes.STRING,
-  videoUrl: DataTypes.STRING,
-  thumbnailUrl: DataTypes.STRING
-});
+// export const PaperVideosTable = sequelize.define('PaperVideosTable', {
+//   id: {
+//     type: DataTypes.INTEGER,
+//     primaryKey: true,
+//     autoIncrement: true
+//   },
+//   paperId: DataTypes.STRING,
+//   title: DataTypes.STRING,
+//   description: DataTypes.STRING,
+//   thumbnailPrompt: DataTypes.STRING,
+//   scriptPrompt: DataTypes.STRING,
+//   videoUrl: DataTypes.STRING,
+//   thumbnailUrl: DataTypes.STRING
+// });
 
 export const ConfigTable = sequelize.define('ConfigTable', {
   id: {
@@ -64,19 +56,11 @@ export const ConfigTable = sequelize.define('ConfigTable', {
   },
   lastRun: DataTypes.STRING,
 });
-// Assuming a one-to-one relationship between Papers and PaperMetaData
-PapersTable.hasOne(PaperMetaDataTable, {
-  foreignKey: 'paperId'
-});
-PaperMetaDataTable.belongsTo(PapersTable, {
-  foreignKey: 'paperId'
-});
 
 // Assuming a one-to-one relationship between Papers and PaperVideos
-PapersTable.hasOne(PaperVideosTable, {
-  foreignKey: 'paperId'
-});
-PaperVideosTable.belongsTo(PapersTable, {
-  foreignKey: 'paperId'
-});
-
+// PapersTable.hasOne(PaperVideosTable, {
+//   foreignKey: 'paperId'
+// });
+// PaperVideosTable.belongsTo(PapersTable, {
+//   foreignKey: 'paperId'
+// });

@@ -7,8 +7,9 @@ import { Paper } from '~/shared/store/types';
 export const rootAssetsPath = 'http://localhost:5173/assets/'
 
 export const getThumbnailUrl = (paper: Paper) => {
+  console.log('paper: ', paper);
   return paper.video?.thumbnailUrl
-    ? `${rootAssetsPath}thumbnails/${paper.video.thumbnailUrl}`
+    ? `${rootAssetsPath}thumbnails/${paper.video?.thumbnailUrl}`
     : `${rootAssetsPath}thumbnails/default/arxiv-bg.jpg`
 }
 

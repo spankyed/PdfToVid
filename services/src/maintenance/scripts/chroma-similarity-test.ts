@@ -3,11 +3,9 @@ import chromadb from "chromadb";
 import { pipeline, env } from "@xenova/transformers";
 
 type Paper = {
-    title: string,
-    abstract: string,
-    metaData?: {
-        relevancy?: number
-    }
+  title: string,
+  abstract: string,
+  relevancy?: number
 };
 
 const pathRefPapers: string = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/ref-papers.json';

@@ -5,12 +5,13 @@ import { WorkerPath } from "../../../shared/constants";
 import createRequest from "../../../shared/request";
 
 const workerService = createRequest(WorkerPath);
+// workerService.post('generate', params)
+// workerService.post('auto', params)
 
-export const worker = {
-  scrape: (params: any) => workerService.post('scrape', params),
-  generate: (params: any) => workerService.post('generate', params),
-  auto: (params: any) => workerService.post('auto', params),
-  // completion: (params: any) => workerService.post('auto', params),
+export {
+  getDashboard,
+  getPapersForDay,
+  scrapePapers
 }
 
 function getDashboard(request, h){
@@ -40,7 +41,7 @@ function getPapersForDay(request, h){
 
 async function scrapePapers(request, h){
   const date = request.params.date;
-  const workerResponse = await worker.scrape({ date });
+  const workerResponse = await workerService.post('scrape', { date });
   console.log('workerResponse: ', workerResponse);
 
   if (!workerResponse){
@@ -50,8 +51,3 @@ async function scrapePapers(request, h){
   return workerResponse;
 }
 
-export {
-  getDashboard,
-  getPapersForDay,
-  scrapePapers
-}

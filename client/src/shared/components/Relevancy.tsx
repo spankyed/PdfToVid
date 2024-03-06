@@ -18,7 +18,7 @@ function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React
   }
 
   return (
-    <Tooltip title={`${paper.metaData.relevancy * 100}%`}>
+    <Tooltip title={`${paper.relevancy * 100}%`}>
       <div
         style={{
           verticalAlign: 'middle',
@@ -26,7 +26,7 @@ function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React
           height: '20px',
           borderRadius: '50%',
           border: '1px solid black',
-          backgroundColor: getColorShade(paper.metaData.relevancy),
+          backgroundColor: getColorShade(paper.relevancy),
           display: 'inline-block',
           margin: margin || '0 .65em 0 0',
         }}

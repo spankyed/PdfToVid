@@ -9,12 +9,6 @@ export interface DatesList {
   month: string;
   days: Day[];
 }
-export interface MetaData {
-  status: number;
-  relevancy: number;
-  liked: boolean;
-  keywords: string[];
-}
 
 export interface Video {
   title: string;
@@ -32,8 +26,12 @@ export interface Paper {
   abstract: string;
   pdfLink: string;
   authors: string[];
-  metaData: MetaData;
-  video: Video;
+  // video: Video;
+  // metadata
+  status: number;
+  relevancy: number;
+  liked: boolean;
+  keywords: string[];
 }
 
 export interface PapersList {

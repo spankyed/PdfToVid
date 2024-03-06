@@ -9,10 +9,6 @@ import createRequest from '../../../shared/request';
 
 const webService = createRequest(WebServerPath);
 
-export const status = {
-  update: (type: any, params: any) => webService.post(`work-status/${type}`, params),
-}
-
 const scrapeAndRankPapers = async (date: string) => {
   console.log('Scraping papers...');
   // await repository.updateDayStatus(date, 'complete');
@@ -24,28 +20,32 @@ const scrapeAndRankPapers = async (date: string) => {
     console.log('No papers found for the date:', date);
     return;
   }
-  const pathToLogs = "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/logs";
-  fs.writeFileSync(`${pathToLogs}/${date}.json`, JSON.stringify(papers));
+  // const pathToLogs = "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/logs";
+  // fs.writeFileSync(`${pathToLogs}/${date}.json`, JSON.stringify(papers));
+
   console.log('Papers scraped, proceeding to ranking...');
 
-  await status.update('days', { key: date, status: 'ranking' });
+  await webService.post(`work-status/days`, { key: date, status: 'ranking'})
+
   const rankedPapers = await getRelevancyScores(papers);
-  const mPapers = rankedPapers.map((p: { metaData: any; }) => ({ 
+  const mPapers = rankedPapers.map((p) => ({ 
     ...p,
-    date: date, 
-    metaData: { ...p.metaData, status: 0 }
+    date: date,
+    status: 0 
   }));
 
-  const sortedPapers = mPapers.sort((a, b) => b.metaData.relevancy - a.metaData.relevancy);
+  const sortedPapers = mPapers.sort((a, b) => b.relevancy - a.relevancy);
   
+  console.log('Papers ranked, storing papers in DB...');
+
   await repository.storePapers(sortedPapers.map((p: any) => ({ ...p, authors: p.authors.join('; ') })));
 
   await repository.updateDayStatus(date, 'complete');
   // await repository.addPapersForDay(date, 'complete');
 
-  await status.update('days', { key: date, status: 'complete', data: sortedPapers, final: true });
+  await webService.post(`work-status/days`, { key: date, status: 'complete', data: sortedPapers, final: true })
 
-  console.log('Scraping, ranking, and storing completed for date:', date);
+  console.log('Scraping, ranking, and stored for date:', date);
 };
 
 export default scrapeAndRankPapers;

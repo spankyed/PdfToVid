@@ -6,7 +6,8 @@ import EmptyState from '~/shared/components/Empty';
 import Scraping from '~/shared/components/Scraping';
 import Ranking from '~/shared/components/Ranking';
 import { useAtom } from 'jotai';
-import { Paper, papersListAtom, selectedDayAtom } from '../../shared/store';
+import { papersListAtom, selectedDayAtom } from '../../shared/store';
+import { Paper } from '~/shared/store/types';
 
 function Papers(): React.ReactElement {
   const navigate = useNavigate();

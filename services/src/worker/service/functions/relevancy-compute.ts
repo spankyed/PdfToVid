@@ -91,8 +91,7 @@ export async function getRelevancyScores(
         relevancyScores.reduce((a, b) => a + b, 0) /
         (relevancyScores.length || 1);
 
-      paper.metaData = paper.metaData || {};
-      paper.metaData.relevancy = avgRelevancy ? 1 - avgRelevancy : 0;
+      paper.relevancy = avgRelevancy ? 1 - avgRelevancy : 0;
 
       // console.log("Avg Relevancy for paper:", paper.id, "is:", avgRelevancy);
     });

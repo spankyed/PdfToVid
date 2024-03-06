@@ -12,9 +12,9 @@ import Relevancy from '~/shared/components/Relevancy';
 
 
 const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
-  const statusFrom = (paper: Paper) => statuses[paper.metaData.status]
-  const isUploaded = (paper: Paper) => paper.metaData.status === 3
-  const hideDelete = (paper: Paper) => isUploaded(paper) || paper.metaData.status === 0
+  const statusFrom = (paper: Paper) => statuses[paper.status]
+  const isUploaded = (paper: Paper) => paper.status === 3
+  const hideDelete = (paper: Paper) => isUploaded(paper) || paper.status === 0
   
   return (
     <TableContainer sx={{ marginTop: 3, margin: '0 auto' }}>

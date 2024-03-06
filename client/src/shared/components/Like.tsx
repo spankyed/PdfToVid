@@ -8,13 +8,13 @@ function Like ({ paper, allRed }: { paper: any, allRed?: boolean }): React.React
     <Button>
       {/* <Fab aria-label="like">
         {
-          paper.metaData.liked 
+          paper.liked 
             ? <FavoriteIcon color="error" />
             : <FavoriteBorderIcon color="action" />
         }
       </Fab> */}
       {
-        // paper.metaData.liked 
+        // paper.liked 
         true
           ? <FavoriteIcon color="error" />
           : <FavoriteBorderIcon color={allRed ? 'error' : 'action'} />

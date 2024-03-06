@@ -1,4 +1,4 @@
-import { DayDocument, PaperDocument } from "../../database/schema";
+import { PaperDocument, DayDocument } from "../../shared/types";
 
 type DayList = {
   month: string;
