@@ -1,41 +1,6 @@
 import { DateTable, PapersTable } from "../../shared/schema";
 import { Sequelize, DataTypes, Op } from 'sequelize';
 
-// type DayStatuses = 'pending' | 'scraping' | 'ranking' | 'complete';
-// type PaperStatuses = 0 | 1 | 2 | 3;
-// export type DayDocument = {
-//   value: string;
-//   status: DayStatuses;
-// };
-
-// export type PaperDocument = {
-//   id: string;
-//   date: string;
-//   title: string;
-//   abstract: string;
-//   pdfLink: string; // todo remove property as it can be derived from id
-//   authors?: string[];
-//   metaData: {
-//     relevancy: number;
-//     liked?: boolean;
-//     keywords?: string[];
-//     status: PaperStatuses;
-//   };
-//   video?: {
-//     title: string;
-//     description: string;
-//     thumbnailPrompt: string;
-//     scriptPrompt: string;
-//     videoUrl: string;
-//     thumbnailUrl: string;
-//   };
-// };
-// export type TableTypes = {
-//   days: DayDocument;
-//   papers: PaperDocument;
-//   config: { lastRun: string };
-// };
-
 function getFiveMostRecentDays() {
   return DateTable.findAll({
     limit: 5,

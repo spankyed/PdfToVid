@@ -15,6 +15,7 @@ export const status = {
 
 const scrapeAndRankPapers = async (date: string) => {
   console.log('Scraping papers...');
+  // await repository.updateDayStatus(date, 'complete');
 
   // await status.set('days', { key: date, status: 'scraping' });
   const papers = await scrapePapersByDate(date);
@@ -29,10 +30,16 @@ const scrapeAndRankPapers = async (date: string) => {
 
   await status.update('days', { key: date, status: 'ranking' });
   const rankedPapers = await getRelevancyScores(papers);
-  const mPapers = rankedPapers.map((p: { metaData: any; }) => ({ ...p, date: date, metaData: { ...p.metaData, status: 0 } }));
-  const sortedPapers = mPapers.sort((a, b) => b.metaData.relevancy - a.metaData.relevancy);
+  const mPapers = rankedPapers.map((p: { metaData: any; }) => ({ 
+    ...p,
+    date: date, 
+    metaData: { ...p.metaData, status: 0 }
+  }));
 
-  await Promise.all(sortedPapers.map(paper => repository.storePaper(paper)));
+  const sortedPapers = mPapers.sort((a, b) => b.metaData.relevancy - a.metaData.relevancy);
+  
+  await repository.storePapers(sortedPapers.map((p: any) => ({ ...p, authors: p.authors.join('; ') })));
+
   await repository.updateDayStatus(date, 'complete');
   // await repository.addPapersForDay(date, 'complete');
 

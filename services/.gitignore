@@ -8,3 +8,4 @@ build
 chroma.log
 database/generated/logs/*.json
 database/chroma/
+database/sqlite/
