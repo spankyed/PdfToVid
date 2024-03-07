@@ -5,8 +5,8 @@ import './index.css';
 import { Provider } from 'jotai';
 
 import React from 'react';
-import Day from '~/day';
-import Entry from '~/entry';
+import Day from '~/date-details';
+import Entry from '~/paper-details';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from './layout';
 import Dashboard from './dashboard';

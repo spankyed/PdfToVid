@@ -1,8 +1,8 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import { Paper, StoreType } from '~/shared/state';
 
 import Thumbnail from '~/shared/components/Thumbnail';
+import { Paper } from '~/shared/utils/types';
 
 const VideoPapersGrid: React.FC<{ papers: Paper[] }> = ({ papers }) => {
   return (
