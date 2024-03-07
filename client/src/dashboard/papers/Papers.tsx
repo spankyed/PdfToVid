@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Box, Typography, Pagination } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import Thumbnail from '~/shared/components/Thumbnail';
@@ -8,6 +8,7 @@ import Ranking from '~/shared/components/Ranking';
 import { useAtom } from 'jotai';
 import { papersListAtom, selectedDayAtom } from '../../shared/store';
 import { Paper } from '~/shared/store/types';
+import { formatDate } from '~/shared/utils/dateFormatter';
 
 function Papers(): React.ReactElement {
   const navigate = useNavigate();
@@ -17,19 +18,13 @@ function Papers(): React.ReactElement {
   const [papersList] = useAtom(papersListAtom);
   const [selectedDay, setSelectedDay] = useAtom(selectedDayAtom);
   
-  function reformatDate(inputDate: string): string {
-    const date = new Date(inputDate);
-    const formatted = date.toLocaleDateString('en-US', {
+  const reformatDateMemo = useCallback((inputDate: string): string => {
+    return formatDate(inputDate, {
       weekday: 'short',
       month: 'short',
-      day: '2-digit'
+      day: '2-digit',
     });
-  
-    // Split the formatted string to extract the weekday, month, and day
-    const [weekday, month, day] = formatted.split(' ');
-  
-    return `${weekday} ${month} ${day}`;
-  }
+  }, []);
   
   const onDayClick = day => e => {
     const is = tag => e.target.tagName === tag;
@@ -71,7 +66,7 @@ function Papers(): React.ReactElement {
             onClick={onDayClick(day)}
           >
             <Typography variant="h5" style={{ textDecoration: 'none', marginBottom: 4, marginTop: '.5em' }} >
-              {reformatDate(value)}
+              {reformatDateMemo(value)}
             </Typography>
             {
               contentByStatus[status]

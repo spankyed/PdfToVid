@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { List, ListItem, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { datesListAtom, selectedDayAtom, openMonthAtom } from '../../shared/store'; // Import your Jotai atoms
 import { useAtom } from 'jotai';
+import { formatDateParts } from '~/shared/utils/dateFormatter';
 
 function DateList(): React.ReactElement {
   // const store = useContext<StoreType>(StoreContext);
@@ -17,13 +18,10 @@ function DateList(): React.ReactElement {
   };
 
   function reformatDate(inputDate: string): string[] {
-    const date = new Date(inputDate);
-    const formatted = date.toLocaleDateString('en-US', {
+    return formatDateParts(inputDate, {
       weekday: 'long',
-      day: '2-digit'
+      day: '2-digit',
     });
-  
-    return formatted.split(' ');
   }
 
   return (
@@ -42,6 +40,7 @@ function DateList(): React.ReactElement {
           <Collapse in={openMonth === month} timeout="auto" >
             <List component="div">
               {days.map(day => {
+                // const formattedDate = useMemo(() => reformatDate(day.value), [day.value]);
                 const [formattedDay, formattedWeekday] = reformatDate(day.value);
                 return (
                   <Link to={`/day/${day.value}`} key={'date-' + day.value}>

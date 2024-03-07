@@ -13,13 +13,11 @@ import { useAtom } from 'jotai';
 import { fetchPapersForDayAtom, dayPageStateAtom } from '~/shared/store';
 // import SearchIcon from '@mui/icons-material/Search';
 import { useParams } from 'react-router-dom'; // Import useParams
+import { formatDateParts } from '~/shared/utils/dateFormatter';
 
 
 function Day(): React.ReactElement {
-  // const store = useContext<StoreType>(StoreContext);
-  // const dayId = store.routing.params.get('dayId') ?? '';
   let { dayId } = useParams<{ dayId: string }>();
-
   dayId = dayId || '';
 
   const [, fetchData] = useAtom(fetchPapersForDayAtom);
@@ -31,10 +29,6 @@ function Day(): React.ReactElement {
   
   const { papers, state } = dayPage;
   // const { papers, state } = { state: 'complete', papers: [] as Paper[]};
-
-  useEffect(() => {
-    // store.dayPage.fetchPapersForDay(dayId);
-  }, [dayId]);
 
   const componentsByState = {
     'pending': <Empty day={dayId}/>,
@@ -53,19 +47,16 @@ function Day(): React.ReactElement {
 
 const PageTitle: React.FC<{ date: string }> = ({ date }) => {
   // const [formattedDate, weekday] = useMemo(() => {
-  const formattedDate = useMemo(() => {
-    const dateObj = new Date(date);
-    const formatted = dateObj.toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: '2-digit',
-      year: 'numeric'
-    });
-
-    const [weekday, month, day, year] = formatted.replaceAll(',', '') .split(' ');
-    // return [`${weekday}, ${month} ${day}, ${year}`, weekday];
-    return `${weekday}, ${day} ${month} ${year}`;
-  }, [date]);
+    const formattedDate = useMemo(() => {
+      const [weekday, month, day, year] = formatDateParts(date, {
+        weekday: 'short',
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric',
+      });
+    
+      return `${weekday}, ${day} ${month} ${year}`;
+    }, [date]);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" marginBottom={0}
