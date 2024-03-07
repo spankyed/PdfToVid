@@ -18,7 +18,8 @@ function getDashboard(request, h){
   return new Promise(async (resolve, reject) => {
     const [allDays, lastFiveDays] = await repository.fetchDashboard();
     console.log('dash fetched', lastFiveDays);
-    const papers = await repository.getPapersForDays(lastFiveDays.map(day => day.value), 0, 7);
+    const papers = await repository.getPapersForDays(lastFiveDays.map(day => day.value), 0);
+    // const papers = await repository.getPapersForDays(lastFiveDays.map(day => day.value), 0, 7);
     console.log('papers fetched');
     // todo current day seems to be off (13th instead of 14th for today)
     const paperList = mapPapersToDays(lastFiveDays, papers);
