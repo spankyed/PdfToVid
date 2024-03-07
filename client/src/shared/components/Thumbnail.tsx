@@ -8,6 +8,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import Like from './Like';
 import Relevancy from './Relevancy';
 import Zoom from '@mui/material/Zoom';
+import CustomTooltip from './Custom-Tooltip';
 
 const colors = {
   0: 'rgba(237, 108, 3, 1)',
@@ -147,16 +148,12 @@ function PaperTitle ({ paper }: { paper: Paper }): React.ReactElement {
     }}>
 
       <Relevancy paper={paper}/>
-      <Tooltip 
-        title={<span style={{ fontSize: '1.2em' }}>{paper.abstract}</span>}
-        followCursor
-        TransitionComponent={Zoom}
-        TransitionProps={{ timeout: 600 }}
-      >
+      <CustomTooltip title={paper.abstract}>
         <span>
           {paper.title}
         </span>
-      </Tooltip>
+      </CustomTooltip>
+
     </div>
   )
 }

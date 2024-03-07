@@ -41,13 +41,9 @@ function getPapersForDay(request, h){
 
 async function scrapePapers(request, h){
   const date = request.params.date;
-  const workerResponse = await workerService.post('scrape', { date });
-  console.log('workerResponse: ', workerResponse);
 
-  if (!workerResponse){
-    return { error: 'Problem scraping papers' }
-  }
+  workerService.post('scrape', { date });
 
-  return workerResponse;
+  return 'Scraping started';
 }
 
