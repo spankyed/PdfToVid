@@ -1,38 +1,41 @@
 import { DateTable } from '../../shared/schema';
 
-// May 1, 2023
+//backfill from current date to May 1, 2023
 backfillDays('2023-05-01');
-
 
 async function backfillDays (date: string): Promise<void> {
   const today = new Date();
   const startDay = new Date(date);
 
-  // Get dates between input date and today
-  const daysToBackfill = getWeekdaysBetween(startDay.toISOString().split('T')[0], today.toISOString().split('T')[0]);
+  const daysToBackfill = getDaysBetween(startDay.toISOString().split('T')[0], today.toISOString().split('T')[0]);
+  const existingDates = await DateTable.findAll({
+    where: {
+      value: daysToBackfill
+    }
+  });
+  const existingDateValues = existingDates.map(record => record.value);
+  const newDates = daysToBackfill.filter(day => !existingDateValues.includes(day));
+  const newDateRecords = newDates.map(day => ({
+    value: day,
+    status: 'pending'
+  }));
 
-  for (const day of daysToBackfill) {
-    await DateTable.findOrCreate({
-      where: { value: day },
-      defaults: {
-        status: 'pending'
-      }
+  if (newDateRecords.length > 0) {
+    await DateTable.bulkCreate(newDateRecords, {
+      ignoreDuplicates: true // This option depends on your DBMS and Sequelize version
     });
   }
 
   console.log('Backfill completed.');
 };
-
-function getWeekdaysBetween(startDate: string, endDate: string): string[] {
+function getDaysBetween(startDate: string, endDate: string): string[] {
   const start = new Date(startDate);
   const end = new Date(endDate);
   const days: string[] = [];
 
   while (start < end) {
-    const dayOfWeek = start.getDay();
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Not Sunday (0) and not Saturday (6)
-      days.push(start.toISOString().split('T')[0]);
-    }
+    // arXiv accepts submissions every day, so we include all days
+    days.push(start.toISOString().split('T')[0]);
     start.setDate(start.getDate() + 1);
   }
 
