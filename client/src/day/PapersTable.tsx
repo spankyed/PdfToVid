@@ -5,14 +5,14 @@ import { Table, TableBody, TableCell,
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Paper } from '~/shared/store/types';
-import { statuses } from '~/shared/constants';
+import { paperStates } from '~/shared/constants';
 import Like from '~/shared/components/Like';
 import Relevancy from '~/shared/components/Relevancy';
 // import SearchIcon from '@mui/icons-material/Search';
 
 
 const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
-  const statusFrom = (paper: Paper) => statuses[paper.status]
+  const statusFrom = (paper: Paper) => paperStates[paper.status]
   const isUploaded = (paper: Paper) => paper.status === 3
   const hideDelete = (paper: Paper) => isUploaded(paper) || paper.status === 0
   

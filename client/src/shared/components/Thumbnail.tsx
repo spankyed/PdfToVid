@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Paper } from '~/shared/store/types';
-import { getThumbnailUrl, statuses } from '../constants';
+import { getThumbnailUrl, paperStates } from '../constants';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Like from './Like';
@@ -58,7 +58,7 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
   )
 }
 function Actions ({ paper }: { paper: Paper }): React.ReactElement {
-  const statusFrom = (paper: Paper) => statuses[paper.status]
+  const statusFrom = (paper: Paper) => paperStates[paper.status]
   const isUploaded = (paper: Paper) => paper.status === 3
   const hideDelete = (paper: Paper) => isUploaded(paper) || paper.status === 0
   

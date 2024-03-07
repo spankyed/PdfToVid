@@ -7,13 +7,13 @@ import { Paper } from '~/shared/store/types';
 export const rootAssetsPath = 'http://localhost:5173/assets/'
 
 export const getThumbnailUrl = (paper: Paper) => {
-  console.log('paper: ', paper);
+  // console.log('paper: ', paper);
   return paper.video?.thumbnailUrl
     ? `${rootAssetsPath}thumbnails/${paper.video?.thumbnailUrl}`
     : `${rootAssetsPath}thumbnails/default/arxiv-bg.jpg`
 }
 
-export const statuses = {
+export const paperStates = {
   0: {
     label: 'discarded',
     color: 'warning',
