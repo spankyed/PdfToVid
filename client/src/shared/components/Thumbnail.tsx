@@ -9,13 +9,14 @@ import Like from './Like';
 import Relevancy from './Relevancy';
 import Zoom from '@mui/material/Zoom';
 import CustomTooltip from './Custom-Tooltip';
+import { getColorShade } from '../utils/getColorShade';
 
-const colors = {
-  0: 'rgba(237, 108, 3, 1)',
-  1: 'rgba(235, 235, 235, 1)',
-  2: 'rgba(47, 124, 49, 1)',
-  3: 'rgba(156, 39, 176, 1)',
-}
+// const colors = {
+//   0: 'rgba(237, 108, 3, 1)',
+//   1: 'rgba(235, 235, 235, 1)',
+//   2: 'rgba(47, 124, 49, 1)',
+//   3: 'rgba(156, 39, 176, 1)',
+// }
 
 function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean }): React.ReactElement {
   const navigate = useNavigate();
@@ -31,13 +32,17 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
     navigate(`/entry/${paper.id}`);
   }
   return (
+    <CustomTooltip
+    title={paper.abstract}
+    score={paper.relevancy}
+  >
     <div
       onClick={onThumbnailClick} key={paper.id}
       style={{ 
         position: 'relative', 
         width: '320px', 
         height: '180px',  
-        borderBottom: `10px solid ${colors[paper.status]}`,
+        borderBottom: `10px solid ${getColorShade(paper.relevancy)}`,
         borderBottomRightRadius: '4px',
         borderBottomLeftRadius: '4px',
         boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none', 
@@ -56,6 +61,7 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
       <Actions paper={paper} />
       <PaperTitle paper={paper} />
     </div>
+  </CustomTooltip>
   )
 }
 function Actions ({ paper }: { paper: Paper }): React.ReactElement {
@@ -147,12 +153,12 @@ function PaperTitle ({ paper }: { paper: Paper }): React.ReactElement {
       cursor: 'pointer'
     }}>
 
-      <Relevancy paper={paper}/>
-      <CustomTooltip title={paper.abstract}>
+      {/* <Relevancy paper={paper}/> */}
+
         <span>
           {paper.title}
         </span>
-      </CustomTooltip>
+
 
     </div>
   )
