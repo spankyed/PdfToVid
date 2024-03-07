@@ -8,9 +8,9 @@ import Scraping from '~/shared/components/Scraping';
 import EmptyState from '~/shared/components/Empty';
 import VideoPapersGrid from './VideosGrid';
 import SearchAndActions from './SearchActions';
-import { Paper } from '~/shared/store/types';
+import { Paper } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
-import { fetchPapersForDayAtom, dayPageStateAtom } from '~/shared/store';
+import { fetchPapersForDayAtom, dayPageStateAtom } from '~/shared/state';
 // import SearchIcon from '@mui/icons-material/Search';
 import { useParams } from 'react-router-dom'; // Import useParams
 import { formatDateParts } from '~/shared/utils/dateFormatter';

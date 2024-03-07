@@ -7,7 +7,7 @@ import { Box, Button, ButtonGroup } from '@mui/material';
 // import { StoreType } from '../shared/store';
 import './index.css';
 import { useAtom } from 'jotai';
-import { fetchDashboardDataAtom } from '~/shared/store';
+import { fetchDashboardDataAtom } from '~/shared/state';
 
 type PanelType = 'dates' | 'search';
 

@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
-import * as api from '../api';
-import { DatesList, PapersList } from './types';
+import * as api from '../utils/api';
+import { DatesList, PapersList } from '../utils/types';
 
 // export const dashboardStateAtom = atom('initial');
 export const datesListAtom = atom<DatesList[]>([]);

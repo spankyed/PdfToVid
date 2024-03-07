@@ -6,8 +6,8 @@ import EmptyState from '~/shared/components/Empty';
 import Scraping from '~/shared/components/Scraping';
 import Ranking from '~/shared/components/Ranking';
 import { useAtom } from 'jotai';
-import { papersListAtom, selectedDayAtom } from '../../shared/store';
-import { Paper } from '~/shared/store/types';
+import { papersListAtom, selectedDayAtom } from '../../shared/state';
+import { Paper } from '~/shared/utils/types';
 import { formatDate } from '~/shared/utils/dateFormatter';
 
 function Papers(): React.ReactElement {

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { Paper } from '~/shared/store/types';
-import { getThumbnailUrl, paperStates } from '../constants';
+import { Paper } from '~/shared/utils/types';
+import { getThumbnailUrl, paperStates } from '../utils/constants';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Like from './Like';

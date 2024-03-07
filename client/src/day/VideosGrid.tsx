@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import { Paper, StoreType } from '~/shared/store';
+import { Paper, StoreType } from '~/shared/state';
 
 import Thumbnail from '~/shared/components/Thumbnail';
 

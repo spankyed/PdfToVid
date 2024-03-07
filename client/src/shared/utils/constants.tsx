@@ -1,7 +1,7 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import ArticleIcon from '@mui/icons-material/Article';
-import { Paper } from '~/shared/store/types';
+import { Paper } from '~/shared/utils/types';
 
 // export const rootPath = 'http://localhost:5173/assets/arxiv-bg.jpg'
 export const rootAssetsPath = 'http://localhost:5173/assets/'

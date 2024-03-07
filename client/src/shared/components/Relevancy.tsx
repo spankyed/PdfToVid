@@ -1,4 +1,4 @@
-import { Paper } from '~/shared/store/types';
+import { Paper } from '~/shared/utils/types';
 import { Tooltip } from "@mui/material";
 
 function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React.ReactElement {
