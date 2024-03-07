@@ -1,4 +1,4 @@
-import scrapeAndRankPapers from './functions/scrape';
+import scrapeAndRankPapers from './procedures/scrape';
 
 // fetch all papers today
 // filter title/abstract by keywords/vector search
