@@ -83,8 +83,8 @@ const PageTabs: React.FC<{ papers: Paper[] }> = ({ papers }) => {
   return (
     <Box>
       <Tabs value={tabValue} onChange={handleChange}>
-        <Tab label="Papers" />
-        <Tab label="Videos" />
+        <Tab label="Table" />
+        <Tab label="Grid" />
       </Tabs>
       <Box>
         <SearchAndActions showingTable={tabValue === 0}/>
