@@ -39,6 +39,7 @@ a:hover {
 } */
 
 body {
+  overflow: hidden;
   /* margin: 0;
   display: flex;
   place-items: center; */
