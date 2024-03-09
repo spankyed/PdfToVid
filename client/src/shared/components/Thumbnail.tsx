@@ -7,8 +7,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Like from './Like';
 import Relevancy from './Relevancy';
-import Zoom from '@mui/material/Zoom';
-import CustomTooltip from './Custom-Tooltip';
 import { getColorShade } from '../utils/getColorShade';
 
 // const colors = {
@@ -32,10 +30,7 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
     navigate(`/entry/${paper.id}`);
   }
   return (
-    <CustomTooltip
-      title={paper.abstract}
-      score={paper.relevancy}
-    >
+
     <div
       onClick={onThumbnailClick} key={paper.id}
       style={{ 
@@ -61,7 +56,6 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
       <Actions paper={paper} />
       <PaperTitle paper={paper} />
     </div>
-  </CustomTooltip>
   )
 }
 function Actions ({ paper }: { paper: Paper }): React.ReactElement {

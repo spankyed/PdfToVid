@@ -8,6 +8,7 @@ import { useAtom } from 'jotai';
 import { papersListAtom, selectedDayAtom } from '../../shared/state';
 import { formatDate } from '~/shared/utils/dateFormatter';
 import PapersList from './Carousel-List';
+import CustomTooltip from '~/dashboard/papers/popover/summary';
 
 function Papers(): React.ReactElement {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ function Papers(): React.ReactElement {
 
   const [papersList] = useAtom(papersListAtom);
   const [selectedDay, setSelectedDay] = useAtom(selectedDayAtom);
-  
+
   const reformatDateMemo = useCallback((inputDate: string): string => {
     return formatDate(inputDate, {
       weekday: 'short',
@@ -73,6 +74,8 @@ function Papers(): React.ReactElement {
           </Box>
         );
       })}
+
+      <CustomTooltip/>
     </>
   );
 }

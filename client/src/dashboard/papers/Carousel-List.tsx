@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import { Pagination } from '@mui/material';
 import Thumbnail from '~/shared/components/Thumbnail';
 import { Paper } from '~/shared/utils/types';
+import { useAtom } from 'jotai';
+import { anchorElAtom, isOpenAtom, popoverTargetAtom, tooltipRefAtom } from './popover/store';
 
 function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);
   const [previousPage, setPreviousPage] = useState(2);
+  const [, setAnchorEl] = useAtom(anchorElAtom);
+  const [, setIsOpen] = useAtom(isOpenAtom);
+  const [tooltipRef] = useAtom(tooltipRefAtom);
+  const [, setPaperTarget] = useAtom(popoverTargetAtom);
 
   const handlePageChange = (event, value) => {
     setPreviousPage(currentPage);
@@ -16,6 +22,19 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
   const totalImages = papers.length;
   const imagesPerPage = 4;
   const margin = 1; // in em, 1em = 16px
+
+  const handleMouseOver = (paper) => (event: React.MouseEvent<HTMLElement>) => {
+    setPaperTarget(paper)
+    setAnchorEl(event.currentTarget);
+    setIsOpen(true);
+  };
+
+  const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    if (!tooltipRef?.contains(relatedTarget)) {
+      setIsOpen(false);
+    }
+  };
 
   return (
     <div className="wrapper" style={{ margin: '1em' }}>
@@ -37,7 +56,12 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
               const isOffscreen = !isCurrentPage && !isPreviousPage;
 
               return (
-                <div className={isOffscreen ? 'offscreen-image' : ''} key={paper.id}>
+                <div 
+                  className={isOffscreen ? 'offscreen-image' : ''} 
+                  key={paper.id}
+                  onMouseOver={handleMouseOver(paper)}
+                  onMouseLeave={handleMouseOut}
+                >
                   <Thumbnail paper={paper} />
                 </div>
               )
