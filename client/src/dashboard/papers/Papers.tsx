@@ -52,7 +52,7 @@ function Papers(): React.ReactElement {
         return (
           <Box 
             key={'day-' + value} 
-            onMouseEnter={() => setSelectedDay(value)}
+            // onMouseEnter={() => setSelectedDay(value)}
             sx={{ 
               display: 'flex', 
               flexDirection: 'column', 
