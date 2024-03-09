@@ -89,8 +89,6 @@ const CustomTooltip: React.FC<TooltipProps> = ({ children, title, score }) => {
         if (cantFitBelow) {
           const overHalfWayDown = (anchorRect.top + anchorRect.height / 2) > windowHeight / 2;
           top = overHalfWayDown ? 0 - padding : bottomSpot;
-          // top = 800;
-          console.log('bottomSpot: ', bottomSpot);
         } else {
           top = bottomSpot;
         }
