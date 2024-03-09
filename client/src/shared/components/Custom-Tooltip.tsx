@@ -44,10 +44,10 @@ const CustomTooltip: React.FC<TooltipProps> = ({ children, title, score }) => {
   };
 
   const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
-    // const relatedTarget = event.relatedTarget as HTMLElement;
-    // if (!tooltipRef.current?.contains(relatedTarget)) {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    if (!tooltipRef.current?.contains(relatedTarget)) {
       setIsOpen(false);
-    // }
+    }
   };
 
   useEffect(() => {
@@ -73,7 +73,9 @@ const CustomTooltip: React.FC<TooltipProps> = ({ children, title, score }) => {
       const padding = -8;
 
       let left = anchorRect.left + (anchorRect.width - tooltipRect.width) / 2;
-      let top = anchorRect.top - tooltipRect.height - padding;
+      let topSpot = anchorRect.top - tooltipRect.height - padding;
+      let bottomSpot = anchorRect.bottom + padding;
+      let top;
 
       if (left < 0) {
         left = 0;
@@ -81,21 +83,32 @@ const CustomTooltip: React.FC<TooltipProps> = ({ children, title, score }) => {
         left = windowWidth - tooltipRect.width;
       }
 
-      if (top < 0) {
-        top = anchorRect.bottom + padding;
+      const cantFitAbove = topSpot < 0;
+      const cantFitBelow = bottomSpot + tooltipRect.height > windowHeight;
+      if (cantFitAbove) {
+        if (cantFitBelow) {
+          const overHalfWayDown = (anchorRect.top + anchorRect.height / 2) > windowHeight / 2;
+          top = overHalfWayDown ? 0 - padding : bottomSpot;
+          // top = 800;
+          console.log('bottomSpot: ', bottomSpot);
+        } else {
+          top = bottomSpot;
+        }
+      } else {
+        top = topSpot;
       }
 
       tooltipRef.current.style.left = `${left}px`;
       tooltipRef.current.style.top = `${top}px`;
     }
-  }, [isOpen, anchorEl]);
+  }, [isOpen]);
 
 
   return (
     <>
       {React.cloneElement(children, {
-        onMouseOver: handleMouseOver,
-        onMouseOut: handleMouseOut,
+        onMouseEnter: handleMouseOver,
+        onMouseLeave: handleMouseOut,
       })}
       {isOpen &&
         createPortal(
@@ -104,6 +117,7 @@ const CustomTooltip: React.FC<TooltipProps> = ({ children, title, score }) => {
             style={{
               position: 'absolute',
               zIndex: 9999,
+              cursor: 'pointer'
             }}
           >
             <Fade in={isOpen} timeout={200}>

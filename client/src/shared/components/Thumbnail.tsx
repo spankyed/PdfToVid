@@ -33,9 +33,9 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
   }
   return (
     <CustomTooltip
-    title={paper.abstract}
-    score={paper.relevancy}
-  >
+      title={paper.abstract}
+      score={paper.relevancy}
+    >
     <div
       onClick={onThumbnailClick} key={paper.id}
       style={{ 
