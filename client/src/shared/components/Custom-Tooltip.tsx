@@ -8,8 +8,6 @@ interface TooltipProps {
   children: React.ReactElement;
   title: string;
   score: number;
-  // parentRef: React.RefObject<HTMLElement>;
-  parentRef: any;
 }
 
 const TooltipPaper = styled(Paper)(({ theme }) => ({
@@ -35,7 +33,7 @@ const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
 }));
 
 
-const CustomTooltip: React.FC<TooltipProps> = ({ children, title, score, parentRef }) => {
+const CustomTooltip: React.FC<TooltipProps> = ({ children, title, score }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -72,7 +70,7 @@ const CustomTooltip: React.FC<TooltipProps> = ({ children, title, score, parentR
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      const padding = -6;
+      const padding = -8;
 
       let left = anchorRect.left + (anchorRect.width - tooltipRect.width) / 2;
       let top = anchorRect.top - tooltipRect.height - padding;
@@ -119,7 +117,7 @@ const CustomTooltip: React.FC<TooltipProps> = ({ children, title, score, parentR
               </ScoreBadge>
             </Fade>
           </div>,
-          parentRef.current.parentNode || document.body
+          document.body
         )}
     </>
   );
