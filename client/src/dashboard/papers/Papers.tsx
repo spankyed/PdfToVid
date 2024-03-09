@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { Box, Typography, Pagination } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import Thumbnail from '~/shared/components/Thumbnail';
@@ -37,8 +37,9 @@ function Papers(): React.ReactElement {
 
   // const is = a => b => a === b;
 
+  const parentRef = useRef<HTMLDivElement>(null);
   return (
-    <>
+    <div ref={parentRef}>
       {papersList.map(({ day, papers }) => {
         const { value, status } = day;
 
@@ -46,7 +47,7 @@ function Papers(): React.ReactElement {
           pending: <Empty day={value} />,
           scraping: <Scraping />,
           ranking: <Ranking />,
-          complete: <PapersList papers={papers} />,
+          complete: <PapersList papers={papers} parentRef={parentRef}/>,
         };
         
         return (
@@ -74,11 +75,11 @@ function Papers(): React.ReactElement {
           </Box>
         );
       })}
-    </>
+    </div>
   );
 }
 
-function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
+function PapersList({ papers, parentRef }: { papers: Paper[], parentRef: any }): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);
   const [previousPage, setPreviousPage] = useState(2);
 
@@ -113,7 +114,7 @@ function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
 
               return (
                 <div className={isOffscreen ? 'offscreen-image' : ''} key={paper.id}>
-                  <Thumbnail paper={paper} />
+                  <Thumbnail paper={paper} parentRef={parentRef}/>
                 </div>
               )
             })

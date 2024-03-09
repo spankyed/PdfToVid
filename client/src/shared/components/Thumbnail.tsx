@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Paper } from '~/shared/utils/types';
@@ -18,7 +18,7 @@ import { getColorShade } from '../utils/getColorShade';
 //   3: 'rgba(156, 39, 176, 1)',
 // }
 
-function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean }): React.ReactElement {
+function Thumbnail ({ paper, shadow = false, parentRef }: { paper: Paper, shadow?: boolean, parentRef: any }): React.ReactElement {
   const navigate = useNavigate();
 
   const onThumbnailClick = (e) => {
@@ -31,10 +31,13 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
     console.log('paper: ', paper);
     navigate(`/entry/${paper.id}`);
   }
+
+  
   return (
     <CustomTooltip
     title={paper.abstract}
     score={paper.relevancy}
+    parentRef={parentRef}
   >
     <div
       onClick={onThumbnailClick} key={paper.id}
