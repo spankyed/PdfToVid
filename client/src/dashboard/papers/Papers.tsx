@@ -1,14 +1,13 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { Box, Typography, Pagination } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import Thumbnail from '~/shared/components/Thumbnail';
+import { Box, Typography } from '@mui/material';
+import {  useNavigate } from 'react-router-dom';
 import EmptyState from '~/shared/components/Empty';
 import Scraping from '~/shared/components/Scraping';
 import Ranking from '~/shared/components/Ranking';
 import { useAtom } from 'jotai';
 import { papersListAtom, selectedDayAtom } from '../../shared/state';
-import { Paper } from '~/shared/utils/types';
 import { formatDate } from '~/shared/utils/dateFormatter';
+import PapersList from './Carousel-List';
 
 function Papers(): React.ReactElement {
   const navigate = useNavigate();
@@ -78,61 +77,6 @@ function Papers(): React.ReactElement {
   );
 }
 
-function PapersList({ papers }: { papers: Paper[] }): React.ReactElement {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [previousPage, setPreviousPage] = useState(2);
-
-  const handlePageChange = (event, value) => {
-    setPreviousPage(currentPage);
-    setCurrentPage(value);
-  };
-
-  const emPxUnit = parseInt(getComputedStyle(document.documentElement).fontSize);
-  const totalImages = papers.length;
-  const imagesPerPage = 4;
-  const margin = 1; // in em, 1em = 16px
-
-  return (
-    <div className="wrapper" style={{ margin: '1em' }}>
-      <div className="carousel-container">
-        <div
-          className="carousel-wrapper"
-          style={{ 
-            transform: `translateX(-${
-              (currentPage - 1) * 
-              (imagesPerPage * (320 + (emPxUnit * margin * 2)) )
-            }px)` 
-          }}
-        >
-          {
-            papers.map((paper, index) => {
-              const isCurrentPage = index >= (currentPage - 1) * imagesPerPage && index < currentPage * imagesPerPage;
-              const isPreviousPage = index >= (previousPage - 1) * imagesPerPage && index < previousPage * imagesPerPage;
-              
-              const isOffscreen = !isCurrentPage && !isPreviousPage;
-
-              return (
-                <div className={isOffscreen ? 'offscreen-image' : ''} key={paper.id}>
-                  <Thumbnail paper={paper} />
-                </div>
-              )
-            })
-          }
-        </div>
-        <div className="pagination-wrapper">
-          <Pagination
-            count={Math.ceil(totalImages / imagesPerPage)}
-            shape="rounded"
-            color="primary"
-            page={currentPage}
-            onChange={handlePageChange}
-          />
-        </div>
-
-      </div>
-    </div>
-  ); 
-}
 
 function Empty({ day }: { day: string }): React.ReactElement {
   return (
