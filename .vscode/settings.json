@@ -1,0 +1,10 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "CurateDb",
+      "database": "${workspaceFolder:CurateGPT}/services/database/sqlite/curate.db"
+    }
+  ]
+}
