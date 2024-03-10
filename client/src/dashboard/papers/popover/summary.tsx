@@ -34,7 +34,10 @@ const CustomTooltip: React.FC = () => {
   const [anchorEl] = useAtom(anchorElAtom);
   const [tooltipRef, setTooltipRefAtom] = useAtom(tooltipRefAtom);
   const [paper] = useAtom(popoverTargetAtom);
-  const { abstract, relevancy: score } = paper || { relevancy: 0 };
+  let { abstract, relevancy: score } = paper || { relevancy: 0 };
+
+  const windowHeight = window.innerHeight - 100;
+  abstract = slice(abstract, windowHeight) + '...'
 
   const tooltipRefCallback = (node: HTMLDivElement | null) => {
     setTooltipRefAtom(node);
@@ -120,3 +123,11 @@ const CustomTooltip: React.FC = () => {
 };
 
 export default CustomTooltip;
+
+function slice (str, maxLength) {
+  if (!str) return '';
+  return str.length > maxLength ? str.slice(0, maxLength) : str;
+}
+
+
+
