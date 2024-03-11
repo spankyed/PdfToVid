@@ -2,23 +2,20 @@ import React, { useCallback, useContext, useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
 import { papersListAtom } from '../../shared/state';
-import PapersList from './list';
+import Grid from './grid';
 
 function Papers(): React.ReactElement {
-  // const store = useContext<StoreType>(StoreContext);
-  // const { state, papersList, selectedDay, selectDay} = store.dashboard;
-
   const [papersList] = useAtom(papersListAtom);
 
-  // const is = a => b => a === b;
   const noData = papersList.length === 0;
   
   return (
     <>
-      { noData 
+      {/* { noData 
         ? <NoData />
-        : <PapersList papersList={papersList} />
-      }
+        : <Grid papersList={papersList} />
+      } */}
+      <Grid papersList={papersList} />
     </>
   );
 }
