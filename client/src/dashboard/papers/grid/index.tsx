@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { PapersList } from '~/shared/utils/types';
-
-import DatesList from './days';
+import DatesList from './days-list';
 import DatesPlaceholder from './placeholder';
 
 function Grid({ papersList }: { papersList: PapersList[] }): React.ReactElement {
