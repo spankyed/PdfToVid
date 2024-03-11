@@ -7,7 +7,7 @@ import Ranking from '~/shared/components/Ranking';
 import { useAtom } from 'jotai';
 import { papersListAtom, selectedDayAtom } from '../../shared/state';
 import { formatDate } from '~/shared/utils/dateFormatter';
-import PapersList from './Carousel-List';
+import PapersList from './list';
 import CustomTooltip from '~/dashboard/papers/popover/summary';
 
 function Papers(): React.ReactElement {

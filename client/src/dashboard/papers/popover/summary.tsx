@@ -30,7 +30,7 @@ const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
 }));
 
 const CustomTooltip: React.FC = () => {
-  const [isOpen] = useAtom(isOpenAtom);
+  const [isOpen, setIsOpen] = useAtom(isOpenAtom);
   const [anchorEl] = useAtom(anchorElAtom);
   const [tooltipRef, setTooltipRefAtom] = useAtom(tooltipRefAtom);
   const [paper] = useAtom(popoverTargetAtom);
@@ -39,6 +39,13 @@ const CustomTooltip: React.FC = () => {
 
   const tooltipRefCallback = (node: HTMLDivElement | null) => {
     setTooltipRefAtom(node);
+  };
+
+  const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    if (!tooltipRef?.contains(relatedTarget)) {
+      setIsOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -105,13 +112,14 @@ const CustomTooltip: React.FC = () => {
       tooltipRef.style.left = `${left}px`;
       tooltipRef.style.top = `${top}px`;
     }
-  }, [isOpen, anchorEl, tooltipRef, abstract]);
+  }, [anchorEl, tooltipRef, abstract]);
 
 
   return (
     <>
       {isOpen &&
         <div
+          onMouseLeave={handleMouseOut}
           ref={tooltipRefCallback}
           style={{
             position: 'absolute',
@@ -119,16 +127,14 @@ const CustomTooltip: React.FC = () => {
             cursor: 'pointer'
           }}
         >
-          <Fade in={isOpen} timeout={200}>
-            <ScoreBadge 
-              badgeContent={`${(score * 100).toFixed(2)}%`} 
-              score={score}
-            >
-              <TooltipPaper>
-                <Typography variant="body2">{abstract}</Typography>
-              </TooltipPaper>
-            </ScoreBadge>
-          </Fade>
+          <ScoreBadge 
+            badgeContent={`${(score * 100).toFixed(2)}%`} 
+            score={score}
+          >
+            <TooltipPaper>
+              <Typography variant="body2">{abstract}</Typography>
+            </TooltipPaper>
+          </ScoreBadge>
         </div>
       }
     </>

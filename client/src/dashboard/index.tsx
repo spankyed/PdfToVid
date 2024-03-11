@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState} from 'react';
 import Dates from './dates/Dates';
-import Papers from './papers/Papers';
+import Papers from './papers';
 import Search from './search/Search';
 import { Box, Button, ButtonGroup } from '@mui/material';
 // import { StoreContext } from '../index';
@@ -8,6 +8,7 @@ import { Box, Button, ButtonGroup } from '@mui/material';
 import './index.css';
 import { useAtom } from 'jotai';
 import { fetchDashboardDataAtom } from '~/shared/state';
+import { isOpenAtom } from './papers/popover/store';
 
 type PanelType = 'dates' | 'search';
 
@@ -25,6 +26,17 @@ const Dashboard: React.FC = () => {
   const handlePanelToggle = (view: PanelType) => {
     setPanel(view);
   };
+
+  const [isOpen, setIsOpen] = useAtom(isOpenAtom);
+
+  // Define a function to handle the scroll event
+  const handleScroll = () => {
+    // Logic to close the tooltip
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  };
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -55,9 +67,12 @@ const Dashboard: React.FC = () => {
           }
         </Box>
       </Box>
-      <Box sx={{ overflowY: 'auto', flexGrow: 1, height: height }}>
-        <Papers />
-      </Box>
+      <Box 
+        sx={{ overflowY: 'auto', flexGrow: 1, height: height }}
+        onScroll={handleScroll} // Add the onScroll event listener here
+      >
+      <Papers />
+    </Box>
     </Box>
   );
 }
