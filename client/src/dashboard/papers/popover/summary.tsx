@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Paper, Typography, Fade, Badge } from '@mui/material';
 import { styled } from '@mui/system';
 import { getColorShade } from '../../../shared/utils/getColorShade';
 import { useAtom } from 'jotai';
 import { anchorElAtom, isOpenAtom, popoverTargetAtom, tooltipRefAtom } from './store';
-import { createPortal } from 'react-dom';
 
+const padding = -8;
 
 const TooltipPaper = styled(Paper)(({ theme }) => ({
   maxWidth: '400px',
@@ -19,7 +19,7 @@ const TooltipPaper = styled(Paper)(({ theme }) => ({
 
 const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
   '& .MuiBadge-badge': {
-    top: -8,
+    top: padding,
     right: '50%',
     transform: 'translateX(50%)',
     backgroundColor: getColorShade(score),
@@ -34,15 +34,16 @@ const CustomTooltip: React.FC = () => {
   const [anchorEl] = useAtom(anchorElAtom);
   const [tooltipRef, setTooltipRefAtom] = useAtom(tooltipRefAtom);
   const [paper] = useAtom(popoverTargetAtom);
-  let { abstract, relevancy: score } = paper || { relevancy: 0 };
-
-  const windowHeight = window.innerHeight - 100;
-  abstract = slice(abstract, windowHeight) + '...'
+  let { relevancy: score } = paper || { relevancy: 0 };
+  const [abstract, setAbstract] = useState(paper?.abstract || '');
 
   const tooltipRefCallback = (node: HTMLDivElement | null) => {
     setTooltipRefAtom(node);
   };
-  
+
+  useEffect(() => {
+    setAbstract(paper?.abstract || '');
+  }, [paper]);
   // useEffect(() => {
   //   const handleClickOutside = (event: MouseEvent) => {
   //     if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
@@ -63,12 +64,7 @@ const CustomTooltip: React.FC = () => {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      const padding = -8;
-
       let left = anchorRect.left + (anchorRect.width - tooltipRect.width) / 2;
-      let topSpot = anchorRect.top - tooltipRect.height - padding;
-      let bottomSpot = anchorRect.bottom + padding;
-      let top;
 
       if (left < 0) {
         left = 0;
@@ -76,23 +72,40 @@ const CustomTooltip: React.FC = () => {
         left = windowWidth - tooltipRect.width;
       }
 
+      // let estimatedHeight = paper?.abstract.length * .4; // todo figure out way to estimate height with all the text
+      let estimatedHeight = tooltipRect.height;
+      let topSpot = anchorRect.top - estimatedHeight - padding;
+      let bottomSpot = anchorRect.bottom + padding;
+      let top;
+
+      const putAbove = () => (top = topSpot);
+      const putBelow = () => (top = bottomSpot);
+
       const cantFitAbove = topSpot < 0;
-      const cantFitBelow = bottomSpot + tooltipRect.height > windowHeight;
+      const cantFitBelow = bottomSpot + estimatedHeight > windowHeight;
       if (cantFitAbove) {
         if (cantFitBelow) {
           const overHalfWayDown = (anchorRect.top + anchorRect.height / 2) > windowHeight / 2;
-          top = overHalfWayDown ? 0 - padding : bottomSpot;
-        } else {
-          top = bottomSpot;
+          
+          if (overHalfWayDown) {
+            putAbove()
+          } else {
+            putBelow()
+          }
+
+          const sizeBase = overHalfWayDown ?  anchorRect.y : windowHeight - bottomSpot;
+          setAbstract(slice(paper?.abstract, sizeBase * 2.3) + '...');
+      } else {
+          putBelow()
         }
       } else {
-        top = topSpot;
+        putAbove()
       }
 
       tooltipRef.style.left = `${left}px`;
       tooltipRef.style.top = `${top}px`;
     }
-  }, [isOpen, anchorEl, tooltipRef]);
+  }, [isOpen, anchorEl, tooltipRef, abstract]);
 
 
   return (
