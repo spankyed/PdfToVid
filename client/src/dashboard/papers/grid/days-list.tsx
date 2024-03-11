@@ -9,7 +9,7 @@ import { selectedDayAtom } from '~/shared/state';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from './placeholder';
-import List from './papers';
+import List from './papers-list';
 import EmptyState from '~/shared/components/Empty';
 
 function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactElement {
