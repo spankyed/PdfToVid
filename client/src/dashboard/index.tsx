@@ -20,7 +20,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  
+
   const [inPanel, setPanel] = useState<PanelType>('dates');
   
   const handlePanelToggle = (view: PanelType) => {
@@ -71,8 +71,8 @@ const Dashboard: React.FC = () => {
         sx={{ overflowY: 'auto', flexGrow: 1, height: height }}
         onScroll={handleScroll} // Add the onScroll event listener here
       >
-      <Papers />
-    </Box>
+        <Papers />
+      </Box>
     </Box>
   );
 }

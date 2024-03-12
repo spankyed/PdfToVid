@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { papersListAtom } from '.';
-import { socket } from '../utils/api';
+import { socket } from '../api';
 
 const SocketListener = () => {
   const setPapersList = useSetAtom(papersListAtom);

@@ -1,4 +1,4 @@
-import { getDashboard, getPapersForDay, scrapePapers } from './handlers/http-client';
+import { backfill, getDashboard, getPapersForDay, scrapePapers } from './handlers/http-client';
 import { updateStatus } from './handlers/http-status';
 
 const workerRoutes = [
@@ -25,6 +25,11 @@ const clientRoutes = [
     method: 'POST',
     path: '/scrape/{date}',
     handler: scrapePapers
+  },
+  {
+    method: 'POST',
+    path: '/backfill/{date}',
+    handler: backfill
   },
 ];
 

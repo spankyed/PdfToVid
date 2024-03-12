@@ -19,3 +19,8 @@ export function formatDateParts(
   const formatted = formatDate(dateString, options);
   return formatted.split(/[,\s]+/);
 }
+
+export function getDayPrior(daysPrior: number): string {
+  const priorDate = new Date(Date.now() - daysPrior * 86400000);
+  return priorDate.toISOString().split('T')[0];
+}

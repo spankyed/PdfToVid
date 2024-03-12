@@ -1,56 +1,34 @@
-import repository from '../repository';
+import createServer from '../shared/server';
+import { ports } from '../shared/constants';
+import routes from './service/routes-dispatcher';
+import Hapi from '@hapi/hapi';
 
-function getWeekdaysBetween(startDate: string, endDate: string): string[] {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const days: string[] = [];
+const serverConfig: Hapi.ServerOptions | undefined = { 
+  port: ports.maintenance,
+  // routes: {
+  //   cors: {
+  //     origin: [WebPath], // allow web requests
+  //     additionalHeaders: ['cache-control', 'x-requested-with']
+  //   }
+  // }
+};
 
-  while (start < end) {
-    const dayOfWeek = start.getDay();
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Not Sunday (0) and not Saturday (6)
-      days.push(start.toISOString().split('T')[0]);
-    }
-    start.setDate(start.getDate() + 1);
+(async function start () {
+  const server = createServer(serverConfig, routes);
+
+  try {
+    await server.start();
+  }
+  catch (err) {
+    console.log(err);
+    process.exit(1);
   }
 
-  return days;
-}
+  console.log('Maintenance service running at:', server.info.uri);
+})();
 
-async function initializeServer(): Promise<void> {
-  const configs = await repository.getConfigs(); // ! repository deleted, use sequalize
-  const lastRun = configs[0].lastRun || null;
-  const today = new Date().toISOString().split('T')[0];
-  console.log('today: ', today);
 
-  console.log('lastRun: ', lastRun);
-  if (lastRun) {
-    const daysToStore = getWeekdaysBetween(lastRun, today);
-
-    console.log('daysToStore: ', daysToStore); // todo test for overlap
-
-    for (const day of daysToStore) {
-      console.log('repository: ', repository);
-      const ret1 = await repository.storeDay(day);
-      console.log('ret1: ', ret1);
-    }
-  } else {
-    const ret2 = await repository.storeDay(today);
-    console.log('ret2: ', ret2);
-  }
-
-  const ret3 = await repository.updateLastRunDay(today);
-  console.log('ret3: ', ret3);
-
-  console.log('Server initialized and days updated.');
-}
-
-export default {
-  getWeekdaysBetween,
-  initializeServer,
-}
-
-// setup.initializeServer();
-// todo scrape all dates between last run and today
-// if last run was today, do nothing
-// todo only sync dates up to current date on arxiv
-// ? start interval to scrape new papers every 24 hours?
+process.on('unhandledRejection', (err) => {
+  console.log(err);
+  process.exit(1);
+});

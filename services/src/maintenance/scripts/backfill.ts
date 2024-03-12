@@ -34,7 +34,7 @@ export async function backfillDays(date: string): Promise<any> {
   // return last 7 days
   return newDateRecords;
 };
-function getDaysBetween(startDate: string, endDate: string): string[] {
+export function getDaysBetween(startDate: string, endDate: string): string[] {
   let start = new Date(startDate);
   const end = new Date(endDate);
   const days: string[] = [];

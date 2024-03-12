@@ -15,6 +15,10 @@ socket.on('connect', () => {
 export const getDashboardData = () => axios.get(apiUrl + '/dashboard');
 export const getPapersForDay = (day) => axios.get(apiUrl + '/papers/' + day);
 export const scrapeDay = (date) => axios.post(apiUrl + '/scrape/' + date);
+export const backfillToDate = (date) => {
+  console.log('backfillToDate: ');
+  return axios.post(apiUrl + '/backfill/' + date)
+};
 
 // export const checkStatus = async (type, key) => {
 //   const maxElapsedTime = 10000; // Maximum time to wait for a response

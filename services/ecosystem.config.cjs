@@ -14,5 +14,12 @@ module.exports = {
       interpreterArgs: '--loader tsx',
       interpreter: 'node',
     },
+    {
+      name: "maintenance-service",
+      script: "src/maintenance/index.ts",
+      watch: ["src/maintenance"],
+      interpreterArgs: '--loader tsx',
+      interpreter: 'node',
+    },
   ],
 };

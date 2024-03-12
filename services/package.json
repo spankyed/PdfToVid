@@ -10,7 +10,7 @@
     "start:client": "tsx watch src/client/index.ts",
     "start:maintenance": "tsx src/maintenance/scripts/index.ts",
     "migrate": "tsx src/maintenance/scripts/migration.ts",
-    "backfill": "tsx src/maintenance/scripts/backfill.ts",
+    "backfill": "tsx src/maintenance/scripts/backfill-manual.ts",
     "scrape": "tsx watch src/worker/functions/scrape-papers-by-date.ts",
     "test": "tsx watch src/worker/test.ts",
     "build": "tsc -p tsconfig.json",

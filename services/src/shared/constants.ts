@@ -4,8 +4,10 @@ export const ports = {
   client: 5173,
   web: 3000,
   worker: 6000,
+  maintenance: 7000,
 };
 
 export const ClientPath = `http://localhost:${ports.client}`; // to allow web requests CORS
 export const WebServerPath = `http://localhost:${ports.web}`;
 export const WorkerPath = `http://localhost:${ports.worker}`;
+export const MaintenancePath = `http://localhost:${ports.maintenance}`;

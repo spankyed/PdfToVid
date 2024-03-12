@@ -1,7 +1,9 @@
 import { atom } from 'jotai';
-import * as api from '../utils/api';
+import * as api from '../api';
 import { DatesList, PapersList } from '../utils/types';
+import { hasDatesAtom } from '~/dashboard/papers/store';
 
+// ! todo move into dashboard store
 // export const dashboardStateAtom = atom('initial');
 export const datesListAtom = atom<DatesList[]>([]);
 export const selectedDayAtom = atom<string>('');
@@ -20,6 +22,9 @@ export const fetchDashboardDataAtom = atom(
       set(papersListAtom, paperList);
       set(selectedDayAtom, dateList[0]?.days[0]?.value ?? '');
       set(openMonthAtom, dateList[0]?.month ?? '');
+
+      console.log('dateList.length: ', dateList.length);
+      set(hasDatesAtom, dateList.length > 0); // ! move loading state to papers store
       // set(dashboardStateAtom, 'selected');
     } catch (error) {
       console.error("Failed to fetch dashboard", error);
