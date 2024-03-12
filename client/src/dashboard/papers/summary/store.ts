@@ -7,4 +7,4 @@ type AnchorEl = HTMLElement | null;
 export const popoverTargetAtom = atom<HoveredPaper>(null);
 export const isOpenAtom = atom(false);
 export const anchorElAtom = atom<AnchorEl>(null);
-export const tooltipRefAtom = atom<HTMLDivElement | null>(null);
+export const popoverRefAtom = atom<HTMLDivElement | null>(null);

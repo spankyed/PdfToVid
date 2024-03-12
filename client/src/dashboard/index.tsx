@@ -8,7 +8,7 @@ import { Box, Button, ButtonGroup } from '@mui/material';
 import './index.css';
 import { useAtom } from 'jotai';
 import { fetchDashboardDataAtom } from '~/shared/state';
-import { isOpenAtom } from './papers/popover/store';
+import { isOpenAtom } from './papers/summary/store';
 
 type PanelType = 'dates' | 'search';
 
@@ -31,7 +31,7 @@ const Dashboard: React.FC = () => {
 
   // Define a function to handle the scroll event
   const handleScroll = () => {
-    // Logic to close the tooltip
+    // Logic to close the popover
     if (isOpen) {
       setIsOpen(false);
     }

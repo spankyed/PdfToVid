@@ -3,14 +3,14 @@ import {  Pagination,  } from '@mui/material';
 import Thumbnail from '~/shared/components/Thumbnail';
 import { Paper,  } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
-import { anchorElAtom, isOpenAtom, popoverTargetAtom, tooltipRefAtom } from '../popover/store';
+import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom } from '../summary/store';
 
 function List({ papers }: { papers: Paper[] }): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);
   const [previousPage, setPreviousPage] = useState(2);
   const [, setAnchorEl] = useAtom(anchorElAtom);
   const [, setIsOpen] = useAtom(isOpenAtom);
-  const [tooltipRef] = useAtom(tooltipRefAtom);
+  const [popoverRef] = useAtom(popoverRefAtom);
   const [, setPaperTarget] = useAtom(popoverTargetAtom);
 
   const handlePageChange = (event, value) => {
@@ -31,7 +31,7 @@ function List({ papers }: { papers: Paper[] }): React.ReactElement {
 
   const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
     const relatedTarget = event.relatedTarget as HTMLElement;
-    if (!tooltipRef?.contains(relatedTarget)) {
+    if (!popoverRef?.contains(relatedTarget)) {
       setIsOpen(false);
     }
   };

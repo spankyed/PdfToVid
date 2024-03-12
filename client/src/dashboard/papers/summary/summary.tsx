@@ -3,18 +3,18 @@ import { Paper, Typography, Fade, Badge } from '@mui/material';
 import { styled } from '@mui/system';
 import { getColorShade } from '../../../shared/utils/getColorShade';
 import { useAtom } from 'jotai';
-import { anchorElAtom, isOpenAtom, popoverTargetAtom, tooltipRefAtom } from './store';
+import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom } from './store';
 
 const padding = -8;
 
-const TooltipPaper = styled(Paper)(({ theme }) => ({
+const PopoverText = styled(Paper)(({ theme }) => ({
   maxWidth: '400px',
   padding: theme.spacing(2),
   backgroundColor: 'rgba(0, 0, 0, 0.95)',
   color: theme.palette.common.white,
   borderRadius: theme.shape.borderRadius,
   boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
-  transition: 'opacity 0.2s ease-in-out',
+  // transition: 'opacity 0.2s ease-in-out',
 }));
 
 const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
@@ -29,21 +29,21 @@ const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
   },
 }));
 
-const CustomTooltip: React.FC = () => {
+const SummaryPopover: React.FC = () => {
   const [isOpen, setIsOpen] = useAtom(isOpenAtom);
   const [anchorEl] = useAtom(anchorElAtom);
-  const [tooltipRef, setTooltipRefAtom] = useAtom(tooltipRefAtom);
+  const [popoverRef, setPopoverRefAtom] = useAtom(popoverRefAtom);
   const [paper] = useAtom(popoverTargetAtom);
   let { relevancy: score } = paper || { relevancy: 0 };
   const [abstract, setAbstract] = useState(paper?.abstract || '');
 
-  const tooltipRefCallback = (node: HTMLDivElement | null) => {
-    setTooltipRefAtom(node);
+  const popoverRefCallback = (node: HTMLDivElement | null) => {
+    setPopoverRefAtom(node);
   };
 
   const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
     const relatedTarget = event.relatedTarget as HTMLElement;
-    if (!tooltipRef?.contains(relatedTarget)) {
+    if (!popoverRef?.contains(relatedTarget)) {
       setIsOpen(false);
     }
   };
@@ -53,7 +53,7 @@ const CustomTooltip: React.FC = () => {
   }, [paper]);
   // useEffect(() => {
   //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+  //     if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
   //       setIsOpen(false);
   //     }
   //   };
@@ -65,22 +65,22 @@ const CustomTooltip: React.FC = () => {
   // }, []);
 
   useEffect(() => {
-    if (isOpen && anchorEl && tooltipRef) {
+    if (isOpen && anchorEl && popoverRef) {
       const anchorRect = anchorEl.getBoundingClientRect();
-      const tooltipRect = tooltipRef.getBoundingClientRect();
+      const popoverRect = popoverRef.getBoundingClientRect();
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      let left = anchorRect.left + (anchorRect.width - tooltipRect.width) / 2;
+      let left = anchorRect.left + (anchorRect.width - popoverRect.width) / 2;
 
       if (left < 0) {
         left = 0;
-      } else if (left + tooltipRect.width > windowWidth) {
-        left = windowWidth - tooltipRect.width;
+      } else if (left + popoverRect.width > windowWidth) {
+        left = windowWidth - popoverRect.width;
       }
 
       // let estimatedHeight = paper?.abstract.length * .4; // todo figure out way to estimate height with all the text
-      let estimatedHeight = tooltipRect.height;
+      let estimatedHeight = popoverRect.height;
       let topSpot = anchorRect.top - estimatedHeight - padding;
       let bottomSpot = anchorRect.bottom + padding;
       let top;
@@ -109,10 +109,10 @@ const CustomTooltip: React.FC = () => {
         putAbove()
       }
 
-      tooltipRef.style.left = `${left}px`;
-      tooltipRef.style.top = `${top}px`;
+      popoverRef.style.left = `${left}px`;
+      popoverRef.style.top = `${top}px`;
     }
-  }, [anchorEl, tooltipRef, abstract]);
+  }, [anchorEl, popoverRef, abstract]);
 
 
   return (
@@ -120,7 +120,7 @@ const CustomTooltip: React.FC = () => {
       {isOpen &&
         <div
           onMouseLeave={handleMouseOut}
-          ref={tooltipRefCallback}
+          ref={popoverRefCallback}
           style={{
             position: 'absolute',
             zIndex: 9999,
@@ -131,9 +131,9 @@ const CustomTooltip: React.FC = () => {
             badgeContent={`${(score * 100).toFixed(2)}%`} 
             score={score}
           >
-            <TooltipPaper>
+            <PopoverText>
               <Typography variant="body2">{abstract}</Typography>
-            </TooltipPaper>
+            </PopoverText>
           </ScoreBadge>
         </div>
       }
@@ -141,7 +141,7 @@ const CustomTooltip: React.FC = () => {
   );
 };
 
-export default CustomTooltip;
+export default SummaryPopover;
 
 function slice (str, maxLength) {
   if (!str) return '';

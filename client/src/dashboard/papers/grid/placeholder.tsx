@@ -23,8 +23,6 @@ function DatesPlaceholder(): React.ReactElement {
           <PlaceholderList />
         </Box>
       ))}
-
-      {/* You can include <CustomTooltip/> if it's needed for the placeholder as well */}
     </>
   );
 }
