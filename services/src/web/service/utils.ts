@@ -40,7 +40,7 @@ function mapPapersToDays(days: DayDocument[], papers: PaperDocument[]): PaperLis
     papers: papers.filter(paper => paper.date === day.value),
   }));
   
-  return groupedPapers;
+  return groupedPapers.sort((a, b) => new Date(b.day.value).getTime() - new Date(a.day.value).getTime());
 }
 
 export {
