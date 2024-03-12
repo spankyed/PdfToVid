@@ -48,14 +48,14 @@ export const PapersTable = sequelize.define('PapersTable', {
 //   thumbnailUrl: DataTypes.STRING
 // });
 
-export const ConfigTable = sequelize.define('ConfigTable', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  lastRun: DataTypes.STRING,
-});
+// export const ConfigTable = sequelize.define('ConfigTable', {
+//   id: {
+//     type: DataTypes.INTEGER,
+//     primaryKey: true,
+//     autoIncrement: true
+//   },
+//   lastRun: DataTypes.STRING,
+// });
 
 // Assuming a one-to-one relationship between Papers and PaperVideos
 // PapersTable.hasOne(PaperVideosTable, {

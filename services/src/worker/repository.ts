@@ -8,10 +8,10 @@ function getStoredDays(): Promise<any> {
 }
 
 // Fetch all configurations, assuming there's only one config record
-async function getConfigs(): Promise<any> {
-  const configs = await ConfigTable.findAll();
-  return configs.length > 0 ? configs[0] : null;
-}
+// async function getConfigs(): Promise<any> {
+//   const configs = await ConfigTable.findAll();
+//   return configs.length > 0 ? configs[0] : null;
+// }
 
 // Store a single paper
 function storePaper(paper: PaperDocument): Promise<any> {
@@ -34,10 +34,10 @@ function storeDay(day: string): Promise<any> {
 }
 
 // Update the last run day in the configuration
-function updateLastRunDay(day: string): Promise<any> {
-  // Assuming there's only one config record, you might need to ensure it exists or create it beforehand
-  return ConfigTable.update({ lastRun: day }, { where: {} }); // Updates all records; adjust if your logic differs
-}
+// function updateLastRunDay(day: string): Promise<any> {
+//   // Assuming there's only one config record, you might need to ensure it exists or create it beforehand
+//   return ConfigTable.update({ lastRun: day }, { where: {} }); // Updates all records; adjust if your logic differs
+// }
 
 export default {
   getConfigs,
