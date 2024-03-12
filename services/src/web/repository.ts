@@ -1,4 +1,4 @@
-import { DateTable, PapersTable } from "../../shared/schema";
+import { DateTable, PapersTable } from "../shared/schema";
 import { Sequelize, DataTypes, Op } from 'sequelize';
 
 function getFiveMostRecentDays() {

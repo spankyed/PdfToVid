@@ -1,6 +1,6 @@
 import createServer from '../shared/server';
 import { ports } from '../shared/constants';
-import routes from './service/routes-dispatcher';
+import routes from './controllers/routes';
 import Hapi from '@hapi/hapi';
 
 const serverConfig: Hapi.ServerOptions | undefined = { 

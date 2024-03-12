@@ -1,8 +1,8 @@
 import { groupDaysByMonth, mapPapersToDays } from '../utils';
 import repository from '../repository';
 
-import { WorkerPath, MaintenancePath } from "../../../shared/constants";
-import createRequest from "../../../shared/request";
+import { WorkerPath, MaintenancePath } from "../../shared/constants";
+import createRequest from "../../shared/request";
 
 const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);

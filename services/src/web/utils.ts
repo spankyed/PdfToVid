@@ -1,4 +1,4 @@
-import { PaperDocument, DayDocument } from "../../shared/types";
+import { PaperDocument, DayDocument } from "../shared/types";
 
 type DayList = {
   month: string;

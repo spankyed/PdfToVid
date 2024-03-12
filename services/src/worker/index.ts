@@ -1,7 +1,7 @@
 import Hapi from '@hapi/hapi';
 import { ports } from '../shared/constants';
 import createServer from '../shared/server';
-import dispatcher from './service/dispatcher';
+import dispatcher from './dispatcher';
 // import setup from './service/setup';
 
 const serverConfig: Hapi.ServerOptions | undefined = { port: ports.worker };

@@ -1,4 +1,4 @@
-import { io } from "../..";
+import { io } from "..";
 // async function checkStatus(request, h) {
 //   const status = {
 //       current: string;

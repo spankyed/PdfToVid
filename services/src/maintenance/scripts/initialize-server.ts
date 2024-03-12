@@ -1,5 +1,5 @@
 import repository from '../repository';
-import { getDaysBetween } from '../scripts/backfill';
+import { getDaysBetween } from './backfill';
 
 async function initializeServer(): Promise<void> {
   const configs = await repository.getConfigs(); // ! repository deleted, use sequalize

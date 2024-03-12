@@ -1,21 +1,21 @@
 module.exports = {
   apps: [
     {
-      name: "web-service",
+      name: "Web",
       script: "src/web/index.ts",
       watch: ["src/web"],
       interpreterArgs: '--loader tsx',
       interpreter: 'node',
     },
     {
-      name: "worker-service",
+      name: "Worker",
       script: "src/worker/index.ts",
       watch: ["src/worker"],
       interpreterArgs: '--loader tsx',
       interpreter: 'node',
     },
     {
-      name: "maintenance-service",
+      name: "Maintenance",
       script: "src/maintenance/index.ts",
       watch: ["src/maintenance"],
       interpreterArgs: '--loader tsx',

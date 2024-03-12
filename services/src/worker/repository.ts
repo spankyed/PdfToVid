@@ -1,6 +1,6 @@
 // Assuming PaperDocument matches the structure of your PapersTable model
-import { ConfigTable, DateTable, PapersTable } from '../../shared/schema';
-import { PaperDocument } from '../../shared/types';
+import { ConfigTable, DateTable, PapersTable } from '../shared/schema';
+import { PaperDocument } from '../shared/types';
 
 // Fetch all stored days
 function getStoredDays(): Promise<any> {

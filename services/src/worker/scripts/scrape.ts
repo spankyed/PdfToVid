@@ -1,11 +1,11 @@
 // https://blog.theodo.com/2022/07/simplify-your-applications-with-xstate/
 // https://www.youtube.com/watch?v=qqyQGEjWSAw
 import * as fs from 'fs';
-import scrapePapersByDate from '../functions/scrape-papers-by-date'; // Assume this exists
-import { getRelevancyScores } from '../functions/relevancy-compute'; // Assume this exists
+import scrapePapersByDate from './functions/scrape-papers-by-date'; // Assume this exists
+import { getRelevancyScores } from './functions/relevancy-compute'; // Assume this exists
 import repository from '../repository'; // Assume this exists
-import { WebServerPath } from '../../../shared/constants';
-import createRequest from '../../../shared/request';
+import { WebServerPath } from '../../shared/constants';
+import createRequest from '../../shared/request';
 
 const webService = createRequest(WebServerPath);
 
