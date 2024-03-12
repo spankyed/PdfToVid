@@ -12,7 +12,7 @@ socket.on('connect', () => {
 
 // socket.onAny((event, ...args) => console.log('socket event:', {event}, args));
 
-export const getDashboardData = () => axios.get(apiUrl + '/dashboard');
+export const getCalenderData = () => axios.get(apiUrl + '/calender');
 export const getPapersForDay = (day) => axios.get(apiUrl + '/papers/' + day);
 export const scrapeDay = (date) => axios.post(apiUrl + '/scrape/' + date);
 export const backfillToDate = (date) => {

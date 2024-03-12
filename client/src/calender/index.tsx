@@ -7,15 +7,15 @@ import { Box, Button, ButtonGroup } from '@mui/material';
 // import { StoreType } from '../shared/store';
 import './index.css';
 import { useAtom } from 'jotai';
-import { fetchDashboardDataAtom } from '~/shared/state';
+import { fetchCalenderDataAtom } from '~/shared/state';
 import { isOpenAtom } from './main/summary/store';
 
 type PanelType = 'dates' | 'search';
 
 const height = 'calc(100vh - 65px)'
 
-const Dashboard: React.FC = () => {
-  const [, fetchData] = useAtom(fetchDashboardDataAtom);
+const Calender: React.FC = () => {
+  const [, fetchData] = useAtom(fetchCalenderDataAtom);
 
   useEffect(() => {
     fetchData();
@@ -77,4 +77,4 @@ const Dashboard: React.FC = () => {
   );
 }
 
-export default Dashboard;
+export default Calender;

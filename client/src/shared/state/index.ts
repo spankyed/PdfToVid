@@ -1,20 +1,20 @@
 import { atom } from 'jotai';
 import * as api from '../api';
 import { DatesList, PapersList } from '../utils/types';
-import { hasDatesAtom } from '~/dashboard/main/store';
+import { hasDatesAtom } from '~/calender/main/store';
 
-// ! todo move into dashboard store
-// export const dashboardStateAtom = atom('initial');
+// ! todo move into calender store
+// export const calenderStateAtom = atom('initial');
 export const datesListAtom = atom<DatesList[]>([]);
 export const selectedDayAtom = atom<string>('');
 export const openMonthAtom = atom<string>('');
 export const papersListAtom = atom<PapersList[]>([]);
-export const fetchDashboardDataAtom = atom(
+export const fetchCalenderDataAtom = atom(
   null, // write-only atom
   async (get, set) => {
-    // set(dashboardStateAtom, 'loading');
+    // set(calenderStateAtom, 'loading');
     try {
-      const response = await api.getDashboardData();
+      const response = await api.getCalenderData();
       const { dateList, paperList } = response.data;
       console.log('dateList: ', dateList);
       console.log('paperList: ', paperList);
@@ -25,10 +25,10 @@ export const fetchDashboardDataAtom = atom(
 
       console.log('dateList.length: ', dateList.length);
       set(hasDatesAtom, dateList.length > 0); // ! move loading state to papers store
-      // set(dashboardStateAtom, 'selected');
+      // set(calenderStateAtom, 'selected');
     } catch (error) {
-      console.error("Failed to fetch dashboard", error);
-      // set(dashboardStateAtom, 'error');
+      console.error("Failed to fetch calender", error);
+      // set(calenderStateAtom, 'error');
     }
   }
 );

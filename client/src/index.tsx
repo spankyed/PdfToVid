@@ -9,7 +9,7 @@ import Day from '~/date-details';
 import Entry from '~/paper-details';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from './layout';
-import Dashboard from './dashboard';
+import Calender from './calender';
 import './index.css';
 import SocketListener from './shared/state/ws-listener';
 
@@ -18,8 +18,8 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Navigate to="/papers" /> },
-      { path: 'papers', element: <Dashboard /> },
+      { index: true, element: <Navigate to="/calender" /> },
+      { path: 'calender', element: <Calender /> },
       { path: 'day/:dayId', element: <Day /> },
       { path: 'entry/:entryId', element: <Entry /> },
     ],

@@ -7,7 +7,7 @@ import { formatDateParts } from '~/shared/utils/dateFormatter';
 
 function DateList(): React.ReactElement {
   // const store = useContext<StoreType>(StoreContext);
-  // const { datesList, selectedDay, openMonth, setOpenMonth, selectDay } = store.dashboard;
+  // const { datesList, selectedDay, openMonth, setOpenMonth, selectDay } = store.calender;
 
   const [datesList] = useAtom(datesListAtom);
   const [selectedDay] = useAtom(selectedDayAtom);

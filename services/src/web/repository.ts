@@ -56,7 +56,7 @@ function storeDay(day: any) {
   });
 }
 
-async function fetchDashboard() {
+async function fetchCalender() {
   const storedDaysPromise = getStoredDays();
   const fiveMostRecentDaysPromise = getFiveMostRecentDays();
   return Promise.all([storedDaysPromise, fiveMostRecentDaysPromise]);
@@ -64,7 +64,7 @@ async function fetchDashboard() {
 
 
 export default {
-  fetchDashboard,
+  fetchCalender,
   storeDay,
   getPapersForDays
 }

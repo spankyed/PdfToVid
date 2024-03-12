@@ -1,4 +1,4 @@
-import { backfill, getDashboard, getPapersForDay, scrapePapers } from './web';
+import { backfill, getCalender, getPapersForDay, scrapePapers } from './web';
 import { updateStatus } from './worker';
 
 const workerRoutes = [
@@ -12,8 +12,8 @@ const workerRoutes = [
 const clientRoutes = [
   {
     method: 'GET',
-    path: '/dashboard',
-    handler: getDashboard
+    path: '/calender',
+    handler: getCalender
   },
   // fetch papers for day
   {

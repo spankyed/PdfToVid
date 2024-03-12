@@ -10,7 +10,7 @@ const height = 'calc(100vh - 65px)';
 const locationAtom = atomWithLocation()
 
 const BreadcrumbComponent: React.FC<{ currentPath: string, breadcrumbs: any[] }> = ({ currentPath, breadcrumbs }) => {
-  if (currentPath === '/papers') return null;
+  if (currentPath === '/calender') return null;
   
 
   // const [loc, setLoc] = useAtom(locationAtom)

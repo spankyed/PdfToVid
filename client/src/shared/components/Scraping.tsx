@@ -9,7 +9,7 @@ import Description from '@mui/icons-material/Description';
 
 const Scraping: React.FC = () => {
   // const store = useContext<StoreType>(StoreContext);
-  // const { checkStatus } = store.dashboard;
+  // const { checkStatus } = store.calender;
   // todo determine and show current progress
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3} marginTop={3} marginBottom={4}>

@@ -8,7 +8,7 @@ import { scrapePapersAtom } from '../state';
 
 function EmptyState({ day }: { day: string }): React.ReactElement {
   // const store = useContext<StoreType>(StoreContext);
-  // const { scrapePapers } = store.dashboard;
+  // const { scrapePapers } = store.calender;
 
   const [, scrapePapers] = useAtom(scrapePapersAtom);
 
