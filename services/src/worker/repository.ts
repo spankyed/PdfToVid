@@ -1,5 +1,5 @@
 // Assuming PaperDocument matches the structure of your PapersTable model
-import { ConfigTable, DateTable, PapersTable } from '../shared/schema';
+import { DateTable, PapersTable } from '../shared/schema';
 import { PaperDocument } from '../shared/types';
 
 // Fetch all stored days
@@ -45,5 +45,5 @@ export default {
   storePaper,
   storePapers,
   updateDayStatus,
-  updateLastRunDay
+  // updateLastRunDay
 };
