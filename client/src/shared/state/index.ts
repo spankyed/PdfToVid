@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import * as api from '../api';
 import { DatesList, PapersList } from '../utils/types';
-import { hasDatesAtom } from '~/dashboard/papers/store';
+import { hasDatesAtom } from '~/dashboard/main/store';
 
 // ! todo move into dashboard store
 // export const dashboardStateAtom = atom('initial');

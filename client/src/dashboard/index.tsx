@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState} from 'react';
-import Dates from './dates/Dates';
-import Papers from './papers';
-import Search from './search/Search';
+import Dates from './sidebar/dates/Dates';
+import Papers from './main';
+import Search from './sidebar/search/Search';
 import { Box, Button, ButtonGroup } from '@mui/material';
 // import { StoreContext } from '../index';
 // import { StoreType } from '../shared/store';
 import './index.css';
 import { useAtom } from 'jotai';
 import { fetchDashboardDataAtom } from '~/shared/state';
-import { isOpenAtom } from './papers/summary/store';
+import { isOpenAtom } from './main/summary/store';
 
 type PanelType = 'dates' | 'search';
 
