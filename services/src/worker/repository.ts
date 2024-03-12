@@ -40,7 +40,7 @@ function storeDay(day: string): Promise<any> {
 // }
 
 export default {
-  getConfigs,
+  // getConfigs,
   storeDay,
   storePaper,
   storePapers,
