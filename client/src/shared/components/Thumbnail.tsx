@@ -26,8 +26,8 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
 
     if (ignore) return;
 
-    console.log('paper: ', paper);
-    navigate(`/entry/${paper.id}`);
+    // console.log('paper: ', paper);
+    navigate(`/paper/${paper.id}`);
   }
   return (
 
