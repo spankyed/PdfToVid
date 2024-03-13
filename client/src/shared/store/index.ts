@@ -66,14 +66,14 @@ export const dayPageStateAtom = atom({
 // Fetch Papers for Day Atom
 export const fetchPapersForDayAtom = atom(
   null,
-  async (get, set, dayId) => {
-    if (!dayId) {
-      console.error("Day not found", dayId);
+  async (get, set, dateId) => {
+    if (!dateId) {
+      console.error("Day not found", dateId);
       return;
     }
 
     try {
-      const response = await api.getPapersForDay(dayId);
+      const response = await api.getPapersForDay(dateId);
       const papers = response.data;
       set(dayPageStateAtom, { papers, state: 'complete' });
     } catch (error) {

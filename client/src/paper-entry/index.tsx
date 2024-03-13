@@ -236,8 +236,8 @@ const Entry = {
   ]
 }
 
-// EntryDetails Page
-const EntryDetails: React.FC<{}> = () => {
+
+const PaperEntryPage: React.FC<{}> = () => {
   return (
     <Box padding={3}>
       <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={3}>
@@ -249,4 +249,4 @@ const EntryDetails: React.FC<{}> = () => {
   );
 }
 
-export default EntryDetails;
+export default PaperEntryPage;

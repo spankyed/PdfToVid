@@ -31,22 +31,22 @@ const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   },
 }));
 
-function Day(): React.ReactElement {
-  let { dayId } = useParams<{ dayId: string }>();
-  dayId = dayId || '';
+function DateEntryPage(): React.ReactElement {
+  let { dateId } = useParams<{ dateId: string }>();
+  dateId = dateId || '';
 
   const [, fetchData] = useAtom(fetchPapersForDayAtom);
   const [dayPage] = useAtom(dayPageStateAtom);
 
   useEffect(() => {
-    fetchData(dayId);
+    fetchData(dateId);
   }, [fetchData]);
   
   const { papers, state } = dayPage;
   // const { papers, state } = { state: 'complete', papers: [] as Paper[]};
 
   const componentsByState = {
-    'pending': <Empty day={dayId}/>,
+    'pending': <Empty day={dateId}/>,
     'scraping': <div style={{paddingTop: '5em'}}><Scraping /></div>,
     'ranking': <div style={{paddingTop: '5em'}}>Ranking...</div>,
     'complete': <PageTabs papers={papers} />,
@@ -54,7 +54,7 @@ function Day(): React.ReactElement {
 
   return (
     <Box padding={3} sx={{ marginTop: 3, margin: '0 auto', maxWidth: '90%' }}>
-      <PageTitle date={dayId} count={papers.length} />
+      <PageTitle date={dateId} count={papers.length} />
       {componentsByState[state]}
     </Box>
   );
@@ -132,4 +132,4 @@ const Empty: React.FC<{ day: string }> = ({ day }) => {
   );
 }
 
-export default Day;
+export default DateEntryPage;

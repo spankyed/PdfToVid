@@ -43,7 +43,7 @@ function DateList(): React.ReactElement {
                 // const formattedDate = useMemo(() => reformatDate(day.value), [day.value]);
                 const [formattedDay, formattedWeekday] = reformatDate(day.value);
                 return (
-                  <Link to={`/day/${day.value}`} key={'date-' + day.value}>
+                  <Link to={`/date/${day.value}`} key={'date-' + day.value}>
                     <ListItem 
                       button 
                       selected={selectedDay === day.value}

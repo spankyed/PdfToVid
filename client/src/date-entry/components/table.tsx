@@ -41,7 +41,7 @@ const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
                 }}
               >
                 <Link 
-                  to={`/entry/${paper.id}`} 
+                  to={`/paper/${paper.id}`} 
                   style={{ 
                     display: 'block', 
                     padding: '1em', 
@@ -76,7 +76,7 @@ const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
                   }
                   <Button>
                     <Tooltip title='View'>
-                      <Link to={`/entry/${paper.id}`}>
+                      <Link to={`/paper/${paper.id}`}>
                         <VisibilityIcon color="info" style={{ marginRight: '4px' }} />
                       </Link>
                     </Tooltip>

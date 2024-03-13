@@ -24,13 +24,13 @@ function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactEle
     });
   }, []);
   
-  const onDayClick = day => e => {
+  const onDayClick = date => e => {
     const is = tag => e.target.tagName === tag;
     const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
 
     if (ignore) return;
 
-    navigate(`/day/${day.value}`);
+    navigate(`/date/${date.value}`);
   }
 
   return (

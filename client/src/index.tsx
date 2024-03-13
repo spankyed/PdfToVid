@@ -6,9 +6,9 @@ import { Provider } from 'jotai';
 import { theme } from './shared/styles/theme';
 import SocketListener from './shared/api/socket-listener';
 import Layout from './shared/components/layout';
-import Calender from './calender';
-import Day from '~/date-entry';
-import Entry from '~/paper-entry';
+import CalenderPage from './calender';
+import DateEntryPage from '~/date-entry';
+import PaperEntryPage from '~/paper-entry';
 import './shared/styles/index.css';
 
 const router = createBrowserRouter([
@@ -17,14 +17,14 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Navigate to="/calender" /> },
-      { path: 'calender', element: <Calender /> },
-      { path: 'day/:dayId', element: <Day /> },
-      { path: 'entry/:entryId', element: <Entry /> },
+      { path: 'calender', element: <CalenderPage /> },
+      { path: 'date/:dateId', element: <DateEntryPage /> },
+      { path: 'paper/:paperId', element: <PaperEntryPage /> },
     ],
   },
   {
     path: '/404',
-    element: <div>Not Found</div>,
+    element: <div>Not Found</div>, // TODO: Create a 404 page
   },
 ]);
 
