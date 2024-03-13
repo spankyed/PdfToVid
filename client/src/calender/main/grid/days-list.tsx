@@ -59,7 +59,6 @@ function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactEle
               paddingTop: 2,  
               paddingBottom: 2,
               backgroundColor: selectedDay === value ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
-              cursor: 'pointer',
             }}
             onClick={onDayClick(day)}
           >
@@ -79,7 +78,8 @@ function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactEle
               boxShadow: '2px 2px 10px rgba(106, 48, 147, 0.4)', // Soft shadow with a color that matches the gradient
               fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
               letterSpacing: '0.01em',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)' // subtle text shadow for depth
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)', // subtle text shadow for depth
+              cursor: 'pointer',
             }}
           >
             {reformatDateMemo(value)}

@@ -34,7 +34,8 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
     <div
       onClick={onThumbnailClick} key={paper.id}
       style={{ 
-        position: 'relative', 
+        cursor: 'pointer',
+        position: 'relative',
         width: '320px', 
         height: '180px',  
         borderBottom: `10px solid ${getColorShade(paper.relevancy)}`,
@@ -144,7 +145,6 @@ function PaperTitle ({ paper }: { paper: Paper }): React.ReactElement {
       backgroundColor: 'rgba(0, 0, 0, 0.8)', // Translucent black background
       color: 'white',
       textAlign: 'left',
-      cursor: 'pointer'
     }}>
 
       {/* <Relevancy paper={paper}/> */}
