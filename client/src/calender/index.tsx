@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState} from 'react';
-import Dates from './sidebar/dates/Dates';
-import Papers from './main';
-import Search from './sidebar/search/Search';
+import Dates from './components/sidebar/dates/Dates';
+import Grid from './components/grid';
+import Search from './components/sidebar/search/Search';
 import { Box, Button, ButtonGroup } from '@mui/material';
 // import { StoreContext } from '../index';
 // import { StoreType } from '../shared/store';
 import './index.css';
 import { useAtom } from 'jotai';
 import { fetchCalenderDataAtom } from '~/shared/store';
-import { isOpenAtom } from './main/summary/store';
+import { isOpenAtom } from './components/summary/store';
 
 type PanelType = 'dates' | 'search';
 
@@ -71,7 +71,7 @@ const Calender: React.FC = () => {
         sx={{ overflowY: 'auto', flexGrow: 1, height: height }}
         onScroll={handleScroll} // Add the onScroll event listener here
       >
-        <Papers />
+        <Grid />
       </Box>
     </Box>
   );

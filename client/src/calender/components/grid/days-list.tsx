@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Box, Pagination, Typography } from '@mui/material';
 import { PapersList } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
-import SummaryPopover from '~/calender/main/summary/summary';
+import SummaryPopover from '~/calender/components/summary/summary';
 import Scraping from '~/shared/components/scraping';
 import Ranking from '~/shared/components/ranking';
 import { selectedDayAtom } from '~/shared/store';

@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import * as api from '../api/fetch';
 import { DatesList, PapersList } from '../utils/types';
-import { hasDatesAtom } from '~/calender/main/store';
+import { hasDatesAtom } from '~/calender/store';
 
 // ! todo move into calender store
 // export const calenderStateAtom = atom('initial');

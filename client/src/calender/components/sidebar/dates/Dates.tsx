@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { List, ListItem, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { datesListAtom, selectedDayAtom, openMonthAtom } from '../../../shared/store'; // Import your Jotai atoms
+import { datesListAtom, selectedDayAtom, openMonthAtom } from '../../../../shared/store'; // Import your Jotai atoms
 import { useAtom } from 'jotai';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
 
