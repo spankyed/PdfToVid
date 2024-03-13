@@ -39,9 +39,7 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
         width: '320px', 
         height: '180px',  
         borderBottom: `10px solid ${getColorShade(paper.relevancy)}`,
-        borderBottomRightRadius: '4px',
-        borderBottomLeftRadius: '4px',
-        boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none', 
+        // boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none',
       }}
       className='thumb-img'
     >

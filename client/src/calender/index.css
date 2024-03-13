@@ -53,6 +53,16 @@
   height: var(--img-height);
   object-fit: cover;
   margin: 0 var(--img-margin);
+  position: relative;
+  cursor: pointer;
+  transition: box-shadow 0.05s ease;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  margin-top: 20px;
+}
+
+.carousel-wrapper .thumb-img:hover {
+  box-shadow: 0 0 10px 3px rgba(255, 255, 0, 0.5);
 }
 
 .carousel-wrapper .thumb-img:not(:last-child) {

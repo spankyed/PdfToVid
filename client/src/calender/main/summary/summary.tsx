@@ -26,6 +26,9 @@ const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
     color: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
     padding: '4px 8px',
+    fontWeight: 'bold',
+    letterSpacing: '0.1em',
+    border: '1px solid rgba(255, 255, 255, 0.4)',
   },
 }));
 
@@ -85,8 +88,8 @@ const SummaryPopover: React.FC = () => {
       let bottomSpot = anchorRect.bottom + padding;
       let top;
 
-      const putAbove = () => (top = topSpot);
-      const putBelow = () => (top = bottomSpot);
+      const putAbove = () => (top = topSpot + 10);
+      const putBelow = () => (top = bottomSpot + 12);
 
       const cantFitAbove = topSpot < 0;
       const cantFitBelow = bottomSpot + estimatedHeight > windowHeight;
@@ -101,7 +104,8 @@ const SummaryPopover: React.FC = () => {
           }
 
           const sizeBase = overHalfWayDown ?  anchorRect.y : windowHeight - bottomSpot;
-          setAbstract(slice(paper?.abstract, sizeBase * 2.3) + '...');
+          const randomHeightMultiplier = 2.3; // tried to relate text length to height
+          setAbstract(slice(paper?.abstract, sizeBase * randomHeightMultiplier) + '...');
       } else {
           putBelow()
         }
@@ -128,11 +132,13 @@ const SummaryPopover: React.FC = () => {
           }}
         >
           <ScoreBadge 
-            badgeContent={`${(score * 100).toFixed(2)}%`} 
+            badgeContent={`${(score * 100).toFixed(1)}%`} 
             score={score}
           >
             <PopoverText>
-              <Typography variant="body2">{abstract}</Typography>
+              <Typography variant="body2"
+
+              >{abstract}</Typography>
             </PopoverText>
           </ScoreBadge>
         </div>
