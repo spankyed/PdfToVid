@@ -19,8 +19,30 @@ function DatesPlaceholder(): React.ReactElement {
             cursor: 'pointer',
           }}
         >
-          <div style={{ width: '100px', height: '20px', backgroundColor: '#ccc', marginBottom: 4, marginTop: '.5em' }} />
+          <div 
+          style={{ 
+            width: '188px', height: '45px',
+            marginBottom: '4px',
+            marginTop: '.6em',
+            backgroundColor: '#ccc',
+            // background: '#FE6B8B', // Adjust the gradient colors as needed
+            padding: '.25em 1em .25em 1em',
+            borderRadius: '5px',
+            transform: 'skewX(-5deg)', // Adds a slant to the text
+            display: 'inline-block', // Necessary for transform
+            // boxShadow: '2px 2px 10px rgba(106, 48, 147, 0.4)', // Soft shadow with a color that matches the gradient
+          }}
+          />
           <PlaceholderList />
+          <div
+            style={{ 
+              width: '300px',
+              height: '30px',
+              backgroundColor: '#ccc',
+              marginBottom: '1em',
+              marginTop: '.5em'
+            }}
+          />
         </Box>
       ))}
     </>
