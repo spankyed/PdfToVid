@@ -1,7 +1,7 @@
 {
-  "name": "ailabs",
+  "name": "curate-lab",
   "version": "1.0.0",
-  "description": "Digest AI Research",
+  "description": "Digestible AI Research",
   "main": "src/index.tsx",
   "scripts": {
     "dev": "vite",
