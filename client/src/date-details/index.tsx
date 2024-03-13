@@ -49,26 +49,32 @@ const PageTitle: React.FC<{ date: string }> = ({ date }) => {
   // const [formattedDate, weekday] = useMemo(() => {
     const formattedDate = useMemo(() => {
       const [weekday, month, day, year] = formatDateParts(date, {
-        weekday: 'short',
-        month: 'short',
+        weekday: 'long',
+        month: 'long',
         day: '2-digit',
         year: 'numeric',
       });
     
-      return `${weekday}, ${day} ${month} ${year}`;
+      return `${weekday}, ${month} ${day}, ${year}`;
     }, [date]);
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" marginBottom={0}
->
-      {/* <Typography variant="subtitle1">{weekday}</Typography> */}
+    <Box display="flex" flexDirection="column" alignItems="center" marginBottom={1}>
       <Typography variant="h4"
         sx={{
-          borderBottom: '2px solid black',
-          padding: '0 2em .5em 2em',
+          background: '#FE6B8B',
+          color: 'white',
+          webkitBackgroundClip: 'text',
+          webkitTextFillColor: 'transparent',
+          borderBottom: '2px solid #FF8E53',
+          boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+          padding: '.5em 2em .5em 2em',
+          fontWeight: 'bold',
+          borderRadius: '5px',
+          letterSpacing: '0.0075em',
+          marginTop: '20px',
         }}
       >{formattedDate}</Typography>
-      {/* <Typography variant="h6">{weekday}</Typography> */}
     </Box>
   );
 }
