@@ -5,8 +5,8 @@ import { Paper } from '~/shared/utils/types';
 import { getThumbnailUrl, paperStates } from '../utils/constants';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import Like from './Like';
-import Relevancy from './Relevancy';
+import Like from './like';
+import Relevancy from './relevancy';
 import { getColorShade } from '../utils/getColorShade';
 
 // const colors = {

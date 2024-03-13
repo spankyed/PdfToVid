@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Typography, Box, Button } from '@mui/material';
 import { useAtom } from 'jotai';
-import { scrapePapersAtom } from '../state';
+import { scrapePapersAtom } from '../store';
 // import { StoreContext } from '~/index';
 // import { StoreType } from '../store';
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { useAtom } from 'jotai';
-import { papersListAtom } from '../../shared/state';
+import { papersListAtom } from '../../shared/store';
 import Grid from './grid';
 import { hasDatesAtom } from './store';
 import { BackfillComponent } from './backfill';

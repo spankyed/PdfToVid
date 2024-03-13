@@ -7,7 +7,7 @@ import { Box, Button, ButtonGroup } from '@mui/material';
 // import { StoreType } from '../shared/store';
 import './index.css';
 import { useAtom } from 'jotai';
-import { fetchCalenderDataAtom } from '~/shared/state';
+import { fetchCalenderDataAtom } from '~/shared/store';
 import { isOpenAtom } from './main/summary/store';
 
 type PanelType = 'dates' | 'search';

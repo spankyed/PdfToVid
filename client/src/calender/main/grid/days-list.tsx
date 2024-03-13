@@ -3,14 +3,14 @@ import { Box, Pagination, Typography } from '@mui/material';
 import { PapersList } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
 import SummaryPopover from '~/calender/main/summary/summary';
-import Scraping from '~/shared/components/Scraping';
-import Ranking from '~/shared/components/Ranking';
-import { selectedDayAtom } from '~/shared/state';
+import Scraping from '~/shared/components/scraping';
+import Ranking from '~/shared/components/ranking';
+import { selectedDayAtom } from '~/shared/store';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from './placeholder';
 import List from './papers-list';
-import EmptyState from '~/shared/components/Empty';
+import EmptyState from '~/shared/components/empty';
 
 function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactElement {
   const [selectedDay, setSelectedDay] = useAtom(selectedDayAtom);

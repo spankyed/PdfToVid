@@ -86,7 +86,10 @@ function Layout(): React.ReactElement {
           <BreadcrumbComponent currentPath={currentPath} breadcrumbs={breadcrumbs} />
         </Toolbar>
       </AppBar>
-      <Box sx={{ maxHeight: height }}>
+      <Box sx={{
+        maxHeight: height,
+        overflow: 'auto',
+      }}>
         <Outlet />
       </Box>
       {/* <Box sx={{ display: 'flex', justifyContent: 'center', padding: 2, backgroundColor: 'grey.200' }}>

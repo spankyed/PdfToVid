@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {  Pagination,  } from '@mui/material';
-import Thumbnail from '~/shared/components/Thumbnail';
+import Thumbnail from '~/shared/components/thumbnail';
 import { Paper,  } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
 import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom } from '../summary/store';

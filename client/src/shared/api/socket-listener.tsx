@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { papersListAtom } from '../state';
+import { papersListAtom } from '../store';
 import { socket } from './fetch';
 import handlers from './ws-handlers';
 
