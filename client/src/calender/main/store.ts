@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import * as api from '../../shared/api';
+import * as api from '../../shared/api/fetch';
 import { datesListAtom, papersListAtom, selectedDayAtom, openMonthAtom } from '../../shared/state';
 
 export const hasDatesAtom = atom<boolean>(true); // assumed to be true by default, but can be set to false if there are no dates after fetching

@@ -11,7 +11,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from './layout';
 import Calender from './calender';
 import './index.css';
-import SocketListener from './shared/state/ws-listener';
+import SocketListener from './shared/api/SocketListener';
 
 const router = createBrowserRouter([
   {

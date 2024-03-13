@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import * as api from '../api';
+import * as api from '../api/fetch';
 import { DatesList, PapersList } from '../utils/types';
 import { hasDatesAtom } from '~/calender/main/store';
 
