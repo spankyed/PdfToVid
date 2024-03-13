@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useAtom } from 'jotai';
 import { PapersList } from '~/shared/utils/types';
-import DatesList from './days-list';
+import DatesList from './dates-list';
 import DatesPlaceholder from './placeholder';
 import { hasDatesAtom } from '~/calender/store';
 import { papersListAtom } from '~/shared/store';
