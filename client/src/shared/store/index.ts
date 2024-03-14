@@ -1,37 +1,9 @@
 import { atom } from 'jotai';
 import * as api from '../api/fetch';
-import { DatesList, PapersList } from '../utils/types';
-import { hasDatesAtom } from '~/calender/store';
+import { papersListAtom } from '~/calender/components/grid/store';
 
-// ! todo move into calender store
-// export const calenderStateAtom = atom('initial');
-export const datesListAtom = atom<DatesList[]>([]);
 export const selectedDayAtom = atom<string>('');
-export const openMonthAtom = atom<string>('');
-export const papersListAtom = atom<PapersList[]>([]);
-export const fetchCalenderDataAtom = atom(
-  null, // write-only atom
-  async (get, set) => {
-    // set(calenderStateAtom, 'loading');
-    try {
-      const response = await api.getCalenderData();
-      const { dateList, paperList } = response.data;
-      console.log('dateList: ', dateList);
-      console.log('paperList: ', paperList);
-      set(datesListAtom, dateList);
-      set(papersListAtom, paperList);
-      set(selectedDayAtom, dateList[0]?.days[0]?.value ?? '');
-      set(openMonthAtom, dateList[0]?.month ?? '');
 
-      console.log('dateList.length: ', dateList.length);
-      set(hasDatesAtom, dateList.length > 0); // ! move loading state to papers store
-      // set(calenderStateAtom, 'selected');
-    } catch (error) {
-      console.error("Failed to fetch calender", error);
-      // set(calenderStateAtom, 'error');
-    }
-  }
-);
 export const scrapePapersAtom = atom(
   null,
   async (get, set, date) => {
@@ -56,7 +28,6 @@ export const scrapePapersAtom = atom(
     }
   }
 );
-
 
 // Day Page state atom
 export const dayPageStateAtom = atom({

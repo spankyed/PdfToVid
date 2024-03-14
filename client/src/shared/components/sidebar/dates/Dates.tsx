@@ -1,17 +1,20 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { List, ListItem, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { datesListAtom, selectedDayAtom, openMonthAtom } from '../../../store'; // Import your Jotai atoms
+import { selectedDayAtom } from '~/shared/store'; // Import your Jotai atoms
 import { useAtom } from 'jotai';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
+import { datesListAtom, fetchDatesSidebarDataAtom, openMonthAtom } from './store';
 
 function DateList(): React.ReactElement {
-  // const store = useContext<StoreType>(StoreContext);
-  // const { datesList, selectedDay, openMonth, setOpenMonth, selectDay } = store.calender;
-
-  const [datesList] = useAtom(datesListAtom);
+  const [datesList] = useAtom(datesListAtom); // todo useMemo
   const [selectedDay] = useAtom(selectedDayAtom);
   const [openMonth, setOpenMonth] = useAtom(openMonthAtom);
+  const [, fetchData] = useAtom(fetchDatesSidebarDataAtom);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const clickMonth = (month: string) => {
     setOpenMonth(openMonth === month ? '' : month);

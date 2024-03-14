@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import { papersListAtom } from '../store';
 import { socket } from './fetch';
 import handlers from './ws-handlers';
+import { papersListAtom } from '~/calender/components/grid/store';
 
 const SocketListener = () => {
   const setPapersList = useSetAtom(papersListAtom);
