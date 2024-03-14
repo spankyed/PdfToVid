@@ -5,7 +5,7 @@ import { Box, Button, ButtonGroup } from '@mui/material';
 import './index.css';
 import { useAtom } from 'jotai';
 // import { fetchSidebarDataAtom } from '~/shared/store';
-import Dates from './dates/Dates';
+import Dates from './dates';
 import Search from './search/Search';
 
 type PanelType = 'dates' | 'search';
