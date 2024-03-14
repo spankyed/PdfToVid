@@ -2,10 +2,10 @@ import React, { useCallback, useState } from 'react';
 import { useAtom } from 'jotai';
 import { PapersList } from '~/shared/utils/types';
 import DatesList from './dates-list';
-import DatesPlaceholder from './placeholder';
+import DatesPlaceholder from '../placeholder';
 import { hasDatesAtom } from '~/calender/store';
 import { papersListAtom } from '~/shared/store';
-import { BackfillComponent } from './backfill';
+import { BackfillComponent } from '../backfill';
 
 function List({ papersList }: { papersList: PapersList[] }): React.ReactElement {
   return (

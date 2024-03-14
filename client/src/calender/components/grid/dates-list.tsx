@@ -8,7 +8,7 @@ import Ranking from '~/shared/components/ranking';
 import { selectedDayAtom } from '~/shared/store';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
-import DatesPlaceholder from './placeholder';
+import DatesPlaceholder from '../placeholder';
 import List from './papers-list';
 import EmptyState from '~/shared/components/empty';
 
