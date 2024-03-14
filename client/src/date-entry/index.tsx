@@ -5,16 +5,16 @@ import { Typography, Box, Tabs, Tab, Button, Grid, TextField, CircularProgress, 
 // import { StoreContext } from '..';
 import PapersTable from './components/table';
 import Scraping from '~/shared/components/scraping';
-import EmptyState from '~/shared/components/empty';
+import EmptyState from '~/shared/components/empty/empty';
 import VideoPapersGrid from './components/grid';
 import SearchAndActions from './components/search-actions';
 import { Paper } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
-import { fetchPapersForDayAtom, dayPageStateAtom } from '~/shared/store';
 // import SearchIcon from '@mui/icons-material/Search';
 import { useParams } from 'react-router-dom'; // Import useParams
 import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { getColorShade } from '~/shared/utils/getColorShade';
+import { dayPageStateAtom, fetchPapersForDayAtom } from './store';
 
 const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   '& .MuiBadge-badge': {

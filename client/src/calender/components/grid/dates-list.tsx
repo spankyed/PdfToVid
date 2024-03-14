@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from '../placeholder';
 import List from './papers-list';
-import EmptyState from '~/shared/components/empty';
+import EmptyState from '~/shared/components/empty/empty';
 
 function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactElement {
   const [selectedDay, setSelectedDay] = useAtom(selectedDayAtom);
