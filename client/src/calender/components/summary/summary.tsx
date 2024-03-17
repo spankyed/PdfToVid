@@ -29,6 +29,7 @@ const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
     fontWeight: 'bold',
     letterSpacing: '0.1em',
     border: '1px solid rgba(255, 255, 255, 0.4)',
+    boxShadow: `0 0 0 2px rgba(0, 0, 0, 0.35)`, // Add shadow for contrast
   },
 }));
 
