@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { datesListAtom, openMonthAtom } from '~/shared/components/sidebar/dates/store';
+import { datesListAtom, openMonthAtom } from '~/shared/components/layout/sidebar/dates/store';
 import { selectedDayAtom } from '~/shared/store';
 import { papersListAtom } from '../grid/store';
 

@@ -1,10 +1,17 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { List, ListItem, ListItemText, ListSubheader, Collapse } from '@mui/material';
+import { List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { selectedDayAtom } from '~/shared/store'; // Import your Jotai atoms
 import { useAtom } from 'jotai';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { datesListAtom, fetchDatesSidebarDataAtom, openMonthAtom } from './store';
+import { styled } from '@mui/system';
+
+const MonthItem = styled(ListItemButton)(({ theme }) => ({
+  marginLeft: '.5rem', // Add 1rem margin to the left
+  // marginRight: '4rem', // Add 1rem margin to the left
+  whiteSpace: 'nowrap',
+}));
 
 function DateList(): React.ReactElement {
   const [datesList] = useAtom(datesListAtom); // todo useMemo
@@ -28,18 +35,23 @@ function DateList(): React.ReactElement {
   }
 
   return (
-    <List sx={{ overflow: 'auto' }}>
+    <List sx={{
+      overflow: 'auto',
+      overflowX: 'hidden',
+      // paddingLeft: '8px', 
+      // marginLeft: '.2rem', // Add 1rem margin to the left
+    }}>
       {datesList.map(({ month, days }) => (
         <div key={month}>
-          <ListItem button onClick={() => clickMonth(month)} sx={{ fontWeight: 'bolder' }}>
+          <MonthItem onClick={() => clickMonth(month)} sx={{ fontWeight: 'bolder' }}>
             <ListItemText primary={month} sx={{ 
               borderBottom: '1px solid rgba(0, 0, 0, 0.3)', 
               paddingBottom: '4px',
               // marginLeft: '16%',
               // textAlign: 'center' 
-              paddingLeft: '8%', 
+              // paddingLeft: '.2rem', 
             }}/>
-          </ListItem>
+          </MonthItem>
           <Collapse in={openMonth === month} timeout="auto" >
             <List component="div">
               {days.map(day => {
@@ -47,26 +59,13 @@ function DateList(): React.ReactElement {
                 const [formattedDay, formattedWeekday] = reformatDate(day.value);
                 return (
                   <Link to={`/date/${day.value}`} key={'date-' + day.value}>
-                    <ListItem 
-                      button 
-                      selected={selectedDay === day.value}
-                    >
+                    <ListItemButton selected={selectedDay === day.value} >
                       <ListItemText primary={
-                        <>
-                          <span style={{ 
-                            padding: '4px 8px 4px 0px',
-                            borderRight: '1px solid rgba(0, 0, 0, 0.4)' 
-                          }}>
-                            {formattedDay}
-                          </span>
-                          <span style={{ paddingLeft: '8px' }}>
-                            {formattedWeekday}
-                          </span>
-                        </>
+                        <DateDisplay formattedDay={formattedDay} formattedWeekday={formattedWeekday} />
                       } sx={{ 
-                        paddingLeft: '14%',
+                        paddingLeft: '14px',
                       }}/>
-                    </ListItem>
+                    </ListItemButton>
                   </Link>
                 );
               })}
@@ -75,6 +74,39 @@ function DateList(): React.ReactElement {
         </div>
       ))}
     </List>
+  );
+}
+
+const dayStyle = {
+  padding: '4px 16px 4px 0px',
+  borderRight: '1px solid rgba(0, 0, 0, 0.4)',
+  // marginLeft: '-.8rem',
+  whiteSpace: 'nowrap',
+  color: 'rgba(232, 230, 227, 0.6)'
+};
+
+const weekdayStyle = {
+  paddingLeft: '16px',
+  whiteSpace: 'nowrap',
+};
+
+// Renamed the function to DateDisplay to avoid confusion with JavaScript's Date object
+function DateDisplay({
+  formattedDay,
+  formattedWeekday,
+}: {
+  formattedDay: string;
+  formattedWeekday: string;
+}): React.ReactElement {
+  return (
+    <div> {/* Using a div as a parent container for better semantics */}
+      <span style={dayStyle}>
+        {formattedDay}
+      </span>
+      <span style={weekdayStyle}>
+        {formattedWeekday}
+      </span>
+    </div>
   );
 }
 
