@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { atomWithLocation } from 'jotai-location'
@@ -8,6 +8,8 @@ import Breadcrumb from './breadcrumb';
 import Sidebar from './sidebar';
 import SidebarToggleButton from './sidebar/toggle';
 import { colors } from '~/shared/styles/theme';
+import MenuIcon from '@mui/icons-material/Menu';
+import { sidebarOpenAtom } from './sidebar/store';
 
 const height = 'calc(100vh - 65px)';
 
@@ -15,7 +17,6 @@ const locationAtom = atomWithLocation()
 
 function Layout(): React.ReactElement {
   const [location, setLoc] = useAtom(locationAtom)
-
   const currentPath = location.pathname || '';
   const generateBreadcrumbs = () => {
     const parts = currentPath.split("/").filter(Boolean);
@@ -28,18 +29,7 @@ function Layout(): React.ReactElement {
     <>
       <AppBar position="sticky" sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', boxShadow: 'none' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Link color="inherit" to="/">
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <Typography variant="h6" component="div" sx={{
-                borderRadius: '10%', padding: '2px 7px', border: '2px solid white'
-              }}>
-                AI
-              </Typography>
-              <Typography variant="h6" component="div" sx={{ padding: '4px 4px' }}>
-                Labs
-              </Typography>
-            </div>
-          </Link>
+          <TitleArea />
           <Breadcrumb currentPath={currentPath} breadcrumbs={breadcrumbs} />
         </Toolbar>
       </AppBar>
@@ -70,5 +60,40 @@ function Layout(): React.ReactElement {
     </>
   );
 };
+
+
+function TitleArea() {
+  const [, setSidebarOpen] = useAtom(sidebarOpenAtom); // Assuming you have a setter function for the sidebar open state
+
+  const toggleSidebar = () => {
+    setSidebarOpen((open) => !open);
+  };
+
+  return (
+    <div style={{ display: 'flex', marginLeft: '.4rem'}}>
+      <IconButton
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        sx={{ mr: 2 }}
+        onClick={toggleSidebar}
+      >
+        <MenuIcon />
+      </IconButton>
+      <Link color="inherit" to="/">
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <Typography variant="h6" component="div" sx={{
+            borderRadius: '10%', padding: '2px 7px', border: '2px solid white'
+          }}>
+            AI
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ padding: '4px 4px' }}>
+            Labs
+          </Typography>
+        </div>
+      </Link>
+    </div>
+  );
+}
 
 export default Layout;
