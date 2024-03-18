@@ -33,6 +33,9 @@ export const PapersTable = sequelize.define('PapersTable', {
   keywords: DataTypes.STRING, // semi-colon separated list
 });
 
+PapersTable.belongsTo(DateTable, { foreignKey: 'date', targetKey: 'value' });
+DateTable.hasMany(PapersTable, { foreignKey: 'date', sourceKey: 'value' });
+
 // export const PaperVideosTable = sequelize.define('PaperVideosTable', {
 //   id: {
 //     type: DataTypes.INTEGER,
