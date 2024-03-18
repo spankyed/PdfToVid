@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import SearchIcon from '@mui/icons-material/Search';
 import AssessmentIcon from '@mui/icons-material/Assessment';
@@ -50,7 +50,15 @@ const Sidebar: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Calendar" />
         </NavItem>
-        <ListSubheader component="div" id="dates-subheader"
+
+        <Divider 
+        sx={{
+          marginTop: '1rem', // Add 1rem margin to the left
+          // marginBottom: '1rem', // Add 1rem margin to the left
+        }}
+        />
+        
+        {/* <ListSubheader component="div" id="dates-subheader"
         sx={{
           marginLeft: '.5rem', // Add 1rem margin to the left
           marginTop: '1rem', // Add 1rem margin to the left
@@ -58,7 +66,7 @@ const Sidebar: React.FC = () => {
         }}
         >
           DATES
-        </ListSubheader>
+        </ListSubheader> */}
 
       </List>
       <Dates />
