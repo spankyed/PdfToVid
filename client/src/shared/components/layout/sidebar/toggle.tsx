@@ -1,10 +1,11 @@
 import React, { CSSProperties, useState } from 'react';
 import { useAtom } from 'jotai';
 import { sidebarOpenAtom } from './store';
+import { colors } from '~/shared/styles/theme';
 
 type direction = 'top' | 'bottom';
 const baseX = -50;
-const verticalY = 0.125;
+const verticalY = 0.325;
 const verticalRotate = 0;
 const arrowY = 0.2;
 const arrowRotate = 25;
@@ -35,7 +36,7 @@ function SidebarToggleButton() {
     width: '0.25rem',
     height: '0.75rem',
     backgroundColor: 'grey',
-    transition: 'transform 0.5s ease',
+    transition: 'transform 0.3s ease',
     borderRadius: '9999px', // Fully rounded ends, similar to rounded-full in Tailwind
   };
 
@@ -50,7 +51,7 @@ function SidebarToggleButton() {
         position: 'absolute',
         top: '50%',
         transform: 'translateY(-50%)',
-        padding: '30px 1rem',
+        padding: '30px 0',
         cursor: 'pointer',
         zIndex: 1201,
       }}
@@ -58,8 +59,15 @@ function SidebarToggleButton() {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div style={getStyle('top')}></div>
-      <div style={getStyle('bottom')}></div>
+      <div
+        style={{
+          backgroundColor: colors.main,
+          padding: '.75rem 1rem',
+        }}
+      >
+        <div style={getStyle('top')}></div>
+        <div style={getStyle('bottom')}></div>
+      </div>
     </div>
   );
 }

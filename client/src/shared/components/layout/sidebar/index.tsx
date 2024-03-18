@@ -9,6 +9,7 @@ import { sidebarOpenAtom } from './store';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/system';
 import ListItemButton from '@mui/material/ListItemButton'; // Import ListItemButton
+import { colors } from '~/shared/styles/theme';
 
 const NavItem = styled(ListItemButton)(({ theme }) => ({
   marginLeft: '.5rem', // Add 1rem margin to the left
@@ -22,10 +23,13 @@ const Sidebar: React.FC = () => {
     <Box sx={{
       paddingTop: '1rem', // Add 1rem margin to the left
       width: isSidebarOpen ? 250 : 0,
-      transition: 'width 2s ease-in-out',
+      transition: 'width .3s ease',
       height: '100vh',
       bgcolor: 'background.paper',
       overflow: 'hidden',
+      backgroundColor: colors.sidebar,
+      // display: 'flex',
+      // flexDirection: 'column',
     }}>
       <List component="nav" >
         <NavItem onClick={() => navigate('calender')}>
@@ -57,7 +61,7 @@ const Sidebar: React.FC = () => {
         </ListSubheader>
 
       </List>
-        <Dates />
+      <Dates />
     </Box>
   );
 }

@@ -6,6 +6,7 @@ import { useAtom } from 'jotai';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { datesListAtom, fetchDatesSidebarDataAtom, openMonthAtom } from './store';
 import { styled } from '@mui/system';
+import { colors } from '~/shared/styles/theme';
 
 const MonthItem = styled(ListItemButton)(({ theme }) => ({
   marginLeft: '.5rem', // Add 1rem margin to the left
@@ -38,6 +39,8 @@ function DateList(): React.ReactElement {
     <List sx={{
       overflow: 'auto',
       overflowX: 'hidden',
+      // backgroundColor: colors.main,
+      flexGrow: 1,
       // paddingLeft: '8px', 
       // marginLeft: '.2rem', // Add 1rem margin to the left
     }}>

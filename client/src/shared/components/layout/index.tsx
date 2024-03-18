@@ -7,6 +7,7 @@ import { useAtom } from 'jotai';
 import Breadcrumb from './breadcrumb';
 import Sidebar from './sidebar';
 import SidebarToggleButton from './sidebar/toggle';
+import { colors } from '~/shared/styles/theme';
 
 const height = 'calc(100vh - 65px)';
 
@@ -46,7 +47,7 @@ function Layout(): React.ReactElement {
         display: 'flex',
         maxHeight: height,
         transition: 'all 0.5s ease-in-out',
-        backgroundColor: 'rgb(25,28,28)',
+        backgroundColor: colors.main,
       }}>
         <Sidebar />
         <Box component="main" sx={{ flexGrow: 1 }}>

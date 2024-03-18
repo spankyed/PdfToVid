@@ -4,13 +4,14 @@ import { styled } from '@mui/system';
 import { getColorShade } from '../../../shared/utils/getColorShade';
 import { useAtom } from 'jotai';
 import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom } from './store';
+import { colors } from '~/shared/styles/theme';
 
 const padding = -8;
 
 const PopoverText = styled(Paper)(({ theme }) => ({
   maxWidth: '400px',
   padding: theme.spacing(2),
-  backgroundColor: 'rgba(0, 0, 0, 0.95)',
+  backgroundColor: colors.sidebar,
   color: theme.palette.common.white,
   borderRadius: theme.shape.borderRadius,
   boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
