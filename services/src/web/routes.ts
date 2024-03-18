@@ -1,5 +1,5 @@
-import { backfill, getCalender, getPapersForDay, scrapePapers } from './web';
-import { updateStatus } from './worker';
+import { backfill, getCalender, getPapersForDay, scrapePapers } from './controllers/web';
+import { updateStatus } from './controllers/worker';
 
 const workerRoutes = [
   {

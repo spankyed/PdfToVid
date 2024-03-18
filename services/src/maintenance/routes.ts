@@ -1,4 +1,4 @@
-import { backfillToDate } from "./backfill";
+import { backfillToDate } from "./controllers/backfill";
 
 const webRoutes = [
   {
