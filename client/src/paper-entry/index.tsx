@@ -56,7 +56,7 @@ const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
       <Tabs value={tabValue} onChange={handleChange}>
         <Tab label="Generate" />
         <Tab label="Learn" />
-        <Tab label="Integrate" />
+        <Tab label="Analytics" />
         {/* instead of integrate as separate tab, consider having in review section under meta */}
       </Tabs>
       {tabValue === 0 && <ReviewTab entry={entry} />}
@@ -70,6 +70,47 @@ const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
 const ReviewTab: React.FC<{ entry: any }> = ({ entry }) => {
   return (
     <Box>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography>Metadata</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {/* Metadata Level Content */}
+          <Box>
+            <TextField fullWidth label="Video Title" value={entry.videoTitle} sx={{ marginTop: 3}}/>
+            <TextField fullWidth label="Keywords" value={entry.keywords} multiline sx={{ marginTop: 3, marginBottom: 3}} />
+            <TextField
+              fullWidth
+              label="Description"
+              multiline
+              rows={4}
+              variant="outlined"
+              value={entry.description}
+              sx={{ marginTop: 3}}
+            />
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography>Video</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {/* Video Level Content */}
+          <Box>
+            <TextField
+              fullWidth
+              label="Script"
+              multiline
+              minRows={5}
+              variant="outlined"
+              value={entry.videoScript}
+              sx={{ marginTop: 3}}
+            />
+            {/* Video Player Component */}
+          </Box>
+        </AccordionDetails>
+      </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Thumbnail</Typography>
@@ -123,47 +164,6 @@ const ReviewTab: React.FC<{ entry: any }> = ({ entry }) => {
               </Grid>
             </Grid>
           </Grid>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Metadata</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {/* Metadata Level Content */}
-          <Box>
-            <TextField fullWidth label="Video Title" value={entry.videoTitle} sx={{ marginTop: 3}}/>
-            <TextField fullWidth label="Keywords" value={entry.keywords} multiline sx={{ marginTop: 3, marginBottom: 3}} />
-            <TextField
-              fullWidth
-              label="Description"
-              multiline
-              rows={4}
-              variant="outlined"
-              value={entry.description}
-              sx={{ marginTop: 3}}
-            />
-          </Box>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Video</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {/* Video Level Content */}
-          <Box>
-            <TextField
-              fullWidth
-              label="Script"
-              multiline
-              minRows={5}
-              variant="outlined"
-              value={entry.videoScript}
-              sx={{ marginTop: 3}}
-            />
-            {/* Video Player Component */}
-          </Box>
         </AccordionDetails>
       </Accordion>
     </Box>
