@@ -90,7 +90,7 @@ const SummaryPopover: React.FC = () => {
       let bottomSpot = anchorRect.bottom + padding;
       let top;
 
-      const putAbove = () => (top = topSpot + 10);
+      const putAbove = () => (top = topSpot + 11);
       const putBelow = () => (top = bottomSpot + 12);
 
       const cantFitAbove = topSpot < 0;
