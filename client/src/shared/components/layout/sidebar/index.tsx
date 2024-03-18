@@ -32,12 +32,6 @@ const Sidebar: React.FC = () => {
       // flexDirection: 'column',
     }}>
       <List component="nav" >
-        <NavItem onClick={() => navigate('calender')}>
-          <ListItemIcon>
-            <CalendarTodayIcon />
-          </ListItemIcon>
-          <ListItemText primary="Calendar" />
-        </NavItem>
         <NavItem onClick={() => navigate('search')}>
           <ListItemIcon>
             <SearchIcon />
@@ -49,6 +43,12 @@ const Sidebar: React.FC = () => {
             <AssessmentIcon />
           </ListItemIcon>
           <ListItemText primary="Reports" />
+        </NavItem>
+        <NavItem onClick={() => navigate('calender')}>
+          <ListItemIcon>
+            <CalendarTodayIcon />
+          </ListItemIcon>
+          <ListItemText primary="Calendar" />
         </NavItem>
         <ListSubheader component="div" id="dates-subheader"
         sx={{
