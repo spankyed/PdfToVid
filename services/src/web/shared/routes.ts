@@ -5,7 +5,7 @@ import { getDates, updateStatus } from './dates/controller';
 const clientRoutes = [
   {
     method: 'GET',
-    path: '/calender', // rename getCalender
+    path: '/getCalender', // rename getCalender
     handler: getCalender
   },
   {
