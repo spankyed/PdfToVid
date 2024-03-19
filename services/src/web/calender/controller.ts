@@ -1,9 +1,9 @@
-import { groupDatesByMonth, mapRecordsToModel } from '../shared/utils';
 import * as repository from './repository';
 import * as sharedRepository from '../shared/dates/repository';
-
 import { WorkerPath, MaintenancePath } from "../../shared/constants";
 import createRequest from "../../shared/request";
+import { groupDatesByMonth } from '../shared/dates/transform';
+import { mapRecordsToModel } from './transform';
 
 const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);

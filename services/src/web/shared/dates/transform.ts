@@ -1,13 +1,8 @@
-import { PaperRecord, DateRecord } from "../../shared/types";
+import { DateRecord } from "../../../shared/types";
 
 type DatesByMonth = {
   month: string;
   days: DateRecord[];
-};
-
-type DateRow = {
-  date: DateRecord;
-  papers: PaperRecord[];
 };
 
 function groupDatesByMonth(days: DateRecord[]): DatesByMonth[] {
@@ -34,16 +29,6 @@ function groupDatesByMonth(days: DateRecord[]): DatesByMonth[] {
   });
 }
 
-function mapRecordsToModel(days: DateRecord[], papers: PaperRecord[]): DateRow[] {
-  const groupedPapers: DateRow[] = days.map(date => ({
-    date,
-    papers: papers.filter(paper => paper.date === date.value),
-  }));
-  
-  return groupedPapers.sort((a, b) => new Date(b.date.value).getTime() - new Date(a.date.value).getTime());
-}
-
 export {
   groupDatesByMonth,
-  mapRecordsToModel,
 }
