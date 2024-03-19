@@ -1,26 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { PapersList } from '~/shared/utils/types';
+import { CalenderModel } from '~/shared/utils/types';
 import DatesList from './dates-list';
 import DatesPlaceholder from '../placeholder';
-import { fetchCalenderGridDataAtom, papersListAtom } from '~/calender/components/main/store';
+import { fetchCalenderGridDataAtom, calenderModelAtom } from '~/calender/components/main/store';
 import { BackfillComponent } from '../backfill';
 import { hasDatesAtom } from '../backfill/store';
 
-function List({ papersList }: { papersList: PapersList[] }): React.ReactElement {
-  return (
-    <>
-      {
-        papersList.length === 0
-          ? <DatesPlaceholder />
-          : <DatesList papersList={papersList} />
-      }
-    </>
-  );
-}
-
 function CalenderMain(): React.ReactElement {
-  const [papersList] = useAtom(papersListAtom);
+  const [calenderModel] = useAtom(calenderModelAtom);
   const [hasDates] = useAtom(hasDatesAtom);
 
   const [, fetchData] = useAtom(fetchCalenderGridDataAtom);
@@ -29,12 +17,23 @@ function CalenderMain(): React.ReactElement {
     fetchData();
   }, [fetchData]);
 
-
   return (
     <>
-      { !hasDates 
-        ? <BackfillComponent />
-        : <List papersList={papersList} />
+      { hasDates 
+        ? <DateRows rows={calenderModel} />
+        : <BackfillComponent />
+      }
+    </>
+  );
+}
+
+function DateRows({ rows }: { rows: CalenderModel }): React.ReactElement {
+  const isLoading = rows.length === 0; // until first fetch, assume no dates = is-loading
+  return (
+    <>
+      { isLoading
+        ? <DatesPlaceholder />
+        : <DatesList rows={rows} />
       }
     </>
   );

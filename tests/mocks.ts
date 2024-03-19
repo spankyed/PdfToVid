@@ -1,4 +1,4 @@
-export const paperList = [
+export const calenderModel = [
   {
     day: {
       value: '2023-08-19',

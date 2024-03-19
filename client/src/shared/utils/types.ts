@@ -1,13 +1,8 @@
 export type DayStatus = 'pending' | 'scraping' | 'ranking' | 'complete' | 'error';
 
-export interface Day {
-  value: string;
-  status: DayStatus;
-}
-
 export interface DatesList {
   month: string;
-  days: Day[];
+  days: Date[];
 }
 
 export interface Video {
@@ -26,15 +21,19 @@ export interface Paper {
   abstract: string;
   pdfLink: string;
   authors: string[];
-  // video: Video;
-  // metadata
   status: number;
   relevancy: number;
   liked: boolean;
   keywords: string[];
 }
+export interface Date {
+  value: string;
+  status: DayStatus;
+}
 
-export interface PapersList {
-  day: Day;
+export interface DateRow {
+  date: Date;
   papers: Paper[];
 }
+
+export type CalenderModel = DateRow[];

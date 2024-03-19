@@ -1,16 +1,16 @@
 import { PaperDocument, DayDocument } from "../shared/types";
 
-type DayList = {
+type DatesByMonth = {
   month: string;
   days: DayDocument[];
 };
 
-type PaperList = {
-  day: DayDocument;
+type DateRow = {
+  date: DayDocument;
   papers: PaperDocument[];
 };
 
-function groupDaysByMonth(days: DayDocument[]): DayList[] {
+function groupDatesByMonth(days: DayDocument[]): DatesByMonth[] {
   const grouped: { [key: string]: DayDocument[] } = {};
 
   for (const day of days) {
@@ -22,7 +22,7 @@ function groupDaysByMonth(days: DayDocument[]): DayList[] {
     grouped[monthYear].push(day);
   }
 
-  const result: DayList[] = Object.keys(grouped).map(month => ({
+  const result: DatesByMonth[] = Object.keys(grouped).map(month => ({
     month,
     days: grouped[month].sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
   }));
@@ -34,16 +34,16 @@ function groupDaysByMonth(days: DayDocument[]): DayList[] {
   });
 }
 
-function mapPapersToDays(days: DayDocument[], papers: PaperDocument[]): PaperList[] {
-  const groupedPapers: PaperList[] = days.map(day => ({
-    day,
-    papers: papers.filter(paper => paper.date === day.value),
+function mapRecordsToModel(days: DayDocument[], papers: PaperDocument[]): DateRow[] {
+  const groupedPapers: DateRow[] = days.map(date => ({
+    date,
+    papers: papers.filter(paper => paper.date === date.value),
   }));
   
-  return groupedPapers.sort((a, b) => new Date(b.day.value).getTime() - new Date(a.day.value).getTime());
+  return groupedPapers.sort((a, b) => new Date(b.date.value).getTime() - new Date(a.date.value).getTime());
 }
 
 export {
-  groupDaysByMonth,
-  mapPapersToDays,
+  groupDatesByMonth,
+  mapRecordsToModel,
 }

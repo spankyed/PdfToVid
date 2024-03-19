@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Box, Pagination, Typography } from '@mui/material';
-import { PapersList } from '~/shared/utils/types';
+import { CalenderModel } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
 import SummaryPopover from '~/calender/components/summary/summary';
 import Scraping from '~/shared/components/scraping';
@@ -12,7 +12,7 @@ import DatesPlaceholder from '../placeholder';
 import List from './papers-list';
 import EmptyState from '~/shared/components/empty/empty';
 
-function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactElement {
+function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
   const [selectedDay, setSelectedDay] = useAtom(selectedDayAtom);
   const navigate = useNavigate();
 
@@ -35,9 +35,8 @@ function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactEle
 
   return (
     <>
-      {papersList.map(({ day, papers }) => {
-        const { value, status } = day;
-
+      {rows.map(({ date, papers }) => {
+        const { value, status } = date;
 
         const contentByStatus = {
           pending: <Empty date={value} />,
@@ -61,7 +60,7 @@ function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactEle
               backgroundColor: selectedDay === value ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
               margin: '.5rem 2rem',
             }}
-            onClick={onDayClick(day)}
+            onClick={onDayClick(date)}
           >
           <Typography variant="h5" 
             sx={{ 

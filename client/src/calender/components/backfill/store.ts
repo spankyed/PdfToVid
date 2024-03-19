@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 import { datesListAtom, openMonthAtom } from '~/shared/components/layout/sidebar/dates/store';
 import { selectedDayAtom } from '~/shared/store';
-import { papersListAtom } from '../main/store';
+import { calenderModelAtom } from '../main/store';
 
 export const hasDatesAtom = atom<boolean>(true);
 // ^ assumed to be true by default, but can be set to false if there are no dates after fetching (i.e. new user)
@@ -14,12 +14,12 @@ export const backFillFetchAtom = atom(
     // set(calenderStateAtom, 'loading');
     try {
       const response = await api.backfillToDate(date); // Assuming 'date' is passed correctly to your API method
-      const { dateList, paperList } = response.data;
+      const { dateList, calenderModel } = response.data;
       console.log('Backfilled dateList: ', dateList);
-      console.log('Backfilled paperList: ', paperList);
+      console.log('Backfilled calenderModel: ', calenderModel);
       // Update your state atoms with the new data
       set(datesListAtom, dateList);
-      set(papersListAtom, paperList);
+      set(calenderModelAtom, calenderModel);
       // Update any other relevant state atoms as needed
       set(selectedDayAtom, dateList[0]?.days[0]?.value ?? '');
       set(openMonthAtom, dateList[0]?.month ?? '');

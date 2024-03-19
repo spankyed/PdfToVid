@@ -1,15 +1,32 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { socket } from './fetch';
-import handlers from './ws-handlers';
-import { papersListAtom } from '~/calender/components/main/store';
+import { calenderModelAtom } from '~/calender/components/main/store';
 
 const SocketListener = () => {
-  const setPapersList = useSetAtom(papersListAtom);
+  const setCalenderModel = useSetAtom(calenderModelAtom);
 
   useEffect(() => {
     const socketHandlers = { 
-      day_status: handlers.day_status(setPapersList),
+      day_status: (status) => {
+        const { key, status: current, data } = status;
+        setCalenderModel((oldCalenderModel) => {
+          const index = oldCalenderModel.findIndex(({ date }) => date.value === key);
+          
+          if (index === -1) {
+            console.error("Day not found", key);
+            return oldCalenderModel;
+          }
+    
+          const newCalenderModel = [...oldCalenderModel];
+          newCalenderModel[index].date.status = current;
+          if (current === 'complete') {
+            newCalenderModel[index].papers = data;
+          }
+    
+          return newCalenderModel;
+        });
+      },
     };
 
     Object.keys(socketHandlers).forEach((event) => {
@@ -22,7 +39,7 @@ const SocketListener = () => {
         socket.off(event, socketHandlers[event]);
       });
     };
-  }, [setPapersList]);
+  }, [setCalenderModel]);
 
   return null; // Non-visual component, so it returns null
 };

@@ -14,6 +14,7 @@ const scrapeAndRankPapers = async (date: string) => {
   // await repository.updateDayStatus(date, 'complete');
 
   // await status.set('days', { key: date, status: 'scraping' });
+  console.log('date: ', date);
   const papers = await scrapePapersByDate(date);
 
   if (papers.length === 0) {
