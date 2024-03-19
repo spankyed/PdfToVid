@@ -59,6 +59,7 @@ function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactEle
               paddingTop: 2,  
               paddingBottom: 2,
               backgroundColor: selectedDay === value ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+              margin: '.5rem 2rem',
             }}
             onClick={onDayClick(day)}
           >

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Grid from './components/grid';
+import CalenderMain from './components/main';
 import { Box } from '@mui/material';
 import './index.css';
 import { useAtom } from 'jotai';
@@ -23,7 +23,7 @@ const Calender: React.FC = () => {
         sx={{ overflowY: 'auto', flexGrow: 1, height: height }}
         onScroll={handleScroll} // Add the onScroll event listener here
       >
-        <Grid />
+        <CalenderMain />
       </Box>
     </Box>
   );

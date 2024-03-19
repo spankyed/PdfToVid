@@ -17,6 +17,7 @@ function DatesPlaceholder(): React.ReactElement {
             paddingTop: 2,  
             paddingBottom: 2,
             cursor: 'pointer',
+            margin: '.5rem 2rem',
           }}
         >
           <div 

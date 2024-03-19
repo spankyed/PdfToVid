@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 import { datesListAtom, openMonthAtom } from '~/shared/components/layout/sidebar/dates/store';
 import { selectedDayAtom } from '~/shared/store';
-import { papersListAtom } from '../grid/store';
+import { papersListAtom } from '../main/store';
 
 export const hasDatesAtom = atom<boolean>(true);
 // ^ assumed to be true by default, but can be set to false if there are no dates after fetching (i.e. new user)

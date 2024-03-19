@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { PapersList } from '~/shared/utils/types';
 import DatesList from './dates-list';
 import DatesPlaceholder from '../placeholder';
-import { fetchCalenderGridDataAtom, papersListAtom } from '~/calender/components/grid/store';
+import { fetchCalenderGridDataAtom, papersListAtom } from '~/calender/components/main/store';
 import { BackfillComponent } from '../backfill';
 import { hasDatesAtom } from '../backfill/store';
 
@@ -19,7 +19,7 @@ function List({ papersList }: { papersList: PapersList[] }): React.ReactElement 
   );
 }
 
-function Grid(): React.ReactElement {
+function CalenderMain(): React.ReactElement {
   const [papersList] = useAtom(papersListAtom);
   const [hasDates] = useAtom(hasDatesAtom);
 
@@ -40,4 +40,4 @@ function Grid(): React.ReactElement {
   );
 }
 
-export default Grid;
+export default CalenderMain;

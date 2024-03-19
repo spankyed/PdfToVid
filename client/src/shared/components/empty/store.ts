@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { papersListAtom } from '~/calender/components/grid/store';
+import { papersListAtom } from '~/calender/components/main/store';
 
 export const scrapePapersAtom = atom(
   null,
