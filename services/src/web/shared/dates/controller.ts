@@ -1,4 +1,6 @@
 import { io } from "../..";
+import { groupDatesByMonth } from "../utils";
+import * as repository from './repository';
 // async function checkStatus(request, h) {
 //   const status = {
 //       current: string;
@@ -12,6 +14,16 @@ import { io } from "../..";
 //     return h.response({ error: 'No status found' }).code(404);
 //   }
 // }
+
+
+function getDates(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const dates = await repository.getAllDates();
+    const dateList = groupDatesByMonth(dates);
+    
+    resolve(dateList)
+  });
+}
 
 
 async function updateStatus(request, h) {
@@ -28,5 +40,6 @@ async function updateStatus(request, h) {
 }
 
 export {
+  getDates,
   updateStatus
 }

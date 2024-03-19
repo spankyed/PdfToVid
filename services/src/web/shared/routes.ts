@@ -1,11 +1,11 @@
-import { initialBackfill, getCalender, scrapePapers } from './calender/controller';
-import { getDateEntry } from './date-entry/controller';
-import { updateStatus } from './shared/controllers/worker';
+import { initialBackfill, getCalender, scrapePapers } from '../calender/controller';
+import { getDateEntry } from '../date-entry/controller';
+import { getDates, updateStatus } from './dates/controller';
 
 const clientRoutes = [
   {
     method: 'GET',
-    path: '/calender',
+    path: '/calender', // rename getCalender
     handler: getCalender
   },
   {
@@ -24,12 +24,17 @@ const clientRoutes = [
     path: '/papersByDate/{date}',
     handler: getDateEntry
   },
+  {
+    method: 'GET',
+    path: '/getDates',
+    handler: getDates
+  },
 ];
 
 const workerRoutes = [
   {
     method: 'POST',
-    path: '/work-status/{type}', // todo rename status update
+    path: '/work-status/{type}', // todo rename dates/scrape-status-update
     handler: updateStatus
   },
 ];

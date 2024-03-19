@@ -1,4 +1,4 @@
-import { DateTable, PapersTable } from "../../shared/schema";
+import { DateTable, PapersTable } from "../../../shared/schema";
 import { Sequelize, DataTypes, Op } from 'sequelize';
 
 type DateInput = string | string[];
@@ -20,6 +20,13 @@ function getPapersByDates(
   });
 }
 
+function getAllDates() {
+  return DateTable.findAll({
+    raw: true, // This tells Sequelize to return plain objects
+  });
+}
+
 export {
+  getAllDates,
   getPapersByDates
 }

@@ -11,12 +11,12 @@ export const fetchDatesSidebarDataAtom = atom(
     // set(calenderStateAtom, 'loading');
     try {
       const response = await api.getDatesSidebarData();
-      const { dateList } = response.data;
+      const dateList = response.data;
       console.log('date component fetch data: ', {dateList});
       console.log('dateList.length: ', dateList.length);
       set(datesListAtom, dateList);
       set(openMonthAtom, dateList[0]?.month ?? '');
-      set(hasDatesAtom, dateList.length > 0); // ! new user state for calender store
+      // set(hasDatesAtom, dateList.length > 0); // ! new user state for calender store
       // set(calenderStateAtom, 'selected');
     } catch (error) {
       console.error("Failed to fetch calender", error);

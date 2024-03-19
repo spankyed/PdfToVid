@@ -1,4 +1,4 @@
-import * as sharedRepository from '../shared/repository';
+import * as sharedRepository from '../shared/dates/repository';
 
 export {
   getDateEntry,

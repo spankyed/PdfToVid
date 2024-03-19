@@ -1,6 +1,6 @@
-import { groupDatesByMonth, mapRecordsToModel } from '../utils';
+import { groupDatesByMonth, mapRecordsToModel } from '../shared/utils';
 import * as repository from './repository';
-import * as sharedRepository from '../shared/repository';
+import * as sharedRepository from '../shared/dates/repository';
 
 import { WorkerPath, MaintenancePath } from "../../shared/constants";
 import createRequest from "../../shared/request";
@@ -23,14 +23,10 @@ function getCalender(request: any, h: any){
     const papers = await sharedRepository.getPapersByDates(lastFiveDays.map(date => date.value), 0);
     // const papers = await repository.getPapersByDates(lastFiveDays.map(day => day.value), 0, 7);
     console.log('papers fetched');
-    // todo current day seems to be off (13th instead of 14th for today)
     const calenderModel = mapRecordsToModel(lastFiveDays, papers);
-    const dateList = groupDatesByMonth(allDays);
     // ! ensure calenderModel only includes dates in DB
-    // const calenderData = { dateList, calenderModel: [] } // ! this being empty shouldnt break the UI for papers in calender
-    const calenderData = { dateList, calenderModel }
     
-    resolve(calenderData)
+    resolve(calenderModel) // ! this being empty shouldnt break the UI for papers in calender
   });
 }
 

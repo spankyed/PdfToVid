@@ -5,22 +5,18 @@ import { CalenderModel } from '~/shared/utils/types';
 import { hasDatesAtom } from '../backfill/store';
 
 export const calenderModelAtom = atom<CalenderModel>([]);
-export const fetchCalenderGridDataAtom = atom(
+export const fetchCalenderModelAtom = atom(
   null, // write-only atom
   async (get, set) => {
-    // set(calenderStateAtom, 'loading');
     try {
+      // set(calenderStateAtom, 'loading');
       const response = await api.getCalenderModelData();
-      const { dateList, calenderModel } = response.data;
-      // const calenderModel = response.data;
+      const calenderModel = response.data as CalenderModel;
       console.log('calenderModel: ', calenderModel);
+      console.log('calenderModel.length: ', calenderModel.length);
       set(calenderModelAtom, calenderModel);
-      // set(calenderModelAtom, calenderModel);
+      set(hasDatesAtom, calenderModel.length > 0);
       // set(selectedDayAtom, dateList[0]?.days[0]?.value ?? '');
-
-      console.log('dateList.length: ', dateList.length);
-      set(hasDatesAtom, dateList.length > 0); // ! move loading state to papers store
-      
       // set(calenderStateAtom, 'selected');
     } catch (error) {
       console.error("Failed to fetch calender", error);

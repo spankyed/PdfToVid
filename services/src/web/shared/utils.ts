@@ -1,4 +1,4 @@
-import { PaperRecord, DateRecord } from "../shared/types";
+import { PaperRecord, DateRecord } from "../../shared/types";
 
 type DatesByMonth = {
   month: string;
