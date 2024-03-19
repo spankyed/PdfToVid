@@ -60,7 +60,14 @@ export async function getRelevancyScores(
 ): Promise<any[]> {
   console.log("Starting getRelevancyScores...");
 
-  const existingCollections = await client.listCollections();
+  let existingCollections;
+  try {
+    existingCollections = await client.listCollections();
+  } catch (err) {
+    console.error('[ERROR] Unable to list chroma collections, server may be down!');
+    return []; // ! should set date status to 'error' here or reset status
+  }
+
   if (!existingCollections.map((c) => c.name).includes(COLLECTION_NAME)) {
     const refPapers = JSON.parse(fs.readFileSync(PATH_REF_PAPERS, "utf-8"));
     await storePaperEmbeddingsInChroma(refPapers);
