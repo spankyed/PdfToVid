@@ -1,4 +1,4 @@
-import scrapeAndRankPapers from './scripts/scrape';
+import scrapeAndRankPapers from './controllers/scrape';
 
 // fetch all papers today
 // filter title/abstract by keywords/vector search
