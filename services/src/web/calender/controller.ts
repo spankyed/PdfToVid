@@ -18,13 +18,8 @@ export {
 
 function getCalender(request: any, h: any){
   return new Promise(async (resolve, reject) => {
-    const [allDays, lastFiveDays] = await repository.fetchCalender();
-    console.log('dash fetched', lastFiveDays);
-    const papers = await sharedRepository.getPapersByDates(lastFiveDays.map(date => date.value), 0);
-    // const papers = await repository.getPapersByDates(lastFiveDays.map(day => day.value), 0, 7);
-    console.log('papers fetched');
+    const [lastFiveDays, papers] = await repository.fetchCalenderData();
     const calenderModel = mapRecordsToModel(lastFiveDays, papers);
-    // ! ensure calenderModel only includes dates in DB
     
     resolve(calenderModel) // ! this being empty shouldnt break the UI for papers in calender
   });

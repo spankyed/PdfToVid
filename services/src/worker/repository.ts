@@ -28,11 +28,6 @@ function updateDayStatus(day: string, status: string): Promise<any> {
   return DateTable.update({ status }, { where: { value: day } });
 }
 
-// Store a new day
-function storeDay(day: string): Promise<any> {
-  return DateTable.create({ value: day, status: 'pending' });
-}
-
 // Update the last run day in the configuration
 // function updateLastRunDay(day: string): Promise<any> {
 //   // Assuming there's only one config record, you might need to ensure it exists or create it beforehand
@@ -41,7 +36,6 @@ function storeDay(day: string): Promise<any> {
 
 export default {
   // getConfigs,
-  storeDay,
   storePaper,
   storePapers,
   updateDayStatus,
