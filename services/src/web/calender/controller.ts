@@ -4,17 +4,12 @@ import { WorkerPath, MaintenancePath } from "../../shared/constants";
 import createRequest from "../../shared/request";
 import { groupDatesByMonth } from '../shared/dates/transform';
 import { mapRecordsToModel } from './transform';
+import { route } from '../../shared/route';
 
 const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);
 // workerService.post('generate', params)
 // workerService.post('auto', params)
-
-export {
-  getCalender,
-  scrapePapers,
-  initialBackfill
-}
 
 function getCalender(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -24,7 +19,6 @@ function getCalender(request: any, h: any){
     resolve(calenderModel) // ! this being empty shouldnt break the UI for papers in calender
   });
 }
-
 function initialBackfill(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     // console.log('backfill: ', backfill);
@@ -55,3 +49,9 @@ async function scrapePapers(request: any, h: any){
 
   return 'Scraping started';
 }
+
+export default [
+  route.get('/getCalender', getCalender),
+  route.get('/backfill/{date}', initialBackfill),
+  route.get('/scrape/{date}', scrapePapers)
+]
