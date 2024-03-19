@@ -1,18 +1,18 @@
 
-// export type RecordTypes = DayDocument | PaperDocument | { lastRun: string };
+// export type RecordTypes = DateRecord | PaperRecord | { lastRun: string };
 export type DayStatuses = 'pending' | 'scraping' | 'ranking' | 'complete';
 export type PaperStatuses = 0 | 1 | 2 | 3;
 export type TableTypes = {
-  days: DayDocument;
-  papers: PaperDocument;
+  days: DateRecord;
+  papers: PaperRecord;
   // config: { lastRun: string };
 };
 
-export type DayDocument = {
+export type DateRecord = {
   value: string;
   status: DayStatuses;
 };
-export type PaperDocument = {
+export type PaperRecord = {
   id: string;
   date: string;
   title: string;

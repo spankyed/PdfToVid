@@ -1,6 +1,6 @@
-// Assuming PaperDocument matches the structure of your PapersTable model
+// Assuming PaperRecord matches the structure of your PapersTable model
 import { DateTable, PapersTable } from '../shared/schema';
-import { PaperDocument } from '../shared/types';
+import { PaperRecord } from '../shared/types';
 
 // Fetch all stored days
 function getStoredDays(): Promise<any> {
@@ -14,12 +14,12 @@ function getStoredDays(): Promise<any> {
 // }
 
 // Store a single paper
-function storePaper(paper: PaperDocument): Promise<any> {
+function storePaper(paper: PaperRecord): Promise<any> {
   return PapersTable.create(paper);
 }
 
 // Store multiple papers
-function storePapers(papers: PaperDocument[]): Promise<any> {
+function storePapers(papers: PaperRecord[]): Promise<any> {
   return PapersTable.bulkCreate(papers);
 }
 

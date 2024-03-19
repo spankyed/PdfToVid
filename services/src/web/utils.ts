@@ -1,17 +1,17 @@
-import { PaperDocument, DayDocument } from "../shared/types";
+import { PaperRecord, DateRecord } from "../shared/types";
 
 type DatesByMonth = {
   month: string;
-  days: DayDocument[];
+  days: DateRecord[];
 };
 
 type DateRow = {
-  date: DayDocument;
-  papers: PaperDocument[];
+  date: DateRecord;
+  papers: PaperRecord[];
 };
 
-function groupDatesByMonth(days: DayDocument[]): DatesByMonth[] {
-  const grouped: { [key: string]: DayDocument[] } = {};
+function groupDatesByMonth(days: DateRecord[]): DatesByMonth[] {
+  const grouped: { [key: string]: DateRecord[] } = {};
 
   for (const day of days) {
     const date = new Date(day.value);
@@ -34,7 +34,7 @@ function groupDatesByMonth(days: DayDocument[]): DatesByMonth[] {
   });
 }
 
-function mapRecordsToModel(days: DayDocument[], papers: PaperDocument[]): DateRow[] {
+function mapRecordsToModel(days: DateRecord[], papers: PaperRecord[]): DateRow[] {
   const groupedPapers: DateRow[] = days.map(date => ({
     date,
     papers: papers.filter(paper => paper.date === date.value),
