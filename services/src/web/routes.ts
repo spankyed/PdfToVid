@@ -1,25 +1,12 @@
-import { backfill, getCalender, getPapersForDay, scrapePapers } from './controllers/web';
-import { updateStatus } from './controllers/worker';
-
-const workerRoutes = [
-  {
-    method: 'POST',
-    path: '/work-status/{type}',
-    handler: updateStatus
-  },
-];
+import { initialBackfill, getCalender, scrapePapers } from './calender/controller';
+import { getDateEntry } from './date-entry/controller';
+import { updateStatus } from './shared/controllers/worker';
 
 const clientRoutes = [
   {
     method: 'GET',
     path: '/calender',
     handler: getCalender
-  },
-  // fetch papers for day
-  {
-    method: 'GET',
-    path: '/papers/{date}',
-    handler: getPapersForDay
   },
   {
     method: 'POST',
@@ -29,7 +16,21 @@ const clientRoutes = [
   {
     method: 'POST',
     path: '/backfill/{date}',
-    handler: backfill
+    handler: initialBackfill
+  },
+  // fetch papers for day
+  {
+    method: 'GET',
+    path: '/papersByDate/{date}',
+    handler: getDateEntry
+  },
+];
+
+const workerRoutes = [
+  {
+    method: 'POST',
+    path: '/work-status/{type}', // todo rename status update
+    handler: updateStatus
   },
 ];
 

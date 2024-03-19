@@ -14,7 +14,7 @@ import { useAtom } from 'jotai';
 import { useParams } from 'react-router-dom'; // Import useParams
 import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { getColorShade } from '~/shared/utils/getColorShade';
-import { dayPageStateAtom, fetchPapersForDayAtom } from './store';
+import { datePageStateAtom, fetchPapersByDateAtom } from './store';
 
 const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   '& .MuiBadge-badge': {
@@ -35,18 +35,18 @@ function DateEntryPage(): React.ReactElement {
   let { dateId } = useParams<{ dateId: string }>();
   dateId = dateId || '';
 
-  const [, fetchData] = useAtom(fetchPapersForDayAtom);
-  const [dayPage] = useAtom(dayPageStateAtom);
+  const [, fetchData] = useAtom(fetchPapersByDateAtom);
+  const [datePage] = useAtom(datePageStateAtom);
 
   useEffect(() => {
     fetchData(dateId);
   }, [fetchData]);
   
-  const { papers, state } = dayPage;
+  const { papers, state } = datePage;
   // const { papers, state } = { state: 'complete', papers: [] as Paper[]};
 
   const componentsByState = {
-    'pending': <Empty day={dateId}/>,
+    'pending': <Empty date={dateId}/>,
     'scraping': <div style={{paddingTop: '5em'}}><Scraping /></div>,
     'ranking': <div style={{paddingTop: '5em'}}>Ranking...</div>,
     'complete': <PageTabs papers={papers} />,
@@ -124,10 +124,10 @@ const PageTabs: React.FC<{ papers: Paper[] }> = ({ papers }) => {
   );
 }
 
-const Empty: React.FC<{ day: string }> = ({ day }) => {
+const Empty: React.FC<{ date: string }> = ({ date }) => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3} marginTop={20}>
-      <EmptyState day={day}/>
+      <EmptyState date={date}/>
     </Box>
   );
 }

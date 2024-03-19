@@ -1,5 +1,6 @@
 import { groupDaysByMonth, mapPapersToDays } from '../utils';
-import repository from '../repository';
+import * as repository from './repository';
+import * as sharedRepository from '../shared/repository';
 
 import { WorkerPath, MaintenancePath } from "../../shared/constants";
 import createRequest from "../../shared/request";
@@ -11,17 +12,16 @@ const maintenanceService = createRequest(MaintenancePath);
 
 export {
   getCalender,
-  getPapersForDay,
   scrapePapers,
-  backfill
+  initialBackfill
 }
 
-function getCalender(request, h){
+function getCalender(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const [allDays, lastFiveDays] = await repository.fetchCalender();
     console.log('dash fetched', lastFiveDays);
-    const papers = await repository.getPapersForDays(lastFiveDays.map(day => day.value), 0);
-    // const papers = await repository.getPapersForDays(lastFiveDays.map(day => day.value), 0, 7);
+    const papers = await sharedRepository.getPapersByDates(lastFiveDays.map(date => date.value), 0);
+    // const papers = await repository.getPapersByDates(lastFiveDays.map(day => day.value), 0, 7);
     console.log('papers fetched');
     // todo current day seems to be off (13th instead of 14th for today)
     const paperList = mapPapersToDays(lastFiveDays, papers);
@@ -34,14 +34,7 @@ function getCalender(request, h){
   });
 }
 
-function getPapersForDay(request, h){
-  return new Promise(async (resolve, reject) => {
-    const date = request.params.date;
-    const papers = await repository.getPapersForDays([date]);
-    resolve(papers)
-  });
-}
-function backfill(request, h){
+function initialBackfill(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     // console.log('backfill: ', backfill);
     const date = request.params.date;
@@ -49,9 +42,9 @@ function backfill(request, h){
     const lastFiveDays = newDateRecords.slice(-5)
     console.log('lastFiveDays: ', {lastFiveDays, newDateRecords});
 
-    const sorted = lastFiveDays.sort((a, b) => b.value - a.value);
-    const papers = await repository.getPapersForDays(sorted.map(day => day.value), 0);
-    // const papers = await repository.getPapersForDays(sorted.map(day => day.value), 0, 7);
+    const sorted = lastFiveDays.sort((a: { value: number; }, b: { value: number; }) => b.value - a.value);
+    const papers = await sharedRepository.getPapersByDates(sorted.map((day: { value: any; }) => day.value), 0);
+    // const papers = await repository.getPapersByDates(sorted.map(day => day.value), 0, 7);
     console.log('papers fetched');
     // todo current day seems to be off (13th instead of 14th for today)
     const paperList = mapPapersToDays(sorted, papers);
@@ -64,11 +57,10 @@ function backfill(request, h){
   });
 }
 
-async function scrapePapers(request, h){
+async function scrapePapers(request: any, h: any){
   const date = request.params.date;
 
   workerService.post('scrape', { date });
 
   return 'Scraping started';
 }
-

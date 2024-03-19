@@ -6,14 +6,14 @@ import { scrapePapersAtom } from './store';
 // import { StoreType } from '../store';
 
 
-function EmptyState({ day }: { day: string }): React.ReactElement {
+function EmptyState({ date }: { date: string }): React.ReactElement {
   // const store = useContext<StoreType>(StoreContext);
   // const { scrapePapers } = store.calender;
 
   const [, scrapePapers] = useAtom(scrapePapersAtom);
 
   const scrape = () => {
-    scrapePapers(day);
+    scrapePapers(date);
   }
 
   return (

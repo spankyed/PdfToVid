@@ -40,7 +40,7 @@ function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactEle
 
 
         const contentByStatus = {
-          pending: <Empty day={value} />,
+          pending: <Empty date={value} />,
           scraping: <Scraping />,
           ranking: <Ranking />,
           complete: <List papers={papers} />,
@@ -49,7 +49,7 @@ function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactEle
         
         return (
           <Box 
-            key={'day-' + value} 
+            key={'date-' + value} 
             // onMouseEnter={() => setSelectedDay(value)}
             sx={{ 
               display: 'flex', 
@@ -97,10 +97,10 @@ function DatesList({ papersList }: { papersList: PapersList[] }): React.ReactEle
   );
 }
 
-function Empty({ day }: { day: string }): React.ReactElement {
+function Empty({ date }: { date: string }): React.ReactElement {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3} margin={3}>
-      <EmptyState day={day}/>
+      <EmptyState date={date}/>
     </Box>
   );
 }

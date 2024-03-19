@@ -13,7 +13,7 @@ export const paperAtom = atom<Paper | null>(null);
 //     }
 
 //     try {
-//       const response = await api.getPapersForDay(dateId);
+//       const response = await api.getPapersByDate(dateId);
 //       const papers = response.data;
 //       set(paperAtom, { papers, state: 'complete' });
 //     } catch (error) {
