@@ -1,6 +1,6 @@
-import { getDateEntry } from '../date-entry/controller';
-import { getDates, updateStatus } from './dates/controller';
-import calenderRoutes from '../calender/controller';
+import { getDateEntry } from './date-entry/controller';
+import { getDates, updateStatus } from './sidebar-dates/controller';
+import calenderRoutes from './calender/controller';
 
 const clientRoutes = [
   ...calenderRoutes,

@@ -1,4 +1,4 @@
-import * as sharedRepository from '../shared/dates/repository';
+import * as sharedRepository from '../sidebar-dates/repository';
 
 export {
   getDateEntry,

@@ -1,8 +1,8 @@
 import * as repository from './repository';
-import * as sharedRepository from '../shared/dates/repository';
+import * as sharedRepository from '../sidebar-dates/repository';
 import { WorkerPath, MaintenancePath } from "../../shared/constants";
 import createRequest from "../../shared/request";
-import { groupDatesByMonth } from '../shared/dates/transform';
+import { groupDatesByMonth } from '../sidebar-dates/transform';
 import { mapRecordsToModel } from './transform';
 import { route } from '../../shared/route';
 import { calenderPageSize } from './repository';
@@ -26,8 +26,8 @@ function initialBackfill(request: any, h: any){
     const newDateRecords: any = await maintenanceService.post('backfill/' + date);
     const lastFiveDates = newDateRecords.slice(calenderPageSize * -1);
     const sorted = lastFiveDates.sort((a: { value: number; }, b: { value: number; }) => b.value - a.value);
-    const calenderModel = mapRecordsToModel(sorted, []);
     const dateList = groupDatesByMonth(newDateRecords); // need to update sidebar date list as well
+    const calenderModel = mapRecordsToModel(sorted, []);
     const calenderData = { dateList, calenderModel }
     
     resolve(calenderData)

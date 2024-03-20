@@ -1,4 +1,4 @@
-import { io } from "../..";
+import { io } from "..";
 import * as repository from './repository';
 import { groupDatesByMonth } from "./transform";
 // async function checkStatus(request, h) {

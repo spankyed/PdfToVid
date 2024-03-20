@@ -1,6 +1,6 @@
 import createServer from '../shared/server';
 import { ClientPath, ports } from '../shared/constants';
-import { routes } from './shared/routes';
+import { routes } from './routes';
 import { Server as IOServer } from 'socket.io';
 // import eventHandlers from './service/handlers/socket';
 
