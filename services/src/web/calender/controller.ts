@@ -52,6 +52,6 @@ async function scrapePapers(request: any, h: any){
 
 export default [
   route.get('/getCalender', getCalender),
-  route.get('/backfill/{date}', initialBackfill),
-  route.get('/scrape/{date}', scrapePapers)
+  route.post('/backfill/{date}', initialBackfill),
+  route.post('/scrape/{date}', scrapePapers)
 ]
