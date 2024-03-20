@@ -8,3 +8,4 @@ export const popoverTargetAtom = atom<HoveredPaper>(null);
 export const isOpenAtom = atom(false);
 export const anchorElAtom = atom<AnchorEl>(null);
 export const popoverRefAtom = atom<HTMLDivElement | null>(null);
+export const hoverTimeoutAtom = atom<NodeJS.Timeout | null>(null);

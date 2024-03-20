@@ -3,7 +3,7 @@ import { Paper, Typography, Fade, Badge } from '@mui/material';
 import { styled } from '@mui/system';
 import { getColorShade } from '../../../shared/utils/getColorShade';
 import { useAtom } from 'jotai';
-import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom } from './store';
+import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from './store';
 import { colors } from '~/shared/styles/theme';
 
 const padding = -8;
@@ -42,14 +42,19 @@ const SummaryPopover: React.FC = () => {
   const [paper] = useAtom(popoverTargetAtom);
   let { relevancy: score } = paper || { relevancy: 0 };
   const [abstract, setAbstract] = useState(paper?.abstract || '');
+  const [hoverTimeout, setHoverTimeout] = useAtom(hoverTimeoutAtom);
 
   const popoverRefCallback = (node: HTMLDivElement | null) => {
     setPopoverRefAtom(node);
   };
 
   const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
+    console.log('pop hoverTimeout: ', hoverTimeout);
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+
     const relatedTarget = event.relatedTarget as HTMLElement;
-    if (!popoverRef?.contains(relatedTarget)) {
+    console.log('relatedTarget: ', relatedTarget);
+    if (!popoverRef?.contains(relatedTarget) && relatedTarget) {
       setIsOpen(false);
     }
   };
@@ -71,6 +76,7 @@ const SummaryPopover: React.FC = () => {
   // }, []);
 
   useEffect(() => {
+    console.log('isOpen: ', isOpen);
     if (isOpen && anchorEl && popoverRef) {
       const anchorRect = anchorEl.getBoundingClientRect();
       const popoverRect = popoverRef.getBoundingClientRect();

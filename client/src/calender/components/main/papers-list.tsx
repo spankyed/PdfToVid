@@ -3,7 +3,7 @@ import {  Pagination,  } from '@mui/material';
 import Thumbnail from '~/shared/components/thumbnail';
 import { Paper,  } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
-import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom } from '../summary/store';
+import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from '../summary/store';
 
 function List({ papers }: { papers: Paper[] }): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,6 +12,7 @@ function List({ papers }: { papers: Paper[] }): React.ReactElement {
   const [, setIsOpen] = useAtom(isOpenAtom);
   const [popoverRef] = useAtom(popoverRefAtom);
   const [, setPaperTarget] = useAtom(popoverTargetAtom);
+  const [hoverTimeout, setHoverTimeout] = useAtom(hoverTimeoutAtom);
 
   const handlePageChange = (event, value) => {
     setPreviousPage(currentPage);
@@ -24,12 +25,22 @@ function List({ papers }: { papers: Paper[] }): React.ReactElement {
   const margin = 1; // in em, 1em = 16px
 
   const handleMouseOver = (paper) => (event: React.MouseEvent<HTMLElement>) => {
-    setPaperTarget(paper)
-    setAnchorEl(event.currentTarget);
-    setIsOpen(true);
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    
+    const target = event.currentTarget; // ! javascript :)
+
+    const timeoutId = setTimeout(() => {
+      setPaperTarget(paper);
+      setAnchorEl(target);
+      setIsOpen(true);
+    }, 10);
+
+    setHoverTimeout(timeoutId);
   };
 
   const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+
     const relatedTarget = event.relatedTarget as HTMLElement;
     if (!popoverRef?.contains(relatedTarget)) {
       setIsOpen(false);
