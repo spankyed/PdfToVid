@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { selectedDayAtom } from '~/shared/store'; // Import your Jotai atoms
+import { selectedDateAtom } from '~/shared/store'; // Import your Jotai atoms
 import { useAtom } from 'jotai';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { datesListAtom, fetchDatesSidebarDataAtom, openMonthAtom } from './store';
@@ -16,7 +16,7 @@ const MonthItem = styled(ListItemButton)(({ theme }) => ({
 
 function DateList(): React.ReactElement {
   const [datesList] = useAtom(datesListAtom); // todo useMemo
-  const [selectedDay] = useAtom(selectedDayAtom);
+  const [selectedDate] = useAtom(selectedDateAtom);
   const [openMonth, setOpenMonth] = useAtom(openMonthAtom);
   const [, fetchData] = useAtom(fetchDatesSidebarDataAtom);
 
@@ -44,7 +44,7 @@ function DateList(): React.ReactElement {
       // paddingLeft: '8px', 
       // marginLeft: '.2rem', // Add 1rem margin to the left
     }}>
-      {datesList.map(({ month, days }) => (
+      {datesList.map(({ month, dates }) => (
         <div key={month}>
           <MonthItem onClick={() => clickMonth(month)} sx={{ fontWeight: 'bolder' }}>
             <ListItemText primary={month} sx={{ 
@@ -57,14 +57,14 @@ function DateList(): React.ReactElement {
           </MonthItem>
           <Collapse in={openMonth === month} timeout="auto" >
             <List component="div">
-              {days.map(day => {
-                // const formattedDate = useMemo(() => reformatDate(day.value), [day.value]);
-                const [formattedDay, formattedWeekday] = reformatDate(day.value);
+              {dates.map(date => {
+                // const formattedDate = useMemo(() => reformatDate(date.value), [date.value]);
+                const [formattedDate, formattedWeekday] = reformatDate(date.value);
                 return (
-                  <Link to={`/date/${day.value}`} key={'date-' + day.value}>
-                    <ListItemButton selected={selectedDay === day.value} >
+                  <Link to={`/date/${date.value}`} key={'date-' + date.value}>
+                    <ListItemButton selected={selectedDate === date.value} >
                       <ListItemText primary={
-                        <DateDisplay formattedDay={formattedDay} formattedWeekday={formattedWeekday} />
+                        <DateDisplay formattedDate={formattedDate} formattedWeekday={formattedWeekday} />
                       } sx={{ 
                         paddingLeft: '14px',
                       }}/>
@@ -80,7 +80,7 @@ function DateList(): React.ReactElement {
   );
 }
 
-const dayStyle = {
+const dateStyle = {
   padding: '4px 16px 4px 0px',
   borderRight: '1px solid rgba(0, 0, 0, 0.4)',
   // marginLeft: '-.8rem',
@@ -95,16 +95,16 @@ const weekdayStyle = {
 
 // Renamed the function to DateDisplay to avoid confusion with JavaScript's Date object
 function DateDisplay({
-  formattedDay,
+  formattedDate,
   formattedWeekday,
 }: {
-  formattedDay: string;
+  formattedDate: string;
   formattedWeekday: string;
 }): React.ReactElement {
   return (
     <div> {/* Using a div as a parent container for better semantics */}
-      <span style={dayStyle}>
-        {formattedDay}
+      <span style={dateStyle}>
+        {formattedDate}
       </span>
       <span style={weekdayStyle}>
         {formattedWeekday}

@@ -6,11 +6,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { Typography } from '@mui/material';
-import { getDayPrior } from '~/shared/utils/dateFormatter';
+import { getDatePrior } from '~/shared/utils/dateFormatter';
 import { backFillFetchAtom } from './store';
 
 export const BackfillComponent: React.FC = () => {
-  const [value, setValue] = useState(dayjs(getDayPrior(5)));
+  const [value, setValue] = useState(dayjs(getDatePrior(5)));
   const [, backFillFetch] = useAtom(backFillFetchAtom);
 
   const handleSubmit = () => {
@@ -30,7 +30,7 @@ export const BackfillComponent: React.FC = () => {
         To Get Started
       </Typography>
       <Typography style={{ marginBottom: '2rem'}}>
-        Select the earliest day that you may want to scrape and rank papers for.
+        Select the earliest date that you may want to scrape and rank papers for.
       </Typography>
     
       <LocalizationProvider dateAdapter={AdapterDayjs}>

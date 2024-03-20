@@ -1,6 +1,6 @@
 export const calenderModel = [
   {
-    day: {
+    date: {
       value: '2023-08-19',
       status: 'complete',
     },
@@ -135,7 +135,7 @@ export const calenderModel = [
     ]
   },
   {
-    day: {
+    date: {
       value: '2023-08-18',
       status: 'pending',
     },
@@ -143,7 +143,7 @@ export const calenderModel = [
     ]
   },
   {
-    day: {
+    date: {
       value: '2023-08-17',
       status: 'pending',
     },
@@ -151,7 +151,7 @@ export const calenderModel = [
     ],
   },
   {
-    day: {
+    date: {
       value: '2023-08-16',
       status: 'pending',
     },
@@ -159,7 +159,7 @@ export const calenderModel = [
     ],
   },
   {
-    day: {
+    date: {
       value: '2023-08-15',
       status: 'pending',
     },

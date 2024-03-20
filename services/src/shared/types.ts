@@ -1,16 +1,16 @@
 
 // export type RecordTypes = DateRecord | PaperRecord | { lastRun: string };
-export type DayStatuses = 'pending' | 'scraping' | 'ranking' | 'complete';
+export type DateStatuses = 'pending' | 'scraping' | 'ranking' | 'complete';
 export type PaperStatuses = 0 | 1 | 2 | 3;
 export type TableTypes = {
-  days: DateRecord;
+  dates: DateRecord;
   papers: PaperRecord;
   // config: { lastRun: string };
 };
 
 export type DateRecord = {
   value: string;
-  status: DayStatuses;
+  status: DateStatuses;
 };
 export type PaperRecord = {
   id: string;

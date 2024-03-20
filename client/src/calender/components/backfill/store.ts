@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 import { datesListAtom, openMonthAtom } from '~/shared/components/layout/sidebar/dates/store';
-import { selectedDayAtom } from '~/shared/store';
+import { selectedDateAtom } from '~/shared/store';
 import { calenderModelAtom } from '../main/store';
 
 export const hasDatesAtom = atom<boolean>(true);
@@ -21,7 +21,7 @@ export const backFillFetchAtom = atom(
       set(datesListAtom, dateList);
       set(calenderModelAtom, calenderModel);
       // Update any other relevant state atoms as needed
-      set(selectedDayAtom, dateList[0]?.days[0]?.value ?? '');
+      set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
       set(openMonthAtom, dateList[0]?.month ?? '');
       set(hasDatesAtom, dateList.length > 0); // ! move loading state to papers store
 

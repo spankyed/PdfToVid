@@ -2,29 +2,29 @@ import { DateRecord } from "../../../shared/types";
 
 type DatesByMonth = {
   month: string;
-  days: DateRecord[];
+  dates: DateRecord[];
 };
 
-function groupDatesByMonth(days: DateRecord[]): DatesByMonth[] {
+function groupDatesByMonth(dates: DateRecord[]): DatesByMonth[] {
   const grouped: { [key: string]: DateRecord[] } = {};
 
-  for (const day of days) {
-    const date = new Date(day.value);
+  for (const nextDate of dates) {
+    const date = new Date(nextDate.value);
     const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
     if (!grouped[monthYear]) {
       grouped[monthYear] = [];
     }
-    grouped[monthYear].push(day);
+    grouped[monthYear].push(nextDate);
   }
 
   const result: DatesByMonth[] = Object.keys(grouped).map(month => ({
     month,
-    days: grouped[month].sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
+    dates: grouped[month].sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
   }));
 
   return result.sort((a, b) => {
-    const dateA = new Date(a.days[0].value);
-    const dateB = new Date(b.days[0].value);
+    const dateA = new Date(a.dates[0].value);
+    const dateB = new Date(b.dates[0].value);
     return dateB.getTime() - dateA.getTime();
   });
 }

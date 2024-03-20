@@ -6,8 +6,8 @@ type DateRow = {
 };
 
 
-function mapRecordsToModel(days: DateRecord[], papers: PaperRecord[]): DateRow[] {
-  const groupedPapers: DateRow[] = days.map(date => ({
+function mapRecordsToModel(dates: DateRecord[], papers: PaperRecord[]): DateRow[] {
+  const groupedPapers: DateRow[] = dates.map(date => ({
     date,
     papers: papers.filter(paper => paper.date === date.value),
   }));

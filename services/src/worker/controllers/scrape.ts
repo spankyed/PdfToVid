@@ -11,9 +11,9 @@ const webService = createRequest(WebServerPath);
 
 const scrapeAndRankPapers = async (date: string) => {
   console.log('Scraping papers...');
-  // await repository.updateDayStatus(date, 'complete');
+  // await repository.updateDateStatus(date, 'complete');
 
-  // await status.set('days', { key: date, status: 'scraping' });
+  // await status.set('dates', { key: date, status: 'scraping' });
   console.log('date: ', date);
   const papers = await scrapePapersByDate(date);
 
@@ -26,7 +26,7 @@ const scrapeAndRankPapers = async (date: string) => {
 
   console.log('Papers scraped, proceeding to ranking...');
 
-  await webService.post(`work-status/days`, { key: date, status: 'ranking'})
+  await webService.post(`work-status/dates`, { key: date, status: 'ranking'})
 
   const rankedPapers = await getRelevancyScores(papers);
   const mPapers = rankedPapers.map((p) => ({ 
@@ -41,10 +41,10 @@ const scrapeAndRankPapers = async (date: string) => {
 
   await repository.storePapers(sortedPapers.map((p: any) => ({ ...p, authors: p.authors.join('; ') })));
 
-  await repository.updateDayStatus(date, 'complete');
-  // await repository.addPapersForDay(date, 'complete');
+  await repository.updateDateStatus(date, 'complete');
+  // await repository.addPapersForDate(date, 'complete');
 
-  await webService.post(`work-status/days`, { key: date, status: 'complete', data: sortedPapers, final: true })
+  await webService.post(`work-status/dates`, { key: date, status: 'complete', data: sortedPapers, final: true })
 
   console.log('Scraping, ranking, and stored for date:', date);
 };

@@ -5,7 +5,7 @@ import { useAtom } from 'jotai';
 import SummaryPopover from '~/calender/components/summary/summary';
 import Scraping from '~/shared/components/scraping';
 import Ranking from '~/shared/components/ranking';
-import { selectedDayAtom } from '~/shared/store';
+import { selectedDateAtom } from '~/shared/store';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from '../placeholder';
@@ -13,7 +13,7 @@ import List from './papers-list';
 import EmptyState from '~/shared/components/empty/empty';
 
 function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
-  const [selectedDay, setSelectedDay] = useAtom(selectedDayAtom);
+  const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
   const navigate = useNavigate();
 
   const reformatDateMemo = useCallback((inputDate: string): string => {
@@ -24,7 +24,7 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
     });
   }, []);
   
-  const onDayClick = date => e => {
+  const onDateClick = date => e => {
     const is = tag => e.target.tagName === tag;
     const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
 
@@ -49,7 +49,7 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
         return (
           <Box 
             key={'date-' + value} 
-            // onMouseEnter={() => setSelectedDay(value)}
+            // onMouseEnter={() => setSelectedDate(value)}
             sx={{ 
               display: 'flex', 
               flexDirection: 'column', 
@@ -57,10 +57,10 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
               borderBottom: '1px solid rgba(0, 0, 0, 0.3)',
               paddingTop: 2,  
               paddingBottom: 2,
-              backgroundColor: selectedDay === value ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+              backgroundColor: selectedDate === value ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
               margin: '.5rem 2rem',
             }}
-            onClick={onDayClick(date)}
+            onClick={onDateClick(date)}
           >
           <Typography variant="h5" 
             sx={{ 

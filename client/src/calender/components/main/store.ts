@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { selectedDayAtom } from '~/shared/store';
+import { selectedDateAtom } from '~/shared/store';
 import { CalenderModel } from '~/shared/utils/types';
 import { hasDatesAtom } from '../backfill/store';
 
@@ -16,7 +16,7 @@ export const fetchCalenderModelAtom = atom(
       console.log('calenderModel.length: ', calenderModel.length);
       set(calenderModelAtom, calenderModel);
       set(hasDatesAtom, calenderModel.length > 0);
-      // set(selectedDayAtom, dateList[0]?.days[0]?.value ?? '');
+      // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
       // set(calenderStateAtom, 'selected');
     } catch (error) {
       console.error("Failed to fetch calender", error);

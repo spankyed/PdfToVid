@@ -1,5 +1,5 @@
 import repository from '../repository';
-import { getDaysBetween } from './backfill';
+import { getDatesBetween } from './backfill';
 
 async function initializeServer(): Promise<void> {
   const configs = await repository.getConfigs(); // ! repository deleted, use sequalize
@@ -9,24 +9,24 @@ async function initializeServer(): Promise<void> {
 
   console.log('lastRun: ', lastRun);
   if (lastRun) {
-    const daysToStore = getDaysBetween(lastRun, today);
+    const datesToStore = getDatesBetween(lastRun, today);
 
-    console.log('daysToStore: ', daysToStore); // todo test for overlap
+    console.log('datesToStore: ', datesToStore); // todo test for overlap
 
-    for (const day of daysToStore) {
+    for (const date of datesToStore) {
       console.log('repository: ', repository);
-      const ret1 = await repository.storeDay(day);
+      const ret1 = await repository.storeDate(date);
       console.log('ret1: ', ret1);
     }
   } else {
-    const ret2 = await repository.storeDay(today);
+    const ret2 = await repository.storeDate(today);
     console.log('ret2: ', ret2);
   }
 
-  const ret3 = await repository.updateLastRunDay(today);
+  const ret3 = await repository.updateLastRunDate(today);
   console.log('ret3: ', ret3);
 
-  console.log('Server initialized and days updated.');
+  console.log('Server initialized and dates updated.');
 }
 
 export default {

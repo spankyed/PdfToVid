@@ -1,8 +1,8 @@
-export type DayStatus = 'pending' | 'scraping' | 'ranking' | 'complete' | 'error';
+export type DateStatus = 'pending' | 'scraping' | 'ranking' | 'complete' | 'error';
 
 export interface DatesList {
   month: string;
-  days: Date[];
+  dates: Date[];
 }
 
 export interface Video {
@@ -28,7 +28,7 @@ export interface Paper {
 }
 export interface Date {
   value: string;
-  status: DayStatus;
+  status: DateStatus;
 }
 
 export interface DateRow {

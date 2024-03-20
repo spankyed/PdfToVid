@@ -8,7 +8,7 @@ function DatesPlaceholder(): React.ReactElement {
     <>
       {fakeDates.map((_, index) => (
         <Box 
-          key={'day-placeholder-' + index}
+          key={'date-placeholder-' + index}
           sx={{ 
             display: 'flex', 
             flexDirection: 'column', 

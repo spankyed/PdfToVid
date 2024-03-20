@@ -13,8 +13,8 @@ const maintenanceService = createRequest(MaintenancePath);
 
 function getCalender(request: any, h: any){
   return new Promise(async (resolve, reject) => {
-    const [lastFiveDays, papers] = await repository.fetchCalenderData();
-    const calenderModel = mapRecordsToModel(lastFiveDays, papers);
+    const [lastFiveDates, papers] = await repository.fetchCalenderData();
+    const calenderModel = mapRecordsToModel(lastFiveDates, papers);
     
     resolve(calenderModel) // ! this being empty shouldnt break the UI for papers in calender
   });
@@ -24,14 +24,14 @@ function initialBackfill(request: any, h: any){
     // console.log('backfill: ', backfill);
     const date = request.params.date;
     const newDateRecords: any = await maintenanceService.post('backfill/' + date);
-    const lastFiveDays = newDateRecords.slice(-5)
-    console.log('lastFiveDays: ', {lastFiveDays, newDateRecords});
+    const lastFiveDates = newDateRecords.slice(-5)
+    console.log('lastFiveDates: ', {lastFiveDates, newDateRecords});
 
-    const sorted = lastFiveDays.sort((a: { value: number; }, b: { value: number; }) => b.value - a.value);
-    const papers = await sharedRepository.getPapersByDates(sorted.map((day: { value: any; }) => day.value), 0);
-    // const papers = await repository.getPapersByDates(sorted.map(day => day.value), 0, 7);
+    const sorted = lastFiveDates.sort((a: { value: number; }, b: { value: number; }) => b.value - a.value);
+    const papers = await sharedRepository.getPapersByDates(sorted.map((date: { value: any; }) => date.value), 0);
+    // const papers = await repository.getPapersByDates(sorted.map(date => date.value), 0, 7);
     console.log('papers fetched');
-    // todo current day seems to be off (13th instead of 14th for today)
+    // todo current date seems to be off (13th instead of 14th for today)
     const calenderModel = mapRecordsToModel(sorted, papers);
     const dateList = groupDatesByMonth(newDateRecords);
     // ! ensure calenderModel only includes dates in DB

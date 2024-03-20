@@ -27,7 +27,7 @@ What emoji best describes this catchy phrase {phrase} ("AI Unboxed")
 
 
 npm install react-router-dom mobx mobx-react axios moment lodash material-ui @testing-library/react
-2. Day page - shows all the papers released for a given day. Contains two sections. The first is a list of papers that need certain processing actions. The second is all the papers that were processed and uploaded into our system .
+2. Date page - shows all the papers released for a given date. Contains two sections. The first is a list of papers that need certain processing actions. The second is all the papers that were processed and uploaded into our system .
 3. Paper page - shows the title, author and abstract for a paper. Under this is a section with two tabs. The first is for reviewing a generated video and editing details. The other is for displaying summary data and questions/answers. 
 
 
@@ -40,7 +40,7 @@ Act as an senior front-end engineer. Assume there is already a backend system bu
 Build a frontend web app to trigger and manage the daily video generations. A user should be able to review and make refinements at each step of the flow . 
 
 The first page we will build out is:
-1. Calender page - in the main center section is a day-by-day list of all the papers scraped and uploaded for every day of a given month up to the current day. On the left panel section is a collapsable vertical list of dates grouped by month. In the right panel section is an input for keyword search and the corresponding result list.
+1. Calender page - in the main center section is a date-by-date list of all the papers scraped and uploaded for every date of a given month up to the current date. On the left panel section is a collapsable vertical list of dates grouped by month. In the right panel section is an input for keyword search and the corresponding result list.
 
 Brainstorm and decide on what appropriate libraries you will need for rendering, styling, and managing state. Think step by step.
 

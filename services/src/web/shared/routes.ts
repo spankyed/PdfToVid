@@ -4,7 +4,7 @@ import calenderRoutes from '../calender/controller';
 
 const clientRoutes = [
   ...calenderRoutes,
-  // fetch papers for day
+  // fetch papers for date
   {
     method: 'GET',
     path: '/papersByDate/{date}',

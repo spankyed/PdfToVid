@@ -34,7 +34,7 @@ async function updateStatus(request, h) {
 
   // type Status = { current: string; updated?: boolean; final?: boolean; data?: any };
   // io.to(user).emit('status', { type, key, status, data, final });
-  io.emit('day_status', { type, key, status, data, final });
+  io.emit('date_status', { type, key, status, data, final });
 
   return h.response({ status: 'success' }).code(200);
 }

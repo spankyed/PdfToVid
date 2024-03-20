@@ -2,8 +2,8 @@
 import { DateTable, PapersTable } from '../shared/schema';
 import { PaperRecord } from '../shared/types';
 
-// Fetch all stored days
-function getStoredDays(): Promise<any> {
+// Fetch all stored dates
+function getStoredDates(): Promise<any> {
   return DateTable.findAll();
 }
 
@@ -23,21 +23,21 @@ function storePapers(papers: PaperRecord[]): Promise<any> {
   return PapersTable.bulkCreate(papers);
 }
 
-// Update the status of a specific day
-function updateDayStatus(day: string, status: string): Promise<any> {
-  return DateTable.update({ status }, { where: { value: day } });
+// Update the status of a specific date
+function updateDateStatus(date: string, status: string): Promise<any> {
+  return DateTable.update({ status }, { where: { value: date } });
 }
 
-// Update the last run day in the configuration
-// function updateLastRunDay(day: string): Promise<any> {
+// Update the last run date in the configuration
+// function updateLastRunDate(date: string): Promise<any> {
 //   // Assuming there's only one config record, you might need to ensure it exists or create it beforehand
-//   return ConfigTable.update({ lastRun: day }, { where: {} }); // Updates all records; adjust if your logic differs
+//   return ConfigTable.update({ lastRun: date }, { where: {} }); // Updates all records; adjust if your logic differs
 // }
 
 export default {
   // getConfigs,
   storePaper,
   storePapers,
-  updateDayStatus,
-  // updateLastRunDay
+  updateDateStatus,
+  // updateLastRunDate
 };

@@ -1,25 +1,25 @@
 import { DateTable } from '../../shared/schema';
 
 // usage: backfill from current date to May 1, 2023
-// backfillDays('2023-05-01');
+// backfillDates('2023-05-01');
 
-export async function backfillDays(date: string): Promise<any> {
+export async function backfillDates(date: string): Promise<any> {
   const today = new Date();
-  const startDay = new Date(date);
+  const startDate = new Date(date);
 
-  const daysToBackfill = getDaysBetween(startDay.toISOString().split('T')[0], today.toISOString().split('T')[0]);
-  console.log('daysToBackfill: ', daysToBackfill);
+  const datesToBackfill = getDatesBetween(startDate.toISOString().split('T')[0], today.toISOString().split('T')[0]);
+  console.log('datesToBackfill: ', datesToBackfill);
   const existingDates = await DateTable.findAll({
     where: {
-      value: daysToBackfill
+      value: datesToBackfill
     }
   });
   const existingDateValues = existingDates.map(record => record.value);
-  const newDates = daysToBackfill.filter(day => !existingDateValues.includes(day));
+  const newDates = datesToBackfill.filter(date => !existingDateValues.includes(date));
   const newDateRecords = newDates
-    .filter((day, index, self) => self.indexOf(day) === index) // Filter duplicates
-    .map(day => ({
-      value: day,
+    .filter((date, index, self) => self.indexOf(date) === index) // Filter duplicates
+    .map(date => ({
+      value: date,
       status: 'pending'
     }));
 
@@ -31,22 +31,22 @@ export async function backfillDays(date: string): Promise<any> {
 
   console.log('Backfill completed.');
 
-  // return last 7 days
+  // return last 7 dates
   return newDateRecords;
 };
-export function getDaysBetween(startDate: string, endDate: string): string[] {
+export function getDatesBetween(startDate: string, endDate: string): string[] {
   let start = new Date(startDate);
   const end = new Date(endDate);
-  const days: string[] = [];
+  const dates: string[] = [];
 
   // Reset start time to avoid timezone issues
   start = new Date(start.setHours(0, 0, 0, 0));
   const endUTC = new Date(end.setHours(0, 0, 0, 0));
 
   while (start <= endUTC) {
-    days.push(start.toISOString().split('T')[0]);
+    dates.push(start.toISOString().split('T')[0]);
     start = new Date(start.setDate(start.getDate() + 1));
   }
 
-  return days;
+  return dates;
 }

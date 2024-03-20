@@ -9,7 +9,7 @@ export const scrapePapersAtom = atom(
     const index = calenderModel.findIndex(({ date }) => date.value === value);
 
     if (index === -1) {
-      console.error("Day not found", value);
+      console.error("Date not found", value);
       return;
     }
 
@@ -17,7 +17,7 @@ export const scrapePapersAtom = atom(
       calenderModel[index].date.status = 'scraping';
       set(calenderModelAtom, [...calenderModel]);
 
-      await api.scrapeDay(value);
+      await api.scrapeDate(value);
     } catch (error) {
       console.error("Scraping failed:", error);
 

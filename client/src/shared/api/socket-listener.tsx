@@ -8,13 +8,13 @@ const SocketListener = () => {
 
   useEffect(() => {
     const socketHandlers = { 
-      day_status: (status) => {
+      date_status: (status) => {
         const { key, status: current, data } = status;
         setCalenderModel((oldCalenderModel) => {
           const index = oldCalenderModel.findIndex(({ date }) => date.value === key);
           
           if (index === -1) {
-            console.error("Day not found", key);
+            console.error("Date not found", key);
             return oldCalenderModel;
           }
     

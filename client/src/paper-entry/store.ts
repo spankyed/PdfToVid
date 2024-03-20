@@ -8,7 +8,7 @@ export const paperAtom = atom<Paper | null>(null);
 //   null,
 //   async (get, set, dateId) => {
 //     if (!dateId) {
-//       console.error("Day not found", dateId);
+//       console.error("Date not found", dateId);
 //       return;
 //     }
 
@@ -17,7 +17,7 @@ export const paperAtom = atom<Paper | null>(null);
 //       const papers = response.data;
 //       set(paperAtom, { papers, state: 'complete' });
 //     } catch (error) {
-//       console.error("Failed to fetch papers for day", error);
+//       console.error("Failed to fetch papers for date", error);
 //       set(paperAtom, prev => ({ ...prev, state: 'error' }));
 //     }
 //   }

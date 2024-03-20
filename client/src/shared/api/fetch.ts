@@ -11,5 +11,5 @@ export const getDatesSidebarData = () => axios.get(apiUrl + '/getDates');
 export const getCalenderModelData = () => axios.get(apiUrl + '/getCalender');
 
 export const getPapersByDate = (date) => axios.get(apiUrl + '/papersByDate/' + date);
-export const scrapeDay = (date) => axios.post(apiUrl + '/scrape/' + date);
+export const scrapeDate = (date) => axios.post(apiUrl + '/scrape/' + date);
 export const backfillToDate = (date) => axios.post(apiUrl + '/backfill/' + date);

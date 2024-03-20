@@ -1,12 +1,12 @@
 import { DateTable, PapersTable } from "../../shared/schema";
 import { Sequelize, DataTypes, Op } from 'sequelize';
 
-// function getPapersByDates(days: any, skip = 0, limit: number | null = null) {
+// function getPapersByDates(dates: any, skip = 0, limit: number | null = null) {
 //   return PapersTable.findAll({
 //     where: { 
-//       // Assuming there's a direct or indirect way to filter papers by 'days'
+//       // Assuming there's a direct or indirect way to filter papers by 'dates'
 //       // This may require adjustments based on your schema
-//       date: days 
+//       date: dates 
 //     },
 //     offset: skip,
 //     limit: limit === -1 || limit === null ? undefined : limit,
