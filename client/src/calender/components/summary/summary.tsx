@@ -49,11 +49,9 @@ const SummaryPopover: React.FC = () => {
   };
 
   const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
-    console.log('pop hoverTimeout: ', hoverTimeout);
     if (hoverTimeout) clearTimeout(hoverTimeout);
 
     const relatedTarget = event.relatedTarget as HTMLElement;
-    console.log('relatedTarget: ', relatedTarget);
     if (!popoverRef?.contains(relatedTarget) && relatedTarget) {
       setIsOpen(false);
     }
@@ -76,7 +74,6 @@ const SummaryPopover: React.FC = () => {
   // }, []);
 
   useEffect(() => {
-    console.log('isOpen: ', isOpen);
     if (isOpen && anchorEl && popoverRef) {
       const anchorRect = anchorEl.getBoundingClientRect();
       const popoverRect = popoverRef.getBoundingClientRect();
