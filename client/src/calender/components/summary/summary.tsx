@@ -22,7 +22,7 @@ const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
   '& .MuiBadge-badge': {
     top: padding,
     right: '50%',
-    transform: 'translateX(50%)',
+    transform: 'translateX(50%) skewX(-5deg)',
     backgroundColor: getColorShade(score),
     color: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
@@ -31,6 +31,7 @@ const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
     letterSpacing: '0.1em',
     border: '1px solid rgba(255, 255, 255, 0.4)',
     boxShadow: `0 0 0 2px rgba(0, 0, 0, 0.35)`, // Add shadow for contrast
+    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)', // subtle text shadow for depth
   },
 }));
 
