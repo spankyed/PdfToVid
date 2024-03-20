@@ -5,6 +5,7 @@ import createRequest from "../../shared/request";
 import { groupDatesByMonth } from '../shared/dates/transform';
 import { mapRecordsToModel } from './transform';
 import { route } from '../../shared/route';
+import { calenderPageSize } from './repository';
 
 const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);
@@ -15,27 +16,18 @@ function getCalender(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const [lastFiveDates, papers] = await repository.fetchCalenderData();
     const calenderModel = mapRecordsToModel(lastFiveDates, papers);
-    
-    resolve(calenderModel) // ! this being empty shouldnt break the UI for papers in calender
+    // ! this being empty shouldn't break the UI for papers in calender
+    resolve(calenderModel) 
   });
 }
 function initialBackfill(request: any, h: any){
   return new Promise(async (resolve, reject) => {
-    // console.log('backfill: ', backfill);
     const date = request.params.date;
     const newDateRecords: any = await maintenanceService.post('backfill/' + date);
-    const lastFiveDates = newDateRecords.slice(-5)
-    console.log('lastFiveDates: ', {lastFiveDates, newDateRecords});
-
+    const lastFiveDates = newDateRecords.slice(calenderPageSize * -1);
     const sorted = lastFiveDates.sort((a: { value: number; }, b: { value: number; }) => b.value - a.value);
-    const papers = await sharedRepository.getPapersByDates(sorted.map((date: { value: any; }) => date.value), 0);
-    // const papers = await repository.getPapersByDates(sorted.map(date => date.value), 0, 7);
-    console.log('papers fetched');
-    // todo current date seems to be off (13th instead of 14th for today)
-    const calenderModel = mapRecordsToModel(sorted, papers);
-    const dateList = groupDatesByMonth(newDateRecords);
-    // ! ensure calenderModel only includes dates in DB
-    // const calenderData = { dateList, calenderModel: [] } // ! this being empty shouldnt break the UI for papers in calender
+    const calenderModel = mapRecordsToModel(sorted, []);
+    const dateList = groupDatesByMonth(newDateRecords); // need to update sidebar date list as well
     const calenderData = { dateList, calenderModel }
     
     resolve(calenderData)

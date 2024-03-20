@@ -15,12 +15,12 @@ import { Sequelize, DataTypes, Op } from 'sequelize';
 //   });
 // }
 
+export const calenderPageSize = 5;
 
 async function fetchCalenderData() {
-  const recencyLimit = 5;
   const recentDates = await DateTable.findAll({
     // attributes: ['value'], // if we only need the 'value' field for the join
-    limit: recencyLimit,
+    limit: calenderPageSize,
     order: [['value', 'DESC']],
     raw: true,
   });
