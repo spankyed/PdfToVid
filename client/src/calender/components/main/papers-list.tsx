@@ -22,8 +22,11 @@ function List({ papers }: { papers: Paper[] }): React.ReactElement {
       <div className="carousel-container">
         {
           papers.length === 0 ? (
-            <div className="empty-state flex justify-center">
-              <p>No papers found. This is likely a bug...</p>
+            <div className="empty-state flex justify-center flex-col items-center">
+              <div>No papers found:</div>
+              <div>1. We coulda broke something..</div>
+              <div>2. ArXiv's servers could be down</div>
+              <div>3. No papers submitted (unlikely)</div>
             </div>
           ) : (
             <Carousel
