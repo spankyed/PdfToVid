@@ -3,7 +3,7 @@ import { Sequelize, DataTypes, Op, FindOptions } from 'sequelize';
 
 export const calenderPageSize = 5;
 
-async function fetchCalenderData(afterDate?: string) {
+async function fetchCalenderData(beforeDate?: string): Promise<[DatesTable[], PapersTable[]]> {
   let queryOptions: FindOptions = {
     raw: true,
     order: [['value', 'DESC']],
@@ -11,11 +11,11 @@ async function fetchCalenderData(afterDate?: string) {
     // attributes: ['value'], // if we only need the 'value' field for the join
   };
 
-  if (afterDate) {
+  if (beforeDate) {
     // If a cursor is provided, adjust the query to fetch records after the cursor
     queryOptions.where = {
       value: {
-        [Op.gt]: afterDate,
+        [Op.lt]: beforeDate,
       },
     };
   }

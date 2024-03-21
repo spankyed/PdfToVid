@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { Box, Pagination, Typography } from '@mui/material';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
 import { CalenderModel } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
 import SummaryPopover from '~/calender/components/summary/summary';
@@ -11,10 +11,12 @@ import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from '../placeholder';
 import List from './papers-list';
 import EmptyState from '~/shared/components/empty/empty';
+import { calenderLoadMoreAtom } from './store';
 
 function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
   const navigate = useNavigate();
+  const lastElementRef = useRef(null); // Step 1: Create the ref
 
   const reformatDateMemo = useCallback((inputDate: string): string => {
     return formatDate(inputDate, {
@@ -23,6 +25,12 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
       day: '2-digit',
     });
   }, []);
+
+  useEffect(() => {
+    if (lastElementRef.current) {
+      (lastElementRef.current as HTMLElement).scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [rows]);
   
   const onDateClick = date => e => {
     const is = tag => e.target.tagName === tag;
@@ -35,8 +43,12 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
 
   return (
     <>
-      {rows.map(({ date, papers }) => {
+      <SummaryPopover/>
+
+      {rows.map(({ date, papers }, index) => {
         const { value, status } = date;
+        const calenderPageSize = 5
+        const isFocalElement = index === calenderPageSize + 1;
 
         const contentByStatus = {
           pending: <Empty date={value} />,
@@ -49,6 +61,7 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
         return (
           <Box 
             key={'date-' + value} 
+            ref={isFocalElement ? lastElementRef : null} // Step 2: Attach the ref to the last element
             // onMouseEnter={() => setSelectedDate(value)}
             sx={{ 
               display: 'flex', 
@@ -92,7 +105,7 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
         );
       })}
 
-      <SummaryPopover/>
+      <LoadMoreButton dbCursor={rows[rows.length - 1]?.date.value} />
     </>
   );
 }
@@ -104,5 +117,41 @@ function Empty({ date }: { date: string }): React.ReactElement {
     </Box>
   );
 }
+
+
+const LoadMoreButton = ({ dbCursor }) => {
+  console.log('dbCursor: ', dbCursor);
+  const [, loadNextPage] = useAtom(calenderLoadMoreAtom);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = async () => {
+    if (!isLoading) {
+      setIsLoading(true);
+
+      await loadNextPage(dbCursor);
+
+      setIsLoading(false);
+
+      // setTimeout(() => {
+      //   setIsLoading(false);
+      // }, 2000);
+    }
+  };
+  
+  return (
+    <div className="flex justify-center mt-8 mb-8">
+      <Button
+        variant="contained"
+        color="primary"
+        disabled={isLoading}
+        onClick={handleClick} // Pass the function directly
+        className="text-white bg-red-500 hover:bg-red-700 ... your tailwind classes here ..."
+      >
+        {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Load More ...'}
+      </Button>
+    </div>
+  );
+};
+
 
 export default DatesList;

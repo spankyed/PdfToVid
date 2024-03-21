@@ -24,4 +24,23 @@ export const fetchCalenderModelAtom = atom(
     }
   }
 );
+export const calenderLoadMoreAtom = atom(
+  null, // write-only atom
+  async (get, set, date) => {
+    try {
+      // set(calenderStateAtom, 'loading');
+      const response = await api.calenderLoadMore(date);
+      const calenderModel = response.data as CalenderModel;
+      console.log('load more: ', calenderModel);
+      console.log('more.length: ', calenderModel.length);
+      set(calenderModelAtom, [...get(calenderModelAtom), ...calenderModel]);
+      // set(hasDatesAtom, calenderModel.length > 0);
+      // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
+      // set(calenderStateAtom, 'selected');
+    } catch (error) {
+      console.error("Failed to fetch calender", error);
+      // set(calenderStateAtom, 'error');
+    }
+  }
+);
 

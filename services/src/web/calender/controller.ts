@@ -6,6 +6,7 @@ import { groupDatesByMonth } from '../sidebar-dates/transform';
 import { mapRecordsToModel } from './transform';
 import { route } from '../../shared/route';
 import { calenderPageSize } from './repository';
+import { DateRecord, PaperRecord } from '../../shared/types';
 
 const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);
@@ -42,8 +43,21 @@ async function scrapePapers(request: any, h: any){
   return 'Scraping started';
 }
 
+function loadMore(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const date = request.params.cursor;
+    const [nextFiveDates, papers] = await repository.fetchCalenderData(date);
+    console.log('nextFiveDates: ', nextFiveDates);
+    const calenderModel = mapRecordsToModel(nextFiveDates, papers);
+    // ! this being empty shouldn't break the UI for papers in calender
+    // console.log('next calenderModel: ', calenderModel);
+    resolve(calenderModel) 
+  });
+}
+
 export default [
   route.get('/getCalender', getCalender),
+  route.get('/loadMore/{cursor}', loadMore),
   route.post('/backfill/{date}', initialBackfill),
   route.post('/scrape/{date}', scrapePapers)
 ]
