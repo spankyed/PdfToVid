@@ -1,4 +1,4 @@
-import { DateTable } from '../../shared/schema';
+import { DatesTable } from '../../shared/schema';
 
 // usage: backfill from current date to May 1, 2023
 // backfillDates('2023-05-01');
@@ -9,7 +9,7 @@ export async function backfillDates(date: string): Promise<any> {
 
   const datesToBackfill = getDatesBetween(startDate.toISOString().split('T')[0], today.toISOString().split('T')[0]);
   console.log('datesToBackfill: ', datesToBackfill);
-  const existingDates = await DateTable.findAll({
+  const existingDates = await DatesTable.findAll({
     where: {
       value: datesToBackfill
     }
@@ -24,7 +24,7 @@ export async function backfillDates(date: string): Promise<any> {
     }));
 
   if (newDateRecords.length > 0) {
-    await DateTable.bulkCreate(newDateRecords, {
+    await DatesTable.bulkCreate(newDateRecords, {
       ignoreDuplicates: true // This option depends on your DBMS and Sequelize version
     });
   }

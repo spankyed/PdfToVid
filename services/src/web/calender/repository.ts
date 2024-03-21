@@ -1,4 +1,4 @@
-import { DateTable, PapersTable } from "../../shared/schema";
+import { DatesTable, PapersTable } from "../../shared/schema";
 import { Sequelize, DataTypes, Op, FindOptions } from 'sequelize';
 
 export const calenderPageSize = 5;
@@ -20,13 +20,13 @@ async function fetchCalenderData(afterDate?: string) {
     };
   }
 
-  const recentDates = await DateTable.findAll(queryOptions);
+  const recentDates = await DatesTable.findAll(queryOptions);
 
   const recentDateValues = recentDates.map(date => date.value);
 
   const papersWithDates = await PapersTable.findAll({
     include: [{
-      model: DateTable,
+      model: DatesTable,
       where: { value: { [Op.in]: recentDateValues } }, // Use [Op.in] for matching any value in the array
       // where: { value: recentDateValues }, // Filters the PapersTable entries to those that match the recent dates
     }],

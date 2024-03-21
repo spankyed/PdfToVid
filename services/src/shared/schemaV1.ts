@@ -1,4 +1,21 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { Sequelize, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
+
+export interface PapersTable extends Model<InferAttributes<PapersTable>, InferCreationAttributes<PapersTable>> {
+  id: string;
+  date: string;
+  title: string;
+  abstract: string;
+  authors: string;
+  status: number;
+  relevancy: number;
+  liked: boolean;
+  keywords: string;
+}
+
+export interface DatesTable extends Model<InferAttributes<DatesTable>, InferCreationAttributes<DatesTable>> {
+  value: string;
+  status: string;
+}
 
 const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/sqlite';
 // Setting up the database connection
@@ -7,7 +24,7 @@ export const sequelize = new Sequelize({
   storage: `${dbRoot}/curate.db`
 });
 
-export const DateTable = sequelize.define('DateTable', {
+export const DatesTable = sequelize.define<DatesTable>('Date', {
   value: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -17,7 +34,7 @@ export const DateTable = sequelize.define('DateTable', {
   },
 });
 
-export const PapersTable = sequelize.define('PapersTable', {
+export const PapersTable = sequelize.define<PapersTable>('Paper', {
   id: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -33,8 +50,8 @@ export const PapersTable = sequelize.define('PapersTable', {
   keywords: DataTypes.STRING, // semi-colon separated list
 });
 
-PapersTable.belongsTo(DateTable, { foreignKey: 'date', targetKey: 'value' });
-DateTable.hasMany(PapersTable, { foreignKey: 'date', sourceKey: 'value' });
+PapersTable.belongsTo(DatesTable, { foreignKey: 'date', targetKey: 'value' });
+DatesTable.hasMany(PapersTable, { foreignKey: 'date', sourceKey: 'value' });
 
 // export const PaperVideosTable = sequelize.define('PaperVideosTable', {
 //   id: {

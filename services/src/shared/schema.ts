@@ -26,25 +26,27 @@ export class PapersTable extends Model {
   declare keywords: string;
 }
 
-export class DateTable extends Model {
+export class DatesTable extends Model {
   declare value: string;
   declare status: string;
 }
 
-DateTable.init({
+DatesTable.init({
   value: {
     type: DataTypes.STRING,
     primaryKey: true,
+    unique: true
   },
   status: {
     type: DataTypes.STRING,
   },
-}, { sequelize, modelName: 'DateTable', tableName: 'DateTables' });
+}, { sequelize, modelName: 'DatesTable', tableName: 'Dates' });
 
 PapersTable.init({
   id: {
     type: DataTypes.STRING,
     primaryKey: true,
+    unique: true
   },
   date: DataTypes.STRING,
   title: DataTypes.STRING,
@@ -58,7 +60,7 @@ PapersTable.init({
 }, {
   sequelize,
   modelName: 'PapersTable',
-  tableName: 'PapersTables',
+  tableName: 'Papers',
   indexes: [
     {
       unique: false,
@@ -67,8 +69,8 @@ PapersTable.init({
   ]
 });
 
-PapersTable.belongsTo(DateTable, { foreignKey: 'date', targetKey: 'value' });
-DateTable.hasMany(PapersTable, { foreignKey: 'date', sourceKey: 'value' });
+PapersTable.belongsTo(DatesTable, { foreignKey: 'date', targetKey: 'value' });
+DatesTable.hasMany(PapersTable, { foreignKey: 'date', sourceKey: 'value' });
 
 // export const PaperVideosTable = sequelize.define('PaperVideosTable', {
 //   id: {

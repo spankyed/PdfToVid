@@ -1,10 +1,10 @@
 // Assuming PaperRecord matches the structure of your PapersTable model
-import { DateTable, PapersTable } from '../shared/schema';
+import { DatesTable, PapersTable } from '../shared/schema';
 import { PaperRecord } from '../shared/types';
 
 // Fetch all stored dates
 function getStoredDates(): Promise<any> {
-  return DateTable.findAll();
+  return DatesTable.findAll();
 }
 
 // Fetch all configurations, assuming there's only one config record
@@ -25,7 +25,7 @@ function storePapers(papers: PaperRecord[]): Promise<any> {
 
 // Update the status of a specific date
 function updateDateStatus(date: string, status: string): Promise<any> {
-  return DateTable.update({ status }, { where: { value: date } });
+  return DatesTable.update({ status }, { where: { value: date } });
 }
 
 // Update the last run date in the configuration
