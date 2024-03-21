@@ -23,7 +23,7 @@ function List({ papers }: { papers: Paper[] }): React.ReactElement {
         {
           papers.length === 0 ? (
             <div className="empty-state flex justify-center">
-              <p>No papers found</p>
+              <p>No papers found. This is likely a bug...</p>
             </div>
           ) : (
             <Carousel
@@ -47,7 +47,6 @@ function List({ papers }: { papers: Paper[] }): React.ReactElement {
     </div>
   ); 
 }
-
 function Carousel({ papers, imagesPerPage, previousPage, currentPage }) {
   const emPxUnit = parseInt(getComputedStyle(document.documentElement).fontSize);
   const margin = 1; // in em, 1em = 16px
