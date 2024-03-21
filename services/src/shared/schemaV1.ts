@@ -1,37 +1,13 @@
-import { Sequelize, DataTypes, Model } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 
 const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/sqlite';
-
+// Setting up the database connection
 export const sequelize = new Sequelize({
-  // other options
   dialect: 'sqlite',
-  storage: `${dbRoot}/curate.db`,
-  // pool: {
-  //   max: 10, // Maximum number of connections in pool
-  //   min: 0, // Minimum number of connections in pool
-  //   acquire: 30000, // The maximum time, in milliseconds, that pool will try to get connection before throwing error
-  //   idle: 10000, // The maximum time, in milliseconds, that a connection can be idle before being released
-  // },
+  storage: `${dbRoot}/curate.db`
 });
 
-export class PapersTable extends Model {
-  declare id: string;
-  declare date: string;
-  declare title: string;
-  declare abstract: string;
-  declare authors: string;
-  declare status: number;
-  declare relevancy: number;
-  declare liked: boolean;
-  declare keywords: string;
-}
-
-export class DateTable extends Model {
-  declare value: string;
-  declare status: string;
-}
-
-DateTable.init({
+export const DateTable = sequelize.define('DateTable', {
   value: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -39,9 +15,9 @@ DateTable.init({
   status: {
     type: DataTypes.STRING,
   },
-}, { sequelize, modelName: 'DateTable', tableName: 'DateTables' });
+});
 
-PapersTable.init({
+export const PapersTable = sequelize.define('PapersTable', {
   id: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -55,16 +31,6 @@ PapersTable.init({
   relevancy: DataTypes.INTEGER,
   liked: DataTypes.BOOLEAN,
   keywords: DataTypes.STRING, // semi-colon separated list
-}, {
-  sequelize,
-  modelName: 'PapersTable',
-  tableName: 'PapersTables',
-  indexes: [
-    {
-      unique: false,
-      fields: ['date']
-    }
-  ]
 });
 
 PapersTable.belongsTo(DateTable, { foreignKey: 'date', targetKey: 'value' });
