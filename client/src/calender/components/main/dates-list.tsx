@@ -11,12 +11,13 @@ import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from '../placeholder';
 import List from './papers-list';
 import EmptyState from '~/shared/components/empty/empty';
-import { calenderLoadMoreAtom } from './store';
+import { calenderLoadMoreAtom, scrollableContainerRefAtom } from './store';
 
 function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
   const navigate = useNavigate();
-  const lastElementRef = useRef(null); // Step 1: Create the ref
+  const lastElementRef = useRef<HTMLDivElement>(null); // Step 1: Create the ref
+  const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
 
   const reformatDateMemo = useCallback((inputDate: string): string => {
     return formatDate(inputDate, {
@@ -27,8 +28,17 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
   }, []);
 
   useEffect(() => {
-    if (lastElementRef.current) {
-      (lastElementRef.current as HTMLElement).scrollIntoView({ behavior: 'smooth' });
+    if (rows.length === 5) return; // hack to prevent scrolling to the bottom on initial load
+    if (scrollableContainerRef?.current && lastElementRef?.current) {
+      const scrollableElement = scrollableContainerRef.current;
+      const lastElement = lastElementRef.current!;
+  
+      if (lastElement) {
+        // Calculate the position you want to scroll to
+        const scrollPosition = lastElement.offsetTop + lastElement.offsetHeight;
+        // Scroll the container to the desired position
+        scrollableElement.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+      }
     }
   }, [rows]);
   
@@ -47,8 +57,7 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
 
       {rows.map(({ date, papers }, index) => {
         const { value, status } = date;
-        const calenderPageSize = 5
-        const isFocalElement = index === calenderPageSize + 1;
+        const isFocalElement = index === rows.length - 1; // Check if this is the last element
 
         const contentByStatus = {
           pending: <Empty date={value} />,
@@ -131,10 +140,6 @@ const LoadMoreButton = ({ dbCursor }) => {
       await loadNextPage(dbCursor);
 
       setIsLoading(false);
-
-      // setTimeout(() => {
-      //   setIsLoading(false);
-      // }, 2000);
     }
   };
   

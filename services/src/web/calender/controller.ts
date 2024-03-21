@@ -6,7 +6,6 @@ import { groupDatesByMonth } from '../sidebar-dates/transform';
 import { mapRecordsToModel } from './transform';
 import { route } from '../../shared/route';
 import { calenderPageSize } from './repository';
-import { DateRecord, PaperRecord } from '../../shared/types';
 
 const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);

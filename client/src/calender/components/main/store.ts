@@ -3,6 +3,7 @@ import * as api from '~/shared/api/fetch';
 import { selectedDateAtom } from '~/shared/store';
 import { CalenderModel } from '~/shared/utils/types';
 import { hasDatesAtom } from '../backfill/store';
+import { RefObject } from 'react';
 
 export const calenderModelAtom = atom<CalenderModel>([]);
 export const fetchCalenderModelAtom = atom(
@@ -44,3 +45,4 @@ export const calenderLoadMoreAtom = atom(
   }
 );
 
+export const scrollableContainerRefAtom = atom<RefObject<HTMLDivElement> | null>(null);
