@@ -11,13 +11,14 @@ import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from '../placeholder';
 import List from './papers-list';
 import EmptyState from '~/shared/components/empty/empty';
-import { calenderLoadMoreAtom, scrollableContainerRefAtom } from './store';
+import { calenderLoadMoreAtom, rowCountUpdatedAtom, scrollableContainerRefAtom } from './store';
 
 function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
   const navigate = useNavigate();
   const lastElementRef = useRef<HTMLDivElement>(null); // Step 1: Create the ref
   const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
+  const [rowCountUpdated, setRowCountUpdated] = useAtom(rowCountUpdatedAtom);
 
   const reformatDateMemo = useCallback((inputDate: string): string => {
     return formatDate(inputDate, {
@@ -29,17 +30,17 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
 
   useEffect(() => {
     if (rows.length === 5) return; // hack to prevent scrolling to the bottom on initial load
+    if (!rowCountUpdated) return; // another hack to prevent scrolling when scraping
     if (scrollableContainerRef?.current && lastElementRef?.current) {
       const scrollableElement = scrollableContainerRef.current;
       const lastElement = lastElementRef.current!;
   
       if (lastElement) {
-        // Calculate the position you want to scroll to
         const scrollPosition = lastElement.offsetTop + lastElement.offsetHeight;
-        // Scroll the container to the desired position
         scrollableElement.scrollTo({ top: scrollPosition, behavior: 'smooth' });
       }
     }
+    setRowCountUpdated(false);
   }, [rows]);
   
   const onDateClick = date => e => {

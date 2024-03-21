@@ -35,6 +35,7 @@ export const calenderLoadMoreAtom = atom(
       console.log('load more: ', calenderModel);
       console.log('more.length: ', calenderModel.length);
       set(calenderModelAtom, [...get(calenderModelAtom), ...calenderModel]);
+      set(rowCountUpdatedAtom, true);
       // set(hasDatesAtom, calenderModel.length > 0);
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
       // set(calenderStateAtom, 'selected');
@@ -44,5 +45,5 @@ export const calenderLoadMoreAtom = atom(
     }
   }
 );
-
+export const rowCountUpdatedAtom = atom(false);
 export const scrollableContainerRefAtom = atom<RefObject<HTMLDivElement> | null>(null);
