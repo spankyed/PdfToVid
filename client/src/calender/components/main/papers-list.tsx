@@ -24,9 +24,10 @@ function List({ papers }: { papers: Paper[] }): React.ReactElement {
           papers.length === 0 ? (
             <div className="empty-state flex justify-center flex-col items-center">
               <div>No papers found:</div>
-              <div>1. We coulda broke something..</div>
-              <div>2. ArXiv's servers could be down</div>
-              <div>3. No papers submitted (unlikely)</div>
+              <div>1. Chroma DB isn't running</div>
+              <div>2. ArXiv's servers are be down</div>
+              <div>3. We broke something..</div>
+              <div>4. No papers submitted (unlikely)</div>
             </div>
           ) : (
             <Carousel
