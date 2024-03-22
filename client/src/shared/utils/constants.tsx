@@ -1,7 +1,7 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
 import ArticleIcon from '@mui/icons-material/Article';
 import { Paper } from '~/shared/utils/types';
+import PublishIcon from '@mui/icons-material/Publish';
 
 // export const rootPath = 'http://localhost:5173/assets/arxiv-bg.jpg'
 export const rootAssetsPath = 'http://localhost:5173/assets/'
@@ -18,7 +18,7 @@ export const paperStates = {
     label: 'discarded',
     color: 'warning',
     action: 'Discard',
-    icon: <AutorenewIcon color="warning" />
+    icon: <PublishIcon color="warning" />
   },
   1: {
     label: 'scraped',
