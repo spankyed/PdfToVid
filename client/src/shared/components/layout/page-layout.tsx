@@ -69,8 +69,8 @@ const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(({
             onClick={scrollTop}
             sx={{
               position: 'fixed',
-              bottom: '20px',
-              right: '20px',
+              bottom: '2rem',
+              right: '2rem',
             }}
           >
             <KeyboardArrowUpIcon />
