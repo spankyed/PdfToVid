@@ -55,12 +55,12 @@ const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
     <Box>
       <Tabs value={tabValue} onChange={handleChange}>
         <Tab label="Generate" />
-        <Tab label="Learn" />
+        <Tab label="Prompts" />
         <Tab label="Analytics" />
         {/* instead of integrate as separate tab, consider having in review section under meta */}
       </Tabs>
       {tabValue === 0 && <ReviewTab entry={entry} />}
-      {tabValue === 1 && <LearnTab entry={entry} />}
+      {tabValue === 1 && <LearnTab entry={entry} />}  {/* prompts*/}
       {tabValue === 2 && <div>empty</div>}
     </Box>
   );
@@ -171,6 +171,8 @@ const ReviewTab: React.FC<{ entry: any }> = ({ entry }) => {
 }
 
 const LearnTab: React.FC<{ entry: any }> = ({ entry }) => {
+  // todo show video prompts, allow editing prompt (will update globally)
+    // dont ask again button
   const [editablePromptIndex, setEditablePromptIndex] = useState<number | null>(null);
 
   const handleEditClick = (index: number) => {
