@@ -32,6 +32,13 @@ function SidebarToggleButton() {
 
   useEffect(() => {
     const toggleSidebar = (event) => {
+      if (event.target.tagName === 'INPUT' || 
+          event.target.tagName === 'TEXTAREA' || 
+          event.target.tagName === 'SELECT' || 
+          event.target.isContentEditable) {
+        return;
+      }
+
       const isLeftArrow = event.keyCode === 37;
       const isRightArrow = event.keyCode === 39;
 
