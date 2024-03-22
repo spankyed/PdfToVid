@@ -132,8 +132,8 @@ const ErrorState = ({ date }) => {
     <div className="flex flex-col items-center p-6 bg-white rounded-lg shadow-md max-w-md mx-auto my-8">
       <div className="font-medium text-gray-800 text-lg mb-2">Issue finding papers</div>
       <ul className="text-sm text-gray-700 mb-4 list-disc list-inside">
+        <li>Make sure Chroma DB is running</li>
         <li>ArXiv's servers may be down</li>
-        <li>Chroma DB may not be running</li>
         <li>Maybe we broke something.. again</li>
         <li>Actually no papers submitted (unlikely)</li>
       </ul>
