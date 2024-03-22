@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { selectedDateAtom } from '~/shared/store'; // Import your Jotai atoms
@@ -19,10 +19,18 @@ function DateList(): React.ReactElement {
   const [selectedDate] = useAtom(selectedDateAtom);
   const [openMonth, setOpenMonth] = useAtom(openMonthAtom);
   const [, fetchData] = useAtom(fetchDatesSidebarDataAtom);
+  const collapseRefs = useRef({}); // Step 1: Create refs object
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleEntered = (month) => {
+    const element = collapseRefs.current[month];
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const clickMonth = (month: string) => {
     setOpenMonth(openMonth === month ? '' : month);
@@ -45,7 +53,7 @@ function DateList(): React.ReactElement {
       // marginLeft: '.2rem', // Add 1rem margin to the left
     }}>
       {datesList.map(({ month, dates }) => (
-        <div key={month}>
+        <div key={month} ref={el => collapseRefs.current[month] = el}>
           <MonthItem onClick={() => clickMonth(month)} sx={{ fontWeight: 'bolder' }}>
             <ListItemText primary={month} sx={{ 
               borderBottom: '1px solid rgba(0, 0, 0, 0.3)', 
@@ -55,7 +63,7 @@ function DateList(): React.ReactElement {
               // paddingLeft: '.2rem', 
             }}/>
           </MonthItem>
-          <Collapse in={openMonth === month} timeout="auto" >
+          <Collapse in={openMonth === month} timeout="auto" onEntered={() => handleEntered(month)}>
             <List component="div">
               {dates.map(date => {
                 // const formattedDate = useMemo(() => reformatDate(date.value), [date.value]);
