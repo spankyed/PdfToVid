@@ -7,6 +7,7 @@ import { forwardRef } from 'react';
 interface PageLayoutProps {
   children: ReactNode;
   compact?: boolean;
+  [key: string]: any;
 }
 
 const height = 'calc(100vh - 65px)';
