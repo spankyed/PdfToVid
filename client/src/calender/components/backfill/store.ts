@@ -15,8 +15,7 @@ export const backFillFetchAtom = atom(
     try {
       const response = await api.backfillToDate(date); // Assuming 'date' is passed correctly to your API method
       const { dateList, calenderModel } = response.data;
-      console.log('Backfilled dateList: ', dateList);
-      console.log('Backfilled calenderModel: ', calenderModel);
+      console.log('Backfilled: ', { dateList, calenderModel });
       // Update your state atoms with the new data
       set(datesListAtom, dateList);
       set(calenderModelAtom, calenderModel);

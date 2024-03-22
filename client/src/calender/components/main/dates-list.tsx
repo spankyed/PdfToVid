@@ -130,7 +130,6 @@ function Empty({ date }: { date: string }): React.ReactElement {
 
 
 const LoadMoreButton = ({ dbCursor }) => {
-  console.log('dbCursor: ', dbCursor);
   const [, loadNextPage] = useAtom(calenderLoadMoreAtom);
   const [isLoading, setIsLoading] = useState(false);
 

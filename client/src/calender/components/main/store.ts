@@ -14,8 +14,7 @@ export const fetchCalenderModelAtom = atom(
       // set(calenderStateAtom, 'loading');
       const response = await api.getCalenderModelData();
       const calenderModel = response.data as CalenderModel;
-      console.log('calenderModel: ', calenderModel);
-      console.log('calenderModel.length: ', calenderModel.length);
+      console.log('Calender Model: ', { calenderModel });
       set(calenderModelAtom, calenderModel);
       set(hasDatesAtom, calenderModel.length > 0);
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
