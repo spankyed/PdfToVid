@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { sidebarOpenAtom } from './store';
 import { colors } from '~/shared/styles/theme';
@@ -30,6 +30,25 @@ function SidebarToggleButton() {
   const [isSidebarOpen, setSidebarOpen] = useAtom(sidebarOpenAtom);
   const [isHovering, setIsHovering] = useState(false);
 
+  useEffect(() => {
+    const toggleSidebar = (event) => {
+      const isLeftArrow = event.keyCode === 37;
+      const isRightArrow = event.keyCode === 39;
+
+      if (isLeftArrow) {
+        setSidebarOpen(false);
+      } else if (isRightArrow) {
+        setSidebarOpen(true);
+      }
+    };
+
+    window.addEventListener('keydown', toggleSidebar);
+
+    return () => {
+      window.removeEventListener('keydown', toggleSidebar);
+    };
+  }, [setSidebarOpen]);
+
   const barBaseStyle: CSSProperties = {
     position: 'absolute',
     left: '50%',
@@ -37,7 +56,7 @@ function SidebarToggleButton() {
     height: '0.75rem',
     backgroundColor: 'grey',
     transition: 'transform 0.3s ease',
-    borderRadius: '9999px', // Fully rounded ends, similar to rounded-full in Tailwind
+    borderRadius: '9999px',
   };
 
   const getStyle = (position: direction): CSSProperties => {
