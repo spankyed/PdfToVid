@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import CalenderMain from './components/main';
-import { Box } from '@mui/material';
 import './calender.css';
 import { useAtom } from 'jotai';
 import { isOpenAtom,  } from './components/summary/store';
 import { scrollableContainerRefAtom } from './components/main/store';
+import PageLayout from '~/shared/components/layout/page-layout';
 
-const height = 'calc(100vh - 65px)'
 
 const Calender: React.FC = () => {
   const [, setScrollableContainerRef] = useAtom(scrollableContainerRefAtom);
@@ -27,15 +26,12 @@ const Calender: React.FC = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <Box 
+      <PageLayout 
         ref={containerRef}
-        sx={{ overflowY: 'auto', flexGrow: 1, height: height }}
-        onScroll={handleScroll} // Add the onScroll event listener here
+        onScroll={handleScroll}
       >
         <CalenderMain />
-      </Box>
-    </Box>
+      </PageLayout>
   );
 }
 

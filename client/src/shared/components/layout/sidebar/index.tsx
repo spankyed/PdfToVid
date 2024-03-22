@@ -29,6 +29,7 @@ const Sidebar: React.FC = () => {
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
+      flexShrink: 0,
       backgroundColor: colors.sidebar,
     }}>
       <List component="nav" sx={{ paddingBottom: 0 }}>

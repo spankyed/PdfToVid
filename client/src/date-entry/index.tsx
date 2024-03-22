@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'; // Import useParams
 import { datePageStateAtom, fetchPapersByDateAtom } from './store';
 import PageTitle from './components/page-title';
 import MainTabs from './components/main';
+import PageLayout from '~/shared/components/layout/page-layout';
 
 function DateEntryPage(): React.ReactElement {
   let { dateId } = useParams<{ dateId: string }>();
@@ -32,10 +33,10 @@ function DateEntryPage(): React.ReactElement {
   }
 
   return (
-    <Box padding={3} sx={{ marginTop: 3, margin: '0 auto', maxWidth: '90%' }}>
+    <PageLayout padding={3} style={{ marginTop: 3, margin: '0 auto'}}>
       <PageTitle date={dateId} count={papers.length} />
       {componentsByState[state]}
-    </Box>
+    </PageLayout>
   );
 }
 

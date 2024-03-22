@@ -3,6 +3,7 @@ import { Typography, Box, Tabs, Tab, Accordion, AccordionSummary, AccordionDetai
   MenuItem, Checkbox, TextField, Button, TextareaAutosize, CardMedia, FormControlLabel } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material';
+import PageLayout from '~/shared/components/layout/page-layout';
 
 // EntryTitle Component
 const EntryTitleStyled = styled(Typography)(({ theme }) => ({
@@ -184,7 +185,7 @@ const LearnTab: React.FC<{ entry: any }> = ({ entry }) => {
   };
 
   return (
-    <Box sx={{ marginTop: 3 }}>
+    <PageLayout style={{ marginTop: 3 }}>
       {entry.prompts.map((prompt: { question: string, answer: string }, index: number) => (
         <Box key={index} marginBottom={2} sx={{ marginTop: 4 }}>
           <Box display="flex" alignItems="center" marginBottom={1}>
@@ -200,7 +201,7 @@ const LearnTab: React.FC<{ entry: any }> = ({ entry }) => {
         </Box>
       ))}
       <Button sx={{ marginTop: 3 }}>Add New Prompt</Button>
-    </Box>
+    </PageLayout>
   );
 }
 
