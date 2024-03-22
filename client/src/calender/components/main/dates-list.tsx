@@ -144,7 +144,7 @@ const LoadMoreButton = ({ dbCursor }) => {
   };
   
   return (
-    <div className="flex justify-center mt-8 mb-8">
+    <div className="flex justify-center mt-8 pb-16">
       <Button
         variant="contained"
         color="primary"

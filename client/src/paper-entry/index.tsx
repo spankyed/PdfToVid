@@ -185,7 +185,7 @@ const LearnTab: React.FC<{ entry: any }> = ({ entry }) => {
   };
 
   return (
-    <PageLayout style={{ marginTop: 3 }}>
+    <Box sx={{ marginTop: 3 }}>
       {entry.prompts.map((prompt: { question: string, answer: string }, index: number) => (
         <Box key={index} marginBottom={2} sx={{ marginTop: 4 }}>
           <Box display="flex" alignItems="center" marginBottom={1}>
@@ -201,7 +201,7 @@ const LearnTab: React.FC<{ entry: any }> = ({ entry }) => {
         </Box>
       ))}
       <Button sx={{ marginTop: 3 }}>Add New Prompt</Button>
-    </PageLayout>
+    </Box>
   );
 }
 
@@ -242,13 +242,13 @@ const Entry = {
 
 const PaperEntryPage: React.FC<{}> = () => {
   return (
-    <Box padding={3}>
+    <PageLayout padding={3}>
       <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={3}>
         <EntryTitle title={Entry.title} />
         <EntryAbstract abstract={Entry.abstract} />
       </Box>
       <EntryTabs entry={Entry} />
-    </Box>
+    </PageLayout>
   );
 }
 
