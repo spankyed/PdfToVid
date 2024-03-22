@@ -6,6 +6,7 @@ import DatesPlaceholder from '../placeholder';
 import { fetchCalenderModelAtom, calenderModelAtom } from '~/calender/components/main/store';
 import { BackfillComponent } from '../backfill';
 import { hasDatesAtom } from '../backfill/store';
+import './main.css';
 
 function CalenderMain(): React.ReactElement {
   const [hasDates] = useAtom(hasDatesAtom);

@@ -1,7 +1,7 @@
 import * as repository from './repository';
-import * as sharedRepository from '../sidebar-dates/repository';
 import { WorkerPath, MaintenancePath } from "../../shared/constants";
 import createRequest from "../../shared/request";
+import * as sharedRepository from "../../shared/repository";
 import { groupDatesByMonth } from '../sidebar-dates/transform';
 import { mapRecordsToModel } from './transform';
 import { route } from '../../shared/route';
@@ -53,9 +53,17 @@ function loadMore(request: any, h: any){
     resolve(calenderModel) 
   });
 }
+function reset(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const date = request.params.date;
+    const success = await sharedRepository.updateDateStatus(date, 'pending');
+    resolve(success) 
+  });
+}
 
 export default [
   route.get('/getCalender', getCalender),
+  route.post('/reset/{date}', reset),
   route.get('/loadMore/{cursor}', loadMore),
   route.post('/backfill/{date}', initialBackfill),
   route.post('/scrape/{date}', scrapePapers)

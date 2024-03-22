@@ -64,7 +64,7 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
           pending: <Empty date={value} />,
           scraping: <Scraping />,
           ranking: <Ranking />,
-          complete: <List papers={papers} />,
+          complete: <List papers={papers} date={value} />,
           noData: <DatesPlaceholder />,
         };
         

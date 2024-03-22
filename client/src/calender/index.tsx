@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import CalenderMain from './components/main';
 import { Box } from '@mui/material';
-import './index.css';
+import './calender.css';
 import { useAtom } from 'jotai';
 import { isOpenAtom,  } from './components/summary/store';
 import { scrollableContainerRefAtom } from './components/main/store';

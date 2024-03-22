@@ -23,10 +23,6 @@ function storePapers(papers: PaperRecord[]): Promise<any> {
   return PapersTable.bulkCreate(papers);
 }
 
-// Update the status of a specific date
-function updateDateStatus(date: string, status: string): Promise<any> {
-  return DatesTable.update({ status }, { where: { value: date } });
-}
 
 // Update the last run date in the configuration
 // function updateLastRunDate(date: string): Promise<any> {
@@ -38,6 +34,5 @@ export default {
   // getConfigs,
   storePaper,
   storePapers,
-  updateDateStatus,
   // updateLastRunDate
 };

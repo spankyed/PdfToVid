@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import scrapePapersByDate from '../scripts/scrape-papers-by-date'; // Assume this exists
 import { getRelevancyScores } from '../scripts/relevancy-compute'; // Assume this exists
 import repository from '../repository'; // Assume this exists
+import * as sharedRepository from '../../shared/repository'; // Assume this exists
 import { WebServerPath } from '../../shared/constants';
 import createRequest from '../../shared/request';
 
@@ -11,7 +12,7 @@ const webService = createRequest(WebServerPath);
 
 const scrapeAndRankPapers = async (date: string) => {
   console.log('Scraping papers...');
-  // await repository.updateDateStatus(date, 'complete');
+  // await sharedRepository.updateDateStatus(date, 'complete');
 
   // await status.set('dates', { key: date, status: 'scraping' });
   console.log('date: ', date);
@@ -41,7 +42,7 @@ const scrapeAndRankPapers = async (date: string) => {
 
   await repository.storePapers(sortedPapers.map((p: any) => ({ ...p, authors: p.authors.join('; ') })));
 
-  await repository.updateDateStatus(date, 'complete');
+  await sharedRepository.updateDateStatus(date, 'complete');
   // await repository.addPapersForDate(date, 'complete');
 
   await webService.post(`work-status/dates`, { key: date, status: 'complete', data: sortedPapers, final: true })

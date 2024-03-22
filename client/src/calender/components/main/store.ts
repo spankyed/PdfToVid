@@ -4,6 +4,7 @@ import { selectedDateAtom } from '~/shared/store';
 import { CalenderModel } from '~/shared/utils/types';
 import { hasDatesAtom } from '../backfill/store';
 import { RefObject } from 'react';
+import { resetDateStatus } from '../../../shared/api/fetch';
 
 export const calenderModelAtom = atom<CalenderModel>([]);
 export const fetchCalenderModelAtom = atom(
@@ -40,7 +41,31 @@ export const calenderLoadMoreAtom = atom(
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
       // set(calenderStateAtom, 'selected');
     } catch (error) {
-      console.error("Failed to fetch calender", error);
+      console.error("Failed to load more calender dates", error);
+      // set(calenderStateAtom, 'error');
+    }
+  }
+);
+
+
+export const resetDateStatusAtom = atom(
+  null, // write-only atom
+  async (get, set, date) => {
+    try {
+      const { data: success} = await resetDateStatus(date);
+      const calender = [...get(calenderModelAtom)];
+      const prevRecord = calender.find((d) => d.date.value === date);
+
+      if (!success || !prevRecord) {
+        return;
+      }
+
+      prevRecord.date.status = 'pending';
+
+      set(calenderModelAtom, calender);
+
+    } catch (error) {
+      console.error("Failed to reset date status", error);
       // set(calenderStateAtom, 'error');
     }
   }
