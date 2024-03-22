@@ -22,16 +22,16 @@ const Sidebar: React.FC = () => {
   return (
     <Box sx={{
       paddingTop: '1rem', // Add 1rem margin to the left
-      width: isSidebarOpen ? 250 : 0,
+      width: isSidebarOpen ? 240 : 0,
+      minWidth: 0,
       transition: 'width .3s ease',
-      height: '100vh',
       bgcolor: 'background.paper',
       overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
       backgroundColor: colors.sidebar,
-      // display: 'flex',
-      // flexDirection: 'column',
     }}>
-      <List component="nav" >
+      <List component="nav" sx={{ paddingBottom: 0 }}>
         <NavItem onClick={() => navigate('search')}>
           <ListItemIcon>
             <SearchIcon />
