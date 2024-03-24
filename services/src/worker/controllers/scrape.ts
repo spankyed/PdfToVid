@@ -20,6 +20,12 @@ const scrapeAndRankPapers = async (date: string) => {
 
   if (papers.length === 0) {
     console.log('No papers found for the date:', date);
+
+    Promise.all([
+      webService.post(`work-status/dates`, { key: date, status: 'complete', data: [], final: true }),
+      // sharedRepository.updateDateStatus(date, 'complete'),
+    ])
+
     return;
   }
   // const pathToLogs = "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/logs";
