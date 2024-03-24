@@ -40,13 +40,13 @@ export const fetchDatesSidebarDataAtom = atom(
 export const calenderLoadMonthAtom = atom(
   null, // write-only atom
   async (get, set, date) => {
-    set(calenderStateAtom, 'loading');
+    // set(calenderStateAtom, 'loading');
     try {
       const response = await api.calenderLoadMonth(date);
       const calenderModel = response.data as CalenderModel;
       set(calenderModelAtom, calenderModel);
       set(rowCountUpdatedAtom, true);
-      set(calenderStateAtom, 'ready');
+      // set(calenderStateAtom, 'ready');
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
     } catch (error) {
       console.error("Failed to load more calender dates", error);
