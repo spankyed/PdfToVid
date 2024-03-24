@@ -14,8 +14,8 @@ const maintenanceService = createRequest(MaintenancePath);
 
 function getCalender(request: any, h: any){
   return new Promise(async (resolve, reject) => {
-    const [lastFiveDates, papers] = await repository.fetchCalenderData();
-    const calenderModel = mapRecordsToModel(lastFiveDates, papers);
+    const [prevFiveDates, papers] = await repository.fetchCalenderData();
+    const calenderModel = mapRecordsToModel(prevFiveDates, papers);
     // ! this being empty shouldn't break the UI for papers in calender
     resolve(calenderModel) 
   });
@@ -24,8 +24,8 @@ function initialBackfill(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const date = request.params.date;
     const newDateRecords: any = await maintenanceService.post('backfill/' + date);
-    const lastFiveDates = newDateRecords.slice(calenderPageSize * -1);
-    const sorted = lastFiveDates.sort((a: { value: number; }, b: { value: number; }) => b.value - a.value);
+    const prevFiveDates = newDateRecords.slice(calenderPageSize * -1);
+    const sorted = prevFiveDates.sort((a: { value: number; }, b: { value: number; }) => b.value - a.value);
     const dateList = groupDatesByMonth(newDateRecords); // need to update sidebar date list as well
     const calenderModel = mapRecordsToModel(sorted, []);
     const calenderData = { dateList, calenderModel }
@@ -45,14 +45,21 @@ async function scrapePapers(request: any, h: any){
 function loadMore(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const date = request.params.cursor;
-    const [nextFiveDates, papers] = await repository.fetchCalenderData(date);
-    console.log('nextFiveDates: ', nextFiveDates);
-    const calenderModel = mapRecordsToModel(nextFiveDates, papers);
-    // ! this being empty shouldn't break the UI for papers in calender
-    // console.log('next calenderModel: ', calenderModel);
+    const [prevFiveDates, papers] = await repository.fetchCalenderData(date);
+    const calenderModel = mapRecordsToModel(prevFiveDates, papers);
     resolve(calenderModel) 
   });
 }
+
+function loadMonth(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const date = request.params.cursor;
+    const [prevFiveDates, papers] = await repository.fetchCalenderData(date, true);
+    const calenderModel = mapRecordsToModel(prevFiveDates, papers);
+    resolve(calenderModel) 
+  });
+}
+
 function reset(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const date = request.params.date;
@@ -65,6 +72,7 @@ export default [
   route.get('/getCalender', getCalender),
   route.post('/reset/{date}', reset),
   route.get('/loadMore/{cursor}', loadMore),
+  route.get('/loadMonth/{cursor}', loadMonth),
   route.post('/backfill/{date}', initialBackfill),
   route.post('/scrape/{date}', scrapePapers)
 ]

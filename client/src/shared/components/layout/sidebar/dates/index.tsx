@@ -6,7 +6,9 @@ import { useAtom } from 'jotai';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { datesListAtom, fetchDatesSidebarDataAtom, openMonthAtom } from './store';
 import { styled } from '@mui/system';
-import { colors } from '~/shared/styles/theme';
+import { useLocation } from 'react-router-dom';
+import { calenderLoadMonthAtom } from './store';
+
 
 const MonthItem = styled(ListItemButton)(({ theme }) => ({
   marginLeft: '.5rem', // Add 1rem margin to the left
@@ -19,22 +21,36 @@ function DateList(): React.ReactElement {
   const [selectedDate] = useAtom(selectedDateAtom);
   const [openMonth, setOpenMonth] = useAtom(openMonthAtom);
   const [, fetchData] = useAtom(fetchDatesSidebarDataAtom);
+  const [, loadMonth] = useAtom(calenderLoadMonthAtom);
   const collapseRefs = useRef({}); // Step 1: Create refs object
+
+  const location = useLocation();
+
+
+  // const currentPath = location.pathname || '';
+  console.log('currentPath: ', location);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  const handleEntered = (month) => {
+  const clickMonth = (month: string) => {
+    setOpenMonth(openMonth === month ? '' : month);
+  };
+
+  const handleMonthOpen = (month: string) => {
     const element = collapseRefs.current[month];
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  };
 
-  const clickMonth = (month: string) => {
-    setOpenMonth(openMonth === month ? '' : month);
-  };
+    if (location.pathname.startsWith('/calender')) {
+      const date = datesList.find(d => d.month === month)?.dates[0]?.value;
+      console.log('date: ', date);
+
+      loadMonth(date)
+    }
+  }
 
   function reformatDate(inputDate: string): string[] {
     return formatDateParts(inputDate, {
@@ -63,7 +79,7 @@ function DateList(): React.ReactElement {
               // paddingLeft: '.2rem', 
             }}/>
           </MonthItem>
-          <Collapse in={openMonth === month} timeout="auto" onEntered={() => handleEntered(month)}>
+          <Collapse in={openMonth === month} timeout="auto" onEntered={() => handleMonthOpen(month)}>
             <List component="div">
               {dates.map(date => {
                 // const formattedDate = useMemo(() => reformatDate(date.value), [date.value]);

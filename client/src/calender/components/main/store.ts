@@ -36,7 +36,6 @@ export const calenderLoadMoreAtom = atom(
       console.log('more.length: ', calenderModel.length);
       set(calenderModelAtom, [...get(calenderModelAtom), ...calenderModel]);
       set(rowCountUpdatedAtom, true);
-      // set(hasDatesAtom, calenderModel.length > 0);
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
       // set(calenderStateAtom, 'selected');
     } catch (error) {
@@ -45,7 +44,6 @@ export const calenderLoadMoreAtom = atom(
     }
   }
 );
-
 
 export const resetDateStatusAtom = atom(
   null, // write-only atom

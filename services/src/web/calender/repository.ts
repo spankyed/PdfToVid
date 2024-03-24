@@ -3,7 +3,9 @@ import { Sequelize, DataTypes, Op, FindOptions } from 'sequelize';
 
 export const calenderPageSize = 5;
 
-async function fetchCalenderData(beforeDate?: string): Promise<[DatesTable[], PapersTable[]]> {
+type CalenderData = [DatesTable[], PapersTable[]];
+
+async function fetchCalenderData(beforeDate?: string, include: boolean = false): Promise<CalenderData> {
   let queryOptions: FindOptions = {
     raw: true,
     order: [['value', 'DESC']],
@@ -15,7 +17,7 @@ async function fetchCalenderData(beforeDate?: string): Promise<[DatesTable[], Pa
     // If a cursor is provided, adjust the query to fetch records after the cursor
     queryOptions.where = {
       value: {
-        [Op.lt]: beforeDate,
+        [include ? Op.lte : Op.lt]: beforeDate,
       },
     };
   }
