@@ -7,8 +7,7 @@ import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { datesListAtom, fetchDatesSidebarDataAtom, lastOpenMonthAtom, openMonthAtom } from './store';
 import { styled } from '@mui/system';
 import { useLocation } from 'react-router-dom';
-import { calenderLoadMonthAtom } from './store';
-
+import { calenderLoadMonthAtom } from '~/calender/components/main/store';
 
 const MonthItem = styled(ListItemButton)(({ theme }) => ({
   marginLeft: '.5rem', // Add 1rem margin to the left
