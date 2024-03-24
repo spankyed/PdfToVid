@@ -29,13 +29,21 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
   }, []);
 
   useEffect(() => {
-    if (rows.length === 5) return; // hack to prevent scrolling to the bottom on initial load
-    if (!rowCountUpdated) return; // another hack to prevent scrolling when scraping
+    if (rows.length === 5) {
+      if (scrollableContainerRef?.current) {
+        // scrolling to the top on initial load
+        const scrollableElement = scrollableContainerRef.current;
+        scrollableElement.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    };
+    if (!rowCountUpdated) return; // hack to prevent scrolling when scraping
     if (scrollableContainerRef?.current && lastElementRef?.current) {
       const scrollableElement = scrollableContainerRef.current;
       const lastElement = lastElementRef.current!;
   
       if (lastElement) {
+        // scroll to the last element
         const scrollPosition = lastElement.offsetTop + lastElement.offsetHeight;
         scrollableElement.scrollTo({ top: scrollPosition, behavior: 'smooth' });
       }
