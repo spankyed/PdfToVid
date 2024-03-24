@@ -31,7 +31,7 @@ export const calenderLoadMoreAtom = atom(
   null, // write-only atom
   async (get, set, date) => {
     try {
-      set(calenderStateAtom, 'loading');
+      // set(calenderStateAtom, 'loading');
       const response = await api.calenderLoadMore(date);
       const calenderModel = response.data as CalenderModel;
       console.log('load more: ', calenderModel);
@@ -39,7 +39,7 @@ export const calenderLoadMoreAtom = atom(
       set(calenderModelAtom, [...get(calenderModelAtom), ...calenderModel]);
       set(rowCountUpdatedAtom, true);
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
-      // set(calenderStateAtom, 'selected');
+      // set(calenderStateAtom, 'ready');
     } catch (error) {
       console.error("Failed to load more calender dates", error);
       // set(calenderStateAtom, 'error');
