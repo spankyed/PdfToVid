@@ -45,7 +45,6 @@ function DateList(): React.ReactElement {
     const monthChanged = lastOpenMonth !== month;
     if (monthChanged && location.pathname.startsWith('/calender')) {
       const date = datesList.find(d => d.month === month)?.dates[0]?.value;
-      console.log('date: ', date);
 
       loadMonth(date)
     }

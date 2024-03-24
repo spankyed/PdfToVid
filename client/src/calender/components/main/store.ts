@@ -18,7 +18,6 @@ export const fetchCalenderModelAtom = atom(
       set(calenderModelAtom, calenderModel);
 
       const hasDates = calenderModel.length > 0;
-      console.log('hasDates: ', hasDates);
       set(calenderStateAtom, hasDates ? 'ready' : 'backfill')
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
       // set(calenderStateAtom, 'selected');
