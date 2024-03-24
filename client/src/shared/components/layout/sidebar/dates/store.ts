@@ -5,7 +5,19 @@ import * as api from '~/shared/api/fetch';
 import { CalenderModel, DatesList } from '~/shared/utils/types';
 
 export const datesListAtom = atom<DatesList[]>([]);
-export const openMonthAtom = atom<string>('');
+export const openMonthAtom = atom(
+  '',
+  (get, set, openMonth: string) => {
+    const lastOpenMonth = get(openMonthAtom);
+    if (lastOpenMonth !== '') {
+      set(lastOpenMonthAtom, lastOpenMonth);
+    }
+    set(openMonthAtom, openMonth);
+  }
+);
+export const lastOpenMonthAtom = atom('');
+
+
 export const fetchDatesSidebarDataAtom = atom(
   null, // write-only atom
   async (get, set) => {

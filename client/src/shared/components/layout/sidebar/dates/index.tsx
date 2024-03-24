@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { selectedDateAtom } from '~/shared/store'; // Import your Jotai atoms
 import { useAtom } from 'jotai';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
-import { datesListAtom, fetchDatesSidebarDataAtom, openMonthAtom } from './store';
+import { datesListAtom, fetchDatesSidebarDataAtom, lastOpenMonthAtom, openMonthAtom } from './store';
 import { styled } from '@mui/system';
 import { useLocation } from 'react-router-dom';
 import { calenderLoadMonthAtom } from './store';
@@ -20,15 +20,13 @@ function DateList(): React.ReactElement {
   const [datesList] = useAtom(datesListAtom); // todo useMemo
   const [selectedDate] = useAtom(selectedDateAtom);
   const [openMonth, setOpenMonth] = useAtom(openMonthAtom);
+  const [lastOpenMonth] = useAtom(lastOpenMonthAtom);
   const [, fetchData] = useAtom(fetchDatesSidebarDataAtom);
   const [, loadMonth] = useAtom(calenderLoadMonthAtom);
   const collapseRefs = useRef({}); // Step 1: Create refs object
 
   const location = useLocation();
 
-
-  // const currentPath = location.pathname || '';
-  console.log('currentPath: ', location);
 
   useEffect(() => {
     fetchData();
@@ -44,7 +42,8 @@ function DateList(): React.ReactElement {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    if (location.pathname.startsWith('/calender')) {
+    const monthChanged = lastOpenMonth !== month;
+    if (monthChanged && location.pathname.startsWith('/calender')) {
       const date = datesList.find(d => d.month === month)?.dates[0]?.value;
       console.log('date: ', date);
 
