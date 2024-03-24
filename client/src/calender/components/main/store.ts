@@ -34,8 +34,6 @@ export const calenderLoadMoreAtom = atom(
       // set(calenderStateAtom, 'loading');
       const response = await api.calenderLoadMore(date);
       const calenderModel = response.data as CalenderModel;
-      console.log('load more: ', calenderModel);
-      console.log('more.length: ', calenderModel.length);
       set(calenderModelAtom, [...get(calenderModelAtom), ...calenderModel]);
       set(rowCountUpdatedAtom, true);
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
