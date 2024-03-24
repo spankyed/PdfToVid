@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Box, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import { atomWithLocation } from 'jotai-location'
 import { useAtom } from 'jotai';
-import Breadcrumb from './breadcrumb';
 import Sidebar from './sidebar';
 import SidebarToggleButton from './sidebar/toggle';
 import { colors } from '~/shared/styles/theme';
@@ -13,24 +11,14 @@ import { sidebarOpenAtom } from './sidebar/store';
 
 const height = 'calc(100vh - 65px)';
 
-const locationAtom = atomWithLocation()
 
 function Layout(): React.ReactElement {
-  const [location, setLoc] = useAtom(locationAtom)
-  const currentPath = location.pathname || '';
-  const generateBreadcrumbs = () => {
-    const parts = currentPath.split("/").filter(Boolean);
-    return parts.map(part => (part.charAt(0).toUpperCase() + part.slice(1)));
-  };
-
-  const breadcrumbs = generateBreadcrumbs();
 
   return (
     <>
       <AppBar position="sticky" sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', boxShadow: 'none' }}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Toolbar sx={{ display: 'flex' }}>
           <TitleArea />
-          <Breadcrumb currentPath={currentPath} breadcrumbs={breadcrumbs} />
         </Toolbar>
       </AppBar>
       <Box sx={{
@@ -61,7 +49,6 @@ function Layout(): React.ReactElement {
   );
 };
 
-
 function TitleArea() {
   const [, setSidebarOpen] = useAtom(sidebarOpenAtom); // Assuming you have a setter function for the sidebar open state
 
@@ -70,7 +57,7 @@ function TitleArea() {
   };
 
   return (
-    <div style={{ display: 'flex', marginLeft: '.4rem'}}>
+    <div style={{ display: 'flex', marginLeft: '.4rem', width: '230px'}}>
       <IconButton
         edge="start"
         color="inherit"
@@ -80,7 +67,7 @@ function TitleArea() {
       >
         <MenuIcon />
       </IconButton>
-      <Link color="inherit" to="/">
+      <Link color="inherit" to="/calender">
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <Typography variant="h6" component="div" sx={{
             borderRadius: '10%', padding: '2px 7px', border: '2px solid white'
