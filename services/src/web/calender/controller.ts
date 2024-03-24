@@ -11,15 +11,14 @@ const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);
 // workerService.post('generate', params)
 // workerService.post('auto', params)
+async function scrapePapers(request: any, h: any){
+  const date = request.params.date;
 
-function getCalender(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const [prevFiveDates, papers] = await repository.fetchCalenderData();
-    const calenderModel = mapRecordsToModel(prevFiveDates, papers);
-    // ! this being empty shouldn't break the UI for papers in calender
-    resolve(calenderModel) 
-  });
+  workerService.post('scrape', { date });
+
+  return 'Scraping started';
 }
+
 function initialBackfill(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const date = request.params.date;
@@ -34,12 +33,13 @@ function initialBackfill(request: any, h: any){
   });
 }
 
-async function scrapePapers(request: any, h: any){
-  const date = request.params.date;
-
-  workerService.post('scrape', { date });
-
-  return 'Scraping started';
+function getCalender(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const [prevFiveDates, papers] = await repository.fetchCalenderData();
+    const calenderModel = mapRecordsToModel(prevFiveDates, papers);
+    // ! this being empty shouldn't break the UI for papers in calender
+    resolve(calenderModel) 
+  });
 }
 
 function loadMore(request: any, h: any){
