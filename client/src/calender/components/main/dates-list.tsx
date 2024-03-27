@@ -35,13 +35,16 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
         // scrolling to the top on initial load
         const scrollableElement = scrollableContainerRef.current;
 
-        (async () => {
-          await scrollToElement({
-            element: scrollableElement,
-            options: { top: 0, behavior: 'smooth' },
-            method: 'scrollTo',
-          });
-        })();
+        // (async () => {
+        //   console.log('scrollToElement: ');
+        //   await scrollToElement({
+        //     element: scrollableElement,
+        //     options: { top: 0, behavior: 'smooth' },
+        //     method: 'scrollTo',
+        //   });
+        // })();
+
+        scrollableElement.scrollTo({ top: 0, behavior: 'smooth' })
       }
       return;
     };

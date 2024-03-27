@@ -38,7 +38,16 @@ function DateList(): React.ReactElement {
   };
 
   const handleMonthOpen = async (month: string) => {
-
+    const element = collapseRefs.current[month];
+    if (element) {
+      await scrollToElement({
+        element,
+        container,
+        options: { behavior: 'smooth', block: 'start' },
+        method:'scrollIntoView',
+      })
+    }
+    // todo load month data first, after adding scrollPromise queue
     const monthChanged = lastOpenMonth !== month;
     if (monthChanged) {
       setLastOpenMonth(month);
@@ -48,16 +57,6 @@ function DateList(): React.ReactElement {
 
         loadMonth(date)
       }
-    }
-
-    const element = collapseRefs.current[month];
-    if (element) {
-      await scrollToElement({
-        element,
-        container,
-        options: { behavior: 'smooth', block: 'start' },
-        method:'scrollIntoView',
-      })
     }
   }
 
