@@ -7,7 +7,7 @@ import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { datesListAtom, fetchDatesSidebarDataAtom, lastOpenMonthAtom, openMonthAtom } from './store';
 import { styled } from '@mui/system';
 import { useLocation } from 'react-router-dom';
-import { calenderLoadMonthAtom } from '~/calender/components/main/store';
+import { calenderLoadMonthAtom, calenderStateAtom } from '~/calender/components/main/store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 
 const MonthItem = styled(ListItemButton)(({ theme }) => ({
@@ -23,6 +23,7 @@ function DateList(): React.ReactElement {
   const [lastOpenMonth, setLastOpenMonth] = useAtom(lastOpenMonthAtom);
   const [, fetchData] = useAtom(fetchDatesSidebarDataAtom);
   const [, loadMonth] = useAtom(calenderLoadMonthAtom);
+  const [, setCalenderState] = useAtom(calenderStateAtom);
   const collapseRefs = useRef({}); // Step 1: Create refs object
   const container = useRef(null);
 
@@ -39,7 +40,11 @@ function DateList(): React.ReactElement {
 
   const handleMonthOpen = async (month: string) => {
     const element = collapseRefs.current[month];
+    const onCalenderPage = location.pathname.startsWith('/calender');
     if (element) {
+      // if (onCalenderPage) {
+      //   setCalenderState('loading');
+      // }
       await scrollToElement({
         element,
         container,
@@ -52,7 +57,7 @@ function DateList(): React.ReactElement {
     if (monthChanged) {
       setLastOpenMonth(month);
 
-      if (location.pathname.startsWith('/calender')) {
+      if (onCalenderPage) {
         const date = datesList.find(d => d.month === month)?.dates[0]?.value;
 
         loadMonth(date)
