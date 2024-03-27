@@ -12,6 +12,7 @@ import DatesPlaceholder from '../placeholder';
 import List from './papers-list';
 import EmptyState from '~/shared/components/empty/empty';
 import { calenderLoadMoreAtom, rowCountUpdatedAtom, scrollableContainerRefAtom } from './store';
+import { scrollToElement } from '~/shared/utils/scrollPromise';
 
 function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
@@ -33,7 +34,14 @@ function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
       if (scrollableContainerRef?.current) {
         // scrolling to the top on initial load
         const scrollableElement = scrollableContainerRef.current;
-        scrollableElement.scrollTo({ top: 0, behavior: 'smooth' });
+
+        (async () => {
+          await scrollToElement({
+            element: scrollableElement,
+            options: { top: 0, behavior: 'smooth' },
+            method: 'scrollTo',
+          });
+        })();
       }
       return;
     };

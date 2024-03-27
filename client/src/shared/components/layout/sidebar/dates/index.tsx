@@ -8,6 +8,7 @@ import { datesListAtom, fetchDatesSidebarDataAtom, lastOpenMonthAtom, openMonthA
 import { styled } from '@mui/system';
 import { useLocation } from 'react-router-dom';
 import { calenderLoadMonthAtom } from '~/calender/components/main/store';
+import { scrollToElement } from '~/shared/utils/scrollPromise';
 
 const MonthItem = styled(ListItemButton)(({ theme }) => ({
   marginLeft: '.5rem', // Add 1rem margin to the left
@@ -23,6 +24,7 @@ function DateList(): React.ReactElement {
   const [, fetchData] = useAtom(fetchDatesSidebarDataAtom);
   const [, loadMonth] = useAtom(calenderLoadMonthAtom);
   const collapseRefs = useRef({}); // Step 1: Create refs object
+  const container = useRef(null);
 
   const location = useLocation();
 
@@ -35,10 +37,16 @@ function DateList(): React.ReactElement {
     setOpenMonth(openMonth === month ? '' : month);
   };
 
-  const handleMonthOpen = (month: string) => {
+  const handleMonthOpen = async (month: string) => {
     const element = collapseRefs.current[month];
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      console.log('element: ', element);
+      await scrollToElement({
+        element,
+        container,
+        options: { behavior: 'smooth', block: 'start' },
+        method:'scrollIntoView',
+      })
     }
 
     const monthChanged = lastOpenMonth !== month;
@@ -57,7 +65,9 @@ function DateList(): React.ReactElement {
   }
 
   return (
-    <List sx={{
+    <List 
+      ref={container}
+      sx={{
       overflow: 'auto',
       overflowX: 'hidden',
       // backgroundColor: colors.main,

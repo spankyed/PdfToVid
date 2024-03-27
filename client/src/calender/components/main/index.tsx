@@ -17,7 +17,6 @@ function CalenderMain(): React.ReactElement {
   const [openMonth] = useAtom(openMonthAtom);
   const [datesList] = useAtom(datesListAtom); // todo useMemo
   const [, loadMonth] = useAtom(calenderLoadMonthAtom);
-
   
   useEffect(() => {
     const date = datesList.find(d => d.month === openMonth)?.dates[0]?.value;
