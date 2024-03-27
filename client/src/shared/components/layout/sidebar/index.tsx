@@ -45,7 +45,7 @@ const Sidebar: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Reports" />
         </NavItem>
-        <NavItem onClick={() => navigate('calender')}>
+        <NavItem onClick={() => navigate('calendar')}>
           <ListItemIcon>
             <CalendarTodayIcon />
           </ListItemIcon>

@@ -8,9 +8,9 @@ socket.on('connect', () => console.log('Connected to WebSocket server'));
 
 // get
 export const getDatesSidebarData = () => axios.get(apiUrl + '/getDates');
-export const getCalenderModelData = () => axios.get(apiUrl + '/getCalender');
-export const calenderLoadMore = (cursor) => axios.get(apiUrl + '/loadMore/' + cursor);
-export const calenderLoadMonth = (cursor) => axios.get(apiUrl + '/loadMonth/' + cursor);
+export const getCalendarModelData = () => axios.get(apiUrl + '/getCalendar');
+export const calendarLoadMore = (cursor) => axios.get(apiUrl + '/loadMore/' + cursor);
+export const calendarLoadMonth = (cursor) => axios.get(apiUrl + '/loadMonth/' + cursor);
 export const getPapersByDate = (date) => axios.get(apiUrl + '/papersByDate/' + date);
 // post
 export const resetDateStatus = (date) => axios.post(apiUrl + '/reset/' + date);

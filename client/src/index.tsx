@@ -6,7 +6,7 @@ import { Provider } from 'jotai';
 import { theme } from './shared/styles/theme';
 import SocketListener from './shared/api/socket-listener';
 import Layout from './shared/components/layout';
-import CalenderPage from './calender';
+import CalendarPage from './calendar';
 import DateEntryPage from '~/date-entry';
 import PaperEntryPage from '~/paper-entry';
 import './shared/styles/index.css';
@@ -16,8 +16,8 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Navigate to="/calender" /> },
-      { path: 'calender', element: <CalenderPage /> },
+      { index: true, element: <Navigate to="/calendar" /> },
+      { path: 'calendar', element: <CalendarPage /> },
       { path: 'date/:dateId', element: <DateEntryPage /> },
       { path: 'paper/:paperId', element: <PaperEntryPage /> },
     ],

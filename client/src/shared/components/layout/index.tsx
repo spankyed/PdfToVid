@@ -67,7 +67,7 @@ function TitleArea() {
       >
         <MenuIcon />
       </IconButton>
-      <Link color="inherit" to="/calender">
+      <Link color="inherit" to="/calendar">
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <Typography variant="h6" component="div" sx={{
             borderRadius: '10%', padding: '2px 7px', border: '2px solid white'

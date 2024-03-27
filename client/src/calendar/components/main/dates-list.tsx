@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
-import { CalenderModel } from '~/shared/utils/types';
+import { CalendarModel } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
-import SummaryPopover from '~/calender/components/summary/summary';
+import SummaryPopover from '~/calendar/components/summary/summary';
 import Scraping from '~/shared/components/scraping';
 import Ranking from '~/shared/components/ranking';
 import { selectedDateAtom } from '~/shared/store';
@@ -11,10 +11,10 @@ import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from '../placeholder';
 import List from './papers-list';
 import EmptyState from '~/shared/components/empty/empty';
-import { calenderLoadMoreAtom, rowCountUpdatedAtom, scrollableContainerRefAtom } from './store';
+import { calendarLoadMoreAtom, rowCountUpdatedAtom, scrollableContainerRefAtom } from './store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 
-function DatesList({ rows }: { rows: CalenderModel }): React.ReactElement {
+function DatesList({ rows }: { rows: CalendarModel }): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
   const navigate = useNavigate();
   const lastElementRef = useRef<HTMLDivElement>(null); // Step 1: Create the ref
@@ -149,7 +149,7 @@ function Empty({ date }: { date: string }): React.ReactElement {
 
 
 const LoadMoreButton = ({ dbCursor }) => {
-  const [, loadNextPage] = useAtom(calenderLoadMoreAtom);
+  const [, loadNextPage] = useAtom(calendarLoadMoreAtom);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async () => {

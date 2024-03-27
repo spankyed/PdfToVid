@@ -1,15 +1,15 @@
 import { DatesTable, PapersTable } from "../../shared/schema";
 import { Sequelize, DataTypes, Op, FindOptions } from 'sequelize';
 
-export const calenderPageSize = 5;
+export const calendarPageSize = 5;
 
-type CalenderData = [DatesTable[], PapersTable[]];
+type CalendarData = [DatesTable[], PapersTable[]];
 
-async function fetchCalenderData(beforeDate?: string, include: boolean = false): Promise<CalenderData> {
+async function fetchCalendarData(beforeDate?: string, include: boolean = false): Promise<CalendarData> {
   let queryOptions: FindOptions = {
     raw: true,
     order: [['value', 'DESC']],
-    limit: calenderPageSize,
+    limit: calendarPageSize,
     // attributes: ['value'], // if we only need the 'value' field for the join
   };
 
@@ -39,7 +39,7 @@ async function fetchCalenderData(beforeDate?: string, include: boolean = false):
 }
 
 export {
-  fetchCalenderData,
+  fetchCalendarData,
 }
 
 /**

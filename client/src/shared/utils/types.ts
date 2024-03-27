@@ -36,4 +36,4 @@ export interface DateRow {
   papers: Paper[];
 }
 
-export type CalenderModel = DateRow[];
+export type CalendarModel = DateRow[];

@@ -5,7 +5,7 @@ import { Server as IOServer } from 'socket.io';
 // import eventHandlers from './service/handlers/socket';
 
 // import mocks from '../../../tests/mocks';
-// const { calenderModel } = mocks;
+// const { calendarModel } = mocks;
 
 const server = createServer({
   port: ports.web,

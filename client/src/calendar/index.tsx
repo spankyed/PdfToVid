@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import CalenderMain from './components/main';
-import './calender.css';
+import CalendarMain from './components/main';
+import './calendar.css';
 import { useAtom } from 'jotai';
 import { isOpenAtom,  } from './components/summary/store';
 import { scrollableContainerRefAtom } from './components/main/store';
 import PageLayout from '~/shared/components/layout/page-layout';
 
 
-const Calender: React.FC = () => {
+const Calendar: React.FC = () => {
   const [, setScrollableContainerRef] = useAtom(scrollableContainerRefAtom);
   const [isOpen, setIsOpen] = useAtom(isOpenAtom);
 
@@ -32,9 +32,9 @@ const Calender: React.FC = () => {
         ref={containerRef}
         onScroll={handleScroll}
       >
-        <CalenderMain />
+        <CalendarMain />
       </PageLayout>
   );
 }
 
-export default Calender;
+export default Calendar;

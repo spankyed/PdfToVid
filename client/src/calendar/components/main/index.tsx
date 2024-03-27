@@ -1,22 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { CalenderModel } from '~/shared/utils/types';
+import { CalendarModel } from '~/shared/utils/types';
 import DatesList from './dates-list';
 import DatesPlaceholder from '../placeholder';
-import { fetchCalenderModelAtom, calenderModelAtom, calenderStateAtom, calenderLoadMonthAtom } from '~/calender/components/main/store';
+import { fetchCalendarModelAtom, calendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from '~/calendar/components/main/store';
 import { BackfillComponent } from '../backfill';
 import { openMonthAtom, datesListAtom } from '~/shared/components/layout/sidebar/dates/store';
 import './main.css';
 
-function CalenderMain(): React.ReactElement {
-  const [calenderModel] = useAtom(calenderModelAtom);
-  const [, fetchData] = useAtom(fetchCalenderModelAtom);
-  const [calenderState] = useAtom(calenderStateAtom);
-  const showBackfill = calenderState === 'backfill';
+function CalendarMain(): React.ReactElement {
+  const [calendarModel] = useAtom(calendarModelAtom);
+  const [, fetchData] = useAtom(fetchCalendarModelAtom);
+  const [calendarState] = useAtom(calendarStateAtom);
+  const showBackfill = calendarState === 'backfill';
 
   const [openMonth] = useAtom(openMonthAtom);
   const [datesList] = useAtom(datesListAtom); // todo useMemo
-  const [, loadMonth] = useAtom(calenderLoadMonthAtom);
+  const [, loadMonth] = useAtom(calendarLoadMonthAtom);
   
   useEffect(() => {
     const date = datesList.find(d => d.month === openMonth)?.dates[0]?.value;
@@ -32,15 +32,15 @@ function CalenderMain(): React.ReactElement {
     <>
       { showBackfill 
         ? <BackfillComponent />
-        : <DateRows rows={calenderModel} />
+        : <DateRows rows={calendarModel} />
       }
     </>
   );
 }
 
-function DateRows({ rows }: { rows: CalenderModel }): React.ReactElement {
-  const [calenderState] = useAtom(calenderStateAtom);
-  const isLoading = calenderState === 'loading';
+function DateRows({ rows }: { rows: CalendarModel }): React.ReactElement {
+  const [calendarState] = useAtom(calendarStateAtom);
+  const isLoading = calendarState === 'loading';
 
   return (
     <>
@@ -52,4 +52,4 @@ function DateRows({ rows }: { rows: CalenderModel }): React.ReactElement {
   );
 }
 
-export default CalenderMain;
+export default CalendarMain;

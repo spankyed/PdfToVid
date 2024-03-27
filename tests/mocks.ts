@@ -1,4 +1,4 @@
-export const calenderModel = [
+export const calendarModel = [
   {
     date: {
       value: '2023-08-19',

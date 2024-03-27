@@ -1,30 +1,30 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { socket } from './fetch';
-import { calenderModelAtom } from '~/calender/components/main/store';
+import { calendarModelAtom } from '~/calendar/components/main/store';
 
 const SocketListener = () => {
-  const setCalenderModel = useSetAtom(calenderModelAtom);
+  const setCalendarModel = useSetAtom(calendarModelAtom);
 
   useEffect(() => {
     const socketHandlers = { 
       date_status: (status) => {
         const { key, status: current, data } = status;
-        setCalenderModel((oldCalenderModel) => {
-          const index = oldCalenderModel.findIndex(({ date }) => date.value === key);
+        setCalendarModel((oldCalendarModel) => {
+          const index = oldCalendarModel.findIndex(({ date }) => date.value === key);
           
           if (index === -1) {
             console.error("Date not found", key);
-            return oldCalenderModel;
+            return oldCalendarModel;
           }
     
-          const newCalenderModel = [...oldCalenderModel];
-          newCalenderModel[index].date.status = current;
+          const newCalendarModel = [...oldCalendarModel];
+          newCalendarModel[index].date.status = current;
           if (current === 'complete') {
-            newCalenderModel[index].papers = data;
+            newCalendarModel[index].papers = data;
           }
     
-          return newCalenderModel;
+          return newCalendarModel;
         });
       },
     };
@@ -39,7 +39,7 @@ const SocketListener = () => {
         socket.off(event, socketHandlers[event]);
       });
     };
-  }, [setCalenderModel]);
+  }, [setCalendarModel]);
 
   return null; // Non-visual component, so it returns null
 };

@@ -40,7 +40,7 @@ Act as an senior front-end engineer. Assume there is already a backend system bu
 Build a frontend web app to trigger and manage the daily video generations. A user should be able to review and make refinements at each step of the flow . 
 
 The first page we will build out is:
-1. Calender page - in the main center section is a date-by-date list of all the papers scraped and uploaded for every date of a given month up to the current date. On the left panel section is a collapsable vertical list of dates grouped by month. In the right panel section is an input for keyword search and the corresponding result list.
+1. Calendar page - in the main center section is a date-by-date list of all the papers scraped and uploaded for every date of a given month up to the current date. On the left panel section is a collapsable vertical list of dates grouped by month. In the right panel section is an input for keyword search and the corresponding result list.
 
 Brainstorm and decide on what appropriate libraries you will need for rendering, styling, and managing state. Think step by step.
 
