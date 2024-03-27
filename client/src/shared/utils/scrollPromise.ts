@@ -16,7 +16,6 @@ export function scrollToElement({
     }
 
     const onScrollEnd = () => {
-      console.log('onScrollEnd: ');
       scrollEl.removeEventListener('scrollend', onScrollEnd);
       resolve(true);
     };

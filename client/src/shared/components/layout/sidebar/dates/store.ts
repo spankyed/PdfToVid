@@ -3,16 +3,7 @@ import * as api from '~/shared/api/fetch';
 import { DatesList } from '~/shared/utils/types';
 
 export const datesListAtom = atom<DatesList[]>([]);
-export const openMonthAtom = atom(
-  '',
-  (get, set, openMonth: string) => {
-    const lastOpenMonth = get(openMonthAtom);
-    if (lastOpenMonth !== '') {
-      set(lastOpenMonthAtom, lastOpenMonth);
-    }
-    set(openMonthAtom, openMonth);
-  }
-);
+export const openMonthAtom = atom('');
 export const lastOpenMonthAtom = atom('');
 
 

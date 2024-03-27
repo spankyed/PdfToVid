@@ -20,7 +20,7 @@ function DateList(): React.ReactElement {
   const [datesList] = useAtom(datesListAtom); // todo useMemo
   const [selectedDate] = useAtom(selectedDateAtom);
   const [openMonth, setOpenMonth] = useAtom(openMonthAtom);
-  const [lastOpenMonth] = useAtom(lastOpenMonthAtom);
+  const [lastOpenMonth, setLastOpenMonth] = useAtom(lastOpenMonthAtom);
   const [, fetchData] = useAtom(fetchDatesSidebarDataAtom);
   const [, loadMonth] = useAtom(calenderLoadMonthAtom);
   const collapseRefs = useRef({}); // Step 1: Create refs object
@@ -38,22 +38,26 @@ function DateList(): React.ReactElement {
   };
 
   const handleMonthOpen = async (month: string) => {
+
+    const monthChanged = lastOpenMonth !== month;
+    if (monthChanged) {
+      setLastOpenMonth(month);
+
+      if (location.pathname.startsWith('/calender')) {
+        const date = datesList.find(d => d.month === month)?.dates[0]?.value;
+
+        loadMonth(date)
+      }
+    }
+
     const element = collapseRefs.current[month];
     if (element) {
-      console.log('element: ', element);
       await scrollToElement({
         element,
         container,
         options: { behavior: 'smooth', block: 'start' },
         method:'scrollIntoView',
       })
-    }
-
-    const monthChanged = lastOpenMonth !== month;
-    if (monthChanged && location.pathname.startsWith('/calender')) {
-      const date = datesList.find(d => d.month === month)?.dates[0]?.value;
-
-      loadMonth(date)
     }
   }
 
