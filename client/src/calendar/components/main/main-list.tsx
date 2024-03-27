@@ -9,7 +9,7 @@ import { selectedDateAtom } from '~/shared/store';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from '../placeholder';
-import List from './papers-list';
+import List from './papers-carousel';
 import EmptyState from '~/shared/components/empty/empty';
 import { calendarLoadMoreAtom, rowCountUpdatedAtom, scrollableContainerRefAtom } from './store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';

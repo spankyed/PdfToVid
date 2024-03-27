@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { CalendarModel } from '~/shared/utils/types';
-import DatesList from './dates-list';
+import DatesList from './main-list';
 import DatesPlaceholder from '../placeholder';
 import { fetchCalendarModelAtom, calendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from '~/calendar/components/main/store';
 import { BackfillComponent } from '../backfill';
