@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { selectedDateAtom } from '~/shared/store'; // Import your Jotai atoms
 import { useAtom } from 'jotai';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
-import { datesListAtom, fetchDatesSidebarDataAtom, lastOpenMonthAtom, openMonthAtom } from './store';
+import { datesRowsAtom, fetchDatesSidebarDataAtom, lastOpenMonthAtom, openMonthAtom } from './store';
 import { styled } from '@mui/system';
 import { useLocation } from 'react-router-dom';
 import { calendarLoadMonthAtom, calendarStateAtom } from '~/calendar/components/main/store';
@@ -17,7 +17,7 @@ const MonthItem = styled(ListItemButton)(({ theme }) => ({
 }));
 
 function DateList(): React.ReactElement {
-  const [datesList] = useAtom(datesListAtom); // todo useMemo
+  const [datesRows] = useAtom(datesRowsAtom); // todo useMemo
   const [selectedDate] = useAtom(selectedDateAtom);
   const [openMonth, setOpenMonth] = useAtom(openMonthAtom);
   const [lastOpenMonth, setLastOpenMonth] = useAtom(lastOpenMonthAtom);
@@ -58,7 +58,7 @@ function DateList(): React.ReactElement {
       setLastOpenMonth(month);
 
       if (onCalendarPage) {
-        const date = datesList.find(d => d.month === month)?.dates[0]?.value;
+        const date = datesRows.find(d => d.month === month)?.dates[0]?.value;
 
         loadMonth(date)
       }
@@ -83,7 +83,7 @@ function DateList(): React.ReactElement {
       // paddingLeft: '8px', 
       // marginLeft: '.2rem', // Add 1rem margin to the left
     }}>
-      {datesList.map(({ month, dates }) => (
+      {datesRows.map(({ month, dates }) => (
         <div key={month} ref={el => collapseRefs.current[month] = el}>
           <MonthItem onClick={() => clickMonth(month)} sx={{ fontWeight: 'bolder' }}>
             <ListItemText primary={month} sx={{ 

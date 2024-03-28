@@ -11,7 +11,7 @@ import EmptyState from '~/shared/components/empty/empty';
 import { useNavigate } from 'react-router-dom';
 import { selectedDateAtom } from '~/shared/store';
 
-function ListItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow>; isFocalElement: boolean }): React.ReactElement {
+function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow>; isFocalElement: boolean }): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
   const { date, papers } = useAtomValue(dateAtom); // Access the state of each individual date atom
   const { value, status } = date;
@@ -96,4 +96,4 @@ function Empty({ date }: { date: string }): React.ReactElement {
   );
 }
 
-export default ListItem;
+export default RowItem;

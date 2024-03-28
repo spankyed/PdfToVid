@@ -1,6 +1,6 @@
 export type DateStatus = 'pending' | 'scraping' | 'ranking' | 'complete' | 'error';
 
-export interface DatesList {
+export interface DatesRow {
   month: string;
   dates: Date[];
 }

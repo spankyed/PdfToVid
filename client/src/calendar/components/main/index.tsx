@@ -1,23 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import DatesList from './list/main-list';
+import DateRows from './dates-rows';
 import DatesPlaceholder from '../placeholder';
 import { fetchCalendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from '~/calendar/components/main/store';
-import { BackfillComponent } from '../backfill';
-import { openMonthAtom, datesListAtom } from '~/shared/components/layout/sidebar/dates/store';
+import { BackfillComponent } from './backfill';
+import { openMonthAtom, datesRowsAtom } from '~/shared/components/layout/sidebar/dates/store';
 import './main.css';
 
 function CalendarMain(): React.ReactElement {
   const [, fetchData] = useAtom(fetchCalendarModelAtom);
+  const [, loadMonth] = useAtom(calendarLoadMonthAtom);
+  const [datesRows] = useAtom(datesRowsAtom); // todo useMemo
+  const [openMonth] = useAtom(openMonthAtom);
   const [calendarState] = useAtom(calendarStateAtom);
   const showBackfill = calendarState === 'backfill';
-
-  const [openMonth] = useAtom(openMonthAtom);
-  const [datesList] = useAtom(datesListAtom); // todo useMemo
-  const [, loadMonth] = useAtom(calendarLoadMonthAtom);
   
   useEffect(() => {
-    const date = datesList.find(d => d.month === openMonth)?.dates[0]?.value;
+    const date = datesRows.find(d => d.month === openMonth)?.dates[0]?.value;
 
     if (openMonth && date) {
       loadMonth(date)
@@ -30,13 +29,13 @@ function CalendarMain(): React.ReactElement {
     <>
       { showBackfill 
         ? <BackfillComponent />
-        : <DateRows/>
+        : <MainContent/>
       }
     </>
   );
 }
 
-function DateRows(): React.ReactElement {
+function MainContent(): React.ReactElement {
   const [calendarState] = useAtom(calendarStateAtom);
   const isLoading = calendarState === 'loading';
   const isError = calendarState === 'error';
@@ -48,7 +47,7 @@ function DateRows(): React.ReactElement {
         : (
           isError
             ? <div>Failed to fetch calendar data</div>
-            : <DatesList />
+            : <DateRows />
         )
       }
     </>

@@ -1,8 +1,8 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { DatesList } from '~/shared/utils/types';
+import { DatesRow } from '~/shared/utils/types';
 
-export const datesListAtom = atom<DatesList[]>([]);
+export const datesRowsAtom = atom<DatesRow[]>([]);
 export const openMonthAtom = atom('');
 export const lastOpenMonthAtom = atom('');
 
@@ -15,7 +15,7 @@ export const fetchDatesSidebarDataAtom = atom(
       const response = await api.getDatesSidebarData();
       const dateList = response.data;
       console.log('Sidebar dates:', {dateList});
-      set(datesListAtom, dateList);
+      set(datesRowsAtom, dateList);
       set(openMonthAtom, dateList[0]?.month ?? '');
 
       // set(calendarStateAtom, dateList.length > 0 ? 'ready' : 'backfill')

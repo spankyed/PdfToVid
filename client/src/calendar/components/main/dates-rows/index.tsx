@@ -4,9 +4,9 @@ import { useAtom, useAtomValue } from 'jotai';
 import SummaryPopover from '~/calendar/components/summary/summary';
 import { calendarLoadMoreAtom, calendarModelAtom, scrollableContainerRefAtom } from '../store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
-import ListItem from './list-item';
+import RowItem from './row-item';
 
-function DatesList(): React.ReactElement {
+function DateRows(): React.ReactElement {
   const datesAtoms = useAtomValue(calendarModelAtom);
   const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
 
@@ -39,7 +39,7 @@ function DatesList(): React.ReactElement {
         const isFocalElement = index === datesAtoms.length - 1;
         // ! using index is bad, if we add item at beginning it will re-render all items
         return (
-          <ListItem dateAtom={dateAtom} isFocalElement={isFocalElement} key={`date-${index}`}/>
+          <RowItem dateAtom={dateAtom} isFocalElement={isFocalElement} key={`date-${index}`}/>
         );
       })}
 
@@ -77,4 +77,4 @@ const LoadMoreButton = ({ dbCursor }) => {
   );
 };
 
-export default DatesList;
+export default DateRows;
