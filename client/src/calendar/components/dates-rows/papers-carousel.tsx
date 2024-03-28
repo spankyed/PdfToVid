@@ -3,8 +3,8 @@ import {  Button, Pagination,  } from '@mui/material';
 import Thumbnail from '~/shared/components/thumbnail';
 import { Paper } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
-import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from '../../summary/store';
-import { resetDateStatusAtom } from '../store';
+import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from '../summary/store';
+import { resetDateStatusAtom } from '../../store';
 
 function List({ papers, date }: { papers: Paper[]; date: string }): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);

@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import DateRows from './dates-rows';
-import DatesPlaceholder from '../placeholder';
-import { fetchCalendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from '~/calendar/components/main/store';
+import DatesPlaceholder from './placeholder';
+import { fetchCalendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from '~/calendar/store';
 import { BackfillComponent } from './backfill';
 import { openMonthAtom, datesRowsAtom } from '~/shared/components/layout/sidebar/dates/store';
 import './main.css';

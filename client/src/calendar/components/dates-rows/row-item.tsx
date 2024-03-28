@@ -5,7 +5,7 @@ import { PrimitiveAtom, useAtom, useAtomValue } from 'jotai';
 import Scraping from '~/shared/components/scraping';
 import Ranking from '~/shared/components/ranking';
 import { formatDate } from '~/shared/utils/dateFormatter';
-import DatesPlaceholder from '../../placeholder';
+import DatesPlaceholder from '../placeholder';
 import List from './papers-carousel';
 import EmptyState from '~/shared/components/empty/empty';
 import { useNavigate } from 'react-router-dom';

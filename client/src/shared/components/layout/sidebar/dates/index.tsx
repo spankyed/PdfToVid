@@ -7,7 +7,7 @@ import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { datesRowsAtom, fetchDatesSidebarDataAtom, lastOpenMonthAtom, openMonthAtom } from './store';
 import { styled } from '@mui/system';
 import { useLocation } from 'react-router-dom';
-import { calendarLoadMonthAtom, calendarStateAtom } from '~/calendar/components/main/store';
+import { calendarLoadMonthAtom, calendarStateAtom } from '~/calendar/store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 
 const MonthItem = styled(ListItemButton)(({ theme }) => ({

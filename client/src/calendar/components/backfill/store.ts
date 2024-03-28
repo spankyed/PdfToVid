@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 import { datesRowsAtom, openMonthAtom } from '~/shared/components/layout/sidebar/dates/store';
 import { selectedDateAtom } from '~/shared/store';
-import { calendarModelAtomBase, calendarStateAtom } from '../store';
+import { calendarModelAtomBase, calendarStateAtom } from '../../store';
 
 export const backFillFetchAtom = atom(
   null, // write-only atom

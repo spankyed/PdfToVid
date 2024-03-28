@@ -3,7 +3,7 @@ import * as api from '~/shared/api/fetch';
 import { selectedDateAtom } from '~/shared/store';
 import { CalendarModel } from '~/shared/utils/types';
 import { RefObject } from 'react';
-import { resetDateStatus } from '../../../shared/api/fetch';
+import { resetDateStatus } from '../shared/api/fetch';
 import { splitAtom } from 'jotai/utils'
 
 export const calendarStateAtom = atom<'loading' | 'backfill' | 'ready' | 'error'>('loading');

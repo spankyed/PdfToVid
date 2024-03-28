@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import CalendarMain from './components/main';
+import CalendarMain from './components';
 import './calendar.css';
 import { useAtom } from 'jotai';
 import { isOpenAtom,  } from './components/summary/store';
-import { scrollableContainerRefAtom } from './components/main/store';
+import { scrollableContainerRefAtom } from './store';
 import PageLayout from '~/shared/components/layout/page-layout';
 
 

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
 import { useAtom, useAtomValue } from 'jotai';
 import SummaryPopover from '~/calendar/components/summary/summary';
-import { calendarLoadMoreAtom, calendarModelAtom, scrollableContainerRefAtom } from '../store';
+import { calendarLoadMoreAtom, calendarModelAtom, scrollableContainerRefAtom } from '../../store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 import RowItem from './row-item';
 

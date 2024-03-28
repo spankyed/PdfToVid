@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { socket } from './fetch';
-import { calendarModelAtomBase } from '~/calendar/components/main/store';
+import { calendarModelAtomBase } from '~/calendar/store';
 
 const SocketListener = () => {
   const setCalendarModelBase = useSetAtom(calendarModelAtomBase);
