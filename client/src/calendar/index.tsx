@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import CalendarMain from './components';
+import CalendarMain from './components/main';
 import './calendar.css';
 import { useAtom } from 'jotai';
 import { isOpenAtom,  } from './components/summary/store';
