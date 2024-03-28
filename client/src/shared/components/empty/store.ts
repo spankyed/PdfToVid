@@ -5,24 +5,26 @@ import { calendarModelAtom } from '~/calendar/components/main/store';
 export const scrapePapersAtom = atom(
   null,
   async (get, set, value) => {
-    let calendarModel = get(calendarModelAtom);
-    const index = calendarModel.findIndex(({ date }) => date.value === value);
+    const dateAtoms = get(calendarModelAtom);
 
-    if (index === -1) {
+    let targetDateAtom = dateAtoms.find((dateAtom) => {
+      const { date } = get(dateAtom);
+      return date.value === value;
+    });
+
+    if (!targetDateAtom) {
       console.error("Date not found", value);
       return;
     }
 
     try {
-      calendarModel[index].date.status = 'scraping';
-      set(calendarModelAtom, [...calendarModel]);
+      set(targetDateAtom, (prevDate) => ({ ...prevDate, date: { ...prevDate.date, status: 'scraping' } }));
 
       await api.scrapeDate(value);
+
     } catch (error) {
       console.error("Scraping failed:", error);
-
-      calendarModel[index].date.status = 'error';
-      set(calendarModelAtom, [...calendarModel]);
+      set(targetDateAtom, (prevDate) => ({ ...prevDate, date: { ...prevDate.date, status: 'error' } }));
     }
   }
 );

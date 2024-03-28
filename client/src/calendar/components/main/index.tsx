@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { CalendarModel } from '~/shared/utils/types';
-import DatesList from './main-list';
+import DatesList from './list/main-list';
 import DatesPlaceholder from '../placeholder';
-import { fetchCalendarModelAtom, calendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from '~/calendar/components/main/store';
+import { fetchCalendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from '~/calendar/components/main/store';
 import { BackfillComponent } from '../backfill';
 import { openMonthAtom, datesListAtom } from '~/shared/components/layout/sidebar/dates/store';
 import './main.css';
 
 function CalendarMain(): React.ReactElement {
-  const [calendarModel] = useAtom(calendarModelAtom);
   const [, fetchData] = useAtom(fetchCalendarModelAtom);
   const [calendarState] = useAtom(calendarStateAtom);
   const showBackfill = calendarState === 'backfill';
@@ -32,21 +30,26 @@ function CalendarMain(): React.ReactElement {
     <>
       { showBackfill 
         ? <BackfillComponent />
-        : <DateRows rows={calendarModel} />
+        : <DateRows/>
       }
     </>
   );
 }
 
-function DateRows({ rows }: { rows: CalendarModel }): React.ReactElement {
+function DateRows(): React.ReactElement {
   const [calendarState] = useAtom(calendarStateAtom);
   const isLoading = calendarState === 'loading';
+  const isError = calendarState === 'error';
 
   return (
     <>
       { isLoading
         ? <DatesPlaceholder />
-        : <DatesList rows={rows} />
+        : (
+          isError
+            ? <div>Failed to fetch calendar data</div>
+            : <DatesList />
+        )
       }
     </>
   );

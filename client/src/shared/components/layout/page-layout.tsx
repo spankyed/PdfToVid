@@ -51,6 +51,8 @@ const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(({
         height,
         justifyContent: 'center',
         display: 'flex',
+        overflowAnchor: 'none'
+
       }}
       {...props}
     >
