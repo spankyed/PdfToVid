@@ -19,9 +19,10 @@ import { getColorShade } from '../utils/getColorShade';
 function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean }): React.ReactElement {
   const navigate = useNavigate();
 
-  const onThumbnailClick = (e) => {
+  const onThumbnailClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
 
-    const is = tag => e.target.tagName === tag;
+    const is = (tag: string) => (e.target as HTMLElement).tagName === tag;
     const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
 
     if (ignore) return;
