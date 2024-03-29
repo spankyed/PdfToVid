@@ -14,13 +14,15 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    
     // "baseUrl": ".",
+    
     "importHelpers": true,
     "lib": [
       "es2019",
       "es2017",
-      "DOM", "DOM.Iterable", "ESNext",
+      "DOM",
+      "DOM.Iterable",
+      "ESNext",
       "scripthost"
     ],
     "noImplicitAny": false,
@@ -30,21 +32,10 @@
     "baseUrl": "./src",
     "paths": {
       "~/*": ["./*"],
-      "src": [
-        "src"
-      ],
-      "src/*": [
-        "src/*"
-      ],
-      "game": [
-        "./src/game/"
-      ],
-      "game/*": [
-        "./src/game/*"
-      ],
-    },
+      "src": ["src"],
+      "src/*": ["src/*"],
+    }
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }],
-
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
