@@ -4,6 +4,8 @@ import { Typography, Box, Tabs, Tab, Accordion, AccordionSummary, AccordionDetai
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material';
 import PageLayout from '~/shared/components/layout/page-layout';
+import PdfViewer from './pdf-viewer';
+import './paper-entry.css';
 
 // EntryTitle Component
 const EntryTitleStyled = styled(Typography)(({ theme }) => ({
@@ -58,11 +60,17 @@ const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
         <Tab label="Generate" />
         <Tab label="Prompts" />
         <Tab label="Analytics" />
+        <Tab label="Pdf" />
         {/* instead of integrate as separate tab, consider having in review section under meta */}
       </Tabs>
       {tabValue === 0 && <ReviewTab entry={entry} />}
       {tabValue === 1 && <LearnTab entry={entry} />}  {/* prompts*/}
       {tabValue === 2 && <div>empty</div>}
+      {tabValue === 3 && 
+        <div>
+          <PdfViewer url="https://arxiv.org/pdf/2403.03017.pdf" />
+        </div>
+      }
     </Box>
   );
 }
