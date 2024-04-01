@@ -7,6 +7,8 @@ import EntryTabs from './tabs';
 import { useAtom } from 'jotai';
 import { pdfModalOpen } from './store';
 import PdfModal from './pdf/modal';
+import { useNavigate } from 'react-router-dom';
+import { formatDate } from '~/shared/utils/dateFormatter';
 
 const EntryTitleStyled = styled(Typography)(({ theme }) => ({
   // textAlign: 'center',
@@ -62,7 +64,7 @@ const Entry = {
       answer: "The main idea of this research is to make process mining as easy to use as a GPS system."
     },
   ],
-  date: "March 31, 2024", // Example date
+  date: '2024-03-27',
   authors: ["Author One", "Author Two", "Author Three"], // Example authors
 }
 
@@ -70,7 +72,7 @@ const PaperEntryPage: React.FC<{}> = () => {
   return (
     <PageLayout padding={3}>
       <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={3}>
-        <EntryDateAndAuthors date={Entry.date} authors={Entry.authors} />
+        <DateAndAuthors date={Entry.date} authors={Entry.authors} />
         <EntryTitle title={Entry.title} />
         <Typography variant="body1" paragraph>{Entry.abstract}</Typography>
       </Box>
@@ -99,13 +101,27 @@ const createAuthorSearchURL = (authorName) => {
   return `https://arxiv.org/search/cs?searchtype=author&query=${query}`;
 };
 
-const EntryDateAndAuthors: React.FC<{ date: string, authors: string[] }> = ({ date, authors }) => {
+const DateAndAuthors: React.FC<{ date: string, authors: string[] }> = ({ date, authors }) => {
+  const navigate = useNavigate();
   const [, setOpen] = useAtom(pdfModalOpen);
 
   const handleOpen = () => setOpen(true);
+
+  
+  const onDateClick = date => e => {
+    navigate(`/date/${date}`);
+  }
+
+  const formattedDate = formatDate(date, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
   return (
   <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
-    <Typography variant="subtitle1" color="textSecondary">{date}</Typography>
+    <Typography variant="subtitle1" color="textSecondary" onClick={onDateClick(date)}
+      style={{ cursor: 'pointer' }}>{formattedDate}</Typography>
     <Box>
       {authors.map((author, index) => (
         <React.Fragment key={index}>
