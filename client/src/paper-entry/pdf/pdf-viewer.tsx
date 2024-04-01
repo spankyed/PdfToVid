@@ -43,7 +43,7 @@ export default function PdfViewer({ url }) {
         onLoadSuccess={onDocumentLoadSuccess}
         options={options}
       >
-        <Page pageNumber={pageNumber} width={700} loading={<div>Loading...</div>}/>
+        <Page pageNumber={pageNumber} width={800} loading={<div>Loading...</div>}/>
       </Document>
       <Pagination
         pageNumber={pageNumber}

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Typography, Box, Button } from '@mui/material';
+import { Typography, Box, Button, Link } from '@mui/material';
 import { styled } from '@mui/material';
 import PageLayout from '~/shared/components/layout/page-layout';
 import './paper-entry.css';
 import EntryTabs from './tabs';
+import { useAtom } from 'jotai';
+import { pdfModalOpen } from './store';
+import PdfModal from './pdf/modal';
 
 const EntryTitleStyled = styled(Typography)(({ theme }) => ({
   // textAlign: 'center',
@@ -72,6 +75,9 @@ const PaperEntryPage: React.FC<{}> = () => {
         <Typography variant="body1" paragraph>{Entry.abstract}</Typography>
       </Box>
       <EntryTabs entry={Entry} />
+
+      <PdfModal />
+
     </PageLayout>
   );
 }
@@ -86,12 +92,32 @@ const EntryTitle: React.FC<{ title: string }> = ({ title }) => {
   );
 };
 
-const EntryDateAndAuthors: React.FC<{ date: string, authors: string[] }> = ({ date, authors }) => (
+const createAuthorSearchURL = (authorName) => {
+  const [lastName, firstName] = authorName.split(' ');
+  if (!firstName || !lastName) return '#';
+  const query = `${lastName},+${firstName.charAt(0)}`;
+  return `https://arxiv.org/search/cs?searchtype=author&query=${query}`;
+};
+
+const EntryDateAndAuthors: React.FC<{ date: string, authors: string[] }> = ({ date, authors }) => {
+  const [, setOpen] = useAtom(pdfModalOpen);
+
+  const handleOpen = () => setOpen(true);
+  return (
   <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
     <Typography variant="subtitle1" color="textSecondary">{date}</Typography>
-    <Typography variant="subtitle1">{authors.join(', ')}</Typography>
-    <Button variant="contained" color="primary" href="https://arxiv.org/pdf/2403.03017.pdf" target="_blank">View PDF</Button>
+    <Box>
+      {authors.map((author, index) => (
+        <React.Fragment key={index}>
+          <Link href={createAuthorSearchURL(author)} color="primary" underline="hover" target="_blank">
+            {author}
+          </Link>
+          {index < authors.length - 1 ? ', ' : ''}
+        </React.Fragment>
+      ))}
+    </Box>
+    <Button variant="contained" color="primary" onClick={handleOpen}>View PDF</Button>
   </Box>
-);
+)};
 
 export default PaperEntryPage;

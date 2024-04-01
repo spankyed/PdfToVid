@@ -4,6 +4,8 @@ import { Paper } from '~/shared/utils/types';
 
 export const paperAtom = atom<Paper | null>(null);
 
+export const pdfModalOpen = atom(false);
+
 // export const fetchPaperAtom = atom(
 //   null,
 //   async (get, set, dateId) => {
