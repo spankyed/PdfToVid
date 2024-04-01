@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { Typography, Box, Tabs, Tab, Accordion, AccordionSummary, AccordionDetails, Grid, Select, 
-  MenuItem, Checkbox, TextField, Button, TextareaAutosize, CardMedia, FormControlLabel } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Typography, Box, Button } from '@mui/material';
 import { styled } from '@mui/material';
 import PageLayout from '~/shared/components/layout/page-layout';
-import PdfViewer from './pdf-viewer';
 import './paper-entry.css';
+import EntryTabs from './tabs';
 
-// EntryTitle Component
 const EntryTitleStyled = styled(Typography)(({ theme }) => ({
   // textAlign: 'center',
   fontWeight: 600,
@@ -20,6 +17,7 @@ const EntryTitleStyled = styled(Typography)(({ theme }) => ({
   position: 'relative', // Ensures the title overlays the background
   zIndex: 1, // Places the title above the background component
 }));
+
 const GradientBackground = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(4),
   marginTop: theme.spacing(2),
@@ -30,190 +28,6 @@ const GradientBackground = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(1),
 }));
-
-const EntryTitle: React.FC<{ title: string }> = ({ title }) => {
-  return (
-    <GradientBackground>
-      <EntryTitleStyled variant="h4" gutterBottom>
-        {title}
-      </EntryTitleStyled>
-    </GradientBackground>
-  );
-};
-
-// EntryAbstract Component
-const EntryAbstract: React.FC<{ abstract: string }> = ({ abstract }) => {
-  return <Typography variant="body1" paragraph>{abstract}</Typography>;
-}
-
-// EntryTabs Component
-const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
-  const [tabValue, setTabValue] = useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
-
-  return (
-    <Box>
-      <Tabs value={tabValue} onChange={handleChange}>
-        <Tab label="Generate" />
-        <Tab label="Prompts" />
-        <Tab label="Analytics" />
-        <Tab label="Pdf" />
-        {/* instead of integrate as separate tab, consider having in review section under meta */}
-      </Tabs>
-      {tabValue === 0 && <ReviewTab entry={entry} />}
-      {tabValue === 1 && <LearnTab entry={entry} />}  {/* prompts*/}
-      {tabValue === 2 && <div>empty</div>}
-      {tabValue === 3 && 
-        <div>
-          <PdfViewer url="https://arxiv.org/pdf/2403.03017.pdf" />
-        </div>
-      }
-    </Box>
-  );
-}
-
-// ReviewTab Component
-const ReviewTab: React.FC<{ entry: any }> = ({ entry }) => {
-  return (
-    <Box>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Metadata</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {/* Metadata Level Content */}
-          <Box>
-            <TextField fullWidth label="Video Title" value={entry.videoTitle} sx={{ marginTop: 3}}/>
-            <TextField fullWidth label="Keywords" value={entry.keywords} multiline sx={{ marginTop: 3, marginBottom: 3}} />
-            <TextField
-              fullWidth
-              label="Description"
-              multiline
-              rows={4}
-              variant="outlined"
-              value={entry.description}
-              sx={{ marginTop: 3}}
-            />
-          </Box>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Video</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {/* Video Level Content */}
-          <Box>
-            <TextField
-              fullWidth
-              label="Script"
-              multiline
-              minRows={5}
-              variant="outlined"
-              value={entry.videoScript}
-              sx={{ marginTop: 3}}
-            />
-            {/* Video Player Component */}
-          </Box>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Thumbnail</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {/* Thumbnail Level Content */}
-          <Grid container spacing={3} alignItems='center'>
-            <Grid item xs={6} container justifyContent="center">
-              <Box maxWidth="1280px" width="100%">
-                <CardMedia
-                  component="img"
-                  image={entry.thumbnailLarge}
-                  alt="Large Thumbnail"
-                  style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
-                />
-                <Box display="flex" justifyContent="space-between" marginTop={2}>
-                  <Select defaultValue={'white'}>
-                    <MenuItem value="white">White</MenuItem>
-                    <MenuItem value="black">Black</MenuItem>
-                    {/* Add more colors if needed */}
-                  </Select>
-                  {/* <Checkbox /> */}
-                  <FormControlLabel control={<Checkbox />} label="Seminal?" />
-                </Box>
-              </Box>
-            </Grid>
-            <Grid item xs={6} container direction="column" spacing={2}>
-              <Grid item container justifyContent="center">
-                <Box maxWidth="640px" width="100%">
-                  <Button>Reroll</Button>
-                  <CardMedia
-                    component="img"
-                    image={entry.thumbnailSmall1}
-                    alt="Small Thumbnail 1"
-                    style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
-                  />
-                  <TextField fullWidth label="Description"/>
-                </Box>
-              </Grid>
-              <Grid item container justifyContent="center">
-                <Box maxWidth="640px" width="100%">
-                  <Button>Reroll</Button>
-                  <CardMedia
-                    component="img"
-                    image={entry.thumbnailSmall2}
-                    alt="Small Thumbnail 2"
-                    style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
-                  />
-                  <TextField fullWidth label="Description"/>
-                </Box>
-              </Grid>
-            </Grid>
-          </Grid>
-        </AccordionDetails>
-      </Accordion>
-    </Box>
-  );
-}
-
-const LearnTab: React.FC<{ entry: any }> = ({ entry }) => {
-  // todo show video prompts, allow editing prompt (will update globally)
-    // dont ask again button
-  const [editablePromptIndex, setEditablePromptIndex] = useState<number | null>(null);
-
-  const handleEditClick = (index: number) => {
-    if (editablePromptIndex === index) {
-      setEditablePromptIndex(null); // Toggle off editing if clicked on the same prompt
-    } else {
-      setEditablePromptIndex(index); // Set the current prompt to be editable
-    }
-  };
-
-  return (
-    <Box sx={{ marginTop: 3 }}>
-      {entry.prompts.map((prompt: { question: string, answer: string }, index: number) => (
-        <Box key={index} marginBottom={2} sx={{ marginTop: 4 }}>
-          <Box display="flex" alignItems="center" marginBottom={1}>
-            <input 
-              type="text" 
-              value={prompt.question} 
-              readOnly={editablePromptIndex !== index} 
-              style={{ flex: 1, marginRight: '10px', padding: '5px', border: '1px solid #ccc', borderRadius: '4px' }}
-            />
-            <Button onClick={() => handleEditClick(index)}>Edit</Button>
-          </Box>
-          <p>{prompt.answer}</p>
-        </Box>
-      ))}
-      <Button sx={{ marginTop: 3 }}>Add New Prompt</Button>
-    </Box>
-  );
-}
-
-
 
 const Entry = {
   title: "Enhancing Trust in LLM-Based AI Automation Agents: New Considerations and Future Challenges",
@@ -244,20 +58,40 @@ const Entry = {
       question: "What is the main idea of this research?",
       answer: "The main idea of this research is to make process mining as easy to use as a GPS system."
     },
-  ]
+  ],
+  date: "March 31, 2024", // Example date
+  authors: ["Author One", "Author Two", "Author Three"], // Example authors
 }
-
 
 const PaperEntryPage: React.FC<{}> = () => {
   return (
     <PageLayout padding={3}>
       <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={3}>
+        <EntryDateAndAuthors date={Entry.date} authors={Entry.authors} />
         <EntryTitle title={Entry.title} />
-        <EntryAbstract abstract={Entry.abstract} />
+        <Typography variant="body1" paragraph>{Entry.abstract}</Typography>
       </Box>
       <EntryTabs entry={Entry} />
     </PageLayout>
   );
 }
+
+const EntryTitle: React.FC<{ title: string }> = ({ title }) => {
+  return (
+    <GradientBackground>
+      <EntryTitleStyled variant="h4" gutterBottom>
+        {title}
+      </EntryTitleStyled>
+    </GradientBackground>
+  );
+};
+
+const EntryDateAndAuthors: React.FC<{ date: string, authors: string[] }> = ({ date, authors }) => (
+  <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
+    <Typography variant="subtitle1" color="textSecondary">{date}</Typography>
+    <Typography variant="subtitle1">{authors.join(', ')}</Typography>
+    <Button variant="contained" color="primary" href="https://arxiv.org/pdf/2403.03017.pdf" target="_blank">View PDF</Button>
+  </Box>
+);
 
 export default PaperEntryPage;
