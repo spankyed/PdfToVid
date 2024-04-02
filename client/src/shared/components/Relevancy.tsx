@@ -1,6 +1,6 @@
 import { Paper } from '~/shared/utils/types';
 import { Tooltip } from "@mui/material";
-import { getColorShade } from '../utils/getColorShade';
+import { getColorShadeRedToGreen } from '../utils/getColorShade';
 
 function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React.ReactElement {
   return (
@@ -12,7 +12,7 @@ function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React
           height: '20px',
           borderRadius: '50%',
           border: '1px solid black',
-          backgroundColor: getColorShade(paper.relevancy),
+          backgroundColor: getColorShadeRedToGreen(paper.relevancy),
           display: 'inline-block',
           margin: margin || '0 .65em 0 0',
         }}

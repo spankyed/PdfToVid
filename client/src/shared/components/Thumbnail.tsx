@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Like from './like';
 import Relevancy from './relevancy';
-import { getColorShade } from '../utils/getColorShade';
+import { getColorShadeRedToGreen } from '../utils/getColorShade';
 
 // const colors = {
 //   0: 'rgba(237, 108, 3, 1)',
@@ -39,7 +39,7 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
         position: 'relative',
         width: '320px', 
         height: '180px',  
-        borderBottom: `10px solid ${getColorShade(paper.relevancy)}`,
+        borderBottom: `10px solid ${getColorShadeRedToGreen(paper.relevancy)}`,
         // boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none',
       }}
       className='thumb-img'

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Paper, Typography, Fade, Badge } from '@mui/material';
 import { styled } from '@mui/system';
-import { getColorShade } from '../../../shared/utils/getColorShade';
+import { getColorShadeRedToGreen } from '../../../shared/utils/getColorShade';
 import { useAtom } from 'jotai';
 import { anchorElAtom, isSummaryOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from './store';
 import { colors } from '~/shared/styles/theme';
@@ -23,7 +23,7 @@ const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
     top: padding,
     right: '50%',
     transform: 'translateX(50%) skewX(-5deg)',
-    backgroundColor: getColorShade(score),
+    backgroundColor: getColorShadeRedToGreen(score),
     color: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
     padding: '4px 8px',

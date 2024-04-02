@@ -1,14 +1,13 @@
 import React, { useMemo } from 'react';
 import { Typography, Box, Badge, styled } from '@mui/material';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
-import { getColorShade } from '~/shared/utils/getColorShade';
 
 const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   '& .MuiBadge-badge': {
     top: 8,
     right: '100%',
     transform: 'translateX(50%)',
-    backgroundColor: getColorShade(count / 90),
+    backgroundColor: 'rgb(32, 123, 145)',
     color: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
     padding: '4px 8px',
