@@ -6,21 +6,26 @@ export const paperAtom = atom<Paper | null>(null);
 
 export const pdfModalOpen = atom(false);
 
-// export const fetchPaperAtom = atom(
-//   null,
-//   async (get, set, dateId) => {
-//     if (!dateId) {
-//       console.error("Date not found", dateId);
-//       return;
-//     }
+export const pageState = atom('loading');
 
-//     try {
-//       const response = await api.getPapersByDate(dateId);
-//       const papers = response.data;
-//       set(paperAtom, { papers, state: 'complete' });
-//     } catch (error) {
-//       console.error("Failed to fetch papers for date", error);
-//       set(paperAtom, prev => ({ ...prev, state: 'error' }));
-//     }
-//   }
-// );
+export const fetchPaperAtom = atom(
+  null,
+  async (get, set, paperId) => {
+    if (!paperId) {
+      console.error("Paper id not provided", paperId);
+      return;
+    }
+    set(pageState, 'loading');
+
+    try {
+      const response = await api.getPaperById(paperId);
+      const paper = response.data;
+      console.log('paper fetched: ', paper);
+      set(paperAtom, paper);
+      set(pageState, 'ready');
+    } catch (error) {
+      console.error(`Failed to fetch paper with id: ${paperId}`, error);
+      set(pageState, 'error');
+    }
+  }
+);

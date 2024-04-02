@@ -3,13 +3,14 @@ import { pdfModalOpen } from '../store';
 import ModalWrapper from '~/shared/components/modal';
 import PdfViewer from './pdf-viewer';
 
-function PdfModal() {
+function PdfModal({ urlId }) {
   const [open, setOpen] = useAtom(pdfModalOpen);
   const handleClose = () => setOpen(false);
+  const url = `https://arxiv.org/pdf/${urlId}.pdf`;
 
   return (
       <ModalWrapper open={open} handleClose={handleClose} width={900}>
-        <PdfViewer url="https://arxiv.org/pdf/quant-ph/0410100.pdf" />
+        <PdfViewer url={url} />
       </ModalWrapper>
   );
 }

@@ -12,6 +12,7 @@ export const getCalendarModelData = () => axios.get(apiUrl + '/getCalendar');
 export const calendarLoadMore = (cursor) => axios.get(apiUrl + '/loadMore/' + cursor);
 export const calendarLoadMonth = (cursor) => axios.get(apiUrl + '/loadMonth/' + cursor);
 export const getPapersByDate = (date) => axios.get(apiUrl + '/papersByDate/' + date);
+export const getPaperById = (paperId) => axios.get(apiUrl + '/paperById/' + paperId);
 // post
 export const resetDateStatus = (date) => axios.post(apiUrl + '/reset/' + date);
 export const scrapeDate = (date) => axios.post(apiUrl + '/scrape/' + date);

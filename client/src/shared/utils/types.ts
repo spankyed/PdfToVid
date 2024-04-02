@@ -20,7 +20,7 @@ export interface Paper {
   title: string;
   abstract: string;
   pdfLink: string;
-  authors: string[];
+  authors: string;
   status: number;
   relevancy: number;
   liked: boolean;

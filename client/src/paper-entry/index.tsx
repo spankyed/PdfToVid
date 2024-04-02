@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Box, Button, Link } from '@mui/material';
 import { styled } from '@mui/material';
 import PageLayout from '~/shared/components/layout/page-layout';
 import './paper-entry.css';
 import EntryTabs from './tabs';
 import { useAtom } from 'jotai';
-import { pdfModalOpen } from './store';
+import { fetchPaperAtom, paperAtom, pdfModalOpen } from './store';
 import PdfModal from './pdf/modal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
+
+const orEmpty = (value: string | undefined) => value || '';
 
 const EntryTitleStyled = styled(Typography)(({ theme }) => ({
   // textAlign: 'center',
@@ -26,6 +28,7 @@ const EntryTitleStyled = styled(Typography)(({ theme }) => ({
 const GradientBackground = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(4),
   marginTop: theme.spacing(2),
+  minHeight: '5rem',
   // background: 'linear-gradient(135deg, #222222 50%, #B4191C 50%)',
   background: 'linear-gradient(135deg, #B4191C 50%, #222222 50%)',
   // background: 'linear-gradient(to right, #B4191C 50%, #222222 50%)',
@@ -69,27 +72,41 @@ const Entry = {
 }
 
 const PaperEntryPage: React.FC<{}> = () => {
+  let { paperId } = useParams<{ paperId: string }>();
+  paperId = orEmpty(paperId);
+
+  const [, fetchData] = useAtom(fetchPaperAtom);
+  const [paper] = useAtom(paperAtom);
+  const authors = paper?.authors.split(';').map(p => p.trim()) || [];
+
+  useEffect(() => {
+    fetchData(paperId);
+  }, [fetchData]);
+  
   return (
     <PageLayout padding={3}>
       <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={3}>
-        <DateAndAuthors date={Entry.date} authors={Entry.authors} />
-        <EntryTitle title={Entry.title} />
-        <Typography variant="body1" paragraph>{Entry.abstract}</Typography>
+        <DateAndAuthors date={paper?.date} authors={authors} />
+        <EntryTitle title={paper?.title} />
+        <Typography variant="body1" paragraph>{orEmpty(paper?.abstract)}</Typography>
       </Box>
       <EntryTabs entry={Entry} />
 
-      <PdfModal />
+      <PdfModal urlId={paper?.id}/>
 
     </PageLayout>
   );
 }
 
-const EntryTitle: React.FC<{ title: string }> = ({ title }) => {
+const EntryTitle: React.FC<{ title?: string }> = ({ title }) => {
   return (
     <GradientBackground>
-      <EntryTitleStyled variant="h4" gutterBottom>
-        {title}
-      </EntryTitleStyled>
+      { title && (
+        <EntryTitleStyled variant="h4" gutterBottom>
+          {title}
+        </EntryTitleStyled>
+        )
+      }
     </GradientBackground>
   );
 };
@@ -101,39 +118,42 @@ const createAuthorSearchURL = (authorName) => {
   return `https://arxiv.org/search/cs?searchtype=author&query=${query}`;
 };
 
-const DateAndAuthors: React.FC<{ date: string, authors: string[] }> = ({ date, authors }) => {
+const DateAndAuthors: React.FC<{ date?: string, authors: string[] }> = ({ date, authors }) => {
   const navigate = useNavigate();
   const [, setOpen] = useAtom(pdfModalOpen);
 
   const handleOpen = () => setOpen(true);
 
-  
   const onDateClick = date => e => {
     navigate(`/date/${date}`);
   }
 
-  const formattedDate = formatDate(date, {
+  const formattedDate = formatDate(date || '', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
 
   return (
-  <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
-    <Typography variant="subtitle1" color="textSecondary" onClick={onDateClick(date)}
-      style={{ cursor: 'pointer' }}>{formattedDate}</Typography>
-    <Box>
-      {authors.map((author, index) => (
-        <React.Fragment key={index}>
-          <Link href={createAuthorSearchURL(author)} color="primary" underline="hover" target="_blank">
-            {author}
-          </Link>
-          {index < authors.length - 1 ? ', ' : ''}
-        </React.Fragment>
-      ))}
+    <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
+      { date && (
+          <Typography variant="subtitle1" color="textSecondary" onClick={onDateClick(date)}
+          style={{ cursor: 'pointer' }}>{formattedDate}</Typography>
+        )
+      }
+      <Box>
+        {authors.map((author, index) => (
+          <React.Fragment key={index}>
+            <Link href={createAuthorSearchURL(author)} color="primary" underline="hover" target="_blank">
+              {author}
+            </Link>
+            {index < authors.length - 1 ? ', ' : ''}
+          </React.Fragment>
+        ))}
+      </Box>
+      <Button variant="contained" color="primary" onClick={handleOpen}>View PDF</Button>
     </Box>
-    <Button variant="contained" color="primary" onClick={handleOpen}>View PDF</Button>
-  </Box>
-)};
+  )
+};
 
 export default PaperEntryPage;
