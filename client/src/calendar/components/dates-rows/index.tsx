@@ -15,9 +15,7 @@ function DateRows(): React.ReactElement {
   const dbCursor = useAtomValue(datesAtoms[datesAtoms.length - 1])
   const datesLength = datesAtoms.length;
 
-  useEffect(() => {
-    return () => setSummaryOpen(false);
-  }, []);
+  useEffect(() => () => setSummaryOpen(false), []); // Close the summary popover on unmount
 
   useEffect(() => {
     const scrollableElement = scrollableContainerRef?.current;
