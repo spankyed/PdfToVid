@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import { pdfModalOpen } from '../store';
+import { pdfModalOpen } from '../../store';
 import ModalWrapper from '~/shared/components/modal';
 import PdfViewer from './pdf-viewer';
 
