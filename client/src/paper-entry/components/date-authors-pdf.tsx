@@ -35,7 +35,7 @@ const DateAuthorsPdf: React.FC<{ date?: string, authors: string[] }> = ({ date, 
           style={{ cursor: 'pointer' }}>{formattedDate}</Typography>
         )
       }
-      <Box>
+      <Box sx={{ maxWidth: '80%' }}>
         {authors.map((author, index) => (
           <React.Fragment key={index}>
             <Link href={createAuthorSearchURL(author)} color="primary" underline="hover" target="_blank">
