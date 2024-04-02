@@ -1,17 +1,12 @@
-import { getDateEntry } from './date-entry/controller';
 import { getDates, updateStatus } from './sidebar-dates/controller';
 import calendarRoutes from './calendar/controller';
 import paperEntryRoutes from './paper-entry/controller';
+import dateEntryRoutes from './date-entry/controller';
 
 const clientRoutes = [
   ...calendarRoutes,
+  ...dateEntryRoutes,
   ...paperEntryRoutes,
-  // fetch papers for date
-  {
-    method: 'GET',
-    path: '/papersByDate/{date}',
-    handler: getDateEntry
-  },
   {
     method: 'GET',
     path: '/getDates',
