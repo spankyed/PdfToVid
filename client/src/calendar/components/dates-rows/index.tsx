@@ -5,13 +5,19 @@ import SummaryPopover from '~/calendar/components/summary/summary';
 import { calendarLoadMoreAtom, calendarModelAtom, scrollableContainerRefAtom } from '../../store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 import RowItem from './row-item';
+import { isSummaryOpenAtom } from '../summary/store';
 
 function DateRows(): React.ReactElement {
   const datesAtoms = useAtomValue(calendarModelAtom);
   const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
+  const [, setSummaryOpen] = useAtom(isSummaryOpenAtom);
 
   const dbCursor = useAtomValue(datesAtoms[datesAtoms.length - 1])
   const datesLength = datesAtoms.length;
+
+  useEffect(() => {
+    return () => setSummaryOpen(false);
+  }, []);
 
   useEffect(() => {
     const scrollableElement = scrollableContainerRef?.current;
