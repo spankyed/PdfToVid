@@ -22,8 +22,7 @@ function DateEntryPage(): React.ReactElement {
     fetchData(dateId);
   }, [fetchData]);
   
-  const { papers, state } = datePage;
-  // const { papers, state } = { state: 'complete', papers: [] as Paper[]};
+  const { papers, state: dateState } = datePage;
 
   const componentsByState = {
     'pending': <Empty date={dateId}/>,
@@ -35,7 +34,7 @@ function DateEntryPage(): React.ReactElement {
   return (
     <PageLayout padding={3} style={{ marginTop: 3, margin: '0 auto'}}>
       <PageTitle date={dateId} count={papers.length} />
-      {componentsByState[state]}
+      {componentsByState[dateState]}
     </PageLayout>
   );
 }
