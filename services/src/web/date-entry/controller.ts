@@ -1,4 +1,4 @@
-import * as repository from '../sidebar-dates/repository';
+import * as repository from '../shared/repository';
 import { route } from '../../shared/route';
 
 export default [

@@ -2,7 +2,7 @@ import * as repository from './repository';
 import { WorkerPath, MaintenancePath } from "../../shared/constants";
 import createRequest from "../../shared/request";
 import * as sharedRepository from "../../shared/repository";
-import { groupDatesByMonth } from '../sidebar-dates/transform';
+import { groupDatesByMonth } from '../shared/transform';
 import { mapRecordsToModel } from './transform';
 import { route } from '../../shared/route';
 import { calendarPageSize } from './repository';

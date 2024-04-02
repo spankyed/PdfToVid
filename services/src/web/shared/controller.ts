@@ -1,6 +1,13 @@
 import { io } from "..";
 import * as repository from './repository';
 import { groupDatesByMonth } from "./transform";
+import { route } from '../../shared/route';
+
+export default [
+  route.get('/getDates', getDates),
+  route.post('/work-status/{type}', updateStatus),
+]
+
 // async function checkStatus(request, h) {
 //   const status = {
 //       current: string;
@@ -25,7 +32,6 @@ function getDates(request: any, h: any){
   });
 }
 
-
 async function updateStatus(request, h) {
   const type = request.params.type;
   const { key, status, data, final } = request.payload;
@@ -37,9 +43,4 @@ async function updateStatus(request, h) {
   io.emit('date_status', { type, key, status, data, final });
 
   return h.response({ status: 'success' }).code(200);
-}
-
-export {
-  getDates,
-  updateStatus
 }
