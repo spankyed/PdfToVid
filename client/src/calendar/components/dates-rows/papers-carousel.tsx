@@ -3,7 +3,7 @@ import {  Button, Pagination,  } from '@mui/material';
 import Thumbnail from '~/shared/components/thumbnail';
 import { Paper } from '~/shared/utils/types';
 import { useAtom } from 'jotai';
-import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from '../summary/store';
+import { anchorElAtom, isSummaryOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from '../summary/store';
 import { resetDateStatusAtom } from '../../store';
 
 function List({ papers, date }: { papers: Paper[]; date: string }): React.ReactElement {
@@ -79,7 +79,7 @@ function Carousel({ papers, imagesPerPage, previousPage, currentPage }) {
 
 function PaperTile({ paper, currentPage, previousPage, imagesPerPage, index }) {
   const [, setAnchorEl] = useAtom(anchorElAtom);
-  const [, setIsOpen] = useAtom(isOpenAtom);
+  const [, setIsOpen] = useAtom(isSummaryOpenAtom);
   const [popoverRef] = useAtom(popoverRefAtom);
   const [, setPaperTarget] = useAtom(popoverTargetAtom);
   const [hoverTimeout, setHoverTimeout] = useAtom(hoverTimeoutAtom);

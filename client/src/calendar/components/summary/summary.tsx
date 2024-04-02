@@ -3,7 +3,7 @@ import { Paper, Typography, Fade, Badge } from '@mui/material';
 import { styled } from '@mui/system';
 import { getColorShade } from '../../../shared/utils/getColorShade';
 import { useAtom } from 'jotai';
-import { anchorElAtom, isOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from './store';
+import { anchorElAtom, isSummaryOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from './store';
 import { colors } from '~/shared/styles/theme';
 
 const padding = -8;
@@ -36,7 +36,7 @@ const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
 }));
 
 const SummaryPopover: React.FC = () => {
-  const [isOpen, setIsOpen] = useAtom(isOpenAtom);
+  const [isOpen, setIsOpen] = useAtom(isSummaryOpenAtom);
   const [anchorEl] = useAtom(anchorElAtom);
   const [popoverRef, setPopoverRefAtom] = useAtom(popoverRefAtom);
   const [paper] = useAtom(popoverTargetAtom);
