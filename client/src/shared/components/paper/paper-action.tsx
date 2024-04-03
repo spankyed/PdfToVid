@@ -2,11 +2,10 @@ import React from 'react';
 import { Tooltip, Button } from '@mui/material';
 import { PaperState } from '../../utils/types';
 
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import ArticleIcon from '@mui/icons-material/Article';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import PublishIcon from '@mui/icons-material/Publish';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 const PaperAction = ({ state }) => {
   const renderAction = () => {
@@ -31,4 +30,13 @@ const PaperAction = ({ state }) => {
   );
 };
 
+const RejectAction = () => (
+  <Button>
+    <Tooltip title='Reject'>
+      <ClearOutlinedIcon color='error' style={{ marginRight: '4px' }}/>
+    </Tooltip>
+  </Button>
+);
+
+export { RejectAction };
 export default PaperAction;

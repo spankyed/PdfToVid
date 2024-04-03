@@ -6,12 +6,10 @@ import { Paper, PaperState } from '~/shared/utils/types';
 import Favorite from '~/shared/components/paper/favorite';
 import Relevancy from '~/shared/components/paper/relevancy';
 import { paperStates } from '~/shared/utils/paperStates';
-import PaperAction from '~/shared/components/paper/paper-action';
+import PaperAction, { RejectAction } from '~/shared/components/paper/paper-action';
 
 // import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-
 
 const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
   const statusType = (paper: Paper) => paperStates[paper.status]
@@ -81,11 +79,7 @@ const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
                   </Button>
                   {
                     showReject(paper) && (
-                      <Button>
-                        <Tooltip title='Reject'>
-                          <ClearOutlinedIcon color='error' style={{ marginRight: '4px' }}/>
-                        </Tooltip>
-                      </Button>
+                      <RejectAction/>
                     )
                   }
                 </ButtonGroup>

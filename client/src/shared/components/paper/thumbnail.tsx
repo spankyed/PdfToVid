@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { Paper } from '~/shared/utils/types';
+import { Paper, PaperState } from '~/shared/utils/types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Favorite from './favorite';
 // import Relevancy from '../relevancy';
 import { getColorShadeRedToGreen } from '../../utils/getColorShade';
 import { getThumbnailUrl } from '~/shared/utils/getThumbnailUrl';
-import PaperAction from './paper-action';
+import PaperAction, { RejectAction } from './paper-action';
 
 // const colors = {
 //   0: 'rgba(237, 108, 3, 1)',
@@ -60,8 +60,8 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
   )
 }
 function Actions ({ paper }: { paper: Paper }): React.ReactElement {
-  const isUploaded = (paper: Paper) => paper.status === 3
-  const hideDelete = (paper: Paper) => isUploaded(paper) || paper.status === 0
+  const notUploaded = (paper: Paper) => paper.status !== PaperState.published
+  const showReject = (paper: Paper) => paper.status === PaperState.approved
   
   const onViewClick = (e) => {
     e.stopPropagation()
@@ -93,20 +93,16 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
           </Tooltip>
         </Button>
       {
-        !isUploaded(paper) && (
+        // notUploaded(paper) && (
           <>
             <PaperAction state={paper.status} />
           {
-            paper.status !== 0 && (
-              <Button disabled={hideDelete(paper)}>
-                <Tooltip title='Delete'>
-                  <DeleteIcon color={hideDelete(paper) ? undefined : 'error'} style={{ marginRight: '4px' }}/>
-                </Tooltip>
-              </Button>
+            showReject(paper) && (
+              <RejectAction/>
             )
           }
           </>
-        )
+        // )
       }
       </ButtonGroup>
     </>
@@ -142,10 +138,9 @@ function PaperTitle ({ paper }: { paper: Paper }): React.ReactElement {
     }}>
 
       {/* <Relevancy paper={paper}/> */}
-
-        <span>
-          {paper.title}
-        </span>
+      <span>
+        {paper.title}
+      </span>
     </div>
   )
 }
