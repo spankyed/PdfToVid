@@ -5,8 +5,8 @@ import { Table, TableBody, TableCell,
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Paper, PaperState } from '~/shared/utils/types';
-import Like from '~/shared/components/like';
-import Relevancy from '~/shared/components/relevancy';
+import Like from '~/shared/components/paper/like';
+import Relevancy from '~/shared/components/paper/relevancy';
 
 // import SearchIcon from '@mui/icons-material/Search';
 

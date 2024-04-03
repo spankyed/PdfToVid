@@ -1,6 +1,6 @@
 import { Paper } from '~/shared/utils/types';
 import { Tooltip } from "@mui/material";
-import { getColorShadeRedToGreen } from '../utils/getColorShade';
+import { getColorShadeRedToGreen } from '../../utils/getColorShade';
 
 function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React.ReactElement {
   return (

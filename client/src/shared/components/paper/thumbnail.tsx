@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Paper } from '~/shared/utils/types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import Like from '../like';
+import Like from './like';
 // import Relevancy from '../relevancy';
 import { getColorShadeRedToGreen } from '../../utils/getColorShade';
 import { getThumbnailUrl } from '~/shared/utils/getThumbnailUrl';
