@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Paper } from '~/shared/utils/types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import Like from './like';
+import Favorite from './favorite';
 // import Relevancy from '../relevancy';
 import { getColorShadeRedToGreen } from '../../utils/getColorShade';
 import { getThumbnailUrl } from '~/shared/utils/getThumbnailUrl';
@@ -86,7 +86,7 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
           borderBottomRightRadius: '4px',
         }}
       >
-        <Like paper={paper}/>
+        <Favorite paper={paper}/>
         <Button onClick={onViewClick}>
           <Tooltip title='View on Arxiv'>
             <VisibilityIcon color="info" style={{ marginRight: '4px' }} />

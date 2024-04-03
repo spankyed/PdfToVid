@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Table, TableBody, TableCell, 
   TableContainer, TableHead, TableRow, Button, Grid, Card, CardMedia, CardActions, TextField, Chip, Fab, ButtonGroup, Tooltip } from '@mui/material';
 import { Paper, PaperState } from '~/shared/utils/types';
-import Like from '~/shared/components/paper/like';
+import Favorite from '~/shared/components/paper/favorite';
 import Relevancy from '~/shared/components/paper/relevancy';
 import { paperStates } from '~/shared/utils/paperStates';
 import PaperAction from '~/shared/components/paper/paper-action';
@@ -56,7 +56,7 @@ const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
                 </Link>
               </TableCell>
               <TableCell align="center">
-                <Like paper={paper}/>
+                <Favorite paper={paper}/>
               </TableCell>
               <TableCell align="center">
                 <Chip 

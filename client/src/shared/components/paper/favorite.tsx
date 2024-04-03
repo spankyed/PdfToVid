@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-function Like ({ paper }: { paper: any }): React.ReactElement {
+function Favorite ({ paper }: { paper: any }): React.ReactElement {
   return (
     <Button>
       {/* <Fab aria-label="like">
@@ -25,4 +25,4 @@ function Like ({ paper }: { paper: any }): React.ReactElement {
   )
 }
 
-export default Like;
+export default Favorite;
