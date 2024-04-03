@@ -1,3 +1,10 @@
+export enum PaperState {
+  discarded = 0,
+  scraped = 1,
+  generated = 2,
+  uploaded = 3
+}
+
 export type DateStatus = 'pending' | 'scraping' | 'ranking' | 'complete' | 'error';
 
 export interface DatesRow {

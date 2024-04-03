@@ -4,15 +4,18 @@ import { Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Button, Grid, Card, CardMedia, CardActions, TextField, Chip, Fab, ButtonGroup, Tooltip } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Paper } from '~/shared/utils/types';
-import { paperStates } from '~/shared/utils/constants';
+import { Paper, PaperState } from '~/shared/utils/types';
 import Like from '~/shared/components/like';
 import Relevancy from '~/shared/components/relevancy';
+
 // import SearchIcon from '@mui/icons-material/Search';
+
+import { paperStates } from '~/shared/utils/paperStates';
+import PaperAction from '~/shared/components/paper/paper-action';
 
 
 const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
-  const statusFrom = (paper: Paper) => paperStates[paper.status]
+  const statusType = (paper: Paper) => paperStates[paper.status]
   const isUploaded = (paper: Paper) => paper.status === 3
   const hideDelete = (paper: Paper) => isUploaded(paper) || paper.status === 0
   
@@ -58,20 +61,16 @@ const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
               </TableCell>
               <TableCell align="center">
                 <Chip 
-                  label={statusFrom(paper).label} 
-                  color={statusFrom(paper).color} 
-                  title={statusFrom(paper).title}
+                  label={statusType(paper).label} 
+                  color={statusType(paper).color} 
+                  title={statusType(paper).title}
                 />
               </TableCell>
               <TableCell align="right">
                 <ButtonGroup variant="text" aria-label="paper actions">
                   {
                     !isUploaded(paper) && (
-                      <Button>
-                        <Tooltip title={statusFrom(paper).action}>
-                          {statusFrom(paper).icon}
-                        </Tooltip>
-                      </Button>
+                      <PaperAction state={paper.status} />
                     )
                   }
                   <Button>

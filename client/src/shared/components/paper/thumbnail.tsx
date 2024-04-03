@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Paper } from '~/shared/utils/types';
-import { getThumbnailUrl, paperStates } from '../utils/constants';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import Like from './like';
-import Relevancy from './relevancy';
-import { getColorShadeRedToGreen } from '../utils/getColorShade';
+import Like from '../like';
+// import Relevancy from '../relevancy';
+import { getColorShadeRedToGreen } from '../../utils/getColorShade';
+import { getThumbnailUrl } from '~/shared/utils/getThumbnailUrl';
+import PaperAction from './paper-action';
 
 // const colors = {
 //   0: 'rgba(237, 108, 3, 1)',
@@ -59,7 +60,6 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
   )
 }
 function Actions ({ paper }: { paper: Paper }): React.ReactElement {
-  const statusFrom = (paper: Paper) => paperStates[paper.status]
   const isUploaded = (paper: Paper) => paper.status === 3
   const hideDelete = (paper: Paper) => isUploaded(paper) || paper.status === 0
   
@@ -68,7 +68,6 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
 
     window.open(`https://arxiv.org/abs/${paper.id}`, '_blank')
   }
-
 
   return (
     <>
@@ -96,11 +95,7 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
       {
         !isUploaded(paper) && (
           <>
-            <Button>
-              <Tooltip title={statusFrom(paper).action}>
-                {statusFrom(paper).icon}
-              </Tooltip>
-            </Button>
+            <PaperAction state={paper.status} />
           {
             paper.status !== 0 && (
               <Button disabled={hideDelete(paper)}>
@@ -117,22 +112,22 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
     </>
   )
 }
-function LikeBtn ({ paper }: { paper: Paper }): React.ReactElement {
-  return (
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      // padding: '8px',
-      // backgroundColor: 'rgba(0, 0, 0, 0.6)', // Translucent black background
-      color: 'white',
-      // textAlign: 'center',
-      // borderBottomLeftRadius: '4px',
-      // borderBottomRightRadius: '4px',
-    }}>
-    </div>
-  )
-}
+// function LikeBtn ({ paper }: { paper: Paper }): React.ReactElement {
+//   return (
+//     <div style={{
+//       position: 'absolute',
+//       top: 0,
+//       left: 0,
+//       // padding: '8px',
+//       // backgroundColor: 'rgba(0, 0, 0, 0.6)', // Translucent black background
+//       color: 'white',
+//       // textAlign: 'center',
+//       // borderBottomLeftRadius: '4px',
+//       // borderBottomRightRadius: '4px',
+//     }}>
+//     </div>
+//   )
+// }
 function PaperTitle ({ paper }: { paper: Paper }): React.ReactElement {
   return (
     <div style={{
@@ -151,8 +146,6 @@ function PaperTitle ({ paper }: { paper: Paper }): React.ReactElement {
         <span>
           {paper.title}
         </span>
-
-
     </div>
   )
 }
