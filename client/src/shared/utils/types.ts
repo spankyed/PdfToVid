@@ -1,8 +1,9 @@
 export enum PaperState {
-  discarded = 0,
-  scraped = 1,
+  pending = 0,
+  approved = 1,
   generated = 2,
-  uploaded = 3
+  published = 3
+  // pendingApproval = 4,
 }
 
 export type DateStatus = 'pending' | 'scraping' | 'ranking' | 'complete' | 'error';

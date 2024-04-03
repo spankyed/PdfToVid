@@ -2,22 +2,21 @@ import React, { useContext, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableCell, 
   TableContainer, TableHead, TableRow, Button, Grid, Card, CardMedia, CardActions, TextField, Chip, Fab, ButtonGroup, Tooltip } from '@mui/material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Paper, PaperState } from '~/shared/utils/types';
 import Like from '~/shared/components/paper/like';
 import Relevancy from '~/shared/components/paper/relevancy';
-
-// import SearchIcon from '@mui/icons-material/Search';
-
 import { paperStates } from '~/shared/utils/paperStates';
 import PaperAction from '~/shared/components/paper/paper-action';
+
+// import SearchIcon from '@mui/icons-material/Search';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 
 const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
   const statusType = (paper: Paper) => paperStates[paper.status]
-  const isUploaded = (paper: Paper) => paper.status === 3
-  const hideDelete = (paper: Paper) => isUploaded(paper) || paper.status === 0
+  const notUploaded = (paper: Paper) => paper.status !== PaperState.published
+  const showReject = (paper: Paper) => paper.status === PaperState.approved
   
   return (
     <TableContainer sx={{ marginTop: 3, margin: '0 auto' }}>
@@ -27,7 +26,7 @@ const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
             <TableCell align="left">Paper Title</TableCell>
             <TableCell align="left"></TableCell>
             <TableCell align="center">Status</TableCell>
-            <TableCell align="right" style={{ paddingRight: '5em' }}>Actions</TableCell>
+            <TableCell align="right" style={{ paddingRight: '3em' }}>Actions</TableCell>
           </TableRow>
         </TableHead>
 
@@ -69,9 +68,9 @@ const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
               <TableCell align="right">
                 <ButtonGroup variant="text" aria-label="paper actions">
                   {
-                    !isUploaded(paper) && (
+                    // notUploaded(paper) && (
                       <PaperAction state={paper.status} />
-                    )
+                    // )
                   }
                   <Button>
                     <Tooltip title='View'>
@@ -80,11 +79,15 @@ const PapersTable: React.FC<{ papers: Paper[] }> = ({ papers }) => {
                       </Link>
                     </Tooltip>
                   </Button>
-                  <Button disabled={hideDelete(paper)}>
-                    <Tooltip title='Delete'>
-                      <DeleteIcon color={hideDelete(paper) ? undefined : 'error'} style={{ marginRight: '4px' }}/>
-                    </Tooltip>
-                  </Button>
+                  {
+                    showReject(paper) && (
+                      <Button>
+                        <Tooltip title='Reject'>
+                          <ClearOutlinedIcon color='error' style={{ marginRight: '4px' }}/>
+                        </Tooltip>
+                      </Button>
+                    )
+                  }
                 </ButtonGroup>
               </TableCell>
             </TableRow>

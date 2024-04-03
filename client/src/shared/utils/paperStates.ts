@@ -1,20 +1,21 @@
 import { PaperState } from '~/shared/utils/types';
 
 export const paperStates = {
-  [PaperState.discarded]: {
-    label: 'discarded',
-    color: 'warning',
+  [PaperState.pending]: {
+    label: 'pending',
+    color: 'primary',
+    // color: undefined,
   },
-  [PaperState.scraped]: {
-    label: 'scraped',
-    color: undefined,
+  [PaperState.approved]: {
+    label: 'approved',
+    color: 'success',
   },
   [PaperState.generated]: {
     label: 'generated',
-    color: 'success',
+    color: 'warning',
   },
-  [PaperState.uploaded]: {
-    label: 'uploaded',
+  [PaperState.published]: {
+    label: 'published',
     color: 'secondary',
   },
 }
