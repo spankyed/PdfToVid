@@ -36,13 +36,13 @@ const scrapeAndRankPapers = async (date: string) => {
   await webService.post(`work-status/dates`, { key: date, status: 'ranking'})
 
   const rankedPapers = await getRelevancyScores(papers);
-  const mPapers = rankedPapers.map((p) => ({ 
-    ...p,
+  const paperRecords = rankedPapers.map((paper) => ({ 
+    ...paper,
     date: date,
-    status: 0 
+    status: 0
   }));
 
-  const sortedPapers = mPapers.sort((a, b) => b.relevancy - a.relevancy);
+  const sortedPapers = paperRecords.sort((a, b) => b.relevancy - a.relevancy);
   
   console.log('Papers ranked, storing papers in DB...');
 
