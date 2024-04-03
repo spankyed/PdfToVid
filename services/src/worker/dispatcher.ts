@@ -9,14 +9,6 @@ import scrapeAndRankPapers from './controllers/scrape';
 // save to flat db for review
 // upload to youtube
 
-// const PaperState = t.keyof({
-//   DISCARDED: null,
-//   SCRAPED: null,
-//   GENERATED: null,
-//   UNFINALIZED: null,
-//   UPLOADED: null,
-// });
-
 export default {
   scrape: async ({ date }) => {
     scrapeAndRankPapers(date);
