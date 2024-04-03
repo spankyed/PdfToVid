@@ -86,7 +86,7 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
           borderBottomRightRadius: '4px',
         }}
       >
-        <Like paper={paper} allRed={true}/>
+        <Like paper={paper}/>
         <Button onClick={onViewClick}>
           <Tooltip title='View on Arxiv'>
             <VisibilityIcon color="info" style={{ marginRight: '4px' }} />

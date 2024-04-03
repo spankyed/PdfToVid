@@ -1,9 +1,11 @@
 import { Button } from "@mui/material";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Paper } from '~/shared/utils/types';
+// import { Paper } from '~/shared/utils/types';
 
-function Like ({ paper, allRed }: { paper: any, allRed?: boolean }): React.ReactElement {
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+function Like ({ paper }: { paper: any }): React.ReactElement {
   return (
     <Button>
       {/* <Fab aria-label="like">
@@ -15,9 +17,9 @@ function Like ({ paper, allRed }: { paper: any, allRed?: boolean }): React.React
       </Fab> */}
       {
         // paper.liked 
-        true
-          ? <FavoriteIcon color="error" />
-          : <FavoriteBorderIcon color={allRed ? 'error' : 'action'} />
+        false
+          ? <StarOutlinedIcon color="warning" />
+          : <StarBorderOutlinedIcon color='warning' />
       }
     </Button>
   )
