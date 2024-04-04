@@ -12,6 +12,7 @@ const style = {
   boxShadow: 24,
   p: 4,
   maxHeight: '98vh',
+  minHeight: '20vh',
   overflowY: 'auto',
 };
 
