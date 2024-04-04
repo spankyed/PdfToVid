@@ -55,7 +55,7 @@ export const calendarLoadMonthAtom = atom(
       const response = await api.calendarLoadMonth(date);
       const calendarModel = response.data as CalendarModel;
       set(calendarModelAtomBase, calendarModel);
-      // set(calendarStateAtom, 'ready');
+      set(calendarStateAtom, 'ready');
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
     } catch (error) {
       console.error("Failed to load more calendar dates", error);
