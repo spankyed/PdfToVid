@@ -28,7 +28,7 @@ const PaperEntryPage: React.FC<{}> = () => {
     <PageLayout padding={3}>
       <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={3}>
         <DateAuthorsPdf date={paper?.date} authors={authors} />
-        <PaperTitle title={paper?.title} />
+        <PaperTitle title={paper?.title} id={paper?.id}/>
         <Typography variant="body1" paragraph>
           {orEmpty(paper?.abstract)}
         </Typography>

@@ -27,9 +27,15 @@ const GradientBackground = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-const PaperTitle: React.FC<{ title?: string }> = ({ title }) => {
+const PaperTitle: React.FC<{ title?: string; id?: string }> = ({ title, id }) => {
+  const onTitleClick = (e) => {
+    e.stopPropagation()
+
+    window.open(`https://arxiv.org/abs/${id}`, '_blank')
+  }
+
   return (
-    <GradientBackground>
+    <GradientBackground onClick={onTitleClick} sx={{ cursor: 'pointer' }}>
       { title && (
         <EntryTitleStyled variant="h4" gutterBottom>
           {title}
