@@ -4,6 +4,8 @@ import { useAtom } from 'jotai';
 import { pdfModalOpen } from '../store';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
+import Favorite from '~/shared/components/paper/favorite';
+import { Paper } from '~/shared/utils/types';
 
 const createAuthorSearchURL = (authorName) => {
   const [lastName, firstName] = authorName.split(' ');
@@ -12,9 +14,12 @@ const createAuthorSearchURL = (authorName) => {
   return `https://arxiv.org/search/cs?searchtype=author&query=${query}`;
 };
 
-const DateAuthorsPdf: React.FC<{ date?: string, authors: string[] }> = ({ date, authors }) => {
+const DateAuthorsPdf: React.FC<{ paper: Paper | null }> = ({ paper }) => {
   const navigate = useNavigate();
   const [, setOpen] = useAtom(pdfModalOpen);
+
+  const { date, authors } = paper || {};
+  const authorsList = authors?.split(';').map(p => p.trim()) || [];
 
   const handleOpen = () => setOpen(true);
 
@@ -36,16 +41,19 @@ const DateAuthorsPdf: React.FC<{ date?: string, authors: string[] }> = ({ date, 
         )
       }
       <Box sx={{ maxWidth: '80%' }}>
-        {authors.map((author, index) => (
+        {authorsList.map((author, index) => (
           <React.Fragment key={index}>
             <Link href={createAuthorSearchURL(author)} color="primary" underline="hover" target="_blank">
               {author}
             </Link>
-            {index < authors.length - 1 ? ', ' : ''}
+            {index < authorsList.length - 1 ? ', ' : ''}
           </React.Fragment>
         ))}
       </Box>
-      <Button variant="contained" color="primary" onClick={handleOpen}>View PDF</Button>
+      <Box>
+        <Favorite paper={paper}/>
+        <Button variant="contained" color="primary" onClick={handleOpen}>View PDF</Button>
+      </Box>
     </Box>
   )
 };

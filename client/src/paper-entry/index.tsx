@@ -18,7 +18,6 @@ const PaperEntryPage: React.FC<{}> = () => {
 
   const [, fetchData] = useAtom(fetchPaperAtom);
   const [paper] = useAtom(paperAtom);
-  const authors = paper?.authors.split(';').map(p => p.trim()) || [];
 
   useEffect(() => {
     fetchData(paperId);
@@ -27,7 +26,7 @@ const PaperEntryPage: React.FC<{}> = () => {
   return (
     <PageLayout padding={3}>
       <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={3}>
-        <DateAuthorsPdf date={paper?.date} authors={authors} />
+        <DateAuthorsPdf paper={paper} />
         <PaperTitle title={paper?.title} id={paper?.id}/>
         <Typography variant="body1" paragraph>
           {orEmpty(paper?.abstract)}
