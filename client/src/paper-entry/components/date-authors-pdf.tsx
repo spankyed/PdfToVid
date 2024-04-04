@@ -37,10 +37,10 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | null }> = ({ paper }) => {
     <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
       { date && (
           <Typography variant="subtitle1" color="textSecondary" onClick={onDateClick(date)}
-          style={{ cursor: 'pointer' }}>{formattedDate}</Typography>
+          style={{ cursor: 'pointer', paddingRight: '1rem' }}>{formattedDate}</Typography>
         )
       }
-      <Box sx={{ maxWidth: '80%' }}>
+      <Box sx={{ maxWidth: '70%' }}>
         {authorsList.map((author, index) => (
           <React.Fragment key={index}>
             <Link href={createAuthorSearchURL(author)} color="primary" underline="hover" target="_blank">
@@ -50,7 +50,7 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | null }> = ({ paper }) => {
           </React.Fragment>
         ))}
       </Box>
-      <Box>
+      <Box sx={{ display: 'flex' }}>
         <Favorite paper={paper}/>
         <Button variant="contained" color="primary" onClick={handleOpen}>View PDF</Button>
       </Box>
