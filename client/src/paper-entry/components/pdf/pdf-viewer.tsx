@@ -10,12 +10,11 @@ const options = {
   standardFontDataUrl: '/standard_fonts/',
 };
 
-export default function PdfViewer({ url }) {
+export default function PdfViewer({ url, width }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
   function onDocumentLoadSuccess({ numPages }) {
-    console.log('onDocumentLoadSuccess: ');
     setNumPages(numPages);
   }
 
@@ -43,7 +42,7 @@ export default function PdfViewer({ url }) {
         onLoadSuccess={onDocumentLoadSuccess}
         options={options}
       >
-        <Page pageNumber={pageNumber} width={800} loading={<div>Loading...</div>}/>
+        <Page pageNumber={pageNumber} width={width} loading={<div>Loading...</div>}/>
       </Document>
       <Pagination
         pageNumber={pageNumber}
