@@ -33,7 +33,7 @@ function DateRows(): React.ReactElement {
     // scroll to the last element
     const scrollPosition = scrollableElement.scrollHeight;
     scrollableElement.scrollTo({ top: scrollPosition, behavior: 'smooth' });
-  }, [datesLength, dbCursor]);
+  }, [datesLength]);
   
   return (
     <>
