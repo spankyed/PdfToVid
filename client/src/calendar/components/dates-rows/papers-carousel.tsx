@@ -88,7 +88,14 @@ function PaperTile({ paper, currentPage, previousPage, imagesPerPage, index }) {
   const isOffscreen = !isCurrentPage && !isPreviousPage;
 
   const handleMouseOver = (paper) => (event: React.MouseEvent<HTMLElement>) => {
+    const is = tag => (event.target as HTMLElement).tagName === tag;
+    const ignore = is('BUTTON') || is('path') || is('svg');
+    
     if (hoverTimeout) clearTimeout(hoverTimeout);
+
+    if (ignore) {
+      return
+    };
     
     const target = event.currentTarget; // ! javascript :)
 
@@ -105,7 +112,7 @@ function PaperTile({ paper, currentPage, previousPage, imagesPerPage, index }) {
     if (hoverTimeout) clearTimeout(hoverTimeout);
 
     const relatedTarget = event.relatedTarget as HTMLElement;
-    if (!popoverRef?.contains(relatedTarget)) {
+    if (!relatedTarget || !popoverRef?.contains(relatedTarget)) {
       setIsOpen(false);
     }
   };
