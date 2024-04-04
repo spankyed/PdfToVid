@@ -37,7 +37,9 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | null }> = ({ paper }) => {
     <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
       { date && (
           <Typography variant="subtitle1" color="textSecondary" onClick={onDateClick(date)}
-          style={{ cursor: 'pointer', paddingRight: '1rem' }}>{formattedDate}</Typography>
+            style={{ cursor: 'pointer', paddingRight: '1rem' }}>
+            {formattedDate}
+          </Typography>
         )
       }
       <Box sx={{ maxWidth: '70%' }}>
