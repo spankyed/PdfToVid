@@ -5,12 +5,14 @@ import SearchAndActions from './search-actions';
 import PapersTable from './table';
 import { Paper } from '~/shared/utils/types';
 
-const MainTabs: React.FC<{ papers: Paper[] }> = ({ papers }) => {
+const MainTabs: React.FC<{ papers: Paper[]; isLoading?: boolean }> = ({ papers, isLoading = false }) => {
   const [tabValue, setTabValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
+
+  // todo if isLoading, show placeholder records
 
   return (
     <Box>

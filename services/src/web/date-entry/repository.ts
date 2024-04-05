@@ -1,8 +1,12 @@
 import { DatesTable, PapersTable } from "../../shared/schema";
-import { Sequelize, DataTypes, Op } from 'sequelize';
 
-type DateInput = string | string[];
-
+function getDateByValue(value: string): Promise<any> {
+  return DatesTable.findOne({
+    where: { value },
+    raw: true,
+  });
+}
 
 export {
+  getDateByValue
 }

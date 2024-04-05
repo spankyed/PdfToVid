@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import { Typography, Box, Button } from '@mui/material';
 import { useAtom } from 'jotai';
-import { scrapePapersAtom } from './store';
+// import { scrapePapersAtom } from './store';
 // import { StoreContext } from '~/index';
 // import { StoreType } from '../store';
 
 
-function EmptyState({ date }: { date: string }): React.ReactElement {
+function EmptyState({ date, scrapeAtom }: { date: string; scrapeAtom: any }): React.ReactElement {
   // const store = useContext<StoreType>(StoreContext);
   // const { scrapePapers } = store.calendar;
 
-  const [, scrapePapers] = useAtom(scrapePapersAtom);
+  const [, scrapePapers] = useAtom(scrapeAtom);
 
   const scrape = () => {
     scrapePapers(date);

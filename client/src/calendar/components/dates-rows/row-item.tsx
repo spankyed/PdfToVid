@@ -7,9 +7,10 @@ import Ranking from '~/shared/components/ranking';
 import { formatDate } from '~/shared/utils/dateFormatter';
 import DatesPlaceholder from '../placeholder';
 import List from './papers-carousel';
-import EmptyState from '~/shared/components/empty/empty';
+import EmptyState from '~/shared/components/date/empty';
 import { useNavigate } from 'react-router-dom';
 import { selectedDateAtom } from '~/shared/store';
+import { scrapePapersAtom } from '~/calendar/store';
 
 function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow>; isFocalElement: boolean }): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
@@ -91,7 +92,7 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
 function Empty({ date }: { date: string }): React.ReactElement {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3} margin={3}>
-      <EmptyState date={date}/>
+      <EmptyState date={date} scrapeAtom={scrapePapersAtom}/>
     </Box>
   );
 }

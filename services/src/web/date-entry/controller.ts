@@ -1,15 +1,18 @@
-import * as repository from '../shared/repository';
+import * as sharedRepository from '../shared/repository';
+import * as repository from './repository';
 import { route } from '../../shared/route';
 
 export default [
-  route.get('/papersByDate/{date}', getDateEntry),
+  route.get('/getDateEntry/{dateId}', getDateEntry),
 ]
 
-// fetch papers for date
 function getDateEntry(request: any, h: any){
   return new Promise(async (resolve, reject) => {
-    const date = request.params.date;
-    const papers = await repository.getPapersByDates([date]);
-    resolve(papers)
+    const dateId = request.params.dateId;
+    const [date, papers] = await Promise.all([
+      repository.getDateByValue(dateId),
+      sharedRepository.getPapersByDates([dateId]),
+    ]);
+    resolve({ papers, date })
   });
 }
