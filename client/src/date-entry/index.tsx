@@ -43,7 +43,7 @@ function RenderByState({ dateId, papers }) {
 
   switch (state) {
     case 'loading':
-      return <MainTabs papers={papers} isLoading={true} />;
+      return <MainTabs isLoading={true} />;
     case 'error':
       return <div>Error: Date Not Found</div>;
     case 'unexpected':
