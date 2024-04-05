@@ -1,5 +1,4 @@
 export enum PaperState {
-  // pending = 0,
   initial = 0,
   approved = 1,
   generated = 2,
