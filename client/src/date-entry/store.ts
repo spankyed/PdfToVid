@@ -3,7 +3,7 @@ import * as api from '~/shared/api/fetch';
 import { Date } from '~/shared/utils/types';
 
 export const dateEntryStateAtom = atom<'loading' | 'complete' | 'error' | 'unexpected' | 'pending'>('loading');
-export const dateEntryScrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
+export const scrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
 
 export const dateEntryModelAtom = atom<{
   date: Date | null;
@@ -51,13 +51,13 @@ export const scrapePapersDateEntryAtom = atom(
   async (get, set, value) => {
     console.log('value: ', value);
     try {
-      set(dateEntryScrapingStateAtom, 'scraping');
+      set(scrapingStateAtom, 'scraping');
 
       await api.scrapeDate(value);
 
     } catch (error) {
       console.error("Scraping failed:", error);
-      set(dateEntryScrapingStateAtom, 'pending');
+      set(scrapingStateAtom, 'pending');
       set(dateEntryStateAtom, 'error');
     }
   }
