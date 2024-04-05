@@ -17,15 +17,15 @@ const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable })
         <TextField label="Search" variant="outlined" fullWidth />
       </Box>
       <Grid container spacing={2} justifyContent="flex-end">
-        <Grid item>
-          <Button variant="contained" color='warning'>Restore All</Button>
+        {/* <Grid item>
+          <Button variant="contained" color='success'>Approve All</Button>
         </Grid>
         <Grid item>
-          <Button variant="contained" color="success">Generate All</Button>
+          <Button variant="contained" color="secondary">Generate All</Button>
         </Grid>
         <Grid item>
-          <Button variant="contained" color="secondary">Upload All</Button>
-        </Grid>
+          <Button variant="contained" color="warning">Upload All</Button>
+        </Grid> */}
         {
           showingTable && (
             <Grid item>
