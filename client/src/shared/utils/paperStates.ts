@@ -1,8 +1,8 @@
 import { PaperState } from '~/shared/utils/types';
 
 export const paperStates = {
-  [PaperState.pending]: {
-    label: 'pending',
+  [PaperState.initial]: {
+    label: 'initial',
     color: 'primary',
     // color: undefined,
   },

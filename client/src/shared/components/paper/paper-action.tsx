@@ -10,11 +10,11 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 const PaperAction = ({ state }) => {
   const renderAction = () => {
     switch (state) {
-      case PaperState.pending:
+      case PaperState.initial:
         return <Tooltip title='Approve'><CheckOutlinedIcon color="warning" /></Tooltip>;
       case PaperState.approved:
         return <Tooltip title='Generate'><EditNoteOutlinedIcon color="success" /></Tooltip>;
-      case PaperState.generated:
+      case PaperState.generated: // consider a draft action instead of publish from generated status
         return <Tooltip title='Upload'><PublishIcon color="secondary" /></Tooltip>;
       case PaperState.published:
         return <div>View</div>; // Assuming no icon is needed for 'uploaded' state

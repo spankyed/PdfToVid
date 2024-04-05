@@ -1,8 +1,10 @@
 export enum PaperState {
-  pending = 0,
+  // pending = 0,
+  initial = 0,
   approved = 1,
   generated = 2,
-  // review = 2.5,
+  // draft = 2.5,
+  // eligible = 2.5,
   published = 3
 }
 
