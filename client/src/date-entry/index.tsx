@@ -46,7 +46,6 @@ function RenderByState({ dateId, pageModel }) {
   const setPapers = useSetAtom(setPapersAtom);
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data }) => {
-    setScrapeStatus(newStatus);
     if (newStatus === 'complete') {
       setPapers(data);
       if (data.length === 0) {
@@ -54,6 +53,9 @@ function RenderByState({ dateId, pageModel }) {
       } else {
         setPageState('complete');
       }
+      setScrapeStatus('pending'); // Reset the scrape status
+    } else {
+      setScrapeStatus(newStatus);
     }
   };
 
