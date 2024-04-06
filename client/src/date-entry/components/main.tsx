@@ -12,8 +12,6 @@ const MainTabs: React.FC<{ papers?: Paper[]; isLoading?: boolean }> = ({ papers 
     setTabValue(newValue);
   };
 
-  // todo if isLoading, show placeholder records
-
   return (
     <Box>
       <Tabs value={tabValue} onChange={handleChange}>

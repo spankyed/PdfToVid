@@ -1,16 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
-import { CalendarModel, DateRow } from '~/shared/utils/types';
+import { DateRow } from '~/shared/utils/types';
 import { PrimitiveAtom, useAtom, useAtomValue } from 'jotai';
-import Scraping from '~/shared/components/scraping';
-import Ranking from '~/shared/components/ranking';
 import { formatDate } from '~/shared/utils/dateFormatter';
-import DatesPlaceholder from '../placeholder';
 import List from './papers-carousel';
-import EmptyState from '~/shared/components/date/empty';
 import { useNavigate } from 'react-router-dom';
 import { selectedDateAtom } from '~/shared/store';
 import { scrapePapersAtom } from '~/calendar/store';
+import ScrapeStatus from '~/shared/components/date/scrape-status';
 
 function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow>; isFocalElement: boolean }): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
@@ -35,14 +32,6 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
 
     navigate(`/date/${date.value}`);
   }
-
-  const contentByStatus = {
-    pending: <Empty date={value} />,
-    scraping: <Scraping />,
-    ranking: <Ranking />,
-    complete: <List papers={papers} date={value} />,
-    noData: <DatesPlaceholder />,
-  };
 
   return (
     <Box 
@@ -82,17 +71,12 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
       >
         {reformatDateMemo(value)}
       </Typography>
-      {
-        contentByStatus[status]
-      }
-    </Box>
-  );
-}
 
-function Empty({ date }: { date: string }): React.ReactElement {
-  return (
-    <Box display="flex" flexDirection="column" alignItems="center" gap={3} margin={3}>
-      <EmptyState date={date} scrapeAtom={scrapePapersAtom}/>
+      {
+        status === 'complete'
+        ? <List papers={papers} date={value} />
+        : <ScrapeStatus status={status} date={value} scrapeAtom={scrapePapersAtom}/>
+      }
     </Box>
   );
 }

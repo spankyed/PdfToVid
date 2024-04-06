@@ -4,7 +4,6 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'jotai';
 import { theme } from './shared/styles/theme';
-import SocketListener from './shared/api/socket-listener';
 import Layout from './shared/components/layout';
 import CalendarPage from './calendar';
 import DateEntryPage from '~/date-entry';
@@ -32,7 +31,6 @@ const App: React.FC = () => (
   <ThemeProvider theme={theme}>
     <Provider>
       <RouterProvider router={router} />
-      <SocketListener />
     </Provider>
   </ThemeProvider>
 )

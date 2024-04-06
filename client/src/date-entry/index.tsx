@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 // import { Link } from 'react-router-dom';
-import { Typography, Box, Tabs, Tab, Button, Grid, TextField, CircularProgress, LinearProgress, Badge, styled } from '@mui/material';
-import Scraping from '~/shared/components/scraping';
-import EmptyState from '~/shared/components/date/empty';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 // import SearchIcon from '@mui/icons-material/Search';
 import { useParams } from 'react-router-dom'; // Import useParams
-import { dateEntryModelAtom, dateEntryStateAtom, fetchPapersByDateAtom, resetDateEntryStatusAtom, scrapePapersDateEntryAtom } from './store';
+import { dateEntryModelAtom, dateEntryStateAtom, fetchPapersByDateAtom, resetDateEntryStatusAtom, scrapePapersDateEntryAtom, scrapingStateAtom, setPapersAtom } from './store';
 import PageTitle from './components/page-title';
 import MainTabs from './components/main';
 import PageLayout from '~/shared/components/layout/page-layout';
 import ResetState from '~/shared/components/date/reset';
+import ScrapeStatus from '~/shared/components/date/scrape-status';
+import SocketListener from '~/shared/api/socket-listener';
 
 function DateEntryPage(): React.ReactElement {
   let { dateId } = useParams<{ dateId: string }>();
@@ -22,24 +21,37 @@ function DateEntryPage(): React.ReactElement {
   useEffect(() => {
     fetchData(dateId);
   }, []);
-  
+
   const { papers } = datePage;
 
-  // todo change complicated nested ternary into a flat switch statement component
   return (
     <PageLayout padding={3} style={{ marginTop: 3, margin: '0 auto'}}>
       <PageTitle date={dateId} count={papers.length} />
       <RenderByState
         dateId={dateId}
-        papers={papers}
+        pageModel={datePage}
       />
-      {/* {componentsByDayState[dateState]} */}
     </PageLayout>
   );
 }
 
-function RenderByState({ dateId, papers }) {
+function RenderByState({ dateId, pageModel }) {
   const [state] = useAtom(dateEntryStateAtom);
+  const [scrapeStatus, setScrapeStatus] = useAtom(scrapingStateAtom);
+  const setPageState = useSetAtom(dateEntryStateAtom);
+  const setPapers = useSetAtom(setPapersAtom);
+
+  const handleDateStatusUpdate = ({ key, status: newStatus, data }) => {
+    setScrapeStatus(newStatus);
+    if (newStatus === 'complete') {
+      setPapers(data);
+      if (data.length === 0) {
+        setPageState('unexpected');
+      } else {
+        setPageState('complete');
+      }
+    }
+  };
 
   switch (state) {
     case 'loading':
@@ -49,26 +61,16 @@ function RenderByState({ dateId, papers }) {
     case 'unexpected':
       return <div><ResetState date={dateId} resetStatusAtom={resetDateEntryStatusAtom} /></div>;
     case 'pending':
-      return <Empty date={dateId} />;
+      return (
+        <>
+          <ScrapeStatus status={scrapeStatus} date={dateId} scrapeAtom={scrapePapersDateEntryAtom}/>
+          <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} />
+        </>
+      )
     case 'complete':
     default:
-      return <MainTabs papers={papers} />;
+      return <MainTabs papers={pageModel.papers} />;
   }
-}
-
-const Empty: React.FC<{ date: string }> = ({ date }) => {
-  // todo display active scraping status
-  // const componentsByDayState = {
-  //   'pending': <Empty date={dateId}/>,
-  //   'scraping': <div style={{paddingTop: '5em'}}><Scraping /></div>,
-  //   'ranking': <div style={{paddingTop: '5em'}}>Ranking...</div>,
-  //   'complete': <MainTabs papers={papers} />,
-  // }
-  return (
-    <Box display="flex" flexDirection="column" alignItems="center" gap={3} marginTop={20}>
-      <EmptyState date={date} scrapeAtom={scrapePapersDateEntryAtom}/>
-    </Box>
-  );
 }
 
 export default DateEntryPage;

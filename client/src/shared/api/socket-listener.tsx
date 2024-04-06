@@ -1,36 +1,21 @@
 import { useEffect } from 'react';
-import { useSetAtom } from 'jotai';
 import { socket } from './fetch';
-import { calendarModelAtomBase } from '~/calendar/store';
 
-const SocketListener = () => {
-  const setCalendarModelBase = useSetAtom(calendarModelAtomBase);
-
+const SocketListener = ({ eventName, handleEvent }) => {
   useEffect(() => {
-    const handleDateStatusUpdate = ({ key, status: newStatus, data }) => {
-      setCalendarModelBase((prevModel) => {
-        const updatedModel = prevModel.map((item) => {
-          if (item.date.value === key) {
-            return {
-              ...item,
-              date: { ...item.date, status: newStatus },
-              papers: newStatus === 'complete' ? data : item.papers,
-            };
-          }
-          return item;
-        });
-        return updatedModel;
-      });
+    const eventHandler = (eventData) => {
+      handleEvent(eventData);
     };
 
-    socket.on('date_status', handleDateStatusUpdate);
+    socket.on(eventName, eventHandler);
 
     return () => {
-      socket.off('date_status', handleDateStatusUpdate);
+      socket.off(eventName, eventHandler);
     };
-  }, [setCalendarModelBase]);
+  }, [eventName, handleEvent]);
 
   return null;
 };
+
 
 export default SocketListener;

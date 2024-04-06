@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 import { Date } from '~/shared/utils/types';
 
-export const dateEntryStateAtom = atom<'loading' | 'complete' | 'error' | 'unexpected' | 'pending'>('loading');
+export const dateEntryStateAtom = atom<'loading'| 'pending' | 'complete' | 'error' | 'unexpected'>('loading');
 export const scrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
 
 export const dateEntryModelAtom = atom<{
@@ -12,6 +12,15 @@ export const dateEntryModelAtom = atom<{
   papers: [],
   date: null,
 });
+
+export const setPapersAtom = atom(
+  null,
+  async (get, set, papers: any) => {
+    const dateEntry = get(dateEntryModelAtom);
+    dateEntry.papers = papers;
+    set(dateEntryModelAtom, dateEntry);
+  }
+);
 
 export const fetchPapersByDateAtom = atom(
   null,
@@ -49,7 +58,6 @@ export const fetchPapersByDateAtom = atom(
 export const scrapePapersDateEntryAtom = atom(
   null,
   async (get, set, value) => {
-    console.log('value: ', value);
     try {
       set(scrapingStateAtom, 'scraping');
 
@@ -79,6 +87,7 @@ export const resetDateEntryStatusAtom = atom(
 
       set(dateEntryModelAtom, dateEntry);
       set(dateEntryStateAtom, 'pending');
+      set(scrapingStateAtom, 'pending');
     } catch (error) {
       console.error("Failed to reset date status", error);
       set(dateEntryStateAtom, 'error');
