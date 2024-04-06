@@ -4,7 +4,7 @@ import { Date } from '~/shared/utils/types';
 
 export const dateEntryStateAtom = atom<'loading'| 'pending' | 'complete' | 'error' | 'unexpected'>('loading');
 export const scrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
-
+export const tabValueAtom = atom<0 | 1>(0);
 export const dateEntryModelAtom = atom<{
   date: Date | null;
   papers: any[];
