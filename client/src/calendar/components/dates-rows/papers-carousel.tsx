@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import {  Button, Pagination,  } from '@mui/material';
-import Thumbnail from '~/shared/components/paper/thumbnail';
 import { Paper } from '~/shared/utils/types';
-import { useAtom } from 'jotai';
-import { anchorElAtom, isSummaryOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from '../summary/store';
 import { resetDateStatusCalenderAtom } from '../../store';
 import ResetState from '~/shared/components/date/reset';
+import PaperTile from '~/shared/components/paper/tile';
 
 function List({ papers, date }: { papers: Paper[]; date: string }): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,62 +68,12 @@ function Carousel({ papers, imagesPerPage, previousPage, currentPage }) {
             imagesPerPage={imagesPerPage}
             index={index}
             key={paper.id}
+            inCarousel={true}
           />
         )
       })
     }
   </div>
-  );
-}
-
-function PaperTile({ paper, currentPage, previousPage, imagesPerPage, index }) {
-  const [, setAnchorEl] = useAtom(anchorElAtom);
-  const [, setIsOpen] = useAtom(isSummaryOpenAtom);
-  const [popoverRef] = useAtom(popoverRefAtom);
-  const [, setPaperTarget] = useAtom(popoverTargetAtom);
-  const [hoverTimeout, setHoverTimeout] = useAtom(hoverTimeoutAtom);
-  const isCurrentPage = index >= (currentPage - 1) * imagesPerPage && index < currentPage * imagesPerPage;
-  const isPreviousPage = index >= (previousPage - 1) * imagesPerPage && index < previousPage * imagesPerPage;
-  const isOffscreen = !isCurrentPage && !isPreviousPage;
-
-  const handleMouseOver = (paper) => (event: React.MouseEvent<HTMLElement>) => {
-    const is = tag => (event.target as HTMLElement).tagName === tag;
-    const ignore = is('BUTTON') || is('path') || is('svg');
-    
-    if (hoverTimeout) clearTimeout(hoverTimeout);
-
-    if (ignore) {
-      return
-    };
-    
-    const target = event.currentTarget; // ! javascript :)
-
-    const timeoutId = setTimeout(() => {
-      setPaperTarget(paper);
-      setAnchorEl(target);
-      setIsOpen(true);
-    }, 10);
-
-    setHoverTimeout(timeoutId);
-  };
-
-  const handleMouseOut = (event: React.MouseEvent<HTMLElement>) => {
-    if (hoverTimeout) clearTimeout(hoverTimeout);
-
-    const relatedTarget = event.relatedTarget as HTMLElement;
-    if (!relatedTarget || !popoverRef?.contains(relatedTarget)) {
-      setIsOpen(false);
-    }
-  };
-
-  return (
-    <div 
-      className={isOffscreen ? 'offscreen-image' : ''} 
-      onMouseOver={handleMouseOver(paper)}
-      onMouseLeave={handleMouseOut}
-    >
-      <Thumbnail paper={paper} />
-    </div>
   );
 }
 

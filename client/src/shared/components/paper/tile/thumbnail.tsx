@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Paper, PaperState } from '~/shared/utils/types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import Favorite from './favorite';
+import Favorite from '../favorite';
 // import Relevancy from '../relevancy';
-import { getColorShadeRedToGreen } from '../../utils/getColorShade';
+import { getColorShadeRedToGreen } from '../../../utils/getColorShade';
 import { getThumbnailUrl } from '~/shared/utils/getThumbnailUrl';
-import PaperAction, { RejectAction } from './paper-action';
+import PaperAction, { RejectAction } from '../paper-action';
 
 // const colors = {
 //   0: 'rgba(237, 108, 3, 1)',

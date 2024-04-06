@@ -1,16 +1,18 @@
 import React from 'react';
 import { PlaceholderList } from '~/calendar/components/placeholder';
+import PaperTile from '~/shared/components/paper/tile';
+import SummaryPopover from '~/shared/components/paper/tile/summary/summary';
 // import { Link } from 'react-router-dom';
-
-import Thumbnail from '~/shared/components/paper/thumbnail';
 import { Paper } from '~/shared/utils/types';
 
 const VideoPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean }> = ({ papers, isLoading = false }) => {
+  // useEffect(() => () => setSummaryOpen(false), []); // Close the summary popover on unmount
   return (
     <div style={{
       display: 'flex',
       flexWrap: 'wrap',
       gap: '2em',
+      marginBottom: '2em',
     }}>
       {
         isLoading
@@ -19,12 +21,13 @@ const VideoPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean }> = ({ pa
             {
               papers.map((paper, index) => (
                 <div key={`${paper.id}-${index}`}>
-                  <Thumbnail paper={paper} shadow={true} />
+                  <PaperTile paper={paper} shadow={true}/>
                 </div>
               ))
             }
           </>
       }
+      <SummaryPopover/>
     </div>
   );
 }

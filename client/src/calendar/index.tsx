@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import CalendarMain from './components/main';
 import './calendar.css';
 import { useAtom, useSetAtom } from 'jotai';
-import { isSummaryOpenAtom } from './components/summary/store';
+import { isSummaryOpenAtom } from '../shared/components/paper/tile/summary/store';
 import { calendarModelAtomBase, scrollableContainerRefAtom } from './store';
 import PageLayout from '~/shared/components/layout/page-layout';
 import SocketListener from '~/shared/api/socket-listener';

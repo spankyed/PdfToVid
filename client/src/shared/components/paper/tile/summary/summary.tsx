@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Paper, Typography, Fade, Badge } from '@mui/material';
 import { styled } from '@mui/system';
-import { getColorShadeRedToGreen } from '../../../shared/utils/getColorShade';
+import { getColorShadeRedToGreen } from '../../../../utils/getColorShade';
 import { useAtom } from 'jotai';
 import { anchorElAtom, isSummaryOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from './store';
 import { colors } from '~/shared/styles/theme';

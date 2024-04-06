@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
 import { useAtom, useAtomValue } from 'jotai';
-import SummaryPopover from '~/calendar/components/summary/summary';
+import SummaryPopover from '~/shared/components/paper/tile/summary/summary';
 import { calendarLoadMoreAtom, calendarModelAtom, lastRecordReachedAtom, scrollableContainerRefAtom } from '../../store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 import RowItem from './row-item';
-import { isSummaryOpenAtom } from '../summary/store';
+import { isSummaryOpenAtom } from '../../../shared/components/paper/tile/summary/store';
 
 function DateRows(): React.ReactElement {
   const datesAtoms = useAtomValue(calendarModelAtom);
