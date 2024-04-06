@@ -17,13 +17,13 @@ const VideoPapersGrid: React.FC<{ papers: Paper[] }> = ({ papers }) => {
           <Thumbnail paper={paper} shadow={true}/>
         </div>
       ))} */}
-      {Array.from({ length: 10 }).map((_, duplicateIndex) => 
+      {
         papers.map((paper, index) => (
-          <div key={`${duplicateIndex}-${index}`} style={{}}>
+          <div key={`${paper.id}-${index}`} style={{}}>
             <Thumbnail paper={paper} shadow={true} />
           </div>
         ))
-      )}
+      }
     </div>
   );
 }

@@ -7,7 +7,6 @@ import { calendarModelAtomBase, scrollableContainerRefAtom } from './store';
 import PageLayout from '~/shared/components/layout/page-layout';
 import SocketListener from '~/shared/api/socket-listener';
 
-
 const Calendar: React.FC = () => {
   const [, setScrollableContainerRef] = useAtom(scrollableContainerRefAtom);
   const [isOpen, setIsOpen] = useAtom(isSummaryOpenAtom);
