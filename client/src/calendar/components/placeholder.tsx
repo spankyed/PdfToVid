@@ -50,8 +50,7 @@ function DatesPlaceholder(): React.ReactElement {
   );
 }
 
-function PlaceholderList(): React.ReactElement {
-  // Assume 4 placeholders to mimic 4 papers
+export function PlaceholderList(): React.ReactElement {
   const fakeThumbs = Array(4).fill(null);
 
   return (

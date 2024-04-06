@@ -21,7 +21,7 @@ const MainTabs: React.FC<{ papers?: Paper[]; isLoading?: boolean }> = ({ papers 
       <Box>
         <SearchAndActions showingTable={tabValue === 0}/>
         {tabValue === 0 && <PapersTable papers={papers} isLoading={isLoading}/>}
-        {tabValue === 1 && <VideoPapersGrid papers={papers} />}
+        {tabValue === 1 && <VideoPapersGrid papers={papers} isLoading={isLoading}/>}
       </Box>
     </Box>
   );

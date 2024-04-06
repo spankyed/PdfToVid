@@ -1,29 +1,43 @@
 import React from 'react';
+import { PlaceholderList } from '~/calendar/components/placeholder';
 // import { Link } from 'react-router-dom';
 
 import Thumbnail from '~/shared/components/paper/thumbnail';
 import { Paper } from '~/shared/utils/types';
 
-const VideoPapersGrid: React.FC<{ papers: Paper[] }> = ({ papers }) => {
+const VideoPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean }> = ({ papers, isLoading = false }) => {
   return (
     <div style={{
       display: 'flex',
       flexWrap: 'wrap',
-      gap: '1em', // This will create spacing between items
+      gap: '2em',
     }}>
-      {/* {papers.map((paper, index) => (
+      {
+        isLoading
+        ? <GridPlaceholder />
+        : <>
+            {
+              papers.map((paper, index) => (
+                <div key={`${paper.id}-${index}`}>
+                  <Thumbnail paper={paper} shadow={true} />
+                </div>
+              ))
+            }
+          </>
+      }
+    </div>
+  );
+}
+
+const GridPlaceholder = () => {
+  return (
+    <div>
+      {Array(4).fill(null).map((_, index) => (
         <div key={index} style={{
         }}>
-          <Thumbnail paper={paper} shadow={true}/>
+          <PlaceholderList/>
         </div>
-      ))} */}
-      {
-        papers.map((paper, index) => (
-          <div key={`${paper.id}-${index}`} style={{}}>
-            <Thumbnail paper={paper} shadow={true} />
-          </div>
-        ))
-      }
+      ))}
     </div>
   );
 }
