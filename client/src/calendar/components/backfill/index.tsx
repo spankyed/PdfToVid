@@ -14,7 +14,6 @@ export const BackfillComponent: React.FC = () => {
   const [, backFillFetch] = useAtom(backFillFetchAtom);
 
   const handleSubmit = () => {
-    console.log('handleSubmit: ', handleSubmit);
     if (value) {
       const formattedDate = value.format('YYYY-MM-DD');
       backFillFetch(formattedDate);
