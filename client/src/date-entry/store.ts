@@ -36,7 +36,6 @@ export const fetchPapersByDateAtom = atom(
       const response = await api.getDateEntryModel(dateId);
       const model = response.data;
       const { date, papers } = model;
-      console.log('model: ', model);
       
       if (!date) {
         throw new Error("Date not found");

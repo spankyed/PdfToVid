@@ -17,9 +17,13 @@ function DateEntryPage(): React.ReactElement {
 
   const [, fetchData] = useAtom(fetchPapersByDateAtom);
   const [datePage] = useAtom(dateEntryModelAtom);
+  const setPageState = useSetAtom(dateEntryStateAtom);
 
   useEffect(() => {
     fetchData(dateId);
+    return () => {
+      setPageState('loading');
+    }
   }, []);
 
   const { papers } = datePage;
