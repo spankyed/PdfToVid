@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
 import { useAtom, useAtomValue } from 'jotai';
 import SummaryPopover from '~/calendar/components/summary/summary';
-import { calendarLoadMoreAtom, calendarModelAtom, scrollableContainerRefAtom } from '../../store';
+import { calendarLoadMoreAtom, calendarModelAtom, lastRecordReachedAtom, scrollableContainerRefAtom } from '../../store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 import RowItem from './row-item';
 import { isSummaryOpenAtom } from '../summary/store';
@@ -54,6 +54,7 @@ function DateRows(): React.ReactElement {
 
 const LoadMoreButton = ({ dbCursor }) => {
   const [, loadNextPage] = useAtom(calendarLoadMoreAtom);
+  const [lastRecordReached] = useAtom(lastRecordReachedAtom);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async () => {
@@ -71,11 +72,19 @@ const LoadMoreButton = ({ dbCursor }) => {
       <Button
         variant="contained"
         color="primary"
-        disabled={isLoading}
+        disabled={isLoading || lastRecordReached}
         onClick={handleClick} // Pass the function directly
         className="text-white bg-red-500 hover:bg-red-700 ... your tailwind classes here ..."
       >
-        {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Load More ...'}
+        {
+          isLoading
+            ? <CircularProgress size={24} color="inherit" />
+            : (
+              lastRecordReached
+                ? 'All records loaded'
+                : 'Load More ...'
+            )
+        }
       </Button>
     </div>
   );

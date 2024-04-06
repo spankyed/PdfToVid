@@ -7,6 +7,7 @@ import { resetDateStatus } from '../shared/api/fetch';
 import { splitAtom } from 'jotai/utils'
 
 export const calendarStateAtom = atom<'loading' | 'backfill' | 'ready' | 'error'>('loading');
+export const lastRecordReachedAtom = atom(false);
 export const calendarModelAtomBase = atom<CalendarModel>([]);
 export const calendarModelAtom = splitAtom(calendarModelAtomBase);
 
@@ -15,6 +16,8 @@ export const fetchCalendarModelAtom = atom(
   async (get, set) => {
     try {
       set(calendarStateAtom, 'loading');
+      set(lastRecordReachedAtom, false);
+
       const response = await api.getCalendarModelData();
       const calendarModel = response.data as CalendarModel;
       console.log('Calendar Model: ', calendarModel);
@@ -35,9 +38,16 @@ export const calendarLoadMoreAtom = atom(
   async (get, set, date) => {
     try {
       // set(calendarStateAtom, 'loading');
+      set(lastRecordReachedAtom, false);
+
       const response = await api.calendarLoadMore(date);
       const calendarModel = response.data as CalendarModel;
       set(calendarModelAtomBase, [...get(calendarModelAtomBase), ...calendarModel]);
+
+      if (calendarModel.length === 0) {
+        set(lastRecordReachedAtom, true);
+      }
+
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
       // set(calendarStateAtom, 'ready');
     } catch (error) {
@@ -51,6 +61,8 @@ export const calendarLoadMonthAtom = atom(
   null, // write-only atom
   async (get, set, date) => {
     // set(calendarStateAtom, 'loading');
+    set(lastRecordReachedAtom, false);
+
     try {
       const response = await api.calendarLoadMonth(date);
       const calendarModel = response.data as CalendarModel;
