@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
 import { styled } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const EntryTitleStyled = styled(Typography)(({ theme }) => ({
   // textAlign: 'center',
@@ -27,9 +28,17 @@ const GradientBackground = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-const PaperTitle: React.FC<{ title?: string; id?: string }> = ({ title, id }) => {
+const PaperTitle: React.FC<{ title?: string; id?: string | null }> = ({ title, id }) => {
+  const navigate = useNavigate();
+
   const onTitleClick = (e) => {
     e.stopPropagation()
+
+    if (!id) {
+      navigate(`/calendar`);
+
+      return
+    }
 
     window.open(`https://arxiv.org/abs/${id}`, '_blank')
   }
