@@ -30,7 +30,7 @@ function DateEntryPage(): React.ReactElement {
 
   return (
     <PageLayout padding={3} style={{ marginTop: 3, margin: '0 auto'}}>
-      <PageTitle date={dateId} count={papers.length} />
+      <PageTitle value={dateId} count={papers.length} />
       <RenderByState
         dateId={dateId}
         pageModel={datePage}
@@ -63,7 +63,7 @@ function RenderByState({ dateId, pageModel }) {
     case 'loading':
       return <MainTabs isLoading={true} />;
     case 'error':
-      return <div>Error: Date Not Found</div>;
+      return <></>;
     case 'unexpected':
       return <div><ResetState date={dateId} resetStatusAtom={resetDateEntryStatusAtom} /></div>;
     case 'pending':
