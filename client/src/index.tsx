@@ -7,9 +7,9 @@ import { theme } from './shared/styles/theme';
 import Layout from './shared/components/layout';
 import CalendarPage from './calendar';
 import DateEntryPage from '~/date-entry';
-import PaperEntryPage from '~/search';
-import './shared/styles/index.css';
+import PaperEntryPage from '~/paper-entry';
 import SearchPage from '~/search';
+import './shared/styles/index.css';
 
 const router = createBrowserRouter([
   {
