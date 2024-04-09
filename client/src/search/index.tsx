@@ -26,7 +26,7 @@ const SearchPage: React.FC<{}> = () => {
         <QueryControl />
       </Box>
 
-      <Accordion>
+      <Accordion defaultExpanded={true}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Advanced</Typography>
         </AccordionSummary>
