@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Typography, Tabs, Tab, Box, Badge, styled } from '@mui/material';
-import VideoPapersGrid from './grid';
+import ThumbPapersGrid from './grid';
 import SearchAndActions from './search-actions';
 import PapersTable from './table';
 import { Paper } from '~/shared/utils/types';
@@ -23,7 +23,7 @@ const MainTabs: React.FC<{ papers?: Paper[]; isLoading?: boolean }> = ({ papers 
       <Box>
         <SearchAndActions showingTable={tabValue === 0}/>
         {tabValue === 0 && <PapersTable papers={papers} isLoading={isLoading}/>}
-        {tabValue === 1 && <VideoPapersGrid papers={papers} isLoading={isLoading}/>}
+        {tabValue === 1 && <ThumbPapersGrid papers={papers} isLoading={isLoading}/>}
       </Box>
     </Box>
   );

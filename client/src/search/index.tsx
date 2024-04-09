@@ -7,7 +7,7 @@ import './search.css';
 import { resetFieldsAtom, resultListAtom, searchStateAtom, submitSearchAtom, tabValueAtom } from './store';
 import PageLayout from '~/shared/components/layout/page-layout';
 import PageMessage from '~/shared/components/page-message';
-import VideoPapersGrid from '~/date-entry/components/grid';
+import ThumbPapersGrid from '~/date-entry/components/grid';
 import PapersTable from '~/date-entry/components/table';
 import QueryControl from './controls/query';
 import BasicCriteriaControl from './controls/basic-criteria';
@@ -96,7 +96,7 @@ const Results = ({ isLoading = false }) => {
       </Tabs>
       <Box>
         {tabValue === 0 && <PapersTable papers={results} isLoading={isLoading} placeholderRows={3}/>}
-        {tabValue === 1 && <VideoPapersGrid papers={results} isLoading={isLoading} placeholderRows={2}/>}
+        {tabValue === 1 && <ThumbPapersGrid papers={results} isLoading={isLoading} placeholderRows={2}/>}
       </Box>
     </Box>
   );

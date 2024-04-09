@@ -7,7 +7,7 @@ import SummaryPopover from '~/shared/components/paper/tile/summary/summary';
 // import { Link } from 'react-router-dom';
 import { Paper } from '~/shared/utils/types';
 
-const VideoPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean; placeholderRows?: number }> = ({
+const ThumbPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean; placeholderRows?: number }> = ({
   papers,
   isLoading = false,
   placeholderRows = 4
@@ -53,4 +53,4 @@ const GridPlaceholder = ({ placeholderRows }) => {
   );
 }
 
-export default VideoPapersGrid;
+export default ThumbPapersGrid;
