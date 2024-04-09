@@ -13,11 +13,11 @@ const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable })
         marginRight: showingTable ? '2em' : '6em',
       }}
     >
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{ width: '70%' }}>
         <TextField label="Search" variant="outlined" fullWidth />
       </Box>
-      <Grid container spacing={2} justifyContent="flex-end">
-        {/* <Grid item>
+      {/* <Grid container spacing={2} justifyContent="flex-end">
+        <Grid item>
           <Button variant="contained" color='success'>Approve All</Button>
         </Grid>
         <Grid item>
@@ -25,7 +25,7 @@ const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable })
         </Grid>
         <Grid item>
           <Button variant="contained" color="warning">Upload All</Button>
-        </Grid> */}
+        </Grid>
         {
           showingTable && (
             <Grid item>
@@ -33,7 +33,7 @@ const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable })
             </Grid>
           )
         }
-      </Grid>
+      </Grid> */}
     </Box>
   );
 }
