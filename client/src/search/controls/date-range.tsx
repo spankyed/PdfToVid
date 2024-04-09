@@ -3,10 +3,11 @@ import { useAtom } from 'jotai';
 import { FormControl, Box } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { dateEndAtom, dateStartAtom } from '../store';
 
 const DateRangeControl: React.FC<{}> = () => {
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
+  const [afterDate, setAfterDate] = useAtom(dateStartAtom);
+  const [beforeDate, setBeforeDate] = useAtom(dateEndAtom);
 
   return (
     <FormControl
@@ -19,15 +20,15 @@ const DateRangeControl: React.FC<{}> = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label="From Date"
-            value={fromDate}
-            onChange={(newValue: any) => setFromDate(newValue)}
+            label="After Date"
+            value={afterDate}
+            onChange={newValue => setAfterDate(newValue)}
           />
           <DatePicker
             sx={{ marginTop: 2 }}
-            label="To Date"
-            value={toDate}
-            onChange={(newValue: any) => setToDate(newValue)}
+            label="Before Date"
+            value={beforeDate}
+            onChange={newValue => setBeforeDate(newValue)}
           />
         </LocalizationProvider>
       </Box>

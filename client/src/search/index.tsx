@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { Button, Box, Accordion, AccordionSummary, AccordionDetails, Typography, Divider, Tab, Tabs } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import './search.css';
-import { resultListAtom, searchStateAtom, tabValueAtom } from './store';
+import { resetFieldsAtom, resultListAtom, searchStateAtom, submitSearchAtom, tabValueAtom } from './store';
 import PageLayout from '~/shared/components/layout/page-layout';
 import PageMessage from '~/shared/components/page-message';
 import VideoPapersGrid from '~/date-entry/components/grid';
@@ -15,6 +15,9 @@ import DateRangeControl from './controls/date-range';
 import StateControl from './controls/state';
 
 const SearchPage: React.FC<{}> = () => {
+  const resetFields = useSetAtom(resetFieldsAtom);
+  const submitSearch = useSetAtom(submitSearchAtom);
+
   return (
     <PageLayout padding={3}>
       <Box display="flex" alignItems="flex-start" justifyContent="space-between" flexDirection="row" gap={2} 
@@ -42,17 +45,19 @@ const SearchPage: React.FC<{}> = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}>
-          <Button variant="contained" color='success'>Search</Button>
-          <Button variant="contained" color="warning">Reset</Button>
-          <Button variant="contained" color="secondary">Clear Results</Button>
-        </Box>
+      <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 200, placeSelf: 'center', marginTop: 2  }}>
+      {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
+        <Button variant="contained" color='success' onClick={submitSearch}>Search</Button>
+        <Button variant="contained" color="warning" onClick={resetFields}>Reset</Button>
+        {/* <Button variant="contained" color="secondary">Clear Results</Button> */}
+      </Box>
 
       <Divider sx={{ width: '100%', my: 2, marginTop: 4 }} />
 
       {/* <Typography sx={{ width: '100%', mx: 2,  marginBottom: 2 }}>Results</Typography> */}
 
       <RenderByState />
+
     </PageLayout>
   );
 }

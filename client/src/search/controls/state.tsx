@@ -1,26 +1,62 @@
 import React, { useState } from 'react';
 import { useAtom } from 'jotai';
 import { FormControl, FormLabel, Checkbox, FormControlLabel, Grid } from '@mui/material';
+import { approvedStateAtom, generatedStateAtom, initialStateAtom, publishedStateAtom } from '../store';
 
 const StateControl: React.FC<{}> = () => {
-  const [searchCriteria, setSearchCriteria] = useState({ favorite: false, viewed: false, states: { initial: false, approved: false, generated: false, published: false } });
-
-  const handleCriteriaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchCriteria({ ...searchCriteria, [event.target.name]: event.target.checked });
-  };
+  const [initialState, setInitialState] = useAtom(initialStateAtom);
+  const [approvedState, setApprovedState] = useAtom(approvedStateAtom);
+  const [generatedState, setGeneratedState] = useAtom(generatedStateAtom);
+  const [publishState, setPublishedState] = useAtom(publishedStateAtom);
 
   return (
     <FormControl sx={{}} component="fieldset" variant="standard">
       <FormLabel component="legend">State</FormLabel>
       <Grid container spacing={1} justifyContent="flex-end">
-        {Object.keys(searchCriteria.states).map((state, index) => (
-          <Grid item xs={6} key={index}> {/* Ensure each item takes up half the width */}
-            <FormControlLabel
-              control={<Checkbox checked={searchCriteria.states[state]} onChange={handleCriteriaChange} name={`states.${state}`} />}
-              label={state.charAt(0).toUpperCase() + state.slice(1)}
-            />
-          </Grid>
-        ))}
+        <Grid item xs={6}>
+          <FormControlLabel
+            control={
+            <Checkbox
+              checked={initialState}
+              onChange={(e) => setInitialState(e.target.checked)}
+              name={`states.initial`} />
+            }
+            label={'Initial'}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FormControlLabel
+            control={
+            <Checkbox
+              checked={approvedState}
+              onChange={(e) => setApprovedState(e.target.checked)}
+              name={`states.approved`} />
+            }
+            label={'Approved'}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FormControlLabel
+            control={
+            <Checkbox
+              checked={generatedState}
+              onChange={(e) => setGeneratedState(e.target.checked)}
+              name={`states.generated`} />
+            }
+            label={'Generated'}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FormControlLabel
+            control={
+            <Checkbox
+              checked={publishState}
+              onChange={(e) => setPublishedState(e.target.checked)}
+              name={`states.published`} />
+            }
+            label={'Published'}
+          />
+        </Grid>
       </Grid>
 
     </FormControl>
