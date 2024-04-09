@@ -17,3 +17,4 @@ export const getPaperById = (paperId) => axios.get(apiUrl + '/paperById/' + pape
 export const resetDateStatus = (date) => axios.post(apiUrl + '/reset/' + date);
 export const scrapeDate = (date) => axios.post(apiUrl + '/scrape/' + date);
 export const backfillToDate = (date) => axios.post(apiUrl + '/backfill/' + date);
+export const searchPapers = (form) => axios.post(apiUrl + '/searchPapers', { form });

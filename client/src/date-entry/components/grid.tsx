@@ -7,7 +7,11 @@ import SummaryPopover from '~/shared/components/paper/tile/summary/summary';
 // import { Link } from 'react-router-dom';
 import { Paper } from '~/shared/utils/types';
 
-const VideoPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean }> = ({ papers, isLoading = false }) => {
+const VideoPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean; placeholderRows?: number }> = ({
+  papers,
+  isLoading = false,
+  placeholderRows = 4
+}) => {
   const [, setSummaryOpen] = useAtom(isSummaryOpenAtom);
   useEffect(() => () => setSummaryOpen(false), []); // Close the summary popover on unmount
 
@@ -20,7 +24,7 @@ const VideoPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean }> = ({ pa
     }}>
       {
         isLoading
-        ? <GridPlaceholder />
+        ? <GridPlaceholder placeholderRows={placeholderRows}/>
         : <>
             {
               papers.map((paper, index) => (
@@ -36,10 +40,10 @@ const VideoPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean }> = ({ pa
   );
 }
 
-const GridPlaceholder = () => {
+const GridPlaceholder = ({ placeholderRows }) => {
   return (
     <div>
-      {Array(4).fill(null).map((_, index) => (
+      {Array(placeholderRows).fill(null).map((_, index) => (
         <div key={index} style={{
         }}>
           <PlaceholderList/>

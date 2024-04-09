@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
-import PageLayout from '~/shared/components/layout/page-layout';
-import './search.css';
-
-import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Box, Checkbox, FormControlLabel, Accordion, AccordionSummary, AccordionDetails, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Divider, FormGroup, FormHelperText, FormLabel, Grid } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useAtom } from 'jotai';
+import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Box, Checkbox, FormControlLabel, Accordion, AccordionSummary, AccordionDetails, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Divider, FormGroup, FormHelperText, FormLabel, Grid, Tab, Tabs } from '@mui/material';
+import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
+import { resultListAtom, searchStateAtom, tabValueAtom } from './store';
+import PageLayout from '~/shared/components/layout/page-layout';
+import PageMessage from '~/shared/components/page-message';
+import VideoPapersGrid from '~/date-entry/components/grid';
+import PapersTable from '~/date-entry/components/table';
+import './search.css';
+
 const SearchPage: React.FC<{}> = () => {
-  const [searchField, setSearchField] = useState(''); // State for selected search field
-  const [relevancyScore, setRelevancyScore] = useState(''); // State for relevancy score input
+  const [searchField, setSearchField] = useState('');
+  const [relevancyScore, setRelevancyScore] = useState('');
   const [searchCriteria, setSearchCriteria] = useState({ favorite: false, viewed: false, states: { initial: false, approved: false, generated: false, published: false } });
   const [fromDate, setFromDate] = useState(dayjs());
   const [toDate, setToDate] = useState(dayjs());
 
-  // Update search criteria states based on checkbox changes
   const handleCriteriaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchCriteria({ ...searchCriteria, [event.target.name]: event.target.checked });
   };
 
   return (
     <PageLayout padding={3}>
-      {/* Keyword and Field Selection */}
       <Box display="flex" alignItems="flex-start" justifyContent="space-between" flexDirection="row" gap={2} 
           style={{ margin: '0 15em 1em 15em' }}
         >
@@ -46,10 +49,8 @@ const SearchPage: React.FC<{}> = () => {
             {/* Add more fields as needed */}
           </Select>
         </FormControl>
-
       </Box>
 
-      {/* "Where" Section */}
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Advanced</Typography>
@@ -58,7 +59,7 @@ const SearchPage: React.FC<{}> = () => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <FormControl component="fieldset" variant="standard">
               {/* <FormLabel component="legend">By criteria</FormLabel> */}
-              <Grid container spacing={1} justifyContent="flex-end" sx={{ minWidth: '20rem', marginBottom: 2 }}>
+              <Grid container spacing={1} justifyContent="flex-end" sx={{ minWidth: '25rem', marginBottom: 2 }}>
                 <Grid item xs={6} >
                   <FormControlLabel
                     // sx={{ minWidth: 'fit-content' }}
@@ -66,7 +67,7 @@ const SearchPage: React.FC<{}> = () => {
                       <Checkbox checked={searchCriteria.favorite} onChange={handleCriteriaChange} name="favorite" />
                     }
                     label={<span>
-                      Favorite <StarOutlinedIcon color="warning" style={{ marginLeft: '10px' }} />
+                      Favorite <StarOutlinedIcon color="warning" style={{ marginLeft: '8px' }} />
                     </span>}
                   />
                 </Grid>
@@ -77,15 +78,25 @@ const SearchPage: React.FC<{}> = () => {
                     }
                     label={<span>
                       Viewed
-                      <VisibilityIcon color="info" style={{ marginLeft: '10px' }} />
+                      <VisibilityIcon color="info" style={{ marginLeft: '15px' }} />
                     </span>}
                   />
                 </Grid>
               </Grid>
               <FormGroup>
-
-
                 <FormControl sx={{marginTop: 2, display:'flex', flexDirection: 'row' }} variant="outlined">
+                  <Select
+                    labelId="comparison-field-label"
+                    id="comparison-field-select"
+                    value={0}
+                    sx={{ marginRight: 2 }}
+                    // onChange={(e) => setSearchField(e.target.value as string)}
+                    // displayEmpty
+                  >
+                    <MenuItem value="0">≥</MenuItem>
+                    <MenuItem value="1">≤</MenuItem>
+                    {/* Add more fields as needed */}
+                  </Select>
                   <TextField
                     id="relevancy-score-input"
                     label="Relevancy Score"
@@ -96,17 +107,7 @@ const SearchPage: React.FC<{}> = () => {
                     onChange={(e) => setRelevancyScore(e.target.value)}
                     sx={{ minWidth: 170 }} 
                   />
-                  <Select
-                    labelId="comparison-field-label"
-                    id="comparison-field-select"
-                    value={0}
-                    // onChange={(e) => setSearchField(e.target.value as string)}
-                    // displayEmpty
-                  >
-                    <MenuItem value="0">≥</MenuItem>
-                    <MenuItem value="1">≤</MenuItem>
-                    {/* Add more fields as needed */}
-                  </Select>
+
                 </FormControl>
 
               </FormGroup>
@@ -168,26 +169,49 @@ const SearchPage: React.FC<{}> = () => {
 
       <Divider sx={{ width: '100%', my: 2 }} />
 
-      <Typography sx={{ width: '100%', mx: 2,  marginBottom: 2 }}>Results</Typography>
+      {/* <Typography sx={{ width: '100%', mx: 2,  marginBottom: 2 }}>Results</Typography> */}
 
-      {/* Results Section */}
-      {/* <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Column 1</TableCell>
-              <TableCell>Column 2</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>Result 1</TableCell>
-              <TableCell>Result 2</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer> */}
+      <RenderByState />
     </PageLayout>
+  );
+}
+
+const RenderByState = () => {
+  const [searchState] = useAtom(searchStateAtom);
+
+  switch (searchState) {
+    case 'pending':
+      return <PageMessage message={'Define search criteria then press search ...'}/>;
+    case 'loading':
+      return <Results isLoading={true} />;
+    case 'complete':
+      return <Results />;
+    case 'empty':
+      return <PageMessage message={'No papers found'}/>;
+    case 'error':
+      return <PageMessage message={'Error occurred while fetching papers'}/>;
+  }
+}
+
+const Results = ({ isLoading = false }) => {
+  const [tabValue, setTabValue] = useAtom(tabValueAtom);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: 0 | 1) => {
+    setTabValue(newValue);
+  };
+  const [results] = useAtom(resultListAtom);
+
+  return (
+    <Box>
+      <Tabs value={tabValue} onChange={handleChange} centered>
+        <Tab label="Table" />
+        <Tab label="Grid" />
+      </Tabs>
+      <Box>
+        {tabValue === 0 && <PapersTable papers={results} isLoading={isLoading} placeholderRows={3}/>}
+        {tabValue === 1 && <VideoPapersGrid papers={results} isLoading={isLoading} placeholderRows={2}/>}
+      </Box>
+    </Box>
   );
 }
 

@@ -10,7 +10,11 @@ import PaperAction, { RejectAction } from '~/shared/components/paper/paper-actio
 // import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-const PapersTable: React.FC<{ papers: Paper[]; isLoading?: boolean  }> = ({ papers, isLoading = false }) => {
+const PapersTable: React.FC<{ papers?: Paper[]; isLoading?: boolean; placeholderRows?: number }> = ({
+  papers = [],
+  isLoading = false,
+  placeholderRows = 5
+}) => {
   return (
     <TableContainer sx={{ marginTop: 3, margin: '0 auto', minWidth: '100%' }}>
       <Table>
@@ -26,7 +30,7 @@ const PapersTable: React.FC<{ papers: Paper[]; isLoading?: boolean  }> = ({ pape
         <TableBody>
           {
             isLoading
-            ? <TablePlaceholder />
+            ? <TablePlaceholder placeholderRows={placeholderRows}/>
             : <TableRows papers={papers}/>
           }
         </TableBody>
@@ -103,12 +107,10 @@ const TableRows = ({papers}) => {
   )
 }
 
-const TablePlaceholder = () => {
-  const rows = 5;
-
+const TablePlaceholder = ({ placeholderRows }) => {
   return (
     <>
-      {Array.from(new Array(rows)).map((_, index) => (
+      {Array.from(new Array(placeholderRows)).map((_, index) => (
         <TableRow key={index}>
           <TableCell>
             <Skeleton animation="wave" height={50} width="80em" />
