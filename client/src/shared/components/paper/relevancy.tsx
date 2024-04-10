@@ -1,10 +1,11 @@
 import { Paper } from '~/shared/utils/types';
 import { Tooltip } from "@mui/material";
 import { getColorShadeRedToGreen } from '../../utils/getColorShade';
+import { roundScore } from '~/shared/utils/roundScore';
 
 function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React.ReactElement {
   return (
-    <Tooltip title={`${(paper.relevancy * 100).toFixed(1)}%`}>
+    <Tooltip title={`${roundScore(paper.relevancy)}%`}>
       <div
         style={{
           verticalAlign: 'middle',

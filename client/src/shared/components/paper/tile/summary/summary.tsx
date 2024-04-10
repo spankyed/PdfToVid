@@ -5,6 +5,7 @@ import { getColorShadeRedToGreen } from '../../../../utils/getColorShade';
 import { useAtom } from 'jotai';
 import { anchorElAtom, isSummaryOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from './store';
 import { colors } from '~/shared/styles/theme';
+import { roundScore } from '~/shared/utils/roundScore';
 
 const padding = -8;
 
@@ -138,7 +139,7 @@ const SummaryPopover: React.FC = () => {
           }}
         >
           <ScoreBadge 
-            badgeContent={`${(score * 100).toFixed(1)}%`} 
+            badgeContent={`${roundScore(score)}%`} 
             score={score}
           >
             <PopoverText>
