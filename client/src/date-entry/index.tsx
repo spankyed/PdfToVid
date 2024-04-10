@@ -24,7 +24,7 @@ function DateEntryPage(): React.ReactElement {
     return () => {
       setPageState('loading');
     }
-  }, []);
+  }, [dateId]);
 
   const { papers } = datePage;
 
