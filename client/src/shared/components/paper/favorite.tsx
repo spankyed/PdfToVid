@@ -16,8 +16,7 @@ function Favorite ({ paper }: { paper: any }): React.ReactElement {
         }
       </Fab> */}
       {
-        // paper.liked 
-        false
+        paper.liked 
           ? <StarOutlinedIcon color="warning" />
           : <StarBorderOutlinedIcon color='warning' />
       }

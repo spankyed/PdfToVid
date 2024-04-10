@@ -87,7 +87,10 @@ async function searchPapers(form: SearchForm): Promise<Paper[]> {
   try {
     const papers = await PapersTable.findAll({
       where: whereClause,
-      order: [['relevancy', 'DESC']],
+      order: [
+        ['liked', 'DESC'],
+        ['relevancy', 'DESC']
+      ],
       raw: true,
     });
     return papers;
