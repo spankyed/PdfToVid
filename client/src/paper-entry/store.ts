@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 import { Paper } from '~/shared/utils/types';
 
-export const paperAtom = atom<Paper | null>(null);
+export const paperAtom = atom<Paper | undefined>(undefined);
 
 export const pdfModalOpen = atom(false);
 

@@ -14,7 +14,7 @@ const createAuthorSearchURL = (authorName) => {
   return `https://arxiv.org/search/cs?searchtype=author&query=${query}`;
 };
 
-const DateAuthorsPdf: React.FC<{ paper: Paper | null }> = ({ paper }) => {
+const DateAuthorsPdf: React.FC<{ paper: Paper | undefined }> = ({ paper }) => {
   const navigate = useNavigate();
   const [, setOpen] = useAtom(pdfModalOpen);
 
