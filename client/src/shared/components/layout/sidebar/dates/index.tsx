@@ -41,10 +41,13 @@ function DateList(): React.ReactElement {
   const handleMonthOpen = async (month: string) => {
     const element = collapseRefs.current[month];
     const onCalendarPage = location.pathname.startsWith('/calendar');
+    const monthChanged = lastOpenMonth !== month;
+
+    if (onCalendarPage && monthChanged) {
+      setCalendarState('loading');
+    }
+    
     if (element) {
-      if (onCalendarPage) {
-        setCalendarState('loading');
-      }
       // todo load month data first, after adding scrollPromise queue
       await scrollToElement({
         element,
@@ -53,15 +56,17 @@ function DateList(): React.ReactElement {
         method:'scrollIntoView',
       })
     }
-    const monthChanged = lastOpenMonth !== month;
-    if (monthChanged) {
-      setLastOpenMonth(month);
 
-      if (onCalendarPage) {
-        const date = datesRows.find(d => d.month === month)?.dates[0]?.value;
+    if (!monthChanged) {
+      return;
+    }
 
-        loadMonth(date)
-      }
+    setLastOpenMonth(month);
+
+    if (onCalendarPage) {
+      const date = datesRows.find(d => d.month === month)?.dates[0]?.value;
+
+      loadMonth(date)
     }
   }
 
