@@ -4,7 +4,7 @@ import { getColorShadeRedToGreen } from '../../utils/getColorShade';
 
 function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React.ReactElement {
   return (
-    <Tooltip title={`${paper.relevancy * 100}%`}>
+    <Tooltip title={`${(paper.relevancy * 100).toFixed(1)}%`}>
       <div
         style={{
           verticalAlign: 'middle',
