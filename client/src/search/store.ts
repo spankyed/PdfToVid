@@ -12,7 +12,7 @@ export const queryFieldAtom = atom('all');
 export const favoriteAtom = atom(false);
 export const viewedAtom = atom(false);
 export const relevancyAtom = atom('');
-export const comparisonOperatorAtom = atom('0');
+export const comparisonOperatorAtom = atom('≥');
 export const dateStartAtom = atom(null);
 export const dateEndAtom = atom(null);
 
@@ -32,23 +32,21 @@ export const submitSearchAtom = atom(
     const afterDate = get(dateEndAtom) as unknown as Day;
 
     const form = {
-      query: get(queryAtom),
-      queryField: get(queryFieldAtom),
-      favorite: get(favoriteAtom),
-      viewed: get(viewedAtom),
+      query: get(queryAtom), // string
+      queryField: get(queryFieldAtom), // string
       relevancy: {
-        operator: get(comparisonOperatorAtom),
-        value: get(relevancyAtom),
+        operator: get(comparisonOperatorAtom), // string
+        value: get(relevancyAtom), // string
       },
-      dateStart: beforeDate ? beforeDate.format('YYYY-MM-DD') : null,
-      dateEnd: afterDate ? afterDate.format('YYYY-MM-DD') : null,
-      initialState: get(initialStateAtom),
-      approvedState: get(approvedStateAtom),
-      generatedState: get(generatedStateAtom),
-      publishedState: get(publishedStateAtom),
+      dateStart: beforeDate ? beforeDate.format('YYYY-MM-DD') : null, // string
+      dateEnd: afterDate ? afterDate.format('YYYY-MM-DD') : null, // string
+      viewed: get(viewedAtom), // boolean
+      favorite: get(favoriteAtom), // boolean
+      initialState: get(initialStateAtom), // boolean
+      approvedState: get(approvedStateAtom), // boolean
+      generatedState: get(generatedStateAtom), // boolean
+      publishedState: get(publishedStateAtom), // boolean
     };
-
-    // console.log('form: ', form);
 
     try {
       const response = await api.searchPapers(form);
