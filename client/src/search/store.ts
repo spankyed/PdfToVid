@@ -70,11 +70,11 @@ export const resetFieldsAtom = atom(
   null,
   (get, set) => {
     set(queryAtom, '');
-    set(queryFieldAtom, '');
+    set(queryFieldAtom, 'all');
     set(favoriteAtom, false);
     set(viewedAtom, false);
     set(relevancyAtom, '');
-    set(comparisonOperatorAtom, '0');
+    set(comparisonOperatorAtom, '≥');
     set(dateStartAtom, null);
     set(dateEndAtom, null);
     set(initialStateAtom, false);
