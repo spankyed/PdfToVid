@@ -50,7 +50,7 @@ async function searchPapers(form: SearchForm): Promise<Paper[]> {
   }
 
   if (form.favorite) {
-    whereClause.liked = form.favorite;
+    whereClause.liked = 1;
   }
 
   // if (form.viewed !== undefined) {

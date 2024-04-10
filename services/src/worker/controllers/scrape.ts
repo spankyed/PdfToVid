@@ -39,7 +39,8 @@ const scrapeAndRankPapers = async (date: string) => {
   const paperRecords = rankedPapers.map((paper) => ({ 
     ...paper,
     date: date,
-    status: 0
+    status: 0,
+    liked: false,
   }));
 
   const sortedPapers = paperRecords.sort((a, b) => b.relevancy - a.relevancy);
