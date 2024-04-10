@@ -33,6 +33,12 @@ const Sidebar: React.FC = () => {
       backgroundColor: colors.sidebar,
     }}>
       <List component="nav" sx={{ paddingBottom: 0 }}>
+        <NavItem onClick={() => navigate('calendar')}>
+          <ListItemIcon>
+            <CalendarTodayIcon />
+          </ListItemIcon>
+          <ListItemText primary="Calendar" />
+        </NavItem>
         <NavItem onClick={() => navigate('search')}>
           <ListItemIcon>
             <SearchIcon />
@@ -44,12 +50,6 @@ const Sidebar: React.FC = () => {
             <AssessmentIcon />
           </ListItemIcon>
           <ListItemText primary="Reports" />
-        </NavItem>
-        <NavItem onClick={() => navigate('calendar')}>
-          <ListItemIcon>
-            <CalendarTodayIcon />
-          </ListItemIcon>
-          <ListItemText primary="Calendar" />
         </NavItem>
 
         <Divider 
