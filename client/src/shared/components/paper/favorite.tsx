@@ -10,13 +10,13 @@ function Favorite ({ paper = {} }: { paper?: any }): React.ReactElement {
     <Button>
       {/* <Fab aria-label="like">
         {
-          paper.liked 
+          paper.isStarred 
             ? <FavoriteIcon color="error" />
             : <FavoriteBorderIcon color="action" />
         }
       </Fab> */}
       {
-        paper.liked 
+        paper.isStarred 
           ? <StarOutlinedIcon color="warning" />
           : <StarBorderOutlinedIcon color='warning' />
       }

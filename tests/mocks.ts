@@ -14,7 +14,7 @@ export const calendarModel = [
         "pdfLink": "https://arxiv.org/pdf/2308.05713.pdf",
         "authors": [],
         metaData: {
-          liked: true,
+          isStarred: true,
           status: 3,
           "relevancy": .9,
           "keywords": ['cat'],
@@ -38,7 +38,7 @@ export const calendarModel = [
         "pdfLink": "https://arxiv.org/pdf/2308.05712.pdf",
         "authors": [],
         metaData: {
-          liked: true,
+          isStarred: true,
           status: 2,
           "relevancy": .7,
           "keywords": ['cat'],
@@ -62,7 +62,7 @@ export const calendarModel = [
         "pdfLink": "https://arxiv.org/pdf/2308.05711.pdf",
         "authors": [],
         metaData: {
-          liked: false,
+          isStarred: false,
           status: 1,
           "relevancy": .5,
           "keywords": ['cat'],
@@ -88,7 +88,7 @@ export const calendarModel = [
         "pdfLink": "https://arxiv.org/pdf/2308.05710.pdf",
         "authors": [],
         metaData: {
-          liked: false,
+          isStarred: false,
           status: 0,
           "relevancy": .2,
           "keywords": ['cat'],
@@ -114,7 +114,7 @@ export const calendarModel = [
         "pdfLink": "https://arxiv.org/pdf/2308.05719.pdf",
         "authors": [],
         metaData: {
-          liked: false,
+          isStarred: false,
           status: 0,
           "relevancy": .7,
           "keywords": ['cat'],

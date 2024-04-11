@@ -32,7 +32,7 @@ export interface Paper {
   authors: string;
   status: number;
   relevancy: number;
-  liked: boolean;
+  isStarred: boolean;
   keywords: string[];
 }
 export interface Date {

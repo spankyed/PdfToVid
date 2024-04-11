@@ -22,7 +22,7 @@ const BasicCriteriaControl: React.FC<{}> = () => {
             }
             label={
               <span>
-                Favorite <StarOutlinedIcon color="warning" style={{ marginLeft: '8px' }} />
+                Starred <StarOutlinedIcon color="warning" style={{ marginLeft: '8px' }} />
               </span>
             }
           />

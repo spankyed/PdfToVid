@@ -8,7 +8,7 @@ export interface PapersTable extends Model<InferAttributes<PapersTable>, InferCr
   authors: string;
   status: number;
   relevancy: number;
-  liked: boolean;
+  isStarred: boolean;
   keywords: string;
 }
 
@@ -46,7 +46,7 @@ export const PapersTable = sequelize.define<PapersTable>('Paper', {
   // metadata
   status: DataTypes.INTEGER,
   relevancy: DataTypes.INTEGER,
-  liked: DataTypes.BOOLEAN,
+  isStarred: DataTypes.BOOLEAN,
   keywords: DataTypes.STRING, // semi-colon separated list
 });
 

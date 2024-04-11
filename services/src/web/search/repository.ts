@@ -9,7 +9,7 @@ interface Paper {
   authors: string;
   status: number;
   relevancy: number;
-  liked: boolean;
+  isStarred: boolean;
   keywords: string;
 }
 
@@ -50,7 +50,7 @@ async function searchPapers(form: SearchForm): Promise<Paper[]> {
   }
 
   if (form.favorite) {
-    whereClause.liked = 1;
+    whereClause.isStarred = 1;
   }
 
   // if (form.viewed !== undefined) {
@@ -88,7 +88,7 @@ async function searchPapers(form: SearchForm): Promise<Paper[]> {
     const papers = await PapersTable.findAll({
       where: whereClause,
       order: [
-        ['liked', 'DESC'],
+        ['isStarred', 'DESC'],
         ['relevancy', 'DESC']
       ],
       raw: true,

@@ -22,7 +22,7 @@ export class PapersTable extends Model {
   declare authors: string;
   declare status: number;
   declare relevancy: number;
-  declare liked: boolean;
+  declare isStarred: boolean;
   declare keywords: string;
 }
 
@@ -55,7 +55,7 @@ PapersTable.init({
   // metadata
   status: DataTypes.INTEGER,
   relevancy: DataTypes.INTEGER,
-  liked: DataTypes.BOOLEAN,
+  isStarred: DataTypes.BOOLEAN,
   keywords: DataTypes.STRING, // semi-colon separated list
 }, {
   sequelize,

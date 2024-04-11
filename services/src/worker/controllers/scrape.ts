@@ -40,7 +40,7 @@ const scrapeAndRankPapers = async (date: string) => {
     ...paper,
     date: date,
     status: 0,
-    liked: false,
+    isStarred: false,
   }));
 
   const sortedPapers = paperRecords.sort((a, b) => b.relevancy - a.relevancy);

@@ -20,7 +20,7 @@ export type PaperRecord = {
   pdfLink: string; // todo remove property as it can be derived from id
   authors?: string[];
   relevancy: number;
-  liked?: boolean;
+  isStarred?: boolean;
   keywords?: string[];
   status: PaperStatuses;
   // video?: {
