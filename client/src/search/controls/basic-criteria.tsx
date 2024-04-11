@@ -11,6 +11,17 @@ const BasicCriteriaControl: React.FC<{}> = () => {
   const [relevancy, setRelevancy] = useAtom(relevancyAtom);
   const [comparisonOperator, setComparisonOperator] = useAtom(comparisonOperatorAtom);
 
+  const clampRelevancyScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newValue = parseInt(e.target.value, 10);
+    if (!isNaN(newValue)) {
+      newValue = Math.max(0, Math.min(100, newValue));
+
+      setRelevancy(newValue.toString());
+    } else {
+      setRelevancy('');
+    }
+  };
+
   return (
     <FormControl component="fieldset" variant="standard">
       {/* <FormLabel component="legend">Basic criteria</FormLabel> */}
@@ -63,7 +74,7 @@ const BasicCriteriaControl: React.FC<{}> = () => {
               endAdornment: <InputAdornment position="end">%</InputAdornment>
             }}
             value={relevancy}
-            onChange={(e) => setRelevancy(e.target.value)}
+            onChange={clampRelevancyScore}
             sx={{ minWidth: 170 }} 
           />
         </FormControl>
