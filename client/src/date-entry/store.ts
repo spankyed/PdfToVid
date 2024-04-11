@@ -5,6 +5,23 @@ import { Date } from '~/shared/utils/types';
 export const dateEntryStateAtom = atom<'loading'| 'pending' | 'complete' | 'error' | 'unexpected'>('loading');
 export const scrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
 export const tabValueAtom = atom<0 | 1>(0);
+export const searchKeywordAtom = atom('');
+
+export const filteredPapersAtom = atom((get) => {
+  const papers = get(dateEntryModelAtom).papers;
+  const keyword = get(searchKeywordAtom).toLowerCase();
+
+  if (!keyword.trim()) return papers; // Return all papers if search is empty
+
+  return papers.filter((paper) => {
+    return (
+      paper.title.toLowerCase().includes(keyword) ||
+      paper.abstract.toLowerCase().includes(keyword) ||
+      paper.authors.split(';').some((author) => author.toLowerCase().includes(keyword))
+    );
+  });
+});
+
 export const dateEntryModelAtom = atom<{
   date: Date | null;
   papers: any[];

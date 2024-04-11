@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 // import SearchIcon from '@mui/icons-material/Search';
 import { useParams } from 'react-router-dom'; // Import useParams
-import { dateEntryModelAtom, dateEntryStateAtom, fetchPapersByDateAtom, resetDateEntryStatusAtom, scrapePapersDateEntryAtom, scrapingStateAtom, setPapersAtom } from './store';
+import { dateEntryModelAtom, dateEntryStateAtom, fetchPapersByDateAtom, filteredPapersAtom, resetDateEntryStatusAtom, scrapePapersDateEntryAtom, scrapingStateAtom, setPapersAtom } from './store';
 import PageTitle from './components/page-title';
 import MainTabs from './components/main';
 import PageLayout from '~/shared/components/layout/page-layout';
@@ -33,17 +33,17 @@ function DateEntryPage(): React.ReactElement {
       <PageTitle value={dateId} count={papers.length} />
       <RenderByState
         dateId={dateId}
-        pageModel={datePage}
       />
     </PageLayout>
   );
 }
 
-function RenderByState({ dateId, pageModel }) {
+function RenderByState({ dateId }) {
   const [state] = useAtom(dateEntryStateAtom);
   const [scrapeStatus, setScrapeStatus] = useAtom(scrapingStateAtom);
   const setPageState = useSetAtom(dateEntryStateAtom);
   const setPapers = useSetAtom(setPapersAtom);
+  const [papers] = useAtom(filteredPapersAtom);
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data }) => {
     if (newStatus === 'complete') {
@@ -75,7 +75,7 @@ function RenderByState({ dateId, pageModel }) {
       )
     case 'complete':
     default:
-      return <MainTabs papers={pageModel.papers} />;
+      return <MainTabs papers={papers} />;
   }
 }
 

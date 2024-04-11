@@ -1,10 +1,18 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
 import { Box, Button, Grid, TextField } from '@mui/material';
+import { searchKeywordAtom } from '../store';
+import { useAtom } from 'jotai';
 // import { Paper, StoreType } from '~/shared/store';
 // import SearchIcon from '@mui/icons-material/Search';
 
 const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable }) => {
+  const [, setSearchKeyword] = useAtom(searchKeywordAtom);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
+  };
+
   return (
     <Box display="flex" alignItems="flex-start" justifyContent="space-between" flexDirection="row" gap={2} 
       style={{ 
@@ -14,26 +22,13 @@ const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable })
       }}
     >
       <Box sx={{ width: '70%' }}>
-        <TextField label="Search" variant="outlined" fullWidth />
+        <TextField
+          label="Search"
+          variant="outlined"
+          fullWidth
+          onChange={handleSearchChange} // Add onChange handler here
+        />
       </Box>
-      {/* <Grid container spacing={2} justifyContent="flex-end">
-        <Grid item>
-          <Button variant="contained" color='success'>Approve All</Button>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="secondary">Generate All</Button>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="warning">Upload All</Button>
-        </Grid>
-        {
-          showingTable && (
-            <Grid item>
-              <Button variant="contained">Select</Button>
-            </Grid>
-          )
-        }
-      </Grid> */}
     </Box>
   );
 }
