@@ -13,6 +13,7 @@ export const calendarLoadMore = (cursor) => axios.get(apiUrl + '/loadMore/' + cu
 export const calendarLoadMonth = (cursor) => axios.get(apiUrl + '/loadMonth/' + cursor);
 export const getDateEntryModel = (date) => axios.get(apiUrl + '/getDateEntry/' + date);
 export const getPaperById = (paperId) => axios.get(apiUrl + '/paperById/' + paperId);
+export const updateIsStarred = (paperId, value) => axios.post(apiUrl + '/starPaper/' + paperId, { value });
 // post
 export const resetDateStatus = (date) => axios.post(apiUrl + '/reset/' + date);
 export const scrapeDate = (date) => axios.post(apiUrl + '/scrape/' + date);
