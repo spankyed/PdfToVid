@@ -1,18 +1,39 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Typography, Tabs, Tab, Box, Badge, styled } from '@mui/material';
 import ThumbPapersGrid from './grid';
 import SearchAndActions from './search-actions';
 import PapersTable from './table';
 import { Paper } from '~/shared/utils/types';
-import { tabValueAtom } from '../store';
-import { useAtom } from 'jotai';
+import { dateEntryPapersAtom, tabValueAtom } from '../store';
+import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { emptyAtom, updatePaperInListAtom } from "~/shared/store";
 
-const MainTabs: React.FC<{ papers?: Paper[]; isLoading?: boolean }> = ({ papers = [], isLoading = false }) => {
+const MainTabs: React.FC<{
+  papersAtom?: Atom<Paper[]>;
+  isLoading?: boolean
+}> = ({ papersAtom, isLoading = false }) => {
+  console.log('papersAtom: ', papersAtom);
   const [tabValue, setTabValue] = useAtom(tabValueAtom);
+  const updatePaper = useSetAtom(updatePaperInListAtom);
+  const papers = useAtomValue(papersAtom || emptyAtom);
 
   const handleChange = (event: React.SyntheticEvent, newValue: 0 | 1) => {
     setTabValue(newValue);
   };
+
+  useEffect(() => {
+    const handlePaperUpdate = (event) => {
+      const { id, isStarred } = event.detail;
+
+      updatePaper({ papersListAtom: dateEntryPapersAtom, id, property: 'isStarred', newValue: isStarred })
+    }
+
+    window.addEventListener('paperUpdate', handlePaperUpdate);
+
+    return () => {
+      window.removeEventListener('paperUpdate', handlePaperUpdate);
+    };
+  }, []);
 
   return (
     <Box>

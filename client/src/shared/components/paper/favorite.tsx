@@ -5,18 +5,37 @@ import { Button } from "@mui/material";
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-function Favorite ({ paper = {} }: { paper?: any }): React.ReactElement {
+import * as  api from '../../api/fetch';
+// import { useState } from "react";
+import { Paper } from "~/shared/utils/types";
+
+function dispatchPaperUpdate(id, isStarred) {
+  const event = new CustomEvent('paperUpdate', {
+    detail: { id, isStarred },
+  });
+
+  window.dispatchEvent(event);
+}
+
+function Favorite ({ paper = {} }: { paper?: Partial<Paper> }): React.ReactElement {
+  const updateIsStarred = async () => {
+    const id = paper.id
+    if (!id) {
+      return;
+    }
+
+    const newState = !paper.isStarred;
+    await api.updateIsStarred(id, newState)
+
+    dispatchPaperUpdate(id, newState)
+  }
+
   return (
-    <Button>
-      {/* <Fab aria-label="like">
-        {
-          paper.isStarred 
-            ? <FavoriteIcon color="error" />
-            : <FavoriteBorderIcon color="action" />
-        }
-      </Fab> */}
+    <Button
+      onClick={updateIsStarred}
+    >
       {
-        paper.isStarred 
+        paper.isStarred
           ? <StarOutlinedIcon color="warning" />
           : <StarBorderOutlinedIcon color='warning' />
       }
