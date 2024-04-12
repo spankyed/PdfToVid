@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { Button, Box, Accordion, AccordionSummary, AccordionDetails, Typography, Divider, Tab, Tabs } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -13,6 +13,7 @@ import QueryControl from './controls/query';
 import BasicCriteriaControl from './controls/basic-criteria';
 import DateRangeControl from './controls/date-range';
 import StateControl from './controls/state';
+import { updatePaperInListAtom } from '~/shared/store';
 
 const SearchPage: React.FC<{}> = () => {
   const resetFields = useSetAtom(resetFieldsAtom);
@@ -87,6 +88,21 @@ const Results = ({ isLoading = false }) => {
     setTabValue(newValue);
   };
   const [results] = useAtom(resultListAtom);
+  const updatePaper = useSetAtom(updatePaperInListAtom);
+
+  useEffect(() => {
+    const handlePaperUpdate = (event) => {
+      const { id, isStarred } = event.detail;
+
+      updatePaper({ papersListAtom: resultListAtom, id, property: 'isStarred', newValue: isStarred })
+    }
+
+    window.addEventListener('paperUpdate', handlePaperUpdate);
+
+    return () => {
+      window.removeEventListener('paperUpdate', handlePaperUpdate);
+    };
+  }, []);
 
   return (
     <Box>
