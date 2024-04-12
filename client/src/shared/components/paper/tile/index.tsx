@@ -26,7 +26,6 @@ function PaperTile({ paper, currentPage, previousPage, imagesPerPage, index, sha
     isOffscreen = !isCurrentPage && !isPreviousPage;
   }
 
-
   const handleMouseOver = (paper) => (event: React.MouseEvent<HTMLElement>) => {
     const is = tag => (event.target as HTMLElement).tagName === tag;
     const ignore = is('BUTTON') || is('path') || is('svg');
