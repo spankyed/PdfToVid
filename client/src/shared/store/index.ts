@@ -10,16 +10,31 @@ export const emptyAtom = atom([]);
 //   [key: string]: any;
 // }
 
-interface UpdateParams {
+interface UpdateListItemParams {
   papersListAtom: Atom<Paper[]>;
   id: string;
   property: string;
   newValue: any 
 }
+interface UpdateItemParams {
+  paperAtom: Atom<Paper | undefined>;
+  id: string;
+  property: string;
+  newValue: any 
+}
+
+export const updatePaperAtom = atom(
+  null,
+  (get, set, { paperAtom, id, property, newValue }: UpdateItemParams) => {
+    const item = get(paperAtom);
+
+    set(paperAtom as any, { ...item, [property]: newValue });
+  }
+);
 
 export const updatePaperInListAtom = atom(
   null,
-  (get, set, { papersListAtom, id, property, newValue }: UpdateParams) => {
+  (get, set, { papersListAtom, id, property, newValue }: UpdateListItemParams) => {
     const papersList = get(papersListAtom);
     const updatedItemList = papersList.map(item =>
       item.id === id ? { ...item, [property]: newValue } : item
