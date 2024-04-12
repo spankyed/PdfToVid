@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 // import SearchIcon from '@mui/icons-material/Search';
 import { useParams } from 'react-router-dom'; // Import useParams
-import { dateEntryModelAtom, dateEntryStateAtom, fetchPapersByDateAtom, filteredPapersAtom, resetDateEntryStatusAtom, scrapePapersDateEntryAtom, scrapingStateAtom, setPapersAtom } from './store';
+import { dateEntryPapersAtom, dateEntryStateAtom, fetchPapersByDateAtom, filteredPapersAtom, resetDateEntryStatusAtom, scrapePapersDateEntryAtom, scrapingStateAtom } from './store';
 import PageTitle from './components/page-title';
 import MainTabs from './components/main';
 import PageLayout from '~/shared/components/layout/page-layout';
@@ -16,7 +16,7 @@ function DateEntryPage(): React.ReactElement {
   dateId = dateId || '';
 
   const [, fetchData] = useAtom(fetchPapersByDateAtom);
-  const [datePage] = useAtom(dateEntryModelAtom);
+  const [papers] = useAtom(dateEntryPapersAtom);
   const setPageState = useSetAtom(dateEntryStateAtom);
 
   useEffect(() => {
@@ -25,8 +25,6 @@ function DateEntryPage(): React.ReactElement {
       setPageState('loading');
     }
   }, [dateId]);
-
-  const { papers } = datePage;
 
   return (
     <PageLayout padding={3} style={{ marginTop: 3, margin: '0 auto'}}>
@@ -42,13 +40,12 @@ function RenderByState({ dateId }) {
   const [state] = useAtom(dateEntryStateAtom);
   const [scrapeStatus, setScrapeStatus] = useAtom(scrapingStateAtom);
   const setPageState = useSetAtom(dateEntryStateAtom);
-  const setPapers = useSetAtom(setPapersAtom);
-  const [papers] = useAtom(filteredPapersAtom);
+  const setPapers = useSetAtom(dateEntryPapersAtom);
 
-  const handleDateStatusUpdate = ({ key, status: newStatus, data }) => {
+  const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }) => {
     if (newStatus === 'complete') {
-      setPapers(data);
-      if (data.length === 0) {
+      setPapers(papers);
+      if (papers.length === 0) {
         setPageState('unexpected');
       } else {
         setPageState('complete');
@@ -75,7 +72,7 @@ function RenderByState({ dateId }) {
       )
     case 'complete':
     default:
-      return <MainTabs papers={papers} />;
+      return <MainTabs papersAtom={filteredPapersAtom} />;
   }
 }
 
