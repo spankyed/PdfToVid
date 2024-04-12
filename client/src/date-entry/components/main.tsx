@@ -12,7 +12,6 @@ const MainTabs: React.FC<{
   papersAtom?: Atom<Paper[]>;
   isLoading?: boolean
 }> = ({ papersAtom, isLoading = false }) => {
-  console.log('papersAtom: ', papersAtom);
   const [tabValue, setTabValue] = useAtom(tabValueAtom);
   const updatePaper = useSetAtom(updatePaperInListAtom);
   const papers = useAtomValue(papersAtom || emptyAtom);
