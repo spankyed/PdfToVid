@@ -22,9 +22,10 @@ const MainTabs: React.FC<{
 
   useEffect(() => {
     const handlePaperUpdate = (event) => {
-      const { id, isStarred } = event.detail;
+      const { id, changes } = event.detail;
+      const { field, value } = changes;
 
-      updatePaper({ papersListAtom: dateEntryPapersAtom, id, property: 'isStarred', newValue: isStarred })
+      updatePaper({ papersListAtom: dateEntryPapersAtom, id, field, newValue: value })
     }
 
     window.addEventListener('paperUpdate', handlePaperUpdate);

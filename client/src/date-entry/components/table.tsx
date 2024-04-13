@@ -84,7 +84,7 @@ const TableRows = ({papers}) => {
           <ButtonGroup variant="text" aria-label="paper actions">
             {
               // notUploaded(paper) && (
-                <PaperAction state={paper.status} />
+                <PaperAction paper={paper} />
               // )
             }
             <Button>
@@ -96,7 +96,7 @@ const TableRows = ({papers}) => {
             </Button>
             {
               showReject(paper) && (
-                <RejectAction/>
+                <RejectAction paper={paper}/>
               )
             }
           </ButtonGroup>

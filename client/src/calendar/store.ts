@@ -140,7 +140,7 @@ export const scrollableContainerRefAtom = atom<RefObject<HTMLDivElement> | null>
 
 export const updatePaperInCalenderAtom = atom(
   null,
-  async (get, set, { date: value, changes }) => {
+  async (get, set, { date: value, id, changes }) => {
     const dateAtoms = get(calendarModelAtom);
 
     let targetDateAtom = dateAtoms.find((dateAtom) => {
@@ -152,12 +152,12 @@ export const updatePaperInCalenderAtom = atom(
       return;
     }
 
-    const { id, property, newValue } = changes;
+    const { field, value: newValue } = changes;
 
     set(targetDateAtom, (prevDate) => ({
       ...prevDate,
       papers: prevDate.papers.map(item =>
-        item.id === id ? { ...item, [property]: newValue } : item
+        item.id === id ? { ...item, [field]: newValue } : item
       )
     }));
   }

@@ -18,11 +18,7 @@ function DateRows(): React.ReactElement {
 
   useEffect(() => {
     const handlePaperUpdate = (event) => {
-      const { id, isStarred, date } = event.detail;
-
-      updatePaper({ date, changes: {
-        id, property: 'isStarred', newValue: isStarred
-      } })
+      updatePaper(event.detail)
     }
 
     window.addEventListener('paperUpdate', handlePaperUpdate);

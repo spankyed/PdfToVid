@@ -6,36 +6,102 @@ import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import PublishIcon from '@mui/icons-material/Publish';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import * as api from '~/shared/api/fetch';
 
-const PaperAction = ({ state }) => {
+const updateStatus = (status: keyof typeof PaperState) => (paper) => async () => {
+  const id = paper.id
+  if (!id) {
+    return;
+  }
+
+  const newStatus = PaperState[status];
+  
+  await api.updatePaperStatus(id, newStatus)
+
+  const event = new CustomEvent('paperUpdate', {
+    detail: {
+      id,
+      date: paper.date,
+      changes: { field: 'status', value: newStatus  }
+    },
+  });
+
+  window.dispatchEvent(event);
+}
+
+const actions = {
+  approve: {
+    title: 'Approve',
+    icon: <CheckOutlinedIcon color="warning" />,
+    handler: updateStatus('approved'),
+  },
+  generate: {
+    title: 'Generate',
+    icon: <EditNoteOutlinedIcon color="success" />,
+    handler: updateStatus('generated'),
+  },
+  upload: {
+    title: 'Upload',
+    icon: <PublishIcon color="secondary" />,
+    handler: updateStatus('published'),
+  },
+  view: {
+    title: 'View',
+    icon: <div>View</div>,
+    handler: () => {},
+  },
+  // updating: {
+  //   title: 'updating',
+  //   icon: <div>updating</div>,
+  //   handler: () => {},
+  // },
+  reject: {
+    title: 'Undo Approval',
+    icon: <ClearOutlinedIcon color='error' style={{ marginRight: '4px' }}/>,
+    handler: updateStatus('initial'),
+  },
+}
+
+const ActionComponent = ({ type, paper }) => {
+  const action = actions[type];
+  
+  return (
+    <Button onClick={action.handler(paper)}>
+      <Tooltip title={action.title}>
+        {action.icon}
+      </Tooltip>
+    </Button>
+  )
+};
+
+
+const PaperAction = ({ paper }) => {
+  const state = paper.status;
+
   const renderAction = () => {
     switch (state) {
       case PaperState.initial:
-        return <Tooltip title='Approve'><CheckOutlinedIcon color="warning" /></Tooltip>;
+        return <ActionComponent type='approve' paper={paper} />;
       case PaperState.approved:
-        return <Tooltip title='Generate'><EditNoteOutlinedIcon color="success" /></Tooltip>;
-      case PaperState.generated: // consider a draft action instead of publish from generated status
-        return <Tooltip title='Upload'><PublishIcon color="secondary" /></Tooltip>;
+        return <ActionComponent type='generate' paper={paper} />;
+      case PaperState.generated: // from generated status, consider a draft action instead of upload/publish action
+        return <ActionComponent type='upload' paper={paper} />;
       case PaperState.published:
-        return <div>View</div>; // Assuming no icon is needed for 'uploaded' state
+        return <ActionComponent type='view' paper={paper} />;
       default:
         return <div>Unknown State</div>;
     }
   };
 
   return (
-    <Button>
+    <>
       {renderAction()}
-    </Button>
+    </>
   );
 };
 
-const RejectAction = () => (
-  <Button>
-    <Tooltip title='Reject'>
-      <ClearOutlinedIcon color='error' style={{ marginRight: '4px' }}/>
-    </Tooltip>
-  </Button>
+const RejectAction = ({ paper }) => (
+  <ActionComponent type='reject' paper={paper} />
 );
 
 export { RejectAction };

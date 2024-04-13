@@ -95,10 +95,10 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
       {
         // notUploaded(paper) && (
           <>
-            <PaperAction state={paper.status} />
+            <PaperAction paper={paper} />
           {
             showReject(paper) && (
-              <RejectAction/>
+              <RejectAction paper={paper}/>
             )
           }
           </>

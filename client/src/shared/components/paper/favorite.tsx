@@ -9,14 +9,6 @@ import * as  api from '../../api/fetch';
 // import { useState } from "react";
 import { Paper } from "~/shared/utils/types";
 
-function dispatchPaperUpdate({ id, isStarred, date }) {
-  const event = new CustomEvent('paperUpdate', {
-    detail: { id, isStarred, date },
-  });
-
-  window.dispatchEvent(event);
-}
-
 function Favorite ({ paper = {} }: { paper?: Partial<Paper> }): React.ReactElement {
   const updateIsStarred = async () => {
     const id = paper.id
@@ -27,7 +19,15 @@ function Favorite ({ paper = {} }: { paper?: Partial<Paper> }): React.ReactEleme
     const newState = !paper.isStarred;
     await api.updateIsStarred(id, newState)
 
-    dispatchPaperUpdate({id, isStarred: newState, date: paper.date })
+    const event = new CustomEvent('paperUpdate', {
+      detail: {
+        id,
+        date: paper.date,
+        changes: { field: 'isStarred', value: newState  }
+      },
+    });
+
+    window.dispatchEvent(event);
   }
 
   return (

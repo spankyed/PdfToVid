@@ -11,14 +11,15 @@ function getPaperById(id: number): Promise<any> {
  * Updates the 'isStarred' status of a paper identified by its ID.
  * 
  * @param id - The ID of the paper to update.
- * @param isStarred - The new boolean value for the 'isStarred' field.
+ * @param field - The paper field to update.
+ * @param value - The new value for the paper field.
  * @returns A promise that resolves with the result of the update operation.
  */
-function updateIsStarred(id: number, isStarred: boolean): Promise<[affectedCount: number]> {
-  return PapersTable.update({ isStarred }, { where: { id } });
+function updatePaperField(id: number, field: string, value: any): Promise<[affectedCount: number]> {
+  return PapersTable.update({ [field]: value }, { where: { id } });
 }
 
 export {
   getPaperById,
-  updateIsStarred
+  updatePaperField
 }
