@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
 import PageLayout from '~/shared/components/layout/page-layout';
 import EntryTabs from './components/tabs';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { fetchPaperAtom, pageStateAtom, paperAtom } from './store';
 import PdfModal from './components/pdf/modal';
 import { useParams } from 'react-router-dom';
 import DateAuthorsPdf from './components/date-authors-pdf';
 import PaperTitle from './components/title';
 import './paper-entry.css';
+import { updatePaperAtom } from '~/shared/store';
 
 const orEmpty = (value: string | undefined) => value || '';
 
@@ -19,8 +20,22 @@ const PaperEntryPage: React.FC<{}> = () => {
   const [, fetchData] = useAtom(fetchPaperAtom);
   const [paper] = useAtom(paperAtom);
   const [pageState, setPageState] = useAtom(pageStateAtom);
+  const updatePaper = useSetAtom(updatePaperAtom);
 
-  useEffect(() => () => setPageState('loading'), []);
+  useEffect(() => {
+    const handlePaperUpdate = (event) => {
+      const { id, isStarred } = event.detail;
+
+      updatePaper({ paperAtom, id, property: 'isStarred', newValue: isStarred })
+    }
+
+    window.addEventListener('paperUpdate', handlePaperUpdate);
+
+    return () => {
+      setPageState('loading');
+      window.removeEventListener('paperUpdate', handlePaperUpdate);
+    };
+  }, []);
   
   useEffect(() => {
     fetchData(paperId);

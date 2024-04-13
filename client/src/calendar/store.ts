@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 import { selectedDateAtom } from '~/shared/store';
-import { CalendarModel } from '~/shared/utils/types';
+import { CalendarModel, DateRow } from '~/shared/utils/types';
 import { RefObject } from 'react';
 import { resetDateStatus } from '../shared/api/fetch';
 import { splitAtom } from 'jotai/utils'
@@ -137,3 +137,28 @@ export const scrapePapersAtom = atom(
 );
 
 export const scrollableContainerRefAtom = atom<RefObject<HTMLDivElement> | null>(null);
+
+export const updatePaperInCalenderAtom = atom(
+  null,
+  async (get, set, { date: value, changes }) => {
+    const dateAtoms = get(calendarModelAtom);
+
+    let targetDateAtom = dateAtoms.find((dateAtom) => {
+      const { date } = get(dateAtom);
+      return date.value === value;
+    });
+
+    if (!targetDateAtom) {
+      return;
+    }
+
+    const { id, property, newValue } = changes;
+
+    set(targetDateAtom, (prevDate) => ({
+      ...prevDate,
+      papers: prevDate.papers.map(item =>
+        item.id === id ? { ...item, [property]: newValue } : item
+      )
+    }));
+  }
+);

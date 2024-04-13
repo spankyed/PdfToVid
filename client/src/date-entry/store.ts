@@ -1,24 +1,29 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { Date } from '~/shared/utils/types';
 
-export const dateEntryStateAtom = atom<'loading'| 'pending' | 'complete' | 'error' | 'unexpected'>('loading');
-export const scrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
 export const tabValueAtom = atom<0 | 1>(0);
-export const dateEntryModelAtom = atom<{
-  date: Date | null;
-  papers: any[];
-}>({
-  papers: [],
-  date: null,
-});
+export const searchKeywordAtom = atom('');
+export const scrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
+export const dateEntryStateAtom = atom<'loading'| 'pending' | 'complete' | 'error' | 'unexpected'>('loading');
+export const dateEntryPapersAtom = atom<any[]>([])
 
-export const setPapersAtom = atom(
-  null,
+export const filteredPapersAtom = atom(
+  (get) => {
+    const papers = get(dateEntryPapersAtom);
+    const keyword = get(searchKeywordAtom).toLowerCase();
+
+    if (!keyword.trim()) return papers; // Return all papers if search is empty
+
+    return papers.filter((paper) => {
+      return (
+        paper.title.toLowerCase().includes(keyword) ||
+        paper.abstract.toLowerCase().includes(keyword) ||
+        paper.authors.split(';').some((author) => author.toLowerCase().includes(keyword))
+      );
+    });
+  },
   async (get, set, papers: any) => {
-    const dateEntry = get(dateEntryModelAtom);
-    dateEntry.papers = papers;
-    set(dateEntryModelAtom, dateEntry);
+    set(dateEntryPapersAtom, papers)
   }
 );
 
@@ -44,7 +49,7 @@ export const fetchPapersByDateAtom = atom(
       if (date.status === 'complete' && papers.length === 0) {
         set(dateEntryStateAtom, 'unexpected');
       } else {
-        set(dateEntryModelAtom, model);
+        set(dateEntryPapersAtom, papers);
         set(dateEntryStateAtom, date.status);
       }
     } catch (error) {
@@ -79,12 +84,6 @@ export const resetDateEntryStatusAtom = atom(
         return;
       }
 
-      const dateEntry = get(dateEntryModelAtom);
-
-      dateEntry.date = dateEntry.date || { value: dateId, status: 'pending' };
-      dateEntry.date.status = 'pending';
-
-      set(dateEntryModelAtom, dateEntry);
       set(dateEntryStateAtom, 'pending');
       set(scrapingStateAtom, 'pending');
     } catch (error) {

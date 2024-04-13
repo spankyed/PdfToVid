@@ -66,7 +66,7 @@ const BasicCriteriaControl: React.FC<{}> = () => {
 
           <TextField
             id="relevancy-score-input"
-            label="Relevancy Score"
+            label="Relevancy"
             variant="outlined"
             type="number"
             InputProps={{
