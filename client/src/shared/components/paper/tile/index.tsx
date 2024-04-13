@@ -28,7 +28,7 @@ function PaperTile({ paper, currentPage, previousPage, imagesPerPage, index, sha
 
   const handleMouseOver = (paper) => (event: React.MouseEvent<HTMLElement>) => {
     const is = tag => (event.target as HTMLElement).tagName === tag;
-    const ignore = is('BUTTON') || is('path') || is('svg');
+    const ignore = is('BUTTON') || is('path') || is('svg')|| is('DIV');
     
     if (hoverTimeout) clearTimeout(hoverTimeout);
 
