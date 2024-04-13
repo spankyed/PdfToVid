@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import SummaryPopover from '~/shared/components/paper/tile/summary/summary';
-import { calendarLoadMoreAtom, calendarModelAtom, lastRecordReachedAtom, scrollableContainerRefAtom } from '../../store';
+import { calendarLoadMoreAtom, calendarModelAtom, lastRecordReachedAtom, scrollableContainerRefAtom, updatePaperInCalenderAtom } from '../../store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 import RowItem from './row-item';
 import { isSummaryOpenAtom } from '../../../shared/components/paper/tile/summary/store';
@@ -14,8 +14,24 @@ function DateRows(): React.ReactElement {
 
   const dbCursor = useAtomValue(datesAtoms[datesAtoms.length - 1])
   const datesLength = datesAtoms.length;
+  const updatePaper = useSetAtom(updatePaperInCalenderAtom);
 
-  useEffect(() => () => setSummaryOpen(false), []); // Close the summary popover on unmount
+  useEffect(() => {
+    const handlePaperUpdate = (event) => {
+      const { id, isStarred, date } = event.detail;
+
+      updatePaper({ date, changes: {
+        id, property: 'isStarred', newValue: isStarred
+      } })
+    }
+
+    window.addEventListener('paperUpdate', handlePaperUpdate);
+
+    return () => {
+      setSummaryOpen(false);
+      window.removeEventListener('paperUpdate', handlePaperUpdate);
+    };
+  }, []);
 
   useEffect(() => {
     const scrollableElement = scrollableContainerRef?.current;
