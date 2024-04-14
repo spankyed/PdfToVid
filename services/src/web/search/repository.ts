@@ -31,7 +31,6 @@ interface SearchForm {
 }
 
 async function searchPapers(form: SearchForm): Promise<Paper[]> {
-  console.log('form: ', form);
   let whereClause: { [key: string]: any } = {};
 
   if (form.query) {
@@ -83,7 +82,6 @@ async function searchPapers(form: SearchForm): Promise<Paper[]> {
     }
   }
 
-  console.log('whereClause: ', whereClause);
   try {
     const papers = await PapersTable.findAll({
       where: whereClause,

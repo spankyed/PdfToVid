@@ -1,34 +1,11 @@
 import chromadb from "chromadb";
-import { pipeline, env } from "@xenova/transformers";
 import * as fs from "fs";
+import { createEmbedder } from "../../shared/embedder";
 
-env.localModelPath = "/Users/spankyed/develop/projects/all-models";
 const client = new chromadb.ChromaClient();
 const COLLECTION_NAME = "paper-embeddings";
-const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
 const PATH_REF_PAPERS =
-  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/ref-papers.json";
-
-async function createSBertEmbeddingFunction(modelName: string) {
-  const extractor = await pipeline("feature-extraction", modelName, {
-    quantized: false,
-});
-
-  const generate = async (texts: string[]): Promise<number[][]> => {
-    const embeddings: number[][] = await Promise.all(
-      texts.map(async (text) => {
-        const output = await extractor(text, {
-          pooling: "mean",
-          normalize: true,
-        });
-        return Array.from(output.data) as number[];
-      })
-    );
-    return embeddings;
-  };
-
-  return { generate };
-}
+  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/research-papers.json";
 
 let embedder: { generate: (texts: string[]) => Promise<number[][]> };
 
@@ -61,7 +38,7 @@ async function storePaperEmbeddingsInChroma(
 }
 
 async function fetchAndPrintCollectionContent() {
-  embedder = await createSBertEmbeddingFunction(MODEL_NAME);
+  embedder = await createEmbedder();
   const collection = await client.getCollection({ name: COLLECTION_NAME, embeddingFunction: embedder });
 
   // Assuming there's a method to fetch all documents (or a subset) from the collection
