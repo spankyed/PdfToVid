@@ -16,6 +16,9 @@ const serverConfig: Hapi.ServerOptions | undefined = {
 (async function start () {
   const server = createServer(serverConfig, routes);
 
+  // todo check if chroma is up and running
+  // todo check if chroma has the necessary collections, populate a collection with seed ref papers if not
+
   try {
     await server.start();
   }
