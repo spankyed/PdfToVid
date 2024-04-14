@@ -8,7 +8,7 @@ type Paper = {
   relevancy?: number
 };
 
-const pathRefPapers: string = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/ref-papers.json';
+const pathRefPapers: string = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/research-papers.json';
 let ref_papers: Paper[] = JSON.parse(fs.readFileSync(pathRefPapers, 'utf-8'));
 
 function computeCosineSimilarity(A: number[], B: number[]): number {
@@ -57,7 +57,7 @@ async function createSBertEmbeddingFunction(modelName: string) {
   return { generate };
 }
 
-async function testSimilarity(doc1) {
+async function testSimilarity(doc1: any) {
   const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
   const embedder = await createSBertEmbeddingFunction(MODEL_NAME);
   let [paper_embedding]: number[][] = await embedder.generate([doc1]); // Assuming encode returns an array of numbers.
@@ -80,7 +80,7 @@ async function testSimilarity(doc1) {
   console.log('relevancy_score: ', relevancy_score);
 
 }
-async function testSimilarity2(doc1) {
+async function testSimilarity2(doc1: any) {
   const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
   const embedder = await createSBertEmbeddingFunction(MODEL_NAME);
   let [paper_embedding]: number[][] = await embedder.generate([doc1]); // Assuming encode returns an array of numbers.

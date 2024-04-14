@@ -6,7 +6,7 @@ env.localModelPath = "/Users/spankyed/develop/projects/all-models";
 const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
 const COLLECTION_NAME = "paper-embeddings";
 const PATH_REF_PAPERS =
-  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/ref-papers.json";
+  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/research-papers.json";
 const client = new chromadb.ChromaClient();
 
 async function createSBertEmbeddingFunction(modelName: string) {
