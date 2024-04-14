@@ -41,7 +41,7 @@ async function storePaperEmbeddingsInChroma(
 }
 
 async function fetchAndPrintCollectionContent() {
-  const collection = await client.getCollection({ name: COLLECTION_NAME });
+  // const collection = await client.getCollection({ name: COLLECTION_NAME });
 
   // const documents = await collection.get();
   // console.log(JSON.stringify(documents, null, 2));
