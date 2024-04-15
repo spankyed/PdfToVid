@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { ChromaClient } from 'chromadb'
-import { pipeline, env } from "@xenova/transformers";
+import { createEmbedder } from '../../shared/embedder';
 
 type Paper = {
   title: string,
@@ -36,30 +36,9 @@ function computeCosineSimilarity(A: number[], B: number[]): number {
     return dot / (magA * magB);
 }
 
-async function createSBertEmbeddingFunction(modelName: string) {
-  const extractor = await pipeline("feature-extraction", modelName, {
-    quantized: false,
-});
-
-  const generate = async (texts: string[]): Promise<number[][]> => {
-    const embeddings: number[][] = await Promise.all(
-      texts.map(async (text) => {
-        const output = await extractor(text, {
-          pooling: "mean",
-          normalize: true,
-        });
-        return Array.from(output.data) as number[];
-      })
-    );
-    return embeddings;
-  };
-
-  return { generate };
-}
-
 async function testSimilarity(doc1: any) {
-  const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
-  const embedder = await createSBertEmbeddingFunction(MODEL_NAME);
+  const embedder = await createEmbedder();
+
   let [paper_embedding]: number[][] = await embedder.generate([doc1]); // Assuming encode returns an array of numbers.
   // console.log('paper_embedding: ', paper_embedding);
 
@@ -81,8 +60,8 @@ async function testSimilarity(doc1: any) {
 
 }
 async function testSimilarity2(doc1: any) {
-  const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
-  const embedder = await createSBertEmbeddingFunction(MODEL_NAME);
+  const embedder = await createEmbedder();
+
   let [paper_embedding]: number[][] = await embedder.generate([doc1]); // Assuming encode returns an array of numbers.
   const client = new ChromaClient();
   const collection = await client.getCollection({ name: 'paper-embeddings', embeddingFunction: embedder });
