@@ -1,4 +1,4 @@
-import scrapeRefPapers from "./scrape-reference-papers";
+import scrapeRefPapers from "./scrape-papers-by-ids";
 import { promises as fs } from 'fs';
 import path from 'path';
 
