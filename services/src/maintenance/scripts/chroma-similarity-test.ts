@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import chromadb from "chromadb";
+import { ChromaClient } from 'chromadb'
 import { pipeline, env } from "@xenova/transformers";
 
 type Paper = {
@@ -84,7 +84,7 @@ async function testSimilarity2(doc1: any) {
   const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
   const embedder = await createSBertEmbeddingFunction(MODEL_NAME);
   let [paper_embedding]: number[][] = await embedder.generate([doc1]); // Assuming encode returns an array of numbers.
-  const client = new chromadb.ChromaClient();
+  const client = new ChromaClient();
   const collection = await client.getCollection({ name: 'paper-embeddings', embeddingFunction: embedder });
   const results = await collection.query({
     // queryTexts: paperTexts,

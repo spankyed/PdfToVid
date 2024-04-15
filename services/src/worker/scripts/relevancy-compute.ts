@@ -1,4 +1,4 @@
-import chromadb from "chromadb";
+import { ChromaClient } from 'chromadb'
 import * as fs from "fs";
 import { pipeline, env } from "@xenova/transformers";
 
@@ -7,7 +7,7 @@ const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
 const COLLECTION_NAME = "paper-embeddings";
 const PATH_REF_PAPERS =
   "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/research-papers.json";
-const client = new chromadb.ChromaClient();
+const client = new ChromaClient();
 
 async function createSBertEmbeddingFunction(modelName: string) {
   const extractor = await pipeline("feature-extraction", modelName);

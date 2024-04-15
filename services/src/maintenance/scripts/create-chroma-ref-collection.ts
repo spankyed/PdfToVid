@@ -1,4 +1,3 @@
-// import chromadb from "chromadb";
 import { ChromaClient } from 'chromadb'
 import * as fs from "fs";
 import { createEmbedder } from "../../shared/embedder";
