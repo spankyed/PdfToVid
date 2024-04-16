@@ -16,12 +16,21 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["./*"],
+      "@config": ["../../config.ts"]
+    },
+    "allowSyntheticDefaultImports": true // This allows default imports from modules with no default export
   },
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node",
   },
-  "include": ["src/**/*.ts"],
+  "include": [
+    "../config.ts",
+    "src/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

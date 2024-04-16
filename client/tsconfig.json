@@ -29,13 +29,16 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noEmitOnError": true,
-    "baseUrl": "./src",
+    "baseUrl": "../",
     "paths": {
-      "~/*": ["./*"],
-      "src": ["src"],
-      "src/*": ["src/*"],
+      "~/*": ["./client/src/*"],
+      "src": ["./client/src"],
+      "@config": ["./config.ts"]
     }
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "../config.ts",
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

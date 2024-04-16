@@ -1,6 +1,9 @@
 // import repository from '../../repository';
+import config from '@config';
 import { getDatesBetween } from '../backfill-dates';
 
+
+console.log(config);
 async function initializeServer(): Promise<void> {
   const configs = await repository.getConfigs(); // ! repository deleted, use sequalize
   const lastRun = configs[0].lastRun || null;
