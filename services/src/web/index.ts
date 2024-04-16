@@ -1,11 +1,24 @@
 import createServer from '../shared/server';
 import { ClientPath, ports } from '../shared/constants';
-import { routes } from './routes';
 import { Server as IOServer } from 'socket.io';
 // import eventHandlers from './service/handlers/socket';
 
+import calendarRoutes from './calendar/controller';
+import paperEntryRoutes from './paper-entry/controller';
+import dateEntryRoutes from './date-entry/controller';
+import searchRoutes from './search/controller';
+import sharedRoutes from './shared/controller';
+
 // import mocks from '../../../tests/mocks';
 // const { calendarModel } = mocks;
+
+export const routes = [
+  ...calendarRoutes,
+  ...dateEntryRoutes,
+  ...paperEntryRoutes,
+  ...searchRoutes,
+  ...sharedRoutes,
+];
 
 const server = createServer({
   port: ports.web,

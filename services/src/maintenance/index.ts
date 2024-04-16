@@ -1,7 +1,7 @@
 import createServer from '../shared/server';
 import { ports } from '../shared/constants';
-import routes from './routes';
 import Hapi from '@hapi/hapi';
+import routes from './controllers';
 
 const serverConfig: Hapi.ServerOptions | undefined = { 
   port: ports.maintenance,

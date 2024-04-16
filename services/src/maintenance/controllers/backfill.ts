@@ -1,4 +1,5 @@
-import { backfillDates } from "../scripts/backfill";
+import { backfillDates } from "../scripts/backfill-dates";
+import { route } from '../../shared/route';
 
 function backfillToDate(request, h){
   return new Promise(async (resolve, reject) => {
@@ -9,6 +10,6 @@ function backfillToDate(request, h){
   });
 }
 
-export {
-  backfillToDate,
-}
+export default [
+  route.post('/backfill/{date}', backfillToDate),
+]

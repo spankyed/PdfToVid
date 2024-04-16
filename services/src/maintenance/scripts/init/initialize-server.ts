@@ -1,5 +1,5 @@
 // import repository from '../../repository';
-import { getDatesBetween } from '../backfill';
+import { getDatesBetween } from '../backfill-dates';
 
 async function initializeServer(): Promise<void> {
   const configs = await repository.getConfigs(); // ! repository deleted, use sequalize
@@ -18,9 +18,6 @@ async function initializeServer(): Promise<void> {
       const ret1 = await repository.storeDate(date);
       console.log('ret1: ', ret1);
     }
-  } else {
-    const ret2 = await repository.storeDate(today);
-    console.log('ret2: ', ret2);
   }
 
   const ret3 = await repository.updateLastRunDate(today);

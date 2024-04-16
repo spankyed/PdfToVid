@@ -1,4 +1,4 @@
-import { DatesTable } from '../../shared/schema';
+import repository from '../repository';
 
 // usage: backfill from current date to May 1, 2023
 // backfillDates('2023-05-01');
@@ -8,15 +8,10 @@ export async function backfillDates(date: string): Promise<any> {
   const startDate = new Date(date);
 
   const datesToBackfill = getDatesBetween(startDate.toISOString().split('T')[0], today.toISOString().split('T')[0]);
-  console.log('datesToBackfill: ', datesToBackfill);
-  const existingDates = await DatesTable.findAll({
-    where: {
-      value: datesToBackfill
-    }
-  });
-  const existingDateValues = existingDates.map(record => record.value);
-  const newDates = datesToBackfill.filter(date => !existingDateValues.includes(date));
-  const newDateRecords = newDates
+  const dateRecords = await repository.getByDates(datesToBackfill);
+  const existingDates = dateRecords.map(record => record.value);
+  const newDateRecords = datesToBackfill
+    .filter(date => !existingDates.includes(date))
     .filter((date, index, self) => self.indexOf(date) === index) // Filter duplicates
     .map(date => ({
       value: date,
@@ -24,9 +19,7 @@ export async function backfillDates(date: string): Promise<any> {
     }));
 
   if (newDateRecords.length > 0) {
-    await DatesTable.bulkCreate(newDateRecords, {
-      ignoreDuplicates: true // This option depends on your DBMS and Sequelize version
-    });
+    await repository.bulkCreate(newDateRecords);
   }
 
   console.log('Backfill completed.');
@@ -34,6 +27,7 @@ export async function backfillDates(date: string): Promise<any> {
   // return last 7 dates
   return newDateRecords;
 };
+
 export function getDatesBetween(startDate: string, endDate: string): string[] {
   let start = new Date(startDate);
   const end = new Date(endDate);
