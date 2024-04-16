@@ -1,4 +1,4 @@
-import scrapeRefPapers from "./scrape-reference-papers";
+import scrapeRefPapers from "./scrape-papers-by-ids";
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -42,7 +42,9 @@ const entryIds =  [
   '2308.13724',
   '2308.14296',
   '2305.01157',
-  '2404.05966', // latest
+  // latest
+  '2404.05966',
+  '2404.07439',
 ]
 
 scrapeRefPapers(entryIds).then((arxivPapers) => {

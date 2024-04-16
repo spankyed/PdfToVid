@@ -1,58 +1,9 @@
-import chromadb from "chromadb";
-import * as fs from "fs";
-import { pipeline, env } from "@xenova/transformers";
+import { ChromaClient } from 'chromadb'
+import { ReferenceCollectionName } from '../../shared/constants';
+import { createEmbedder } from '../../shared/embedder';
 
-env.localModelPath = "/Users/spankyed/develop/projects/all-models";
-const MODEL_NAME = "Xenova/all-MiniLM-L6-v2";
-const COLLECTION_NAME = "paper-embeddings";
-const PATH_REF_PAPERS =
-  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/research-papers.json";
-const client = new chromadb.ChromaClient();
-
-async function createSBertEmbeddingFunction(modelName: string) {
-  const extractor = await pipeline("feature-extraction", modelName);
-
-  const generate = async (texts: string[]): Promise<number[][]> => {
-    const embeddings: number[][] = await Promise.all(
-      texts.map(async (text) => {
-        const output = await extractor(text, {
-          pooling: "mean",
-          normalize: true,
-        });
-        return Array.from(output.data) as number[];
-      })
-    );
-    return embeddings;
-  };
-
-  return { generate };
-}
-
-let embedder: { generate: (texts: string[]) => Promise<number[][]> };
-
-createSBertEmbeddingFunction(MODEL_NAME).then((e) => {
-  embedder = e;
-});
-
-async function storePaperEmbeddingsInChroma(
-  papers: any[],
-  collectionName = COLLECTION_NAME
-) {
-  const existingCollections = await client.listCollections();
-  if (!existingCollections.map((c) => c.name).includes(collectionName)) {
-    await client.createCollection({ name: collectionName, embeddingFunction: embedder });
-  }
-
-  const embeddings = await embedder.generate(
-    papers.map((paper) => paper.title + ". " + paper.abstract)
-  );
-  const collection = await client.getCollection({ name: collectionName, embeddingFunction: embedder });
-
-  await collection.add({
-    embeddings: embeddings,
-    ids: papers.map((paper) => paper.id),
-  });
-}
+const client = new ChromaClient();
+const embedder = await createEmbedder();
 
 export async function getRelevancyScores(
   papers: any[],
@@ -68,12 +19,12 @@ export async function getRelevancyScores(
     return []; // ! should set date status to 'error' here or reset status
   }
 
-  if (!existingCollections.map((c) => c.name).includes(COLLECTION_NAME)) {
-    const refPapers = JSON.parse(fs.readFileSync(PATH_REF_PAPERS, "utf-8"));
-    await storePaperEmbeddingsInChroma(refPapers);
+  if (!existingCollections.map((c) => c.name).includes(ReferenceCollectionName)) {
+    throw new Error(`Collection ${ReferenceCollectionName} does not exist`);
   }
 
-  const collection = await client.getCollection({ name: COLLECTION_NAME, embeddingFunction: embedder });
+
+  const collection = await client.getCollection({ name: ReferenceCollectionName, embeddingFunction: embedder });
   console.log("Number of papers:", papers.length);
 
   // Prepare all texts for querying

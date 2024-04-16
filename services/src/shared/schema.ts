@@ -31,6 +31,27 @@ export class DatesTable extends Model {
   declare status: string;
 }
 
+export class ReferencePapersTable extends Model {
+  declare id: string;
+  // declare chroma_id: string;
+}
+
+ReferencePapersTable.init({
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    unique: true
+  },
+  // chroma_id: DataTypes.STRING,
+}, {
+  sequelize,
+  modelName: 'ReferencePapersTable',
+  tableName: 'ReferencePapers',
+  paranoid: true, // This enables soft deletes
+  timestamps: true, // Ensure timestamps are true for paranoid to work
+  deletedAt: 'deletedAt',
+});
+
 DatesTable.init({
   value: {
     type: DataTypes.STRING,
@@ -61,12 +82,7 @@ PapersTable.init({
   sequelize,
   modelName: 'PapersTable',
   tableName: 'Papers',
-  indexes: [
-    {
-      unique: false,
-      fields: ['date']
-    }
-  ]
+  indexes: [{ unique: false, fields: ['date']}]
 });
 
 PapersTable.belongsTo(DatesTable, { foreignKey: 'date', targetKey: 'value' });
