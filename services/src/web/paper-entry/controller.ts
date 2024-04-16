@@ -12,10 +12,30 @@ function paperById(request: any, h: any){
 function starPaper(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const paperId = request.params.paperId;
-    const value = request.payload.value;
+    const isStarred = request.payload.value;
 
-    const papers = await repository.updatePaperField(paperId, 'isStarred', value);
-    resolve(papers)
+    const result = await repository.updatePaperField(paperId, 'isStarred', isStarred);
+
+    try {
+      if (isStarred) {
+        const paper = await repository.getPaperById(paperId);
+        Promise.all([
+          repository.chroma.storeReferencePaperChroma(paper),
+          repository.storeReferencePaper(paperId)
+        ]);
+      } else {
+        Promise.all([
+          repository.chroma.deleteReferencePaperChroma(paperId),
+          repository.deleteReferencePaper(paperId)
+        ]);
+      }
+    } catch (err) {
+      console.error(`Unable to update reference paper ${paperId} - ${isStarred}`, err);
+      // if storing fails need to revert the isStarred field
+      // await repository.updatePaperField(paperId, 'isStarred', !isStarred);
+    }
+
+    resolve(result)
   });
 }
 

@@ -7,8 +7,10 @@ import * as fs from "fs";
 // const refPapers = JSON.parse(fs.readFileSync(path, "utf-8"));
 // createReferenceCollection(refPapers);
 
+createReferenceCollection();
+
 export async function createReferenceCollection(
-  papers: any[],
+  papers?: any[],
   collectionName = ReferenceCollectionName
 ) {
   const client = new ChromaClient();
@@ -24,13 +26,19 @@ export async function createReferenceCollection(
       metadata: { "hnsw:space": "cosine" }
     });
   }
-  // const embeddings = await embedder.generate(
-  //   papers.map((paper) => paper.title + ". " + paper.abstract)
-  // );
+
+  if (!papers || !papers.length) {
+    return;
+  }
+
   const collection = await client.getCollection({
     name: collectionName,
     embeddingFunction: embedder,
   });
+
+  // const embeddings = await embedder.generate(
+  //   papers.map((paper) => paper.title + ". " + paper.abstract)
+  // );
 
   await collection.add({
     // embeddings: embeddings,
