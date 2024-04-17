@@ -6,6 +6,7 @@ export const sequelize = new Sequelize({
   // other options
   dialect: 'sqlite',
   storage: `${dbRoot}/curate.db`,
+  logging: false,  // This disables logging
   // pool: {
   //   max: 10, // Maximum number of connections in pool
   //   min: 0, // Minimum number of connections in pool
