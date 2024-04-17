@@ -1,9 +1,6 @@
 import { Op } from "sequelize";
-import { ChromaClient } from 'chromadb'
 import { PapersTable, ReferencePapersTable } from "../../shared/schema";
-import { ReferenceCollectionName } from "../../shared/constants";
-import { createEmbedder } from "../../shared/embedder";
-import { PaperRecord } from "../../shared/types";
+import * as sharedRepository from '~/shared/repository';
 
 function getPaperById(id: number): Promise<any> {
   return PapersTable.findOne({
@@ -58,33 +55,11 @@ export {
 }
 
 const chroma = {
-  storeReferencePaperChroma,
   deleteReferencePaperChroma
 }
 
-const client = new ChromaClient();
-let embedder = await createEmbedder();
-
-async function storeReferencePaperChroma(paper: Partial<PaperRecord>) {
-  // const embeddings = await embedder.generate([paper.title + ". " + paper.abstract]);
-  const collection = await client.getCollection({
-    name: ReferenceCollectionName,
-    embeddingFunction: embedder
-  });
-
-  await collection.add({
-    // embeddings: embeddings,
-    documents: [paper.title + ". " + paper.abstract],
-    ids: [paper.id!],
-  });
-
-  return paper.id;
-}
-
 async function deleteReferencePaperChroma(paperId: string) {
-  const collection = await client.getCollection({
-    name: ReferenceCollectionName,
-  });
+  const collection = await sharedRepository.chroma.getReferenceCollection();
   await collection.delete({ ids: [paperId] });
 }
 

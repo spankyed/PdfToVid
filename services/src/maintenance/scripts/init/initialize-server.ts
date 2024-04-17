@@ -1,40 +1,38 @@
-// import repository from '../../repository';
-import config from '@config';
-import { getDatesBetween } from '../backfill-dates';
+// import cron from 'node-cron'; // Import node-cron to handle scheduled tasks
+import { getLatestDates } from './get-latest-dates';
+import scrapeAndRankPapers from '~/worker/controllers/scrape';
+import { doesReferenceCollectionExist, seedReferencePapers } from './seed-reference-papers';
+import { getConfig } from '~/shared/utils/get-config';
+import repository from '~/maintenance/repository';
+
+// todo
+// if config.settings.autoscrape is enabled set interval to check if new papers are available every 2 hours
+  // example of scraping papers by date: scrapePapersByDate('2024-02-21')
+// else start interval to add new date record every 24 hours
 
 
-console.log(config);
-async function initializeServer(): Promise<void> {
-  const configs = await repository.getConfigs(); // ! repository deleted, use sequalize
-  const lastRun = configs[0].lastRun || null;
-  const today = new Date().toISOString().split('T')[0];
-  console.log('today: ', today);
+async function initializeServer() {
+  const config = getConfig();
+  const shouldScrapeNewDates = config.settings.autoScrapeNewDates;
+  const shouldAddNewDates = config.settings.autoAddNewDates;
 
-  console.log('lastRun: ', lastRun);
-  if (lastRun) {
-    const datesToStore = getDatesBetween(lastRun, today);
+  const datesToStore = await getLatestDates();
 
-    console.log('datesToStore: ', datesToStore); // todo test for overlap
-
-    for (const date of datesToStore) {
-      console.log('repository: ', repository);
-      const ret1 = await repository.storeDate(date);
-      console.log('ret1: ', ret1);
-    }
+  if (datesToStore && shouldAddNewDates) {
+    await repository.storeDates(datesToStore)
   }
 
-  const ret3 = await repository.updateLastRunDate(today);
-  console.log('ret3: ', ret3);
+  if (datesToStore && shouldScrapeNewDates) {
+    await Promise.all(datesToStore.map(date => scrapeAndRankPapers(date, false)));
+  }
+
+  const collectionExists = await doesReferenceCollectionExist();
+
+  if (!collectionExists) {
+    await seedReferencePapers();
+  }
 
   console.log('Server initialized and dates updated.');
 }
 
-export default {
-  initializeServer,
-}
-
-// setup.initializeServer();
-// todo scrape all dates between last run and today
-// if last run was today, do nothing
-// todo only sync dates up to current date on arxiv
-// ? start interval to scrape new papers every 24 hours?
+export default initializeServer

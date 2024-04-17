@@ -1,5 +1,6 @@
 import * as repository from './repository';
-import { route } from '../../shared/route';
+import * as sharedRepository from '~/shared/repository';
+import { route } from '~/shared/route';
 
 function paperById(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -20,7 +21,7 @@ function starPaper(request: any, h: any){
       if (isStarred) {
         const paper = await repository.getPaperById(paperId);
         Promise.all([
-          repository.chroma.storeReferencePaperChroma(paper),
+          sharedRepository.chroma.storeReferencePaperChroma(paper),
           repository.storeReferencePaper(paperId)
         ]);
       } else {

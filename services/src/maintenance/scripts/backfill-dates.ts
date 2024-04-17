@@ -13,13 +13,9 @@ export async function backfillDates(date: string): Promise<any> {
   const newDateRecords = datesToBackfill
     .filter(date => !existingDates.includes(date))
     .filter((date, index, self) => self.indexOf(date) === index) // Filter duplicates
-    .map(date => ({
-      value: date,
-      status: 'pending'
-    }));
 
   if (newDateRecords.length > 0) {
-    await repository.bulkCreate(newDateRecords);
+    await repository.storeDates(newDateRecords);
   }
 
   console.log('Backfill completed.');

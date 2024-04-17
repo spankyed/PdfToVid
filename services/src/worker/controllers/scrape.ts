@@ -10,21 +10,22 @@ import createRequest from '../../shared/request';
 
 const webService = createRequest(WebServerPath);
 
-const scrapeAndRankPapers = async (date: string) => {
-  console.log('Scraping papers...');
+const scrapeAndRankPapers = async (date: string, notifyClient = true) => {
+  console.log('Scraping papers...', date);
   // await sharedRepository.updateDateStatus(date, 'complete');
 
   // await status.set('dates', { key: date, status: 'scraping' });
-  console.log('date: ', date);
   const papers = await scrapePapersByDate(date);
 
   if (papers.length === 0) {
     console.log('No papers found for the date:', date);
-
-    Promise.all([
-      webService.post(`work-status/dates`, { key: date, status: 'complete', data: [], final: true }),
-      // sharedRepository.updateDateStatus(date, 'complete'),
-    ])
+  
+    if (notifyClient) {
+      Promise.all([
+        webService.post(`work-status/dates`, { key: date, status: 'complete', data: [], final: true }),
+        // sharedRepository.updateDateStatus(date, 'complete'),
+      ])
+    }
 
     return;
   }
@@ -33,28 +34,30 @@ const scrapeAndRankPapers = async (date: string) => {
 
   console.log('Papers scraped, proceeding to ranking...');
 
-  await webService.post(`work-status/dates`, { key: date, status: 'ranking'})
+  if (notifyClient) {
+    await webService.post(`work-status/dates`, { key: date, status: 'ranking'})
+  }
 
   const rankedPapers = await getRelevancyScores(papers);
-  const paperRecords = rankedPapers.map((paper) => ({ 
-    ...paper,
-    date: date,
-    status: 0,
-    isStarred: false,
-  }));
-
-  const sortedPapers = paperRecords.sort((a, b) => b.relevancy - a.relevancy);
+  const paperRecords = rankedPapers.sort((a, b) => b.relevancy - a.relevancy);
   
   console.log('Papers ranked, storing papers in DB...');
 
-  await repository.storePapers(sortedPapers.map((p: any) => ({ ...p, authors: p.authors.join('; ') })));
 
-  await sharedRepository.updateDateStatus(date, 'complete');
+  Promise.all([
+    sharedRepository.storePapers(paperRecords),
+    sharedRepository.updateDateStatus(date, 'complete')
+  ]);
+
   // await repository.addPapersForDate(date, 'complete');
 
-  await webService.post(`work-status/dates`, { key: date, status: 'complete', data: sortedPapers, final: true })
+  if (notifyClient) {
+    await webService.post(`work-status/dates`, { key: date, status: 'complete', data: paperRecords, final: true })
+  }
 
   console.log('Scraping, ranking, and stored for date:', date);
+
+  return paperRecords
 };
 
 export default scrapeAndRankPapers;

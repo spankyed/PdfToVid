@@ -32,3 +32,12 @@ export type PaperRecord = {
   //   thumbnailUrl: string;
   // };
 };
+
+// interface Paper {
+//   id: string;
+//   date: string;
+//   title: string;
+//   abstract: string;
+//   pdfLink: string;
+//   authors: string[];
+// }

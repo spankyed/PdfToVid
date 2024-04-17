@@ -2,6 +2,7 @@ import createServer from '../shared/server';
 import { ports } from '../shared/constants';
 import Hapi from '@hapi/hapi';
 import routes from './controllers';
+import initializeServer from './scripts/init/initialize-server';
 
 const serverConfig: Hapi.ServerOptions | undefined = { 
   port: ports.maintenance,
@@ -17,7 +18,7 @@ const serverConfig: Hapi.ServerOptions | undefined = {
   const server = createServer(serverConfig, routes);
 
   // todo check if chroma is up and running
-  // todo check if chroma has the necessary collections, populate a collection with seed ref papers if not
+  await initializeServer()
 
   try {
     await server.start();

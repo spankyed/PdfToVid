@@ -1,6 +1,7 @@
 export default {
   "settings": {
-    "autoScrapeNewDates": false
+    "autoScrapeNewDates": false,
+    "autoAddNewDates": false
   },
   "features": [
     "video_generator"
