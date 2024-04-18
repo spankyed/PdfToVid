@@ -40,6 +40,8 @@ async function storeDates(dates: string[]) {
       ignoreDuplicates: true // This option depends on your DBMS and Sequelize version
     });
   }
+
+  return newDateRecords;
 }
 
 function storeReferencePapers(paperIds: string[]): Promise<any> {

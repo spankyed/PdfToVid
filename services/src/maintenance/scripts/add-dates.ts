@@ -18,7 +18,7 @@ export async function backfillDates(startDate: DateParam, endDate?: DateParam): 
     .filter((date, index, self) => self.indexOf(date) === index) // Filter duplicates
 
   if (newDateRecords.length > 0) {
-    return repository.storeDates(newDateRecords);
+    return await repository.storeDates(newDateRecords);
   }
 
   console.log('Backfill completed.');
