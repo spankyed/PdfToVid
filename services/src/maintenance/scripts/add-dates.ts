@@ -5,7 +5,7 @@ import repository from '../repository';
 
 type DateParam = string | Date;
 
-export async function backfillDates(startDate: DateParam, endDate?: DateParam): Promise<any> {
+export async function backfillDates(startDate: DateParam, endDate?: DateParam): Promise<any[]> {
   const to = endDate || new Date();
   const from = new Date(startDate);
   const datesToBackfill = getDatesBetween(from, to);
