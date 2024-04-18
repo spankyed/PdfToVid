@@ -11,10 +11,13 @@ function getByDates(dates: string[]) {
   });
 }
 
-function getLatestDate() {
-  return DatesTable.findOne({
+async function getLatestDate() {
+  const lastDateRecord =  await DatesTable.findOne({
     order: [['value', 'DESC']]
   });
+
+
+  return lastDateRecord ? lastDateRecord.value : null;
 }
 
 async function storeDate(date: string) {
