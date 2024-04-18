@@ -3,7 +3,7 @@ function adjustDateToUserTimezone(date: Date): Date {
   return new Date(date.getTime() + userTimezoneOffset);
 }
 
-export function formatDate(dateString: string): string {
+export function formatDate(dateString: Date | string): string {
   const date = new Date(dateString);
   const adjustedDate = adjustDateToUserTimezone(date);
 

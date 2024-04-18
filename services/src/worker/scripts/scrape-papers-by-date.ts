@@ -1,16 +1,9 @@
 import axios from "axios";
+import { PaperRecord } from "~/shared/types";
 import { extractPaperData } from "~/shared/utils/extract-paper-data";
 
 const ARXIV_API_ENDPOINT = "https://export.arxiv.org/api/query?";
 const maxResults = 1000;
-
-interface Paper {
-  id: string;
-  title: string;
-  abstract: string;
-  pdfLink: string;
-  authors: string[];
-}
 
 const createArxivQuery = (dateString: string): string => {
     const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
@@ -27,7 +20,7 @@ const createArxivQuery = (dateString: string): string => {
 };
 
 
-export default async function scrapePapersByDate(date: string): Promise<Paper[]> {
+export default async function scrapePapersByDate(date: string): Promise<PaperRecord[]> {
   try {
     const query = createArxivQuery(date);
     const url = ARXIV_API_ENDPOINT + query;

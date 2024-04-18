@@ -1,4 +1,4 @@
-import { backfillDates } from "../scripts/backfill-dates";
+import { backfillDates } from "../scripts/add-dates";
 import { route } from '../../shared/route';
 
 function backfillToDate(request, h){
