@@ -4,13 +4,14 @@ import { Button, Box, Divider } from '@mui/material';
 
 import './onboard.css';
 import PageLayout from '~/shared/components/layout/page-layout';
+import { BackfillComponent } from '~/onboard/backfill';
 
 const OnboardPage: React.FC<{}> = () => {
 
   return (
     <PageLayout padding={3}>
-
       Onboarding
+      <BackfillComponent />
     </PageLayout>
   );
 }

@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import DateRows from './dates-rows';
 import DatesPlaceholder from './placeholder';
 import { fetchCalendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from '~/calendar/store';
-import { BackfillComponent } from './backfill';
+import { BackfillComponent } from '../../onboard/backfill';
 import { openMonthAtom, datesRowsAtom } from '~/shared/components/layout/sidebar/dates/store';
 import './main.css';
 import { useNavigate } from 'react-router-dom';
@@ -36,10 +36,7 @@ function CalendarMain(): React.ReactElement {
 
   return (
     <>
-      { showBackfill 
-        ? <BackfillComponent />
-        : <MainContent/>
-      }
+      <MainContent/>
     </>
   );
 }
