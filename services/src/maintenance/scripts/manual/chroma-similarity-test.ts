@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { ChromaClient } from 'chromadb'
-import { createEmbedder } from '../../shared/embedder';
+import { createEmbedder } from '../../../shared/embedder';
 
 type Paper = {
   title: string,
