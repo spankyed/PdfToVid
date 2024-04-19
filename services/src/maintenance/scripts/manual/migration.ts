@@ -1,4 +1,4 @@
-import { sequelize } from "../../shared/schema";
+import { sequelize } from "../../../shared/schema";
 
 export async function synchronizeDatabase() {
   try {
