@@ -40,7 +40,7 @@ async function doDailyOperations() {
       Promise.all(datesToScrape.map(dateRecord => scrapeAndRankPapers(dateRecord.value, false)))
     }
     // check if new papers are available every 2 hours for current date
-    // cronScrapeTodayWithRetry();
+    cronScrapeTodayWithRetry();
     // (await cronScrapeTodayWithRetry()).start()
   } else {
     // else add new date record every 24 hours

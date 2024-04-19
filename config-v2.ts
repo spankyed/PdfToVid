@@ -1,7 +1,8 @@
-export default {
+export const config = {
+  "onboarding": false,
   "settings": {
     "autoScrapeNewDates": true,
-    "autoAddNewDates": true
+    "autoAddNewDates": true,
   },
   "features": [
     "video_generator"
