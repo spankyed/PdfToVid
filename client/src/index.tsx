@@ -9,6 +9,7 @@ import CalendarPage from './calendar';
 import DateEntryPage from '~/date-entry';
 import PaperEntryPage from '~/paper-entry';
 import SearchPage from '~/search';
+import OnboardPage from '~/onboard';
 import './shared/styles/index.css';
 
 const router = createBrowserRouter([
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="/calendar" /> },
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'search', element: <SearchPage /> },
+      { path: 'onboard', element: <OnboardPage /> },
       { path: 'date/:dateId', element: <DateEntryPage /> },
       { path: 'paper/:paperId', element: <PaperEntryPage /> },
     ],

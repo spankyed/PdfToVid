@@ -6,6 +6,7 @@ import { fetchCalendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from
 import { BackfillComponent } from './backfill';
 import { openMonthAtom, datesRowsAtom } from '~/shared/components/layout/sidebar/dates/store';
 import './main.css';
+import { useNavigate } from 'react-router-dom';
 
 function CalendarMain(): React.ReactElement {
   const [, fetchData] = useAtom(fetchCalendarModelAtom);
@@ -13,6 +14,8 @@ function CalendarMain(): React.ReactElement {
   const [datesRows] = useAtom(datesRowsAtom); // todo useMemo
   const [openMonth] = useAtom(openMonthAtom);
   const [calendarState] = useAtom(calendarStateAtom);
+  const navigate = useNavigate();
+
   const showBackfill = calendarState === 'backfill';
   
   useEffect(() => {
@@ -24,6 +27,12 @@ function CalendarMain(): React.ReactElement {
       fetchData();
     }
   }, [fetchData]);
+
+    useEffect(() => {
+      if (showBackfill) {
+        navigate('/onboard');
+      }
+    }, [showBackfill]);
 
   return (
     <>
