@@ -1,5 +1,5 @@
 // Assuming PaperRecord matches the structure of your PapersTable model
-import { DatesTable, ReferencePapersTable } from '../shared/schema';
+import { DatesTable, PapersTable, ReferencePapersTable } from '../shared/schema';
 
 
 // Fetch all stored dates
@@ -53,11 +53,22 @@ function storeReferencePapers(paperIds: string[]): Promise<any> {
   return ReferencePapersTable.bulkCreate(referenceRecords);
 }
 
+async function getReferencePapers() {
+  const paperIds = await ReferencePapersTable.findAll();
+
+  return PapersTable.findAll({
+    where: {
+      id: paperIds
+    }
+  });
+}
+
 export default {
   getByDates,
   getLatestDate,
   storeDate,
   storeDates,
-  storeReferencePapers
+  storeReferencePapers,
+  getReferencePapers
 };
 

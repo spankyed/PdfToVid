@@ -10,18 +10,16 @@ async function doDailyOperations() {
   const collectionExists = await doesReferenceCollectionExist();
 
   if (!collectionExists) {
-    // todo only scrape if no reference papers exist in DB
-    // otherwise pass references in DB
-    // const referencePapers = await repository.getReferencePapers();
-    const referencePapers: any[] = [];
-    await seedReferencePapers(referencePapers);
+    const referencePapers = await repository.getReferencePapers();
+    console.log('referencePapers: ', referencePapers);
+    await seedReferencePapers(referencePapers); // paranoid seeding
   }
 
   const config = getConfig();
-  const autoScrapeNewDates = false;
+  // const autoAddNewDates = config.settings.autoAddNewDates;
   // const autoScrapeNewDates = config.settings.autoScrapeNewDates;
   const autoAddNewDates = false;
-  // const autoAddNewDates = config.settings.autoAddNewDates;
+  const autoScrapeNewDates = false;
 
   if (!autoAddNewDates) {
     return;
@@ -34,11 +32,11 @@ async function doDailyOperations() {
     return;
   }
 
-  const datesToScrape: any[] = await backfillDates(startDate, new Date());
+  const datesToScrape = await backfillDates(startDate, new Date());
 
   if (autoScrapeNewDates) {
     console.log('Auto Scraping New Dates: ');
-    if (datesToScrape) {
+    if (datesToScrape.length > 0) {
       Promise.all(datesToScrape.map(dateRecord => scrapeAndRankPapers(dateRecord.value, false)))
     }
     // check if new papers are available every 2 hours for current date
