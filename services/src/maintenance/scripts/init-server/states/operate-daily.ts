@@ -25,14 +25,16 @@ async function doDailyOperations() {
     return;
   }
 
-  const startDate = await repository.getLatestDate();
+  const lastDateAdded = await repository.getLatestDate();
 
-  if (!startDate) {
+  // ! only add new dates if latest date is not today or later
+  // todo ^ check if latest date is today or later
+  if (!lastDateAdded) {
     // todo reset config to onboarding state
     return;
   }
 
-  const datesToScrape = await backfillDates(startDate, new Date());
+  const datesToScrape = await backfillDates(lastDateAdded, new Date());
 
   if (autoScrapeNewDates) {
     console.log('Auto Scraping New Dates: ');
