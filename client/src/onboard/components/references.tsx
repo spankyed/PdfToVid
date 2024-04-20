@@ -62,7 +62,7 @@ function ReferencesInput() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem' }}>
         <Typography 
-          style={{ marginBottom: '2rem'}}
+          style={{ color: '#a1a1a1', marginBottom: '2rem'}}
           variant="h3">
           Add References
         </Typography>

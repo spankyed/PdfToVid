@@ -8,6 +8,9 @@ import { Typography } from '@mui/material';
 import { getDatePrior } from '~/shared/utils/dateFormatter';
 import { canGoNextAtom } from '../store';
 
+
+const todaysDate = dayjs().format('MMMM D, YYYY');
+
 export const BackfillComponent: React.FC = () => {
   const [value, setValue] = useState(dayjs(getDatePrior(30)));
   const setCanGoNext = useSetAtom(canGoNextAtom);
@@ -24,7 +27,7 @@ export const BackfillComponent: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem', marginBottom: '2.5rem' }}>
       <Typography 
-        style={{ marginBottom: '2rem'}}
+        style={{ color: '#a1a1a1', marginBottom: '2rem'}}
         variant="h3">
         Add Dates
       </Typography>
@@ -54,8 +57,8 @@ export const BackfillComponent: React.FC = () => {
           margin: '1.2rem auto'
         }}></div>
 
-      <span style={{ color: 'gray', fontSize: '14px' }}>Today</span>
-
+      {/* <span style={{ color: 'gray', fontSize: '14px' }}>Today</span> */}
+      <span style={{ color: 'gray', fontSize: '14px' }}>{todaysDate}</span>
     </div>
   );
 };
