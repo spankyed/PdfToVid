@@ -115,7 +115,7 @@ const Results = ({ isLoading = false }) => {
         {tabValue === 0 && <PapersTable papers={results} isLoading={isLoading} placeholderRows={3}/>}
         {tabValue === 1 &&
           <Box sx={{ marginTop: 2 }}>
-            <ThumbPapersGrid papers={results} isLoading={isLoading} placeholderRows={2}/>
+            <ThumbPapersGrid papers={results} isLoading={isLoading} placeholderRows={3}/>
           </Box>  
         }
       </Box>
