@@ -28,7 +28,9 @@ const SearchPage: React.FC<{}> = () => {
       </Box>
 
       <Accordion defaultExpanded={true}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          style={{backgroundColor: 'rgb(30 32 34)'}}>
           <Typography>Advanced</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ margin: '0 0 2rem 2rem' }}>
