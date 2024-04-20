@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import { StepConnector, stepConnectorClasses, StepIconProps, Stack, Stepper, Step, StepLabel } from '@mui/material';
+import { StepConnector, stepConnectorClasses, StepIconProps, Stack, Stepper, Step, StepLabel, Box } from '@mui/material';
 
 import Check from '@mui/icons-material/Check';
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -73,8 +73,8 @@ function IconWrapper(props: StepIconProps) {
 export default function OnboardingStepper({ steps, activeStep, completed, handleStep }) {
 
   return (
-    <Stack sx={{ width: '100%' }} spacing={4}>
-      <Stepper nonLinear activeStep={activeStep} connector={<StepConnectorStyled/>}>
+    <Box sx={{ width: '100%' }} className='flex justify-center'>
+      <Stepper sx={{ width: '70%' }} nonLinear activeStep={activeStep} connector={<StepConnectorStyled/>}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
             <StepLabel
@@ -88,6 +88,6 @@ export default function OnboardingStepper({ steps, activeStep, completed, handle
           </Step>
         ))}
       </Stepper>
-    </Stack>
+    </Box>
   );
 }

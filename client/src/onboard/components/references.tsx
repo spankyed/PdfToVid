@@ -67,7 +67,7 @@ function ReferencesInput() {
           Add References
         </Typography>
         <Typography>
-          List some arXiv paper ids to be used when recommending papers.
+          List some ids of arXiv papers to be used when ranking papers.
         </Typography>
         <Typography>
           You can paste a list of ids separated by commas or spaces.
@@ -90,7 +90,7 @@ function ReferencesInput() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Enter Ids"
+                label="Enter Reference Ids"
                 variant="outlined"
                 // sx={{ display:  justifyContent: 'center'}}
                 onBlur={(event) => handleChange(event, params.InputProps, 'blur', {})}

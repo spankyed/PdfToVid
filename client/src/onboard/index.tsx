@@ -125,8 +125,6 @@ function OnboardFlow() {
 
 
 const RenderByState = ({ activeStep }) => {
-  console.log('activeStep: ', activeStep);
-
   switch (activeStep) {
     case 0:
       return <BackfillComponent />;
@@ -165,11 +163,6 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleCo
         }
 
         {activeStep !== steps.length - 1 ? (
-          // completed[activeStep] ? (
-          //   <Typography variant="caption" sx={{ display: 'inline-block' }}>
-          //     Step {activeStep + 1} already completed
-          //   </Typography>
-          // ) : ()
           <Button
             disabled={!canGoNext}
             onClick={handleComplete}
