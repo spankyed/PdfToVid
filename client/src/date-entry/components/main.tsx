@@ -10,8 +10,9 @@ import { emptyAtom, updatePaperInListAtom } from "~/shared/store";
 
 const MainTabs: React.FC<{
   papersAtom?: Atom<Paper[]>;
-  isLoading?: boolean
-}> = ({ papersAtom, isLoading = false }) => {
+  isLoading?: boolean;
+  slideUp?: boolean;
+}> = ({ papersAtom, isLoading = false, slideUp = false }) => {
   const [tabValue, setTabValue] = useAtom(tabValueAtom);
   const updatePaper = useSetAtom(updatePaperInListAtom);
   const papers = useAtomValue(papersAtom || emptyAtom);
@@ -35,8 +36,10 @@ const MainTabs: React.FC<{
     };
   }, []);
 
+  const style = slideUp ? { marginTop: -3 } : {} 
+
   return (
-    <Box>
+    <Box sx={style}>
       <Tabs value={tabValue} onChange={handleChange}>
         <Tab label="Table" />
         <Tab label="Grid" />

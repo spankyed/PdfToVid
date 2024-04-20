@@ -16,7 +16,7 @@ function CalendarMain(): React.ReactElement {
   const [calendarState] = useAtom(calendarStateAtom);
   const navigate = useNavigate();
 
-  const showBackfill = calendarState === 'backfill';
+  const showBackfill = calendarState === 'backfill'; // todo rename onboarding
   
   useEffect(() => {
     const date = datesRows.find(d => d.month === openMonth)?.dates[0]?.value;

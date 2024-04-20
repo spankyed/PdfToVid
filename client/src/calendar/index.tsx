@@ -49,6 +49,7 @@ const Calendar: React.FC = () => {
         compact={false}
         ref={containerRef}
         onScroll={handleScroll}
+        className="calendar"
       >
         <CalendarMain />
         <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} />

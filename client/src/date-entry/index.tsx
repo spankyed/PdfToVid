@@ -18,6 +18,7 @@ function DateEntryPage(): React.ReactElement {
   const [, fetchData] = useAtom(fetchPapersByDateAtom);
   const [papers] = useAtom(dateEntryPapersAtom);
   const setPageState = useSetAtom(dateEntryStateAtom);
+  const [state] = useAtom(dateEntryStateAtom);
 
   useEffect(() => {
     fetchData(dateId);
@@ -31,13 +32,13 @@ function DateEntryPage(): React.ReactElement {
       <PageTitle value={dateId} count={papers.length} />
       <RenderByState
         dateId={dateId}
+        state={state}
       />
     </PageLayout>
   );
 }
 
-function RenderByState({ dateId }) {
-  const [state] = useAtom(dateEntryStateAtom);
+function RenderByState({ dateId, state }) {
   const [scrapeStatus, setScrapeStatus] = useAtom(scrapingStateAtom);
   const setPageState = useSetAtom(dateEntryStateAtom);
   const setPapers = useSetAtom(dateEntryPapersAtom);
@@ -58,7 +59,7 @@ function RenderByState({ dateId }) {
 
   switch (state) {
     case 'loading':
-      return <MainTabs isLoading={true} />;
+      return <MainTabs isLoading={true} slideUp={true}/>;
     case 'error':
       return <></>;
     case 'unexpected':
@@ -72,7 +73,7 @@ function RenderByState({ dateId }) {
       )
     case 'complete':
     default:
-      return <MainTabs papersAtom={filteredPapersAtom} />;
+      return <MainTabs papersAtom={filteredPapersAtom} slideUp={true} />;
   }
 }
 

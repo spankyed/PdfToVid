@@ -33,8 +33,10 @@ function DatesPlaceholder(): React.ReactElement {
             display: 'inline-block', // Necessary for transform
             // boxShadow: '2px 2px 10px rgba(106, 48, 147, 0.4)', // Soft shadow with a color that matches the gradient
           }}
-          />
+          ></div>
+
           <PlaceholderList />
+
           <div
             style={{ 
               width: '300px',
@@ -43,7 +45,7 @@ function DatesPlaceholder(): React.ReactElement {
               marginBottom: '1em',
               marginTop: '.5em'
             }}
-          />
+          ></div>
         </Box>
       ))}
     </>
@@ -54,9 +56,9 @@ export function PlaceholderList(): React.ReactElement {
   const fakeThumbs = Array(4).fill(null);
 
   return (
-    <div className="wrapper" style={{ margin: '1em' }}>
+    <div className="wrapper w-full" style={{ margin: '1em' }}>
       <div className="carousel-container">
-        <div className="carousel-wrapper">
+        <div className="carousel-wrapper flex justify-between">
           {fakeThumbs.map((_, index) => (
             <div className="placeholder-thumbnail" key={index}>
               <ThumbnailPlaceholder />

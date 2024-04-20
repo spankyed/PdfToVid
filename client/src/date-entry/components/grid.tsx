@@ -21,6 +21,7 @@ const ThumbPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean; placehold
       flexWrap: 'wrap',
       gap: '2em',
       marginBottom: '2em',
+      justifyContent: 'space-between',
     }}>
       {
         isLoading
@@ -42,14 +43,11 @@ const ThumbPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean; placehold
 
 const GridPlaceholder = ({ placeholderRows }) => {
   return (
-    <div>
+    <>
       {Array(placeholderRows).fill(null).map((_, index) => (
-        <div key={index} style={{
-        }}>
-          <PlaceholderList/>
-        </div>
+          <PlaceholderList key={index}/>
       ))}
-    </div>
+    </>
   );
 }
 
