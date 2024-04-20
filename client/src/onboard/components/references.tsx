@@ -3,13 +3,13 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Button, Typography } from '@mui/material';
 import config from '@config';
-import { useSetAtom } from 'jotai';
-import { canGoNextAtom } from '../store';
+import { useAtom, useSetAtom } from 'jotai';
+import { canGoNextAtom, inputIdsAtom, recommendButtonDisabledAtom } from '../store';
 
 function ReferencesInput() {
-    const [inputIds, setInputIds] = useState<string[]>([]);
+    const [inputIds, setInputIds] = useAtom(inputIdsAtom);
     const [inputValue, setInputValue] = useState('');
-    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [buttonDisabled, setButtonDisabled] = useAtom(recommendButtonDisabledAtom);
     const setCanGoNext = useSetAtom(canGoNextAtom);
 
     useEffect(() => {

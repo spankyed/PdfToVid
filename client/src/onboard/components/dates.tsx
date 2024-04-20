@@ -5,14 +5,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { Typography } from '@mui/material';
-import { getDatePrior } from '~/shared/utils/dateFormatter';
-import { canGoNextAtom } from '../store';
+import { canGoNextAtom, startDateAtom } from '../store';
 
 
 const todaysDate = dayjs().format('MMMM D, YYYY');
 
 export const BackfillComponent: React.FC = () => {
-  const [value, setValue] = useState(dayjs(getDatePrior(30)));
+  const [value, setValue] = useAtom(startDateAtom);
   const setCanGoNext = useSetAtom(canGoNextAtom);
 
   useEffect(() => {

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Box, Grid, Checkbox, Typography, TextField } from '@mui/material';
+import { useAtom } from 'jotai';
+import { autoAddDatesAtom, autoScrapeDatesAtom, maxBackfillAtom } from '../store';
 
 function UserSettings() {
-    const [autoAddDates, setAutoAddDates] = useState(true);
-    const [autoScrapeDates, setAutoScrapeDates] = useState(true);
-    const [pauseDays, setPauseDays] = useState('14');
+    const [autoAddDates, setAutoAddDates] = useAtom(autoAddDatesAtom);
+    const [autoScrapeDates, setAutoScrapeDates] = useAtom(autoScrapeDatesAtom);
+    const [maxBackfill, setMaxBackfill] = useAtom(maxBackfillAtom);
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem' }}>
@@ -33,7 +35,7 @@ function UserSettings() {
                   <Typography variant="body1">Automatically add new dates</Typography>
                   <Typography variant="body2" color="textSecondary">
                     While running, the app automatically adds a new date each night. If you're starting the app after a long break, it will backfill dates for up to —
-                    {` ${pauseDays}`} days. 
+                    {` ${maxBackfill}`} days. 
                   </Typography>
                 </Grid>
 
@@ -53,8 +55,8 @@ function UserSettings() {
                 <Grid item xs={3}>
                   <TextField
                     type="number"
-                    value={pauseDays}
-                    onChange={(event) => setPauseDays(event.target.value)}
+                    value={maxBackfill}
+                    onChange={(event) => setMaxBackfill(event.target.value)}
                     inputProps={{ min: 1, max: 90, sx: { height: 10 } }}
                     sx={{ width: 70 }}
                   />
