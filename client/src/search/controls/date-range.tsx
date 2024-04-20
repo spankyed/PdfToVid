@@ -6,8 +6,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { dateEndAtom, dateStartAtom } from '../store';
 
 const DateRangeControl: React.FC<{}> = () => {
-  const [afterDate, setAfterDate] = useAtom(dateStartAtom);
-  const [beforeDate, setBeforeDate] = useAtom(dateEndAtom);
+  const [startDate, setStartDate] = useAtom(dateStartAtom);
+  const [endDate, setEndDate] = useAtom(dateEndAtom);
 
   return (
     <FormControl
@@ -21,14 +21,19 @@ const DateRangeControl: React.FC<{}> = () => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="After Date"
-            value={afterDate}
-            onChange={newValue => setAfterDate(newValue)}
+            value={startDate}
+            disableHighlightToday={true}
+            disableFuture={true}
+            maxDate={endDate ? endDate : null}
+            onChange={newValue => setStartDate(newValue)}
           />
           <DatePicker
             sx={{ marginTop: 2 }}
             label="Before Date"
-            value={beforeDate}
-            onChange={newValue => setBeforeDate(newValue)}
+            value={endDate}
+            disableFuture={true}
+            minDate={startDate ? startDate : null}
+            onChange={newValue => setEndDate(newValue)}
           />
         </LocalizationProvider>
       </Box>
