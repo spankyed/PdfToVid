@@ -3,13 +3,14 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Button, Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardIos';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import './onboard.css';
 import PageLayout from '~/shared/components/layout/page-layout';
 import { BackfillComponent } from '~/onboard/components/dates';
 import OnboardingStepper from './components/stepper';
 import ReferencesInput from './components/references';
-import { canGoNextAtom, onboardSubmitAtom } from './store';
+import { canGoNextAtom, onboardSubmitAtom, onboardingState } from './store';
 import UserSettings from './components/settings';
 
 const steps = ['Dates', 'References', 'Finish'];
@@ -119,6 +120,7 @@ const RenderByState = ({ activeStep }) => {
 
 function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNext }) {
   const canGoNext = useAtomValue(canGoNextAtom);
+  const state = useAtomValue(onboardingState);
   const isLastStep = activeStep === steps.length - 1
   const isSecondStep = activeStep === 1
   const isFirstStep = activeStep === 0
@@ -128,7 +130,7 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
       <div className='flex justify-between' style={{ width: '20rem' }}>
         <Button
           color="inherit"
-          disabled={isFirstStep}
+          disabled={isFirstStep || state === 'loading'}
           onClick={handleBack}
         >
           <ArrowBackIcon/>
@@ -156,9 +158,12 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
             <ArrowForwardIcon sx={{ ml: 1 }}/>
           </Button>
         ) : (
-          <Button onClick={handleNext}>
+          <LoadingButton 
+            onClick={handleNext}
+            loading={state === 'loading'}
+          >
             Finish
-          </Button>
+          </LoadingButton>
         )}
       </div>
     </Box>
