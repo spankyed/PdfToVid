@@ -21,6 +21,7 @@ const ThumbPapersGrid: React.FC<{ papers: Paper[]; isLoading: boolean; placehold
       flexWrap: 'wrap',
       gap: '2em',
       marginBottom: '2em',
+      paddingTop: '1rem',
       justifyContent: 'space-between',
     }}>
       {

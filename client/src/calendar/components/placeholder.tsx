@@ -39,11 +39,11 @@ function DatesPlaceholder(): React.ReactElement {
 
           <div
             style={{ 
-              width: '300px',
-              height: '30px',
+              width: '17rem',
+              height: '1.2rem',
               backgroundColor: '#ccc',
               marginBottom: '1em',
-              marginTop: '.5em'
+              marginTop: '1.5rem'
             }}
           ></div>
         </Box>
@@ -56,7 +56,7 @@ export function PlaceholderList(): React.ReactElement {
   const fakeThumbs = Array(4).fill(null);
 
   return (
-    <div className="wrapper w-full" style={{ margin: '1em' }}>
+    <div className="wrapper w-full">
       <div className="carousel-container">
         <div className="carousel-wrapper flex justify-between">
           {fakeThumbs.map((_, index) => (
