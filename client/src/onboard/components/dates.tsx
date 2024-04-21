@@ -4,7 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { canGoNextAtom, startDateAtom } from '../store';
 
 
@@ -24,7 +24,10 @@ export const BackfillComponent: React.FC = () => {
 
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem', marginBottom: '2.5rem' }}>
+    <div style={{
+      display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem', marginBottom: '2.5rem',
+        height: '34.5rem'
+      }}>
       <Typography 
         style={{ color: '#a1a1a1', marginBottom: '2rem'}}
         variant="h3">
@@ -37,27 +40,30 @@ export const BackfillComponent: React.FC = () => {
         Don't worry, more dates can be added later!
       </Typography>
     
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <div style={{ marginTop: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <DatePicker
-            label="Start Date"
-            value={value}
-            format="MMMM D, YYYY"
-            disableFuture={true}
-            onChange={(newValue: any) => setValue(newValue)}
-          />
-        </div>
-      </LocalizationProvider>
 
-      <div style={{
-          height: '3rem',
-          width: '1px',
-          backgroundColor: 'gray',
-          margin: '1.2rem auto'
-        }}></div>
+      <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', height: '100%' }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <DatePicker
+              label="Start Date"
+              value={value}
+              format="MMMM D, YYYY"
+              disableFuture={true}
+              onChange={(newValue: any) => setValue(newValue)}
+            />
+          </div>
+        </LocalizationProvider>
 
-      {/* <span style={{ color: 'gray', fontSize: '14px' }}>Today</span> */}
-      <span style={{ color: 'gray', fontSize: '14px' }}>{todaysDate}</span>
+        <div style={{
+            height: '3rem',
+            width: '1px',
+            backgroundColor: 'gray',
+            margin: '1.2rem auto'
+          }}></div>
+
+        {/* <span style={{ color: 'gray', fontSize: '14px' }}>Today</span> */}
+        <span style={{ color: 'gray', fontSize: '18px', textAlign: 'center' }}>{todaysDate}</span>
+      </Box>
     </div>
   );
 };

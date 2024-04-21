@@ -60,7 +60,10 @@ function ReferencesInput() {
     };
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem' }}>
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem',
+        height: '37rem'
+        }}>
         <Typography 
           style={{ color: '#a1a1a1', marginBottom: '2rem'}}
           variant="h3">
@@ -96,7 +99,7 @@ function ReferencesInput() {
                 onBlur={(event) => handleChange(event, params.InputProps, 'blur', {})}
                 InputProps={{
                   ...params.InputProps,
-                  sx: {  borderBottomLeftRadius: 0, borderBottomRightRadius: 0, minHeight: 183 },
+                  sx: {  borderBottomLeftRadius: 0, borderBottomRightRadius: 0, minHeight: 370 },
                   type: 'search'
                 }}
               />
