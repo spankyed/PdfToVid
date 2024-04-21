@@ -4,6 +4,7 @@ import { Button, Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardIos';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Check from '@mui/icons-material/Check';
 
 import './onboard.css';
 import PageLayout from '~/shared/components/layout/page-layout';
@@ -94,9 +95,16 @@ function OnboardFlow() {
         ) : ()} */}
 
           <>
-            <Box sx={{ minHeight: '20rem', display: 'flex', justifyContent: 'center' }}>
+
+            <div style={{
+              backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem', paddingBottom: '3.5rem',
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              height: '38rem', width: '70rem', overflow: 'auto'
+            }} className='px-12 mx-auto'>
               <RenderByState activeStep={activeStep} />
-            </Box>
+              
+            </div>
+
             <NavigationButtons 
               {
                 ...{
@@ -143,7 +151,7 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
           disabled={isFirstStep || state === 'loading'}
           onClick={handleBack}
         >
-          <ArrowBackIcon/>
+          <ArrowBackIcon sx={{ height: 20, width: 20 }}/>
           Back
         </Button>
         {
@@ -165,7 +173,7 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
             onClick={handleNext}
           >
             Next
-            <ArrowForwardIcon sx={{ ml: 1 }}/>
+            <ArrowForwardIcon sx={{ ml: 1, height: 20, width: 20 }}/>
           </Button>
         ) : (
           <LoadingButton 
@@ -173,6 +181,9 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
             loading={state === 'loading'}
           >
             Finish
+            <Check
+              sx={{ ml: 1, mt: -.75 }}
+            />
           </LoadingButton>
         )}
       </div>

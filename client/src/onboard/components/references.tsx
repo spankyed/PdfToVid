@@ -60,11 +60,7 @@ function ReferencesInput() {
     };
 
     return (
-      <div style={{
-        backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem', paddingBottom: '3.5rem',
-        display: 'flex', flexDirection: 'column', alignItems: 'center',
-        minHeight: '37rem', width: '50rem'
-      }}>
+      <>
         <Typography 
           style={{ color: '#a1a1a1', marginBottom: '2rem'}}
           variant="h3">
@@ -82,11 +78,11 @@ function ReferencesInput() {
           <Autocomplete
             multiple
             freeSolo
-            sx={{ width: 565, maxWidth: 565 }}
+            sx={{ width: 765 }}
             id="seed-references"
             disableClearable
             options={[]}
-            limitTags={20}
+            limitTags={35}
             value={inputIds}
             inputValue={inputValue}
             onChange={handleChange}
@@ -100,7 +96,7 @@ function ReferencesInput() {
                 onBlur={(event) => handleChange(event, params.InputProps, 'blur', {})}
                 InputProps={{
                   ...params.InputProps,
-                  sx: {  borderBottomLeftRadius: 0, borderBottomRightRadius: 0, minHeight: 370 },
+                  sx: {  borderBottomLeftRadius: 0, borderBottomRightRadius: 0, minHeight: 250 },
                   type: 'search'
                 }}
               />
@@ -117,7 +113,7 @@ function ReferencesInput() {
           </Button>
         </div>
 
-      </div>
+      </>
     );
 }
 

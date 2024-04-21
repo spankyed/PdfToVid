@@ -9,11 +9,7 @@ function UserSettings() {
     const [maxBackfill, setMaxBackfill] = useAtom(maxBackfillAtom);
 
     return (
-      <div style={{
-          backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem', paddingBottom: '3.5rem', 
-          display: 'flex', flexDirection: 'column', alignItems: 'center',
-          minHeight: '37rem', width: '50rem'
-        }} className='px-12'>
+      <>
         <Typography 
           style={{ color: '#a1a1a1', marginBottom: '2rem'}}
           variant="h3">
@@ -23,11 +19,11 @@ function UserSettings() {
           These settings control how new dates are added. The default settings are highly recommended.
         </Typography>
         <Typography>
-          If you choose to not automagically add dates, you can still manually add new dates using the backfill page.
+          Dates can always be added manually using the backfill page.
         </Typography>
 
         <div style={{ marginTop: '3rem', display: 'flex', flexDirection: 'column' }}>
-          <Box sx={{ maxWidth: 500, m: 'auto', p: 4 }}>
+          <Box sx={{ maxWidth: 600, m: 'auto' }}>
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={3}>
                   <Checkbox
@@ -38,7 +34,7 @@ function UserSettings() {
                 <Grid item xs={9}>
                   <Typography variant="body1">Automatically add new dates</Typography>
                   <Typography variant="body2" color="textSecondary">
-                    While running, the app automatically adds a new date each night. If you're starting the app after a long break, it will backfill dates for up to —
+                    While running, the app automagically adds a new date each night. If you're starting the app after a long break, it will backfill dates for the past —
                     {` ${maxBackfill}`} days. 
                   </Typography>
                 </Grid>
@@ -74,9 +70,7 @@ function UserSettings() {
               </Grid>
           </Box>
         </div>
-      </div>
-
-
+      </>
     );
 }
 

@@ -24,11 +24,7 @@ export const BackfillComponent: React.FC = () => {
 
 
   return (
-    <div style={{
-        backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem',
-        display: 'flex', flexDirection: 'column', alignItems: 'center',
-        height: '34.5rem', width: '50rem'
-      }}>
+    <>
       <Typography 
         style={{ color: '#a1a1a1', marginBottom: '2rem'}}
         variant="h3">
@@ -46,7 +42,7 @@ export const BackfillComponent: React.FC = () => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <DatePicker
-              label="Start Date"
+              label="From"
               value={value}
               format="MMMM D, YYYY"
               disableFuture={true}
@@ -65,6 +61,6 @@ export const BackfillComponent: React.FC = () => {
         {/* <span style={{ color: 'gray', fontSize: '14px' }}>Today</span> */}
         <span style={{ color: 'gray', fontSize: '18px', textAlign: 'center' }}>{todaysDate}</span>
       </Box>
-    </div>
+    </>
   );
 };
