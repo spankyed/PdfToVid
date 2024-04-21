@@ -36,7 +36,6 @@ function OnboardFlow() {
   // };
 
   useEffect(() => {
-    console.log('onboardingState: ', onboardingState);
     if (onboardingState === 'complete'){
       navigate(`/backfill?isNewUser=true`);
     }
@@ -185,6 +184,5 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
     </Box>
   );
 }
-
 
 export default OnboardPage;
