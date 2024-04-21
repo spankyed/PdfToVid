@@ -25,8 +25,9 @@ export const BackfillComponent: React.FC = () => {
 
   return (
     <div style={{
-      display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem', marginBottom: '2.5rem',
-        height: '34.5rem'
+        backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem',
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        height: '34.5rem', width: '50rem'
       }}>
       <Typography 
         style={{ color: '#a1a1a1', marginBottom: '2rem'}}

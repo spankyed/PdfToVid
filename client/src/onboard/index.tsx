@@ -94,7 +94,7 @@ function OnboardFlow() {
         ) : ()} */}
 
           <>
-            <Box sx={{ minHeight: '20rem'}}>
+            <Box sx={{ minHeight: '20rem', display: 'flex', justifyContent: 'center' }}>
               <RenderByState activeStep={activeStep} />
             </Box>
             <NavigationButtons 

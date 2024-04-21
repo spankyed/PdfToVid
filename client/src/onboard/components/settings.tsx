@@ -9,7 +9,11 @@ function UserSettings() {
     const [maxBackfill, setMaxBackfill] = useAtom(maxBackfillAtom);
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem' }}>
+      <div style={{
+          backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem', paddingBottom: '3.5rem', 
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          minHeight: '37rem', width: '50rem'
+        }} className='px-12'>
         <Typography 
           style={{ color: '#a1a1a1', marginBottom: '2rem'}}
           variant="h3">

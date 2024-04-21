@@ -61,9 +61,10 @@ function ReferencesInput() {
 
     return (
       <div style={{
-        display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem',
-        height: '37rem'
-        }}>
+        backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem', paddingBottom: '3.5rem',
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        minHeight: '37rem', width: '50rem'
+      }}>
         <Typography 
           style={{ color: '#a1a1a1', marginBottom: '2rem'}}
           variant="h3">

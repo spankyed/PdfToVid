@@ -3,6 +3,8 @@ import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, ListSubheader
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import SearchIcon from '@mui/icons-material/Search';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+
 import { useAtom } from 'jotai';
 import Dates from './dates';
 import { sidebarOpenAtom } from './store';
@@ -45,17 +47,19 @@ const Sidebar: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Search" />
         </NavItem>
-        <NavItem onClick={() => navigate('backfill')}>
-          <ListItemIcon>
-            <SearchIcon />
-          </ListItemIcon>
-          <ListItemText primary="Backfill" />
-        </NavItem>
+
         <NavItem onClick={() => navigate('analytics')}>
           <ListItemIcon>
             <AssessmentIcon />
           </ListItemIcon>
           <ListItemText primary="Reports" />
+        </NavItem>
+
+        <NavItem onClick={() => navigate('backfill')}>
+          <ListItemIcon>
+            <AccessTimeFilledIcon />
+          </ListItemIcon>
+          <ListItemText primary="Backfill" />
         </NavItem>
 
         <Divider 
