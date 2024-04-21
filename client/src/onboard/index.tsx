@@ -95,14 +95,12 @@ function OnboardFlow() {
         ) : ()} */}
 
           <>
-
             <div style={{
               backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem', paddingBottom: '3.5rem',
               display: 'flex', flexDirection: 'column', alignItems: 'center',
               height: '38rem', width: '70rem', overflow: 'auto'
             }} className='px-12 mx-auto'>
               <RenderByState activeStep={activeStep} />
-              
             </div>
 
             <NavigationButtons 
@@ -121,7 +119,6 @@ function OnboardFlow() {
     </Box>
   );
 }
-
 
 const RenderByState = ({ activeStep }) => {
   switch (activeStep) {
@@ -181,9 +178,7 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
             loading={state === 'loading'}
           >
             Finish
-            <Check
-              sx={{ ml: 1, mt: -.75 }}
-            />
+            <Check sx={{ ml: 1, mt: -.75 }} />
           </LoadingButton>
         )}
       </div>
