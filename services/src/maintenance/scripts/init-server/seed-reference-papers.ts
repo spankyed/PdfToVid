@@ -2,6 +2,7 @@ import * as sharedRepository from '~/shared/repository';
 import repository from '~/maintenance/repository';
 import scrapePapersByIds from "../scrape-papers-by-ids";
 import { seedReferencePaperIds } from "~/shared/constants";
+import { getConfig } from '~/shared/utils/get-config';
 
 // const path =  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/research-papers.json";
 // const refPapers = JSON.parse(fs.readFileSync(path, "utf-8"));
@@ -12,11 +13,11 @@ export function doesReferenceCollectionExist() {
   return sharedRepository.chroma.checkForExistingReferenceCollection();
 }
 
-export async function seedReferencePapers(papers?: any[]) {
+export async function seedReferencePapers(papers?: any[], ids = null) {
   sharedRepository.chroma.initializeReferenceCollection()
 
   if (!papers || !papers.length) {
-    papers = await scrapeAndStoreReferencePapers()
+    papers = await scrapeAndStoreReferencePapers(ids)
   }
 
   sharedRepository.chroma.addToReferenceCollection(papers)
@@ -25,8 +26,9 @@ export async function seedReferencePapers(papers?: any[]) {
 }
 
 
-async function scrapeAndStoreReferencePapers() {
-  const referencePapers = await scrapePapersByIds(seedReferencePaperIds);
+async function scrapeAndStoreReferencePapers(ids =  null) {
+  const seedReferencesIds = ids || getConfig().seedReferencesIds;
+  const referencePapers = await scrapePapersByIds(seedReferencesIds);
 
   const scrapedIds = referencePapers.map(paper => paper.id);
   const datesToStore = referencePapers

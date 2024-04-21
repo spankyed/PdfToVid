@@ -8,6 +8,7 @@ import paperEntryRoutes from './paper-entry/controller';
 import dateEntryRoutes from './date-entry/controller';
 import searchRoutes from './search/controller';
 import sharedRoutes from './shared/controller';
+import gatewayRoutes from './gateway/controller';
 
 // import mocks from '../../../tests/mocks';
 // const { calendarModel } = mocks;
@@ -18,6 +19,7 @@ export const routes = [
   ...paperEntryRoutes,
   ...searchRoutes,
   ...sharedRoutes,
+  ...gatewayRoutes,
 ];
 
 const server = createServer({

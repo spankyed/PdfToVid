@@ -12,7 +12,7 @@ const state = 'onboarding';
 async function initializeServer() {
   console.log('Initializing maintenance server...');
 
-  stateHandlers[state]();
+  // stateHandlers[state]();
 
   console.log('Maintenance server initialized.');
 }

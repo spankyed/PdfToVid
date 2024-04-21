@@ -25,7 +25,7 @@ function ReferencesInput() {
     }, [inputIds]);
 
     const handleUseRecommended = () => {
-      const newIds = [...new Set([...inputIds, ...config.seedReferences])];
+      const newIds = [...new Set([...inputIds, ...config.seedReferencesIds])];
       setInputIds(newIds);
       setButtonDisabled(true);
     };

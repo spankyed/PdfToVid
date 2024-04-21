@@ -6,9 +6,9 @@ import { merge } from 'lodash-es';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const configPath = path.join(__dirname, '../../../config.ts');
+const configPath = path.join(__dirname, '../../../../config.ts');
 
-export async function updateSettings(newSettings: any) {
+export async function setConfig(newSettings: any) {
 
   const updatedConfig = merge({}, (oldConfig as any).default, { settings: newSettings });
 
