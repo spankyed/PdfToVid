@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import SearchIcon from '@mui/icons-material/Search';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 
 import { useAtom } from 'jotai';
 import Dates from './dates';
@@ -37,7 +37,7 @@ const Sidebar: React.FC = () => {
       <List component="nav" sx={{ paddingBottom: 0 }}>
         <NavItem onClick={() => navigate('calendar')}>
           <ListItemIcon>
-            <CalendarTodayIcon />
+            <DateRangeIcon />
           </ListItemIcon>
           <ListItemText primary="Calendar" />
         </NavItem>
@@ -57,7 +57,7 @@ const Sidebar: React.FC = () => {
 
         <NavItem onClick={() => navigate('backfill')}>
           <ListItemIcon>
-            <AccessTimeFilledIcon />
+            <ChecklistIcon />
           </ListItemIcon>
           <ListItemText primary="Backfill" />
         </NavItem>
