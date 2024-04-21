@@ -1,9 +1,15 @@
-import config from '@config'; // Ensure this import works as expected, and adjust the import path if necessary
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-export function getConfig() {
-  if (!config && !(config as any).default){
-    return {}
-  }
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const configPath = path.join(__dirname, '../../../../config.ts');
 
-  return (config as any).default
+export async function getConfig() {
+  const fileContents = await fs.readFile(configPath, 'utf8')
+
+  const rawJson = fileContents.replace('export default ', '').replace(';', '')
+
+  return JSON.parse(rawJson)
 }
