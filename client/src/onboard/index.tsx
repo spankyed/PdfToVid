@@ -10,8 +10,9 @@ import PageLayout from '~/shared/components/layout/page-layout';
 import { BackfillComponent } from '~/onboard/components/dates';
 import OnboardingStepper from './components/stepper';
 import ReferencesInput from './components/references';
-import { canGoNextAtom, onboardSubmitAtom, onboardingState } from './store';
+import { canGoNextAtom, onboardSubmitAtom, onboardingStateAtom } from './store';
 import UserSettings from './components/settings';
+import { useNavigate } from 'react-router-dom';
 
 const steps = ['Dates', 'References', 'Finish'];
 
@@ -27,9 +28,18 @@ function OnboardFlow() {
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState<{ [k: number]: boolean; }>({});
   const submitForm = useSetAtom(onboardSubmitAtom);
+  const onboardingState = useAtomValue(onboardingStateAtom);
+  const navigate = useNavigate();
   // const allStepsCompleted = () => {
   //   return Object.keys(completed).length === steps.length;
   // };
+
+  useEffect(() => {
+    console.log('onboardingState: ', onboardingState);
+    if (onboardingState === 'complete'){
+      navigate(`/backfill?isNewUser=true`);
+    }
+  }, [onboardingState]);
 
   const handleSkip = () => {
     setActiveStep(activeStep + 1);
@@ -120,7 +130,7 @@ const RenderByState = ({ activeStep }) => {
 
 function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNext }) {
   const canGoNext = useAtomValue(canGoNextAtom);
-  const state = useAtomValue(onboardingState);
+  const state = useAtomValue(onboardingStateAtom);
   const isLastStep = activeStep === steps.length - 1
   const isSecondStep = activeStep === 1
   const isFirstStep = activeStep === 0

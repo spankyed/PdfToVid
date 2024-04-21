@@ -5,21 +5,22 @@ import config from '@config';
 
 type Day = dayjs.Dayjs | null;
 
-export const onboardingStateAtom = atom<'onboarding' | 'loading' | 'complete'>('onboarding');
+export const backfillStateAtom = atom<'ready' | 'loading'>('ready');
 
-export const canGoNextAtom = atom(true);
-export const startDateAtom = atom<Day>(dayjs().subtract(30, 'days'));
-export const inputIdsAtom = atom<string[]>([]);
-export const autoAddDatesAtom = atom(config.settings.autoAddNewDates);
-export const autoScrapeDatesAtom = atom(config.settings.autoScrapeNewDates);
-export const maxBackfillAtom = atom(config.settings.maxBackfill);
+export const dateStartAtom = atom(<Day>null);
+export const dateEndAtom = atom<Day>(null);
+// export const startDateAtom = atom<Day>(dayjs().subtract(30, 'days'));
+
+// export const canGoNextAtom = atom(true);
+// export const inputIdsAtom = atom<string[]>([]);
+// export const maxBackfillAtom = atom(config.settings.maxBackfill);
 
 export const recommendButtonDisabledAtom = atom(false);
 
 export const onboardSubmitAtom = atom(
   null, // write-only atom
   async (get, set) => {
-    set(onboardingStateAtom, 'loading');
+    set(backfillStateAtom, 'loading');
     try {
       const form = {
         startDate: get(startDateAtom)?.format('YYYY-MM-DD'),
@@ -35,7 +36,7 @@ export const onboardSubmitAtom = atom(
       const response = await api.onboard(form);
       console.log('response: ', response);
 
-      set(onboardingStateAtom, 'complete');
+      set(backfillStateAtom, 'onboarding');
 
       // console.log('response.data: ', response.data);
       // const { dateList, calendarModel } = response.data;

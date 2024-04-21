@@ -19,7 +19,7 @@ function onboard(request: any, h: any){
     console.log('form: ', form);
 
     const onboardResult: any = await maintenanceService.post('onboardNewUser', { form });
-    console.log('onboardResult: ', onboardResult);
+    console.log('onboardResult: ', onboardResult); // ! doesnt include newly scraped days, only backfill
     // const prevFiveDates = newDateRecords.slice(calendarPageSize * -1);
     
     resolve('success')

@@ -45,6 +45,12 @@ const Sidebar: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Search" />
         </NavItem>
+        <NavItem onClick={() => navigate('backfill')}>
+          <ListItemIcon>
+            <SearchIcon />
+          </ListItemIcon>
+          <ListItemText primary="Backfill" />
+        </NavItem>
         <NavItem onClick={() => navigate('analytics')}>
           <ListItemIcon>
             <AssessmentIcon />
