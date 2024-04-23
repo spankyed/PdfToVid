@@ -4,28 +4,8 @@ import { Button, Box, Divider, Typography, IconButton, Tooltip } from '@mui/mate
 
 import './backfill.css';
 import PageLayout from '~/shared/components/layout/page-layout';
-import DateRange from './components/date-range';
-import BatchControls from './components/batch';
-import ResultsTable from './components/calender-batch-proto';
-
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import CalendarComponent from './components/calender-batch-proto';
-
-const BatchScrapeButton = () => {
-  const info = `We recommend scraping papers in batches of 20 days. Then take the opportunity to review those papers, starring papers you find interesting.
-  It is also good to occasionally unfavorite papers you find less interesting than the latest papers you might’ve seen.`
-  return (
-    <div style={{ display: 'flex', alignItems: 'center' }}> {/* Ensure button and icon are aligned */}
-    <Button variant="contained" color="warning" onClick={() => {}}>
-      <Tooltip title={info}>
-        <HelpOutlineIcon sx={{ mr: 1}}/>
-      </Tooltip>
-      Scrape Batch
-    </Button>
-
-  </div>
-  );
-};
+import DateRange from './add-dates/date-range';
+import BatchTable from './batch-scrape/batch';
 
 const BackfillPage = () => {
   const queryParams = new URLSearchParams(location.search);
@@ -35,44 +15,18 @@ const BackfillPage = () => {
 
   return (
     <PageLayout padding={3}>
-
       <Box sx={{ my: 4, width: '80rem', mx: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-
-        <Button
-          variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}
-        >
+        <Button variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}>
           Scrape Recommended
         </Button>
 
-
         <div className='flex row w-full justify-between p-12' style={{ backgroundColor: '#fff' }}>
+          <DateRange />
 
-          <div style={{ width: '25%' }}>
-            <DateRange />
-            <Button variant="contained" color="success" onClick={()=>{}}>Add Dates</Button>
-
-          </div>
           <Divider orientation="vertical" flexItem />
 
-          <div style={{ width: '55%' }}>
-            {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
-
-            <Box sx={{ display: 'flex', justifyContent: 'end', minWidth: 200, placeSelf: 'center', marginTop: 2  }}>
-            {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
-              <BatchScrapeButton/>
-              {/* <Button variant="contained" color="secondary">Clear Results</Button> */}
-            </Box>
-            <BatchControls />
-          </div>
-
-
-
+          <BatchTable/>
         </div>
-
-        {/* <ResultsTable/> */}
-        {/* <div className=''></div> */}
-
-        <CalendarComponent selectedDays={[]} />
       </Box>
     </PageLayout>
   );
