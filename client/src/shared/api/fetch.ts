@@ -22,3 +22,4 @@ export const scrapeDate = (date) => axios.post(apiUrl + '/scrape/' + date);
 export const searchPapers = (form) => axios.post(apiUrl + '/searchPapers', { form });
 
 export const onboard = (form) => axios.post(apiUrl + '/onboardNewUser', { form });
+export const backfillDates = (dateRange) => axios.post(apiUrl + '/backfillDates', dateRange);

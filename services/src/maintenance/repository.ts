@@ -11,6 +11,10 @@ function getByDates(dates: string[]) {
   });
 }
 
+function getAllDates() {
+  return DatesTable.findAll();
+}
+
 async function getLatestDate() {
   const lastDateRecord =  await DatesTable.findOne({
     order: [['value', 'DESC']]
@@ -32,7 +36,7 @@ async function storeDate(date: string) {
   }
 }
 
-async function storeDates(dates: string[]) {
+async function storeDates(dates: string[]): Promise<DatesTable[]> {
   const newDateRecords = dates.map(date => ({
     value: date,
     status: 'pending'
@@ -44,7 +48,7 @@ async function storeDates(dates: string[]) {
     });
   }
 
-  return newDateRecords;
+  return newDateRecords as unknown as DatesTable[];
 }
 
 function storeReferencePapers(paperIds: string[]): Promise<any> {
@@ -65,6 +69,7 @@ async function getReferencePapers() {
 
 export default {
   getByDates,
+  getAllDates,
   getLatestDate,
   storeDate,
   storeDates,

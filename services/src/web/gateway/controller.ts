@@ -1,6 +1,8 @@
 import { WorkerPath, MaintenancePath } from "../../shared/constants";
 import createRequest from "../../shared/request";
 import { route } from '../../shared/route';
+import { mapRecordsToModel } from "../calendar/transform";
+import { groupDatesByMonth } from "../shared/transform";
 
 const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);
@@ -24,8 +26,20 @@ function onboard(request: any, h: any){
   });
 }
 
+function backFillDates(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const backFilledDateList: any = await maintenanceService.post('backfillDates', request.payload);
+
+    resolve({
+      records: groupDatesByMonth(backFilledDateList.records),
+      newCount: backFilledDateList.newCount
+    })
+  });
+}
+
 
 export default [
   route.post('/onboardNewUser', onboard),
-  route.post('/scrape/{date}', scrapePapers)
+  route.post('/scrape/{date}', scrapePapers),
+  route.post('/backfillDates', backFillDates)
 ]

@@ -9,9 +9,7 @@ import BatchTable from './batch-scrape';
 
 const BackfillPage = () => {
   const queryParams = new URLSearchParams(location.search);
-  console.log('queryParams: ', queryParams);
-  const isNewUser = queryParams.get('isNewUser') === 'true';
-  console.log('isNewUser: ', isNewUser);
+  const isNewUser = queryParams.get('isNewUser') === 'true'; // todo - use this to show a tutorial popover messages
 
   return (
     <PageLayout padding={3}>
