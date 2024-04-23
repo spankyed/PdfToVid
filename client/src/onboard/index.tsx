@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { Button, Box } from '@mui/material';
+import { Button, Box, Paper } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardIos';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -94,13 +94,13 @@ function OnboardFlow() {
         ) : ()} */}
 
           <>
-            <div style={{
+            <Paper elevation={2} style={{
               backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem', paddingBottom: '3.5rem',
               display: 'flex', flexDirection: 'column', alignItems: 'center',
               height: '38rem', width: '70rem', overflow: 'auto'
             }} className='px-12 mx-auto'>
               <RenderByState activeStep={activeStep} />
-            </div>
+            </Paper>
 
             <NavigationButtons 
               {
