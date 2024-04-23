@@ -6,10 +6,10 @@ import './backfill.css';
 import PageLayout from '~/shared/components/layout/page-layout';
 import DateRange from './components/date-range';
 import BatchControls from './components/batch';
-import ResultsTable from './components/calender';
+import ResultsTable from './components/calender-batch-proto';
 
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import CalendarComponent from './components/calender';
+import CalendarComponent from './components/calender-batch-proto';
 
 const BatchScrapeButton = () => {
   const info = `We recommend scraping papers in batches of 20 days. Then take the opportunity to review those papers, starring papers you find interesting.
