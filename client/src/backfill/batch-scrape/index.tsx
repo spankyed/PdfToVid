@@ -90,15 +90,15 @@ const BatchTable: React.FC = () => {
   }, [] as string[][]);
 
   return (
-    <div style={{ width: '55%' }}>
-      {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
-
-      <Box sx={{ display: 'flex', justifyContent: 'end', minWidth: 200, placeSelf: 'center', marginTop: 2  }}>
-      {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
+    <div style={{ width: '55%' }} className='flex flex-col'>
+      <Box sx={{ display: 'flex', justifyContent: 'end', minWidth: 200, placeSelf: 'center', marginBottom: 2  }}>
+        {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
         <BatchScrapeButton/>
         {/* <Button variant="contained" color="secondary">Clear Results</Button> */}
+        {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
       </Box>
-        <DualListContainer>
+
+      <DualListContainer>
         <div className='flex flex-col'>
           <div className='flex'>
             {

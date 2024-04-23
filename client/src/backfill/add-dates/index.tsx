@@ -38,13 +38,25 @@ const DateRangeControl: React.FC<{}> = () => {
   };
 
   return (
-    <div style={{ width: '25%' }}>
+    <div style={{ width: '25%', display: 'flex' }} className='flex flex-col'>
       <FormControl
         required
         error={false}
         component="fieldset"
         variant="standard"
+        sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}
       >
+      <LoadingButton
+        variant="contained"
+        color="success"
+        disabled={!startDate || !endDate}
+        onClick={handleSubmit}
+        loading={state === 'loading'}
+        sx={{ marginBottom: 2 }}
+      >
+        Add Dates
+      </LoadingButton>
+
         {/* <FormLabel component="legend">By Date</FormLabel> */}
         <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -57,7 +69,7 @@ const DateRangeControl: React.FC<{}> = () => {
               onChange={handleStartDateChange}
             />
             <DatePicker
-              sx={{ marginTop: 2 }}
+              sx={{ marginTop: 4 }}
               label="Before Date"
               value={endDate}
               disableFuture={true}
@@ -69,16 +81,6 @@ const DateRangeControl: React.FC<{}> = () => {
 
         {/* <FormHelperText>You can display an error</FormHelperText> */}
       </FormControl>
-
-      <LoadingButton
-        variant="contained"
-        color="success"
-        disabled={!startDate || !endDate}
-        onClick={handleSubmit}
-        loading={state === 'loading'}
-      >
-        Add Dates
-      </LoadingButton>
     </div>
   );
 }
