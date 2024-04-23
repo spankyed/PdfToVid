@@ -16,11 +16,9 @@ async function scrapePapers(request: any, h: any){
 function onboard(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const form = request.payload.form;
-    console.log('form: ', form);
 
     const onboardResult: any = await maintenanceService.post('onboardNewUser', { form });
-    console.log('onboardResult: ', onboardResult); // ! doesnt include newly scraped days, only backfill
-    // const prevFiveDates = newDateRecords.slice(calendarPageSize * -1);
+    console.log('onboardResult: ', onboardResult); // ! doesnt include newly scraped days for references, only backfilled dates
     
     resolve('success')
   });
