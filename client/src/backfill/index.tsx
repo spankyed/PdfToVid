@@ -72,7 +72,7 @@ const BackfillPage = () => {
         {/* <ResultsTable/> */}
         {/* <div className=''></div> */}
 
-        {/* <CalendarComponent selectedDays={[]} /> */}
+        <CalendarComponent selectedDays={[]} />
       </Box>
     </PageLayout>
   );
