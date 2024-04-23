@@ -4,8 +4,8 @@ import { Button, Box, Divider, Typography, IconButton, Tooltip } from '@mui/mate
 
 import './backfill.css';
 import PageLayout from '~/shared/components/layout/page-layout';
-import DateRange from './add-dates/date-range';
-import BatchTable from './batch-scrape/batch';
+import DateRange from './add-dates';
+import BatchTable from './batch-scrape';
 
 const BackfillPage = () => {
   const queryParams = new URLSearchParams(location.search);
