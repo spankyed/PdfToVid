@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { Button, Box, Divider, Typography, IconButton, Tooltip } from '@mui/material';
+import { Button, Box, Divider, Typography, IconButton, Tooltip, Paper } from '@mui/material';
 
 import './backfill.css';
 import PageLayout from '~/shared/components/layout/page-layout';
@@ -14,17 +14,17 @@ const BackfillPage = () => {
   return (
     <PageLayout padding={3}>
       <Box sx={{ my: 4, width: '80rem', mx: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <Button variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}>
-          Scrape Recommended
-        </Button>
-
-        <div className='flex row w-full justify-between p-12' style={{ backgroundColor: '#fff' }}>
+        <Paper elevation={2} className='flex row w-full justify-between p-12' style={{ backgroundColor: '#fff' }}>
           <DateRange />
 
           <Divider orientation="vertical" flexItem />
 
           <BatchTable/>
-        </div>
+        </Paper>
+
+        <Button variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}>
+          Scrape Recommended
+        </Button>
       </Box>
     </PageLayout>
   );

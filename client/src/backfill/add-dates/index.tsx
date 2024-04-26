@@ -20,6 +20,7 @@ const DateRangeControl: React.FC<{}> = () => {
         startDate: startDate.format('YYYY-MM-DD'),
         endDate: endDate.format('YYYY-MM-DD'),
       });
+      // todo if new dates are prior to dates in current batch, update batch to start at new earliest date
     }
   };
 
