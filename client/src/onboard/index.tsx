@@ -95,9 +95,9 @@ function OnboardFlow() {
 
           <>
             <Paper elevation={2} style={{
-              backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem', paddingBottom: '3.5rem',
+              backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem',
               display: 'flex', flexDirection: 'column', alignItems: 'center',
-              height: '38rem', width: '70rem', overflow: 'auto'
+              height: '35rem', width: '70rem', overflow: 'auto'
             }} className='px-12 mx-auto'>
               <RenderByState activeStep={activeStep} />
             </Paper>
