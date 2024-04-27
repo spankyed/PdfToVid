@@ -6,7 +6,7 @@ import PapersTable from './table';
 import { Paper } from '~/shared/utils/types';
 import { dateEntryPapersAtom, tabValueAtom } from '../store';
 import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { emptyAtom, updatePaperInListAtom } from "~/shared/store";
+import { emptyListAtom, updatePaperInListAtom } from "~/shared/store";
 
 const MainTabs: React.FC<{
   papersAtom?: Atom<Paper[]>;
@@ -15,7 +15,7 @@ const MainTabs: React.FC<{
 }> = ({ papersAtom, isLoading = false, slideUp = false }) => {
   const [tabValue, setTabValue] = useAtom(tabValueAtom);
   const updatePaper = useSetAtom(updatePaperInListAtom);
-  const papers = useAtomValue(papersAtom || emptyAtom);
+  const papers = useAtomValue(papersAtom || emptyListAtom);
 
   const handleChange = (event: React.SyntheticEvent, newValue: 0 | 1) => {
     setTabValue(newValue);

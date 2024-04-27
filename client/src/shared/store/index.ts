@@ -3,7 +3,8 @@ import { Paper } from '../utils/types';
 // import * as api from '../api/fetch';
 
 export const selectedDateAtom = atom<string>('');
-export const emptyAtom = atom([]);
+export const emptyListAtom = atom([]);
+export const emptyObjectAtom = atom<any>({});
 
 // interface ListItem {
 //   id: number;

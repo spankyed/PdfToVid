@@ -17,7 +17,14 @@ function CalendarMain(): React.ReactElement {
   const navigate = useNavigate();
 
   const showBackfill = calendarState === 'backfill'; // todo rename onboarding
-  
+
+  useEffect(() => {
+    console.log('showBackfill: ', calendarState);
+    if (showBackfill) {
+      navigate('/onboard');
+    }
+  }, [calendarState]);
+
   useEffect(() => {
     const date = datesRows.find(d => d.month === openMonth)?.dates[0]?.value;
 
@@ -27,12 +34,6 @@ function CalendarMain(): React.ReactElement {
       fetchData();
     }
   }, [fetchData]);
-
-    useEffect(() => {
-      if (showBackfill) {
-        navigate('/onboard');
-      }
-    }, [showBackfill]);
 
   return (
     <>
@@ -45,14 +46,15 @@ function MainContent(): React.ReactElement {
   const [calendarState] = useAtom(calendarStateAtom);
   const isLoading = calendarState === 'loading';
   const isError = calendarState === 'error';
+  const isEmpty = calendarState === 'backfill';
 
   return (
     <>
       { isLoading
         ? <DatesPlaceholder />
         : (
-          isError
-            ? <div>Failed to fetch calendar data</div>
+          isError || isEmpty
+            ? <div className=' place-self-center'>Failed to fetch calendar data</div>
             : <DateRows />
         )
       }

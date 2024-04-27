@@ -6,13 +6,16 @@ import { calendarLoadMoreAtom, calendarModelAtom, lastRecordReachedAtom, scrolla
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 import RowItem from './row-item';
 import { isSummaryOpenAtom } from '../../../shared/components/paper/tile/summary/store';
+import { emptyObjectAtom } from '~/shared/store';
 
 function DateRows(): React.ReactElement {
   const datesAtoms = useAtomValue(calendarModelAtom);
   const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
   const [, setSummaryOpen] = useAtom(isSummaryOpenAtom);
 
-  const dbCursor = useAtomValue(datesAtoms[datesAtoms.length - 1])
+  const hasDates = datesAtoms.length > 0;
+  const lastDateAtom = hasDates ? datesAtoms[datesAtoms.length - 1] : emptyObjectAtom;
+  const dbCursor = useAtomValue(lastDateAtom)
   const datesLength = datesAtoms.length;
   const updatePaper = useSetAtom(updatePaperInCalenderAtom);
 
@@ -59,7 +62,7 @@ function DateRows(): React.ReactElement {
         );
       })}
 
-      <LoadMoreButton dbCursor={dbCursor.date.value} />
+      <LoadMoreButton dbCursor={dbCursor?.date?.value} />
     </>
   );
 }
