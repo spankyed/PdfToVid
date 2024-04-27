@@ -19,7 +19,6 @@ function CalendarMain(): React.ReactElement {
   const showBackfill = calendarState === 'backfill'; // todo rename onboarding
 
   useEffect(() => {
-    console.log('showBackfill: ', calendarState);
     if (showBackfill) {
       navigate('/onboard');
     }
