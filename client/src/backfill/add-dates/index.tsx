@@ -3,15 +3,14 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { FormControl, Box, Button } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { dateEndAtom, dateStartAtom } from '../store';
+import { dateEndAtom, dateStartAtom, backfillStateAtom } from './store';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { onboardingStateAtom } from '~/onboard/store';
 import { addDatesAtom } from './store';
 
 const DateRangeControl: React.FC<{}> = () => {
   const [startDate, setStartDate] = useAtom(dateStartAtom);
   const [endDate, setEndDate] = useAtom(dateEndAtom);
-  const state = useAtomValue(onboardingStateAtom);
+  const state = useAtomValue(backfillStateAtom);
   const addDates = useSetAtom(addDatesAtom);
 
   const handleSubmit = () => {

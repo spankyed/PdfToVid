@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useAtom } from 'jotai';
+import React, { useEffect, useState } from 'react';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { FormControl, Box, List, ListItem, ListItemButton, ListItemText, Button, Stack, IconButton, Tooltip } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -10,14 +10,17 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { LoadingButton } from '@mui/lab';
+import { batchDatesAtom, batchScrapeAtom, batchStateAtom, getDatesAtom } from './store';
 
-const MockDatesTable = Array(21).fill('').map((_, i) => `04/${i}/2024`)
 
 const DualListContainer = styled(Box)({
   display: 'flex',
-  border: '2px solid black',
+  border: '.2rem solid black',
   borderRadius: '8px',
-  overflow: 'hidden',
+  width: 'fit-content',
+  midWidth: '20rem'
+  // overflow: 'hidden',
 });
 
 // Styled List with dividers between lists
@@ -40,27 +43,40 @@ const StyledListItem = styled(ListItem)({
   },
 });
 
-const renderList = (items: string[], keyPrefix: string) => (
-  <StyledList>
-    {items.map((item, index) => (
-      <StyledListItem disablePadding key={`${keyPrefix}-${index}`}>
-        <ListItemText primary={item} />
-      </StyledListItem>
-    ))}
-  </StyledList>
-);
+const renderList = (items: string[], keyPrefix: string) => {
+  console.log('items: ', items);
+  return (
+    <StyledList>
+      {items.map((item, index) => (
+        <StyledListItem disablePadding key={`${keyPrefix}-${index}`}>
+          <ListItemText primary={item} />
+        </StyledListItem>
+      ))}
+    </StyledList>
+  )
+};
 
 const BatchScrapeButton = () => {
+  const state = useAtomValue(batchStateAtom);
+  const scrapeBatch = useSetAtom(batchScrapeAtom);
+  
   const info = `We recommend scraping papers in batches of 20 days. Then take the opportunity to review those papers, starring papers you find interesting.
   It is also good to occasionally unfavorite papers you find less interesting than the latest papers you might’ve seen.`
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}> {/* Ensure button and icon are aligned */}
-    <Button variant="contained" color="warning" onClick={() => {}}>
+  <div style={{ display: 'flex', alignItems: 'center' }}> {/* Ensure button and icon are aligned */}
+    <LoadingButton
+        variant="contained"
+        color="warning"
+        disabled={false} // todo - add logic to disable button if no dates to scrape
+        onClick={scrapeBatch}
+        loading={state === 'loading'}
+        sx={{ mr: 2 }}
+      >
       <Tooltip title={info}>
         <HelpOutlineIcon sx={{ mr: 1}}/>
       </Tooltip>
       Scrape Batch
-    </Button>
+    </LoadingButton>
 
   </div>
   );
@@ -70,17 +86,27 @@ const BatchTable: React.FC = () => {
   // Calculate the number of items per column dynamically
   const [pageIndex, setPageIndex] = useState(0);
   const sections = 5;
-  const itemsPerColumn = Math.ceil(MockDatesTable.length / sections);
+  const dates = useAtomValue(batchDatesAtom);
+  const itemsPerColumn = Math.ceil(dates.length / sections);
+
+  const getDates = useSetAtom(getDatesAtom);
 
   const handlePrevious = () => {
-    setPageIndex((current) => Math.max(current - 1, 0));
+    getDates('left')
+    // setPageIndex((current) => Math.max(current - 1, 0));
   };
 
   const handleNext = () => {
-    setPageIndex((current) => Math.min(current + 1, itemsPerColumn - 1));
+    getDates('right')
+    // setPageIndex((current) => Math.min(current + 1, itemsPerColumn - 1));
   };
 
-  const splitList = MockDatesTable.reduce((acc, item, index) => {
+  useEffect(() => {
+    // Load the first page of data
+    getDates('right');
+  } , []);
+
+  const splitList = dates.reduce((acc, item, index) => {
     const sectionIndex = Math.floor(index / itemsPerColumn);
     if (!acc[sectionIndex]) {
       acc[sectionIndex] = [];
@@ -109,7 +135,7 @@ const BatchTable: React.FC = () => {
             <IconButton onClick={()=>{}} disabled={pageIndex === 0}>
               <KeyboardDoubleArrowLeftIcon />
             </IconButton>
-            <IconButton onClick={handlePrevious} disabled={pageIndex === 0}>
+            <IconButton onClick={handlePrevious} disabled={false}>
               <KeyboardArrowLeftIcon />
             </IconButton>
             <IconButton onClick={handleNext} disabled={pageIndex === sections - 1}>
