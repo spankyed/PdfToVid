@@ -40,8 +40,13 @@ async function storeReferencePaperChroma(paper: Partial<PaperRecord>) {
   return paper.id;
 }
 
+let cachedCollection: any = null;
+
 async function getReferenceCollection() {
-  return client.getCollection({ name: ReferenceCollectionName, embeddingFunction: embedder });
+  if (!cachedCollection) {
+    cachedCollection = await client.getCollection({ name: ReferenceCollectionName, embeddingFunction: embedder });
+  }
+  return cachedCollection;
 }
 
 async function addToReferenceCollection(papers: Partial<PaperRecord>[]) {

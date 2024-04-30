@@ -8,7 +8,7 @@ async function queryReferenceCollection(corpus: any[], nResults = 5) {
 
   return collection.query({
     queryTexts: corpus,
-    nResults: nResults,
+    nResults: nResults, // ! not optimized
   })
 }
 
