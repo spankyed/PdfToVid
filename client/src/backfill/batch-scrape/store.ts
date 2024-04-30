@@ -22,7 +22,7 @@ export const getDatesAtom = atom(
       const hasDates = get(batchDatesAtom).length > 0;
       const cursor = direction === 'right' ? get(batchDatesAtom).slice(-1)[0] : get(batchDatesAtom)[0];
       const formattedCursor = dayjs(cursor).format('YYYY-MM-DD')
-      // const response = await api.getBatchDates({ cursor: hasDates ? formattedCursor : undefined, direction });
+      const response = await api.getBatchDates({ cursor: hasDates ? formattedCursor : undefined, direction });
       const records = response.data;
       console.log('Loaded dates: ', { records });
 

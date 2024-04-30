@@ -1,4 +1,5 @@
 // Assuming PaperRecord matches the structure of your PapersTable model
+import { FindOptions, Op } from 'sequelize';
 import { DatesTable, PapersTable, ReferencePapersTable } from '../shared/schema';
 
 
@@ -67,6 +68,43 @@ async function getReferencePapers() {
   });
 }
 
+type getBackfillDateParams = {
+  cursor: string | undefined;
+  direction: 'left' | 'right';
+  count?: number;
+};
+
+function getBackfillDates(params: getBackfillDateParams): Promise<DatesTable[]> {
+  const { cursor, direction, count } = params;
+  const isRight = !direction || direction === 'right';
+  let queryOptions: FindOptions<DatesTable> = {
+    raw: true,
+    order: [['value', isRight ? 'ASC' : 'DESC']],
+    limit: count || 20,
+    where: {
+      ...(cursor && {
+        value: {
+          [isRight ? Op.gt : Op.lt]: cursor
+        }
+      }),
+      status: 'pending'
+    }
+  };
+
+  return DatesTable.findAll(queryOptions)
+    .then(results => {
+      // If direction is left, reverse the results to maintain ascending order
+      if (!isRight) {
+        results.reverse();
+      }
+      return results;
+    })
+    .catch(error => {
+      console.error('Error fetching dates:', error);
+      throw error;  // Properly propagate errors
+    });
+}
+
 export default {
   getByDates,
   getAllDates,
@@ -74,6 +112,7 @@ export default {
   storeDate,
   storeDates,
   storeReferencePapers,
-  getReferencePapers
+  getReferencePapers,
+  getBackfillDates
 };
 

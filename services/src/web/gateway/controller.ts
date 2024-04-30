@@ -37,8 +37,19 @@ function backFillDates(request: any, h: any){
   });
 }
 
+function gateway(method: string){
+  return (request: any, h: any) => {
+    return new Promise(async (resolve, reject) => {
+      const result: any = await maintenanceService.post(method, request.payload);
+      resolve(result)
+    });
+  }
+}
+
 
 export default [
+  route.post('/batchScrape', gateway('batchScrape')),
+  route.post('/getBatchDates', gateway('getBatchDates')),
   route.post('/onboardNewUser', onboard),
   route.post('/scrape/{date}', scrapePapers),
   route.post('/backfillDates', backFillDates)

@@ -1,7 +1,9 @@
-import onboard from './onboard';
-import backfill from './backfill-dates';
+import onboardRoutes from './onboard';
+import backfillRoutes from './backfill-dates';
+import batchScrapeRoutes from './batch-scrape';
 
 export const routes = [
-  ...onboard,
-  ...backfill,
+  ...onboardRoutes,
+  ...backfillRoutes,
+  ...batchScrapeRoutes,
 ];
