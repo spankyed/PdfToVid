@@ -88,16 +88,16 @@ export const batchScrapeAtom = atom(
   }
 );
 
-export const resetStateAtom = atom(
-  null, // write-only atom
-  async (get, set) => {
-    set(batchStateAtom, 'pending');
-    set(batchDatesAtom, []);
-    set(buttonsDisabledAtom, {
-      left: false,
-      right: false,
-      leftEnd: false,
-      rightEnd: false,
-    });
-  }
-);
+// export const resetStateAtom = atom(
+//   null, // write-only atom
+//   async (get, set) => {
+//     set(batchStateAtom, 'pending');
+//     set(batchDatesAtom, []);
+//     set(buttonsDisabledAtom, {
+//       left: false,
+//       right: false,
+//       leftEnd: false,
+//       rightEnd: false,
+//     });
+//   }
+// );
