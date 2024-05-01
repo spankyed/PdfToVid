@@ -15,16 +15,28 @@ const BackfillPage = () => {
     <PageLayout padding={3}>
       <Box sx={{ my: 4, width: '80rem', mx: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Paper elevation={2} className='flex row w-full justify-between p-12' style={{ backgroundColor: '#fff' }}>
-          <DateRange />
+          
+          <div style={{
+            borderRight: '1px solid rgba(140, 130, 115, 0.22)',
+            width: '30%',
+            paddingRight: '3rem',
+          }}>
+            <DateRange />
+          </div>
 
-          <Divider orientation="vertical" flexItem />
 
-          <BatchTable/>
+          <div style={{
+            flex: 1,
+            paddingLeft: '3rem',
+          }} className='flex flex-col items-center'>
+            <BatchTable/>
+          </div>
+
         </Paper>
 
-        <Button variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}>
+        {/* <Button variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}>
           Scrape Recommended
-        </Button>
+        </Button> */}
       </Box>
     </PageLayout>
   );

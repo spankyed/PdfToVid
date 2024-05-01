@@ -38,7 +38,7 @@ const DateRangeControl: React.FC<{}> = () => {
   };
 
   return (
-    <div style={{ width: '25%', display: 'flex' }} className='flex flex-col'>
+    <div style={{ display: 'flex' }} className='flex flex-col'>
       <FormControl
         required
         error={false}
@@ -61,7 +61,7 @@ const DateRangeControl: React.FC<{}> = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="After Date"
+              label="Start Date"
               value={startDate}
               disableHighlightToday={true}
               disableFuture={true}
@@ -70,7 +70,7 @@ const DateRangeControl: React.FC<{}> = () => {
             />
             <DatePicker
               sx={{ marginTop: 4 }}
-              label="Before Date"
+              label="End Date"
               value={endDate}
               disableFuture={true}
               minDate={startDate ? startDate : null}

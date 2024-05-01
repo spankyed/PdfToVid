@@ -16,7 +16,7 @@ import { batchDatesAtom, batchScrapeAtom, batchStateAtom, getDatesAtom } from '.
 
 const DualListContainer = styled(Box)({
   display: 'flex',
-  border: '.2rem solid black',
+  border: '.0005rem solid rgb(54 59 61 / 30%)',
   borderRadius: '8px',
   width: 'fit-content',
   midWidth: '20rem'
@@ -70,7 +70,7 @@ const BatchScrapeButton = () => {
         disabled={false} // todo - add logic to disable button if no dates to scrape
         onClick={scrapeBatch}
         loading={state === 'loading'}
-        sx={{ mr: 2 }}
+        // sx={{ mr: 2 }}
       >
       <Tooltip title={info}>
         <HelpOutlineIcon sx={{ mr: 1}}/>
@@ -116,11 +116,9 @@ const BatchTable: React.FC = () => {
   }, [] as string[][]);
 
   return (
-    <div style={{ width: '55%' }} className='flex flex-col'>
-      <Box sx={{ display: 'flex', justifyContent: 'end', minWidth: 200, placeSelf: 'center', marginBottom: 2  }}>
-        {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
+    <>
+      <Box sx={{ display: 'flex', justifyContent: "center", marginBottom: 2  }}>
         <BatchScrapeButton/>
-        {/* <Button variant="contained" color="secondary">Clear Results</Button> */}
         {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
       </Box>
 
@@ -128,10 +126,24 @@ const BatchTable: React.FC = () => {
         <div className='flex flex-col'>
           <div className='flex'>
             {
-              splitList.map((list, index) => renderList(list, `list-${index}`))
+              splitList.length > 0
+              ? splitList.map((list, index) => renderList(list, `list-${index}`))
+              : <Box sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 420, height: 120, placeSelf: 'center', marginBottom: 2,
+                  textAlign: 'center',
+                }}>
+                  No dates to scrape
+                </Box>
             }
           </div>
-          <Stack direction="row" justifyContent="space-between" padding={0} className=' border border-t-2'>
+          <Stack
+            sx={{
+              borderTop: '.0005rem solid rgb(54 59 61 / 30%)',
+            }}
+            direction="row" justifyContent="space-between" padding={0} className=''>
             <IconButton onClick={()=>{}} disabled={pageIndex === 0}>
               <KeyboardDoubleArrowLeftIcon />
             </IconButton>
@@ -148,7 +160,7 @@ const BatchTable: React.FC = () => {
         </div>
 
       </DualListContainer>
-    </div>
+    </>
   );
 };
 
