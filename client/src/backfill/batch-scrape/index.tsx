@@ -97,7 +97,7 @@ const BatchTable: React.FC = () => {
   }
 
   useEffect(() => {
-    // Load the first page of data
+    // Load the last page of data
     getDates('rightEnd');
   } , []);
 
