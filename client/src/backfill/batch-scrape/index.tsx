@@ -11,7 +11,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { LoadingButton } from '@mui/lab';
-import { batchDatesAtom, batchScrapeAtom, batchStateAtom, getDatesAtom } from './store';
+import { batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisabledAtom, getDatesAtom } from './store';
 
 
 const DualListContainer = styled(Box)({
@@ -90,20 +90,15 @@ const BatchTable: React.FC = () => {
   const itemsPerColumn = Math.ceil(dates.length / sections);
 
   const getDates = useSetAtom(getDatesAtom);
+  const buttonsDisabled = useAtomValue(buttonsDisabledAtom);
 
-  const handlePrevious = () => {
-    getDates('left')
-    // setPageIndex((current) => Math.max(current - 1, 0));
-  };
-
-  const handleNext = () => {
-    getDates('right')
-    // setPageIndex((current) => Math.min(current + 1, itemsPerColumn - 1));
-  };
+  const goTo = direction => () => {
+    getDates(direction);
+  }
 
   useEffect(() => {
     // Load the first page of data
-    getDates('right');
+    getDates('rightEnd');
   } , []);
 
   const splitList = dates.reduce((acc, item, index) => {
@@ -114,6 +109,8 @@ const BatchTable: React.FC = () => {
     acc[sectionIndex].push(item);
     return acc;
   }, [] as string[][]);
+
+  const noDates = dates.length === 0;
 
   return (
     <>
@@ -144,16 +141,16 @@ const BatchTable: React.FC = () => {
               borderTop: '.0005rem solid rgb(54 59 61 / 30%)',
             }}
             direction="row" justifyContent="space-between" padding={0} className=''>
-            <IconButton onClick={()=>{}} disabled={pageIndex === 0}>
+            <IconButton onClick={goTo('leftEnd')} disabled={noDates || buttonsDisabled.leftEnd}>
               <KeyboardDoubleArrowLeftIcon />
             </IconButton>
-            <IconButton onClick={handlePrevious} disabled={false}>
+            <IconButton onClick={goTo('left')} disabled={noDates || buttonsDisabled.left}>
               <KeyboardArrowLeftIcon />
             </IconButton>
-            <IconButton onClick={handleNext} disabled={pageIndex === sections - 1}>
+            <IconButton onClick={goTo('right')} disabled={noDates || buttonsDisabled.right}>
               <KeyboardArrowRightIcon />
             </IconButton>
-            <IconButton onClick={()=>{}} disabled={pageIndex === sections - 1}>
+            <IconButton onClick={goTo('rightEnd')} disabled={noDates || buttonsDisabled.rightEnd}>
               <KeyboardDoubleArrowRightIcon />
             </IconButton>
           </Stack>
