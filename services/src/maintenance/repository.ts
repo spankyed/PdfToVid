@@ -55,7 +55,12 @@ async function storeDates(dates: string[]): Promise<DatesTable[]> {
 function storeReferencePapers(paperIds: string[]): Promise<any> {
   const referenceRecords = paperIds.map(id => ({ id }));
 
-  return ReferencePapersTable.bulkCreate(referenceRecords);
+  return ReferencePapersTable.bulkCreate(
+    referenceRecords,
+    {
+      ignoreDuplicates: true
+    }
+  );
 }
 
 async function getReferencePapers() {

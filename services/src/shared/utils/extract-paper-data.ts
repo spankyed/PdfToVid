@@ -15,6 +15,7 @@ interface Paper {
 export const extractPaperData = async (data: any, options?: TransformOptions): Promise<PaperRecord[]>  => {
   const parsedData = await parseStringPromise(data);
   const entries = parsedData.feed.entry || [];
+  const date = options?.date;
 
   const rawPapers = entries.map((entry: any): Paper => ({
     id: extractIdFromUrl(entry.id[0]),
@@ -22,7 +23,7 @@ export const extractPaperData = async (data: any, options?: TransformOptions): P
     abstract: entry.summary[0],
     pdfLink: entry.link.find((link: any) => link.$.title === 'pdf').$.href,
     // date: entry.published[0],
-    date: formatDate(entry.published[0]),
+    date: date || formatDate(entry.published[0]),
     authors: entry.author.map(
       (author: any) =>
         `${author.name[0]}`

@@ -9,8 +9,33 @@ function updateDateStatus(date: string, status: string): Promise<any> {
   return DatesTable.update({ status }, { where: { value: date } });
 }
 
-function storePapers(papers: PaperRecord[]): Promise<any> {
-  return PapersTable.bulkCreate(papers);
+async function storePapers(papers: PaperRecord[]): Promise<any> {
+  try {
+    const result = await PapersTable.bulkCreate(papers, {
+      updateOnDuplicate: ['relevancy']
+    });
+    return result;
+  } catch (error: unknown) {
+    console.error('Error occurred during bulk create:', error);
+
+    if (error instanceof Error) {
+      // Optional: Identify the problematic paper(s)
+      if (error.name === 'SequelizeForeignKeyConstraintError') {
+        // You might iterate over `papers` to find which one(s) could be causing the issue
+        // For example, log or handle each record to see if its `date` is in the `DatesTable`
+        // This is a simplified and not direct approach; specific checks depend on your application logic
+        const problematicPapers = papers.filter(async (paper) => {
+          const exists = await DatesTable.count({ where: { value: paper.date } });
+          return exists === 0; // The date does not exist in the DatesTable
+        });
+
+        console.error('Potential problematic papers:', problematicPapers);
+      }
+    }
+
+    // Optionally, rethrow the error or handle it as per your application's error policy
+    throw error;
+  }
 }
 
 const client = new ChromaClient();

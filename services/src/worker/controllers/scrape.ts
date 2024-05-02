@@ -44,10 +44,15 @@ const scrapeAndRankPapers = async (date: string, notifyClient = true) => {
   console.log('Papers ranked, storing papers in DB...');
 
 
-  Promise.all([
-    sharedRepository.storePapers(paperRecords),
-    sharedRepository.updateDateStatus(date, 'complete')
-  ]);
+  try {
+    Promise.all([
+      sharedRepository.storePapers(paperRecords),
+      sharedRepository.updateDateStatus(date, 'complete')
+    ]);
+  } catch (error) {
+    console.error('Error storing papers:', error);
+  }
+
 
   // await repository.addPapersForDate(date, 'complete');
 
