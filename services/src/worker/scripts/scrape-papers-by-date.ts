@@ -30,7 +30,7 @@ export default async function scrapePapersByDate(date: string): Promise<PaperRec
       throw new Error("Error fetching data from ArXiv API endpoint");
     }
 
-    return extractPaperData(response.data);
+    return extractPaperData(response.data, { date });
   } catch (err) {
     console.error(err);
     throw err;
