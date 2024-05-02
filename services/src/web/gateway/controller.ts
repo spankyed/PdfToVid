@@ -48,7 +48,7 @@ function gateway(method: string){
 
 
 export default [
-  route.post('/batchScrape', gateway('batchScrape')),
+  route.post('/scrapeBatch', gateway('scrapeBatch')),
   route.post('/getBatchDates', gateway('getBatchDates')),
   route.post('/onboardNewUser', onboard),
   route.post('/scrape/{date}', scrapePapers),
