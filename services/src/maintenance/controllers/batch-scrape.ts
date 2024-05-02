@@ -7,10 +7,7 @@ function scrapeBatch(request: any, h: any){
     const dates = request.payload;
     console.log('dates: ', dates);
 
-    // Promise.all(dates.map(async (date: any) => {
-    //   const newDateRecords = await scrapeAndRankPapers(date, false);
-    //   return newDateRecords;
-    // }));
+    processDates(dates)
 
     resolve('batch scraping started!')
   });
@@ -31,3 +28,25 @@ export default [
   route.post('/getBatchDates', getBatchDates),
   route.post('/scrapeBatch', scrapeBatch),
 ]
+
+
+async function processDates(dates) {
+  const results = [];
+  const batchSize = 3;  // This makes it easy to adjust the batch size if needed
+
+  for (let i = 0; i < dates.length; i += batchSize) {
+      // Extract a batch of dates
+      const batch = dates.slice(i, i + batchSize);
+
+      try {
+          // Process each date in the batch concurrently
+          const batchResults = await Promise.all(batch.map(date => scrapeAndRankPapers(date, false)));
+          results.push(...batchResults);
+      } catch (error) {
+          // Log the error and possibly decide whether to continue with the next batch
+          console.error(`Error processing batch starting at index ${i}:`, error);
+          // Continue processing the rest of the batches even if one fails
+      }
+  }
+  return results;
+}

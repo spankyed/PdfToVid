@@ -32,7 +32,7 @@ export const getDatesAtom = atom(
       const includeCursor = hasDates && !direction.includes('End');
       const oppositeDirection = direction.includes('right') ? 'left' : 'right';
       const cursor = direction === 'right' ? get(batchDatesAtom).slice(-1)[0] : get(batchDatesAtom)[0];
-      const formattedCursor = dayjs(cursor).format('YYYY-MM-DD')
+      const formattedCursor = formatDate('YYYY-MM-DD')(cursor)
       const response = await api.getBatchDates({
         cursor: includeCursor ? formattedCursor : undefined,
         direction: includeCursor ? direction : oppositeDirection,
@@ -58,7 +58,7 @@ export const getDatesAtom = atom(
           [oppositeDirection + 'End']: false,
         }));
 
-        set(batchDatesAtom, records.map(d => dayjs(d.value).format('MM/DD/YYYY')));
+        set(batchDatesAtom, records.map(d => formatDate('MM/DD/YYYY')(d.value)));
       }
       
       console.log('Loaded dates: ', { records });
@@ -75,7 +75,7 @@ export const batchScrapeAtom = atom(
     set(batchStateAtom, 'loading');
     try {
       const dates = get(batchDatesAtom);
-      const response = await api.scrapeBatch(dates);
+      const response = await api.scrapeBatch(dates.map(formatDate('YYYY-MM-DD')));
       console.log('response: ', response);
       // const { records, newCount } = response.data;
       // console.log('Backfilled: ', { records, newCount });
@@ -89,6 +89,9 @@ export const batchScrapeAtom = atom(
     }
   }
 );
+
+// const formatDate = (format) => (date: string) => dayjs(date).format('MM/DD/YYYY');
+const formatDate = (format) => (date: string) => dayjs(date).format(format);
 
 // export const resetStateAtom = atom(
 //   null, // write-only atom
