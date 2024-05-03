@@ -30,7 +30,7 @@ export default [
 ]
 
 
-async function processDates(dates) {
+async function processDates(dates: any[]) {
   const results = [];
   const batchSize = 3;  // This makes it easy to adjust the batch size if needed
 
@@ -40,7 +40,7 @@ async function processDates(dates) {
 
       try {
           // Process each date in the batch concurrently
-          const batchResults = await Promise.all(batch.map(date => scrapeAndRankPapers(date, false)));
+          const batchResults = await Promise.all(batch.map((date: any) => scrapeAndRankPapers(date)));
           results.push(...batchResults);
       } catch (error) {
           // Log the error and possibly decide whether to continue with the next batch

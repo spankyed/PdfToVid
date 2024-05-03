@@ -35,7 +35,7 @@ export const getDatesAtom = atom(
       const formattedCursor = formatDate('YYYY-MM-DD')(cursor)
       const response = await api.getBatchDates({
         cursor: includeCursor ? formattedCursor : undefined,
-        direction: includeCursor ? direction : oppositeDirection,
+        direction: includeCursor ? direction : oppositeDirection, // ! don't ask questions just go with it
       });
       const records = response.data;
 

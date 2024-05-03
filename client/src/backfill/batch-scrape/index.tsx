@@ -12,7 +12,7 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { LoadingButton } from '@mui/lab';
 import { batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisabledAtom, getDatesAtom } from './store';
-
+import SocketListener from '~/shared/api/socket-listener';
 
 const DualListContainer = styled(Box)({
   display: 'flex',
@@ -43,13 +43,12 @@ const StyledListItem = styled(ListItem)({
   },
 });
 
-const renderList = (items: string[], keyPrefix: string) => {
-  console.log('items: ', items);
+const renderList = (dates: string[], keyPrefix: string) => {
   return (
-    <StyledList>
-      {items.map((item, index) => (
-        <StyledListItem disablePadding key={`${keyPrefix}-${index}`}>
-          <ListItemText primary={item} />
+    <StyledList key={keyPrefix}>
+      {dates.map((date, index) => (
+        <StyledListItem disablePadding key={`${date}-${index}`}>
+          <ListItemText primary={date} />
         </StyledListItem>
       ))}
     </StyledList>
@@ -112,6 +111,21 @@ const BatchTable: React.FC = () => {
 
   const noDates = dates.length === 0;
 
+  const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }) => {
+    console.log('key: ', {key, newStatus, papers});
+    // if (newStatus === 'complete') {
+    //   setPapers(papers);
+    //   if (papers.length === 0) {
+    //     setPageState('unexpected');
+    //   } else {
+    //     setPageState('complete');
+    //   }
+    //   setScrapeStatus('pending'); // Reset the scrape status
+    // } else {
+    //   setScrapeStatus(newStatus);
+    // }
+  };
+
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: "center", marginBottom: 2  }}>
@@ -157,6 +171,7 @@ const BatchTable: React.FC = () => {
         </div>
 
       </DualListContainer>
+      <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} />
     </>
   );
 };
