@@ -9,6 +9,7 @@ function ScrapeStatus({ date, scrapeAtom, status }: { date: string; scrapeAtom: 
     pending: <Empty date={date} scrapeAtom={scrapeAtom}/>,
     scraping: <Scraping />,
     ranking: <Ranking />,
+    error: <>Error</>
   };
 
   return (

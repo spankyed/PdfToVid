@@ -10,59 +10,68 @@ import createRequest from '../../shared/request';
 
 const webService = createRequest(WebServerPath);
 
-const scrapeAndRankPapers = async (date: string, notifyClient = true) => {
-  console.log('Scraping papers...', date);
-  // await sharedRepository.updateDateStatus(date, 'complete');
+type Notification = {
+  key: string;
+  status: string;
+  data?: any;
+  final?: boolean;
+};
 
-  // await status.set('dates', { key: date, status: 'scraping' });
-  const papers = await scrapePapersByDate(date);
+function notifyClient(shouldNotify: boolean, notification: Notification) {
+  if (shouldNotify){
+    return webService.post(`work-status/dates`, notification);
+  }
 
-  if (papers.length === 0) {
-    console.log('No papers found for the date:', date);
+  return Promise.resolve();
+}
+
+const scrapeAndRankPapers = async (date: string, shouldNotify = true) => {
+  try {
+    console.log('Scraping papers...', date);
+    sharedRepository.updateDateStatus(date, 'scraping')
+    notifyClient(shouldNotify, { key: date, status: 'scraping' });
+
+    const papers = await scrapePapersByDate(date);
   
-    if (notifyClient) {
+    if (papers.length === 0) {
+      throw new Error(`No papers found after scraping`);
+    }
+  
+    console.log('Ranking papers...', date);
+    sharedRepository.updateDateStatus(date, 'ranking')
+    notifyClient(shouldNotify, { key: date, status: 'ranking' });
+  
+    const rankedPapers = await getRelevancyScores(papers);
+    const paperRecords = rankedPapers.sort((a, b) => b.relevancy - a.relevancy);
+    
+    console.log('Storing papers in DB...', date);
+  
+    try {
       Promise.all([
-        webService.post(`work-status/dates`, { key: date, status: 'complete', data: [], final: true }),
-        // sharedRepository.updateDateStatus(date, 'complete'),
-      ])
+        sharedRepository.storePapers(paperRecords),
+        sharedRepository.updateDateStatus(date, 'complete')
+      ]);
+    } catch (error) {
+      console.error(`Error storing papers: ${date}`, error);
+  
+      throw error
     }
 
-    return;
-  }
-  // const pathToLogs = "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/logs";
-  // fs.writeFileSync(`${pathToLogs}/${date}.json`, JSON.stringify(papers));
-
-  console.log('Papers scraped, proceeding to ranking...');
-
-  if (notifyClient) {
-    await webService.post(`work-status/dates`, { key: date, status: 'ranking'})
-  }
-
-  const rankedPapers = await getRelevancyScores(papers);
-  const paperRecords = rankedPapers.sort((a, b) => b.relevancy - a.relevancy);
+    notifyClient(shouldNotify, { key: date, status: 'complete', data: paperRecords, final: true });
   
-  console.log('Papers ranked, storing papers in DB...');
-
-
-  try {
-    Promise.all([
-      sharedRepository.storePapers(paperRecords),
-      sharedRepository.updateDateStatus(date, 'complete')
-    ]);
+    console.log('Scraped, ranked, and stored papers for:', date);
+  
+    return paperRecords
   } catch (error) {
-    console.error('Error storing papers:', error);
+    console.error('Error scraping/ranking papers for:', date);
+  
+    // sharedRepository.updateDateStatus(date, 'error')
+    sharedRepository.updateDateStatus(date, 'pending')
+    notifyClient(shouldNotify, { key: date, status: 'error', data: [], final: true });
+    
+    // throw error
+    return []
   }
-
-
-  // await repository.addPapersForDate(date, 'complete');
-
-  if (notifyClient) {
-    await webService.post(`work-status/dates`, { key: date, status: 'complete', data: paperRecords, final: true })
-  }
-
-  console.log('Scraping, ranking, and stored for date:', date);
-
-  return paperRecords
 };
 
 export default scrapeAndRankPapers;
