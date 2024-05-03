@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 
-export const batchStateAtom = atom<'pending' | 'loading'>('loading');
+export const batchStateAtom = atom<'idle' | 'loading' | 'complete'>('loading');
 
 // export const canGoNextAtom = atom(true);
 // export const inputIdsAtom = atom<string[]>([]);
@@ -71,7 +71,7 @@ export const getDatesAtom = atom(
       
       console.log('Loaded dates: ', { records });
 
-      set(batchStateAtom, 'pending');
+      set(batchStateAtom, 'idle');
     } catch (error) {
       console.error("Failed to get batch data", error);
     }
@@ -79,7 +79,7 @@ export const getDatesAtom = atom(
 );
 export const batchScrapeAtom = atom(
   null, // write-only atom
-  async (get, set, date) => {
+  async (get, set) => {
     set(batchStateAtom, 'loading');
     
     try {
@@ -89,7 +89,6 @@ export const batchScrapeAtom = atom(
       // const { records, newCount } = response.data;
       // console.log('Backfilled: ', { records, newCount });
 
-      // set(batchStateAtom, 'pending');
 
       // const hasDates = records.length > 0;
     } catch (error) {
@@ -112,13 +111,19 @@ export const updateStatusAtom = atom(
       }
       return d;
     }));
+
+    const allComplete = get(batchDatesAtom).every(d => d.status === 'complete' || d.status === 'error');
+
+    if (allComplete) {
+      set(batchStateAtom, 'complete');
+    }
   }
 );
 
 // export const resetStateAtom = atom(
 //   null, // write-only atom
 //   async (get, set) => {
-//     set(batchStateAtom, 'pending');
+//     set(batchStateAtom, 'idle');
 //     set(batchDatesAtom, []);
 //     set(buttonsDisabledAtom, {
 //       left: false,

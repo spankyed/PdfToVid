@@ -71,6 +71,15 @@ const renderList = (dates: DateItem[], keyPrefix: string) => {
 const BatchScrapeButton = () => {
   const state = useAtomValue(batchStateAtom);
   const scrapeBatch = useSetAtom(batchScrapeAtom);
+
+  const onClick = () => {
+    if (state === 'complete') {
+      // todo navigate to search page with params 
+      return;
+    } else {
+      scrapeBatch();
+    }
+  }
   
   const info = `We recommend scraping papers in batches of 20 days. Then take the opportunity to review those papers, starring papers you find interesting.
   It is also good to occasionally unfavorite papers you find less interesting than the latest papers you might’ve seen.`
@@ -87,7 +96,11 @@ const BatchScrapeButton = () => {
       <Tooltip title={info}>
         <HelpOutlineIcon sx={{ mr: 1}}/>
       </Tooltip>
-      Scrape Batch
+      {
+        state === 'complete'
+        ? 'View Batch'
+        : 'Scrape Batch'
+      }
     </LoadingButton>
 
   </div>
@@ -99,6 +112,7 @@ const BatchTable: React.FC = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const sections = 5;
   const dates = useAtomValue(batchDatesAtom);
+  const state = useAtomValue(batchStateAtom);
   const itemsPerColumn = Math.ceil(dates.length / sections);
 
   const fetchDates = useSetAtom(getDatesAtom);
@@ -110,8 +124,10 @@ const BatchTable: React.FC = () => {
   }
 
   useEffect(() => {
-    // Load the last page of data
-    fetchDates('rightEnd');
+    // Initial load: retrieves the most recent date records
+    // if (dates.length === 0 || state === 'idle') {
+      fetchDates('rightEnd');
+    // }
   } , []);
 
   const splitList = dates.reduce((acc, date, index) => {
@@ -123,7 +139,7 @@ const BatchTable: React.FC = () => {
     return acc;
   }, [] as DateItem[][]);
 
-  const noDates = dates.length === 0;
+  const navBlocked = dates.length === 0 || state === 'loading';
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }) => {
     console.log('key: ', {key, newStatus, papers});
@@ -159,23 +175,23 @@ const BatchTable: React.FC = () => {
               borderTop: '.0005rem solid rgb(54 59 61 / 30%)',
             }}
             direction="row" justifyContent="space-between" padding={0} className=''>
-            <IconButton onClick={goTo('leftEnd')} disabled={noDates || buttonsDisabled.leftEnd}>
+            <IconButton onClick={goTo('leftEnd')} disabled={navBlocked || buttonsDisabled.leftEnd}>
               <KeyboardDoubleArrowLeftIcon />
             </IconButton>
-            <IconButton onClick={goTo('left')} disabled={noDates || buttonsDisabled.left}>
+            <IconButton onClick={goTo('left')} disabled={navBlocked || buttonsDisabled.left}>
               <KeyboardArrowLeftIcon />
             </IconButton>
-            <IconButton onClick={goTo('right')} disabled={noDates || buttonsDisabled.right}>
+            <IconButton onClick={goTo('right')} disabled={navBlocked || buttonsDisabled.right}>
               <KeyboardArrowRightIcon />
             </IconButton>
-            <IconButton onClick={goTo('rightEnd')} disabled={noDates || buttonsDisabled.rightEnd}>
+            <IconButton onClick={goTo('rightEnd')} disabled={navBlocked || buttonsDisabled.rightEnd}>
               <KeyboardDoubleArrowRightIcon />
             </IconButton>
           </Stack>
         </div>
 
       </DualListContainer>
-      <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} />
+      <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} id='batch-scrape'/>
     </>
   );
 };
