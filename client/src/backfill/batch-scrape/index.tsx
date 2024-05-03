@@ -11,8 +11,9 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { LoadingButton } from '@mui/lab';
-import { batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisabledAtom, getDatesAtom } from './store';
+import { DateItem, batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisabledAtom, getDatesAtom, updateStatusAtom } from './store';
 import SocketListener from '~/shared/api/socket-listener';
+import dayjs from 'dayjs';
 
 const DualListContainer = styled(Box)({
   display: 'flex',
@@ -25,6 +26,7 @@ const DualListContainer = styled(Box)({
 
 // Styled List with dividers between lists
 const StyledList = styled(List)({
+  padding: 0,
   flex: 1,
   '&:not(:last-child)': {
     borderRight: '1px solid #ccc', // Add divider except for the last list
@@ -32,23 +34,34 @@ const StyledList = styled(List)({
 });
 
 // Styled ListItem for underlining each element
-const StyledListItem = styled(ListItem)({
-  borderBottom: '1px solid #ccc',  // Apply bottom border to all items
-  padding: '2px 12px',
-  '&:last-child': {
-    borderBottom: 'none',  // Remove border for the last child
-  },
-  '.MuiTypography-root': { // Targeting the ListItemText directly
-    letterSpacing: '3px', // Adding letter-spacing
-  },
+const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
+  const colorByStatus = {
+    default: 'inherit',
+    scraping: '#FFA500', // orange hex
+    ranking: '#800080', // purple hex
+    complete: '#008000', // green hex
+    error: '#FF0000', // red hex
+  };
+
+  return ({
+    backgroundColor: colorByStatus[status],
+    borderBottom: '1px solid #ccc',  // Apply bottom border to all items
+    padding: '2px 12px',
+    '&:last-child': {
+      borderBottom: 'none',  // Remove border for the last child
+    },
+    '.MuiTypography-root': { // Targeting the ListItemText directly
+      letterSpacing: '3px', // Adding letter-spacing
+    },
+  });
 });
 
-const renderList = (dates: string[], keyPrefix: string) => {
+const renderList = (dates: DateItem[], keyPrefix: string) => {
   return (
     <StyledList key={keyPrefix}>
       {dates.map((date, index) => (
-        <StyledListItem disablePadding key={`${date}-${index}`}>
-          <ListItemText primary={date} />
+        <StyledListItem disablePadding key={`${date.value}-${index}`} status={date.status}>
+          <ListItemText primary={formatDate('MM/DD/YYYY')(date.value)} />
         </StyledListItem>
       ))}
     </StyledList>
@@ -88,42 +101,33 @@ const BatchTable: React.FC = () => {
   const dates = useAtomValue(batchDatesAtom);
   const itemsPerColumn = Math.ceil(dates.length / sections);
 
-  const getDates = useSetAtom(getDatesAtom);
+  const fetchDates = useSetAtom(getDatesAtom);
+  const updateStatus = useSetAtom(updateStatusAtom);
   const buttonsDisabled = useAtomValue(buttonsDisabledAtom);
 
   const goTo = direction => () => {
-    getDates(direction);
+    fetchDates(direction);
   }
 
   useEffect(() => {
     // Load the last page of data
-    getDates('rightEnd');
+    fetchDates('rightEnd');
   } , []);
 
-  const splitList = dates.reduce((acc, item, index) => {
+  const splitList = dates.reduce((acc, date, index) => {
     const sectionIndex = Math.floor(index / itemsPerColumn);
     if (!acc[sectionIndex]) {
       acc[sectionIndex] = [];
     }
-    acc[sectionIndex].push(item);
+    acc[sectionIndex].push(date);
     return acc;
-  }, [] as string[][]);
+  }, [] as DateItem[][]);
 
   const noDates = dates.length === 0;
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }) => {
     console.log('key: ', {key, newStatus, papers});
-    // if (newStatus === 'complete') {
-    //   setPapers(papers);
-    //   if (papers.length === 0) {
-    //     setPageState('unexpected');
-    //   } else {
-    //     setPageState('complete');
-    //   }
-    //   setScrapeStatus('pending'); // Reset the scrape status
-    // } else {
-    //   setScrapeStatus(newStatus);
-    // }
+    updateStatus({ date: key, status: newStatus, count: papers?.length });
   };
 
   return (
@@ -175,5 +179,7 @@ const BatchTable: React.FC = () => {
     </>
   );
 };
+
+const formatDate = (format) => (date: string) => dayjs(date).format(format);
 
 export default BatchTable;

@@ -11,6 +11,12 @@ export const batchStateAtom = atom<'pending' | 'loading'>('loading');
 // const MockDatesTable = Array(21).fill('').map((_, i) => `04/${i}/2024`)
 // export const batchDatesAtom = atom<any[]>(MockDatesTable);
 
+export type DateItem = {
+  value: string;
+  status: string;
+  count?: number;
+}
+
 export const buttonsDisabledAtom = atom({
   left: false,
   right: false,
@@ -18,30 +24,29 @@ export const buttonsDisabledAtom = atom({
   rightEnd: false,
 });
 
-export const batchDatesAtom = atom<any[]>([]);
+export const batchDatesAtom = atom<DateItem[]>([]);
 
 type Direction = 'left' | 'right' | 'leftEnd' | 'rightEnd';
 
 export const getDatesAtom = atom(
   null, // write-only atom
   async (get, set, direction: Direction) => {
-    console.log('direction.split(End)[0]: ', direction.split('End')[0]);
     set(batchStateAtom, 'loading');
     try {
       const hasDates = get(batchDatesAtom).length > 0;
-      const includeCursor = hasDates && !direction.includes('End');
+      const useCursor = hasDates && !direction.includes('End');
       const oppositeDirection = direction.includes('right') ? 'left' : 'right';
       const cursor = direction === 'right' ? get(batchDatesAtom).slice(-1)[0] : get(batchDatesAtom)[0];
-      const formattedCursor = formatDate('YYYY-MM-DD')(cursor)
+      const formattedCursor = cursor?.value
       const response = await api.getBatchDates({
-        cursor: includeCursor ? formattedCursor : undefined,
-        direction: includeCursor ? direction : oppositeDirection, // ! don't ask questions just go with it
+        cursor: useCursor ? formattedCursor : undefined,
+        direction: useCursor ? direction : oppositeDirection, // ! don't ask questions just go with it
       });
       const records = response.data;
 
-      const hasMore = records.length > 0;
+      const responseHasDates = records.length > 0;
 
-      if (!hasMore || !includeCursor) {
+      if (!responseHasDates || !useCursor) {
         set(buttonsDisabledAtom, prev => ({ ...prev, [direction]: true }));
         if (direction.includes('End')){
           set(buttonsDisabledAtom, prev => ({ ...prev, [direction.split('End')[0]]: true }));
@@ -50,7 +55,7 @@ export const getDatesAtom = atom(
         }
       }
 
-      if (hasMore) {
+      if (responseHasDates) {
         const oppositeDirection = direction.includes('right') ? 'left' : 'right';
         set(buttonsDisabledAtom, prev => ({
           ...prev,
@@ -58,7 +63,10 @@ export const getDatesAtom = atom(
           [oppositeDirection + 'End']: false,
         }));
 
-        set(batchDatesAtom, records.map(d => formatDate('MM/DD/YYYY')(d.value)));
+        set(batchDatesAtom, records.map(d => ({
+          value: d.value,
+          status: d.status,
+        })));
       }
       
       console.log('Loaded dates: ', { records });
@@ -73,14 +81,15 @@ export const batchScrapeAtom = atom(
   null, // write-only atom
   async (get, set, date) => {
     set(batchStateAtom, 'loading');
+    
     try {
       const dates = get(batchDatesAtom);
-      const response = await api.scrapeBatch(dates.map(formatDate('YYYY-MM-DD')));
+      const response = await api.scrapeBatch(dates.map(d => d.value));
       console.log('response: ', response);
       // const { records, newCount } = response.data;
       // console.log('Backfilled: ', { records, newCount });
 
-      set(batchStateAtom, 'pending');
+      // set(batchStateAtom, 'pending');
 
       // const hasDates = records.length > 0;
     } catch (error) {
@@ -90,8 +99,21 @@ export const batchScrapeAtom = atom(
   }
 );
 
-// const formatDate = (format) => (date: string) => dayjs(date).format('MM/DD/YYYY');
-const formatDate = (format) => (date: string) => dayjs(date).format(format);
+export const updateStatusAtom = atom(
+  null, // write-only atom
+  async (get, set, { date, status, count }) => {
+    set(batchDatesAtom, prev => prev.map(d => {
+      if (d.value === date) {
+        return {
+          ...d,
+          status,
+          count,
+        };
+      }
+      return d;
+    }));
+  }
+);
 
 // export const resetStateAtom = atom(
 //   null, // write-only atom
