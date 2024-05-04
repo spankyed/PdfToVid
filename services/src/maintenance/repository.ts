@@ -6,6 +6,7 @@ import { DatesTable, PapersTable, ReferencePapersTable } from '../shared/schema'
 // Fetch all stored dates
 function getDates(dates: string[], status?: string) {
   return DatesTable.findAll({
+    raw: true,
     where: {
       value: dates,
       ...(status && { status })

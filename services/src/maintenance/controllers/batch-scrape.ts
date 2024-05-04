@@ -34,7 +34,7 @@ async function processDates(dates: any[]) {
   // const results = [];
   const batchSize = 3; 
 
-  const completedDates = await repository.getDates(dates);
+  const completedDates = await repository.getDates(dates, 'complete');
   // results.push(...completedDates);
   const pendingDates = dates.filter(date => !completedDates.map(d => d.value).includes(date));
 

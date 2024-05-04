@@ -6,7 +6,7 @@ import repository from '../repository';
 type DateParam = string | Date;
 
 
-// ? Returns either an interface including interface all records or only a list of new date values
+// ? Returns either an interface including  all records or only a list of new date values
 export async function backfillDates(startDate: DateParam, endDate?: DateParam, returnAllRecords = false): Promise<any> {
   const to = endDate || new Date();
   const from = new Date(startDate);
