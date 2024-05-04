@@ -147,12 +147,17 @@ const BatchTable: React.FC = () => {
 const BatchScrapeButton = ({ disabled }) => {
   const state = useAtomValue(batchStateAtom);
   const scrapeBatch = useSetAtom(batchScrapeAtom);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const isComplete = state === 'complete';
 
   const onClick = () => {
     if (isComplete) {
-
+      const startDate = '2024-04-01';
+      const endDate = '2024-04-30';
+      const queryParams = new URLSearchParams({ startDate, endDate });
+      const searchParamsString = queryParams.toString();
+      const newUrl = `/search?${searchParamsString}`;
+      navigate(newUrl);
     } else {  
       scrapeBatch();
     }
