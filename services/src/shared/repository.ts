@@ -12,7 +12,8 @@ function updateDateStatus(date: string, status: string): Promise<any> {
 async function storePapers(papers: PaperRecord[]): Promise<any> {
   try {
     const result = await PapersTable.bulkCreate(papers, {
-      updateOnDuplicate: ['relevancy']
+      ignoreDuplicates: true,
+      // updateOnDuplicate: ['relevancy']
     });
     return result;
   } catch (error: unknown) {
