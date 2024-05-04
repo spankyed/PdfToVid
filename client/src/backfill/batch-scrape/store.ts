@@ -102,7 +102,6 @@ export const updateStatusAtom = atom(
   null, // write-only atom
   async (get, set, { key, status, count }) => {
     if (key === 'batch') {
-      console.log('key: ', key);
       set(batchStateAtom, 'complete');
     } else {
       set(batchDatesAtom, prev => prev.map(d => {
