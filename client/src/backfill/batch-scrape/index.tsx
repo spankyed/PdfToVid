@@ -11,6 +11,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { LoadingButton } from '@mui/lab';
 import { DateItem, batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisabledAtom, getDatesAtom } from './store';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 const DualListContainer = styled(Box)({
   display: 'flex',
@@ -53,57 +54,6 @@ const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
   });
 });
 
-const renderList = (dates: DateItem[], keyPrefix: string) => {
-  return (
-    <StyledList key={keyPrefix}>
-      {dates.map((date, index) => (
-        <StyledListItem disablePadding key={`${date.value}-${index}`} status={date.status}>
-          <ListItemText primary={formatDate('MM/DD/YYYY')(date.value)} />
-        </StyledListItem>
-      ))}
-    </StyledList>
-  )
-};
-
-const BatchScrapeButton = () => {
-  const state = useAtomValue(batchStateAtom);
-  const scrapeBatch = useSetAtom(batchScrapeAtom);
-
-  const onClick = () => {
-    if (state === 'complete') {
-      // todo navigate to search page with params 
-      return;
-    } else {
-      scrapeBatch();
-    }
-  }
-  
-  const info = `We recommend scraping papers in batches of 20 days. Then take the opportunity to review those papers, starring papers you find interesting.
-  It is also good to occasionally unfavorite papers you find less interesting than the latest papers you might’ve seen.`
-  return (
-  <div style={{ display: 'flex', alignItems: 'center' }}> {/* Ensure button and icon are aligned */}
-    <LoadingButton
-        variant="contained"
-        color="warning"
-        disabled={false} // todo - add logic to disable button if no dates to scrape
-        onClick={scrapeBatch}
-        loading={state === 'loading'}
-        // sx={{ mr: 2 }}
-      >
-      <Tooltip title={info}>
-        <HelpOutlineIcon sx={{ mr: 1}}/>
-      </Tooltip>
-      {
-        state === 'complete'
-        ? 'View Batch'
-        : 'Scrape Batch'
-      }
-    </LoadingButton>
-
-  </div>
-  );
-};
-
 const BatchTable: React.FC = () => {
   // Calculate the number of items per column dynamically
   const [pageIndex, setPageIndex] = useState(0);
@@ -137,12 +87,10 @@ const BatchTable: React.FC = () => {
 
   const navBlocked = dates.length === 0 || state === 'loading';
 
-
-
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: "center", marginBottom: 2  }}>
-        <BatchScrapeButton/>
+        <BatchScrapeButton disabled={navBlocked}/>
         {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
       </Box>
 
@@ -151,7 +99,15 @@ const BatchTable: React.FC = () => {
           <div className='flex'>
             {
               splitList.length > 0
-              ? splitList.map((list, index) => renderList(list, `list-${index}`))
+              ? splitList.map((dates, index) => (
+                <StyledList key={`list-${index}`}>
+                  {dates.map((date, index) => (
+                    <StyledListItem disablePadding key={`${date.value}-${index}`} status={date.status}>
+                      <ListItemText primary={formatDate('MM/DD/YYYY')(date.value)} />
+                    </StyledListItem>
+                  ))}
+                </StyledList>
+              ))
               : <Box sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -185,6 +141,43 @@ const BatchTable: React.FC = () => {
 
       </DualListContainer>
     </>
+  );
+};
+
+const BatchScrapeButton = ({ disabled }) => {
+  const state = useAtomValue(batchStateAtom);
+  const scrapeBatch = useSetAtom(batchScrapeAtom);
+  // const navigate = useNavigate();
+  const isComplete = state === 'complete';
+
+  const onClick = () => {
+    if (isComplete) {
+
+    } else {  
+      scrapeBatch();
+    }
+  }
+
+  const scrapeInfo = `Scrape papers for dates in batch. This could take a few minutes.`
+  const viewInfo = `After scraping a date batch take the opportunity to review the papers, starring the ones you find interesting. Occasionally un-star papers you no longer find interesting.`
+
+  return (
+  <div style={{ display: 'flex', alignItems: 'center' }}> {/* Ensure button and icon are aligned */}
+    <LoadingButton
+        variant="contained"
+        color={isComplete ? 'primary' : 'warning'}
+        disabled={disabled}
+        onClick={onClick}
+        loading={state === 'loading'}
+        // sx={{ mr: 2 }}
+      >
+      <Tooltip title={isComplete ? viewInfo : scrapeInfo}>
+        <HelpOutlineIcon sx={{ mr: 1}}/>
+      </Tooltip>
+      { isComplete ? 'View Batch' : 'Scrape Batch'  }
+    </LoadingButton>
+
+  </div>
   );
 };
 
