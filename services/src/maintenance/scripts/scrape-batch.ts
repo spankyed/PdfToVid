@@ -1,37 +1,8 @@
 import scrapeAndRankPapers from '~/worker/controllers/scrape';
-import { route } from '../../shared/route';
 import repository from '../repository';
 import { notifyClient } from '~/shared/status';
 
-function scrapeBatch(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const dates = request.payload;
-    console.log('dates: ', dates);
-
-    processDates(dates)
-
-    resolve('batch scraping started!')
-  });
-}
-
-function getBatchDates(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const { cursor, direction } = request.payload;
-    console.log('cursor, direction: ', cursor, direction);
-
-    const dates = await repository.getBackfillDates({ cursor, direction });
-  
-    resolve(dates)
-  });
-}
-
-export default [
-  route.post('/getBatchDates', getBatchDates),
-  route.post('/scrapeBatch', scrapeBatch),
-]
-
-
-async function processDates(dates: any[]) {
+export async function scrapeBatch(dates: any[]) {
   // const results = [];
   const batchSize = 3; 
 

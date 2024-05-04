@@ -2,15 +2,17 @@ import onboard from "./states/onboard";
 import doDailyOperations from "./states/operate-daily";
 
 const stateHandlers = {
-  onboarding: onboard,
+  onboarding: onboard, // todo rename to first run
   operating: doDailyOperations
 };
 
 // const state = 'operating';
 const state = 'onboarding';
 
-async function initializeServer() {
+async function runBackgroundScripts() {
   console.log('Initializing maintenance server...');
+
+  // todo check if chroma is up and running
 
   // stateHandlers[state]();
 
@@ -19,4 +21,4 @@ async function initializeServer() {
 
 
 
-export default initializeServer
+export default runBackgroundScripts

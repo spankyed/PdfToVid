@@ -1,9 +1,9 @@
 import { backfillDates } from "../scripts/add-dates";
 import { route } from '../../shared/route';
-import { seedReferencePapers } from "../scripts/init-server/seed-reference-papers";
+import { seedReferencePapers } from "../scripts/background/seed-reference-papers";
 import { setConfig } from "~/shared/utils/set-config";
 
-function onboardNewUser(request, h){
+function onboardNewUser(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const form = request.payload.form;
 

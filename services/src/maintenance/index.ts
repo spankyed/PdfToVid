@@ -1,8 +1,16 @@
 import createServer from '../shared/server';
 import { ports } from '../shared/constants';
 import Hapi from '@hapi/hapi';
-import initializeServer from './scripts/init-server';
-import { routes } from './controllers';
+import runBackgroundScripts from './scripts/background';
+
+import onboardRoutes from './onboard';
+import backfillRoutes from './backfill';
+
+const routes = [
+  ...onboardRoutes,
+  ...backfillRoutes,
+];
+
 
 const serverConfig: Hapi.ServerOptions | undefined = { 
   port: ports.maintenance,
@@ -17,8 +25,7 @@ const serverConfig: Hapi.ServerOptions | undefined = {
 (async function start () {
   const server = createServer(serverConfig, routes);
 
-  // todo check if chroma is up and running
-  await initializeServer()
+  await runBackgroundScripts()
 
   try {
     await server.start();
