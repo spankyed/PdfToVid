@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { FormControl, Box, List, ListItem, ListItemButton, ListItemText, Button, Stack, IconButton, Tooltip } from '@mui/material';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import styled from '@emotion/styled';
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -11,8 +9,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { LoadingButton } from '@mui/lab';
-import { DateItem, batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisabledAtom, getDatesAtom, updateStatusAtom } from './store';
-import SocketListener from '~/shared/api/socket-listener';
+import { DateItem, batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisabledAtom, getDatesAtom } from './store';
 import dayjs from 'dayjs';
 
 const DualListContainer = styled(Box)({
@@ -116,7 +113,6 @@ const BatchTable: React.FC = () => {
   const itemsPerColumn = Math.ceil(dates.length / sections);
 
   const fetchDates = useSetAtom(getDatesAtom);
-  const updateStatus = useSetAtom(updateStatusAtom);
   const buttonsDisabled = useAtomValue(buttonsDisabledAtom);
 
   const goTo = direction => () => {
@@ -125,9 +121,9 @@ const BatchTable: React.FC = () => {
 
   useEffect(() => {
     // Initial load: retrieves the most recent date records
-    // if (dates.length === 0 || state === 'idle') {
+    if (dates.length === 0 || state === 'idle') {
       fetchDates('rightEnd');
-    // }
+    }
   } , []);
 
   const splitList = dates.reduce((acc, date, index) => {
@@ -141,10 +137,7 @@ const BatchTable: React.FC = () => {
 
   const navBlocked = dates.length === 0 || state === 'loading';
 
-  const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }) => {
-    console.log('key: ', {key, newStatus, papers});
-    updateStatus({ date: key, status: newStatus, count: papers?.length });
-  };
+
 
   return (
     <>
@@ -191,7 +184,6 @@ const BatchTable: React.FC = () => {
         </div>
 
       </DualListContainer>
-      <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} id='batch-scrape'/>
     </>
   );
 };
