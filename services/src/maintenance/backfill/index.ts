@@ -36,7 +36,7 @@ function batchScrape(request: any, h: any){
 }
 
 export default [
+  route.post('/backfillDates', backfillDates),
   route.post('/getBatchDates', getBatchDates),
   route.post('/scrapeBatch', batchScrape),
-  route.post('/backfillDates', backfillDates),
 ]
