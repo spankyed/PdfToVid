@@ -14,7 +14,7 @@ export async function backfillDates(startDate: DateParam, endDate?: DateParam, r
 
   const dateRecords = returnAllRecords
     ? await repository.getAllDates()
-    : await repository.getByDates(datesToBackfill);
+    : await repository.getDates(datesToBackfill);
 
   const existingDates = dateRecords.map(record => record.value);
   const newDates = datesToBackfill

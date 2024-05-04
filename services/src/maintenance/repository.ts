@@ -4,10 +4,11 @@ import { DatesTable, PapersTable, ReferencePapersTable } from '../shared/schema'
 
 
 // Fetch all stored dates
-function getByDates(dates: string[]) {
+function getDates(dates: string[], status?: string) {
   return DatesTable.findAll({
     where: {
-      value: dates
+      value: dates,
+      ...(status && { status })
     }
   });
 }
@@ -111,7 +112,7 @@ function getBackfillDates(params: getBackfillDateParams): Promise<DatesTable[]> 
 }
 
 export default {
-  getByDates,
+  getDates,
   getAllDates,
   getLatestDate,
   storeDate,

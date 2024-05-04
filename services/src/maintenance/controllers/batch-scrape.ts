@@ -31,22 +31,24 @@ export default [
 
 
 async function processDates(dates: any[]) {
-  const results = [];
-  const batchSize = 3;  // This makes it easy to adjust the batch size if needed
+  // const results = [];
+  const batchSize = 3; 
 
-  for (let i = 0; i < dates.length; i += batchSize) {
-      // Extract a batch of dates
-      const batch = dates.slice(i, i + batchSize);
+  const completedDates = await repository.getDates(dates);
+  // results.push(...completedDates);
+  const pendingDates = dates.filter(date => !completedDates.map(d => d.value).includes(date));
 
-      try {
-          // Process each date in the batch concurrently
-          const batchResults = await Promise.all(batch.map((date: any) => scrapeAndRankPapers(date)));
-          results.push(...batchResults);
-      } catch (error) {
-          // Log the error and possibly decide whether to continue with the next batch
-          console.error(`Error processing batch starting at index ${i}:`, error);
-          // Continue processing the rest of the batches even if one fails
-      }
+  for (let i = 0; i < pendingDates.length; i += batchSize) {
+    const batch = pendingDates.slice(i, i + batchSize);
+
+    try {
+      const batchResults = await Promise.all(batch.map((date: any) => scrapeAndRankPapers(date)));
+      // results.push(...batchResults);
+    } catch (error) {
+      // Log the error and possibly decide whether to continue with the next batch
+      console.error(`Error processing batch starting at index ${i}:`, error);
+      // Continue processing the rest of the batches even if one fails
+    }
   }
-  return results;
+  // return results;
 }
