@@ -5,31 +5,13 @@ import scrapePapersByDate from '../scripts/scrape-papers-by-date'; // Assume thi
 import { getRelevancyScores } from '../scripts/relevancy-compute'; // Assume this exists
 import repository from '../repository'; // Assume this exists
 import * as sharedRepository from '../../shared/repository'; // Assume this exists
-import { WebServerPath } from '../../shared/constants';
-import createRequest from '../../shared/request';
-
-const webService = createRequest(WebServerPath);
-
-type Notification = {
-  key: string;
-  status: string;
-  data?: any;
-  final?: boolean;
-};
-
-function notifyClient(shouldNotify: boolean, notification: Notification) {
-  if (shouldNotify){
-    return webService.post(`work-status/dates`, notification);
-  }
-
-  return Promise.resolve();
-}
+import { notifyClient } from '~/shared/status';
 
 const scrapeAndRankPapers = async (date: string, shouldNotify = true) => {
   try {
     console.log('Scraping papers...', date);
     sharedRepository.updateDateStatus(date, 'scraping')
-    notifyClient(shouldNotify, { key: date, status: 'scraping' });
+    notifyClient({ key: date, status: 'scraping' }, shouldNotify);
 
     const papers = await scrapePapersByDate(date);
   
@@ -39,7 +21,7 @@ const scrapeAndRankPapers = async (date: string, shouldNotify = true) => {
   
     console.log('Ranking papers...', date);
     sharedRepository.updateDateStatus(date, 'ranking')
-    notifyClient(shouldNotify, { key: date, status: 'ranking' });
+    notifyClient({ key: date, status: 'ranking' }, shouldNotify);
   
     const rankedPapers = await getRelevancyScores(papers);
     const paperRecords = rankedPapers.sort((a, b) => b.relevancy - a.relevancy);
@@ -57,7 +39,7 @@ const scrapeAndRankPapers = async (date: string, shouldNotify = true) => {
       throw error
     }
 
-    notifyClient(shouldNotify, { key: date, status: 'complete', data: paperRecords, final: true });
+    notifyClient({ key: date, status: 'complete', data: paperRecords, final: true }, shouldNotify);
   
     console.log('Scraped, ranked, and stored papers for:', date);
   
@@ -67,7 +49,7 @@ const scrapeAndRankPapers = async (date: string, shouldNotify = true) => {
   
     // sharedRepository.updateDateStatus(date, 'error')
     sharedRepository.updateDateStatus(date, 'pending')
-    notifyClient(shouldNotify, { key: date, status: 'error', data: [], final: true });
+    notifyClient({ key: date, status: 'error', data: [], final: true }, shouldNotify);
     
     // throw error
     return []

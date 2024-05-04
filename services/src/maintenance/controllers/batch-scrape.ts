@@ -1,6 +1,7 @@
 import scrapeAndRankPapers from '~/worker/controllers/scrape';
 import { route } from '../../shared/route';
 import repository from '../repository';
+import { notifyClient } from '~/shared/status';
 
 function scrapeBatch(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -50,5 +51,7 @@ async function processDates(dates: any[]) {
       // Continue processing the rest of the batches even if one fails
     }
   }
+
+  notifyClient({ key: 'batch', status: 'complete' });
   // return results;
 }

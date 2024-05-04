@@ -16,7 +16,7 @@ const BackfillPage = () => {
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }) => {
     console.log('key: ', {key, newStatus, papers});
-    updateStatus({ date: key, status: newStatus, count: papers?.length });
+    updateStatus({ key, status: newStatus, count: papers?.length });
   };
   return (
     <PageLayout padding={3}>

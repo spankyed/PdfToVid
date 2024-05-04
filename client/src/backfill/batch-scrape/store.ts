@@ -100,22 +100,21 @@ export const batchScrapeAtom = atom(
 
 export const updateStatusAtom = atom(
   null, // write-only atom
-  async (get, set, { date, status, count }) => {
-    set(batchDatesAtom, prev => prev.map(d => {
-      if (d.value === date) {
-        return {
-          ...d,
-          status,
-          count,
-        };
-      }
-      return d;
-    }));
-
-    const allComplete = get(batchDatesAtom).every(d => d.status === 'complete' || d.status === 'error');
-
-    if (allComplete) {
+  async (get, set, { key, status, count }) => {
+    if (key === 'batch') {
+      console.log('key: ', key);
       set(batchStateAtom, 'complete');
+    } else {
+      set(batchDatesAtom, prev => prev.map(d => {
+        if (d.value === key) {
+          return {
+            ...d,
+            status,
+            count,
+          };
+        }
+        return d;
+      }));
     }
   }
 );
