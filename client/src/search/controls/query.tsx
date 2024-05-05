@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
-import { useAtom } from 'jotai';
+import React, { useEffect, useState } from 'react';
+import { useAtom, useSetAtom } from 'jotai';
 import { Select, MenuItem, FormControl, InputLabel, Box, TextField } from '@mui/material';
-import { queryAtom, queryFieldAtom } from '../store';
+import { queryAtom, queryFieldAtom, submitSearchAtom } from '../store';
 
 const QueryControl: React.FC<{}> = () => {
   const [query, setQuery] = useAtom(queryAtom);
   const [queryField, setQueryField] = useAtom(queryFieldAtom);
+  const submitSearch = useSetAtom(submitSearchAtom);
+  const queryParams = new URLSearchParams(location.search);
+  const queryParam = queryParams.get('query');
 
+  useEffect(() => {
+    if (queryParam) {
+      submitSearch({ query: queryParam, queryField: 'all'});
+    } else if (queryParam !== null) {
+      setQuery(queryParam)
+    }
+  }, [queryParam]);
   return (
     <>
       <Box sx={{ width: '100%' }}>

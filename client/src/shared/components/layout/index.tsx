@@ -97,12 +97,10 @@ function SearchInput(){
       <TextField
           id="query-input"
           label="Keyword"
-          variant="outlined"
           value={searchValue}
           size="small"
           onChange={handleSearchInputChange}
           sx={{
-            mr: 1,
             backgroundColor: 'rgba(0, 0, 0, 0.3)',
           }}
           fullWidth/>
@@ -110,7 +108,7 @@ function SearchInput(){
         type="submit"
         variant="contained"
         color="success"
-        sx={{ mt: '-.3rem' }}
+        sx={{ boxShadow: 'none' }}
       >
         Search
       </Button>

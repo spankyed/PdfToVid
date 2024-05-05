@@ -18,14 +18,6 @@ import { updatePaperInListAtom } from '~/shared/store';
 const SearchPage: React.FC<{}> = () => {
   const resetFields = useSetAtom(resetFieldsAtom);
   const submitSearch = useSetAtom(submitSearchAtom);
-  const queryParams = new URLSearchParams(location.search);
-  const queryParam = queryParams.get('query');
-
-  useEffect(() => {
-    if (queryParam) {
-      submitSearch({ query: queryParam, queryField: 'all'});
-    }
-  }, [queryParam]);
 
   return (
     <PageLayout padding={3}>
