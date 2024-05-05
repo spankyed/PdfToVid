@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Box, IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { AppBar, Toolbar, Typography, Box, IconButton, Button, InputBase, TextField } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import Sidebar from './sidebar';
@@ -12,14 +12,14 @@ import { NotificationManager } from '../notification';
 
 const height = 'calc(100vh - 65px)';
 
-
 function Layout(): React.ReactElement {
-
   return (
     <>
       <AppBar position="sticky" sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', boxShadow: 'none' }}>
-        <Toolbar sx={{ display: 'flex' }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <TitleArea />
+
+          <SearchInput />
         </Toolbar>
       </AppBar>
       <Box sx={{
@@ -71,6 +71,50 @@ function TitleArea() {
         </div>
       </Link>
     </div>
+  );
+}
+
+function SearchInput(){
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const queryParams = new URLSearchParams({ query: searchValue });
+    const searchParamsString = queryParams.toString();
+    const newUrl = `/search?${searchParamsString}`;
+
+    navigate(newUrl);
+    console.log('Searching for:', searchValue);
+  };
+
+  return (
+    <form onSubmit={handleSearch} style={{ display: 'flex' }}> {/* Form submission */}
+      <TextField
+          id="query-input"
+          label="Keyword"
+          variant="outlined"
+          value={searchValue}
+          size="small"
+          onChange={handleSearchInputChange}
+          sx={{
+            mr: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          }}
+          fullWidth/>
+      <Button
+        type="submit"
+        variant="contained"
+        color="success"
+        sx={{ mt: '-.3rem' }}
+      >
+        Search
+      </Button>
+    </form>
   );
 }
 

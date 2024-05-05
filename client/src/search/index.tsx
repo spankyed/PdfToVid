@@ -18,6 +18,14 @@ import { updatePaperInListAtom } from '~/shared/store';
 const SearchPage: React.FC<{}> = () => {
   const resetFields = useSetAtom(resetFieldsAtom);
   const submitSearch = useSetAtom(submitSearchAtom);
+  const queryParams = new URLSearchParams(location.search);
+  const queryParam = queryParams.get('query');
+
+  useEffect(() => {
+    if (queryParam) {
+      submitSearch({ query: queryParam, queryField: 'all'});
+    }
+  }, [queryParam]);
 
   return (
     <PageLayout padding={3}>
@@ -50,7 +58,7 @@ const SearchPage: React.FC<{}> = () => {
 
       <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 200, placeSelf: 'center', marginTop: 2  }}>
       {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
-        <Button variant="contained" color='success' onClick={submitSearch}>Search</Button>
+        <Button variant="contained" color='success' onClick={() => submitSearch()}>Search</Button>
         <Button variant="contained" color="warning" onClick={resetFields}>Reset</Button>
         {/* <Button variant="contained" color="secondary">Clear Results</Button> */}
       </Box>

@@ -42,7 +42,7 @@ type Form = {
 
 export const submitSearchAtom = atom(
   null,
-  async (get, set, formInput: Form) => {
+  async (get, set, formInput?: Form) => {
     set(searchStateAtom, 'loading');
 
     const beforeDate = get(dateStartAtom) as unknown as Day;
