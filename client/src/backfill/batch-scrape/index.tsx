@@ -91,7 +91,7 @@ const BatchTable: React.FC = () => {
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: "center", marginBottom: 2  }}>
-        <BatchScrapeButton disabled={navBlocked}/>
+        <BatchScrapeButton disabled={navBlocked} dates={dates}/>
         {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
       </Box>
 
@@ -145,7 +145,7 @@ const BatchTable: React.FC = () => {
   );
 };
 
-const BatchScrapeButton = ({ disabled }) => {
+const BatchScrapeButton = ({ disabled, dates }) => {
   const state = useAtomValue(batchStateAtom);
   const scrapeBatch = useSetAtom(batchScrapeAtom);
   const throttledScrapeBatch = throttle(scrapeBatch, 1000); // Adjust the delay (in milliseconds) as needed
@@ -155,8 +155,8 @@ const BatchScrapeButton = ({ disabled }) => {
 
   const onClick = () => {
     if (isComplete) {
-      const startDate = '2024-04-01';
-      const endDate = '2024-04-30';
+      const startDate = dates[0].value;
+      const endDate = dates[dates.length - 1].value;
       const queryParams = new URLSearchParams({ startDate, endDate });
       const searchParamsString = queryParams.toString();
       const newUrl = `/search?${searchParamsString}`;

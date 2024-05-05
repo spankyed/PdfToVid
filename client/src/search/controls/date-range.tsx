@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
-import { useAtom } from 'jotai';
+import React, { useEffect, useState } from 'react';
+import { useAtom, useSetAtom } from 'jotai';
 import { FormControl, Box } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { dateEndAtom, dateStartAtom } from '../store';
+import { dateEndAtom, dateStartAtom, submitSearchAtom } from '../store';
+import dayjs from 'dayjs';
 
 const DateRangeControl: React.FC<{}> = () => {
+  const queryParams = new URLSearchParams(location.search);
+  const startDateParam = queryParams.get('startDate');
+  const endDateParam = queryParams.get('endDate');
   const [startDate, setStartDate] = useAtom(dateStartAtom);
   const [endDate, setEndDate] = useAtom(dateEndAtom);
+  const submitSearch = useSetAtom(submitSearchAtom);
+
+  useEffect(() => {
+    if (startDateParam && endDateParam) {
+      setStartDate(dayjs(startDateParam));
+      setEndDate(dayjs(endDateParam));
+      submitSearch({ dateStart: startDateParam, dateEnd: endDateParam });
+    }
+  }, [startDateParam, endDateParam]);
+
 
   return (
     <FormControl

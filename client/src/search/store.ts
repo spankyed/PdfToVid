@@ -14,8 +14,8 @@ export const favoriteAtom = atom(false);
 export const viewedAtom = atom(false);
 export const relevancyAtom = atom('');
 export const comparisonOperatorAtom = atom('≥');
-export const dateStartAtom = atom(null);
-export const dateEndAtom = atom(null);
+export const dateStartAtom = atom<Day>(null);
+export const dateEndAtom = atom<Day>(null);
 
 export const initialStateAtom = atom(false);
 export const approvedStateAtom = atom(false);
@@ -23,16 +23,32 @@ export const generatedStateAtom = atom(false);
 export const publishedStateAtom = atom(false);
 
 type Day = dayjs.Dayjs | null;
+type Form = {
+  query?: string;
+  queryField?: string;
+  relevancy?: {
+    operator: string;
+    value: string;
+  };
+  dateStart?: string;
+  dateEnd?: string;
+  viewed?: boolean;
+  favorite?: boolean;
+  initialState?: boolean;
+  approvedState?: boolean;
+  generatedState?: boolean;
+  publishedState?: boolean;
+};
 
 export const submitSearchAtom = atom(
   null,
-  async (get, set) => {
+  async (get, set, formInput: Form) => {
     set(searchStateAtom, 'loading');
 
     const beforeDate = get(dateStartAtom) as unknown as Day;
     const afterDate = get(dateEndAtom) as unknown as Day;
 
-    const form = {
+    const form = formInput || {
       query: get(queryAtom), // string
       queryField: get(queryFieldAtom), // string
       relevancy: {
