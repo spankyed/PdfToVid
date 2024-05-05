@@ -8,6 +8,7 @@ import SidebarToggleButton from './sidebar/toggle';
 import { colors } from '~/shared/styles/theme';
 import MenuIcon from '@mui/icons-material/Menu';
 import { sidebarOpenAtom } from './sidebar/store';
+import { NotificationManager } from '../notification';
 
 const height = 'calc(100vh - 65px)';
 
@@ -34,17 +35,7 @@ function Layout(): React.ReactElement {
         </Box>
       </Box>
 
-      {/* <Box sx={{ display: 'flex', justifyContent: 'center', padding: 2, backgroundColor: 'grey.200' }}>
-        <MLink href="https://www.youtube.com" target="_blank" rel="noopener" sx={{ margin: 1 }}>
-          YouTube
-        </MLink>
-        <MLink href="https://www.github.com" target="_blank" rel="noopener" sx={{ margin: 1 }}>
-          GitHub
-        </MLink>
-        <MLink href="/contact" sx={{ margin: 1 }}>
-          Contact
-        </MLink>
-      </Box> */}
+      <NotificationManager />
     </>
   );
 };

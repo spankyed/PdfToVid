@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 import { Paper } from '~/shared/utils/types';
 import * as api from '~/shared/api/fetch';
 import type dayjs from 'dayjs'; // Import dayjs if you haven't already
+import { addAlertAtom, addSnackAtom } from '~/shared/components/notification/store';
 
 export const searchStateAtom = atom<'pending' | 'loading'| 'complete' | 'empty' | 'error'>('pending');
 export const tabValueAtom = atom<0 | 1>(0);
@@ -51,6 +52,10 @@ export const submitSearchAtom = atom(
     try {
       const response = await api.searchPapers(form);
       const results = response.data;
+
+      if (results.length === 1000) {
+        set(addAlertAtom, { message: 'Results limited to 1000 papers. Please refine your search criteria.', autoClose: true });
+      }
 
       if (results.length === 0) {
         set(searchStateAtom, 'empty');

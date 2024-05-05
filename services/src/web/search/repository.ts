@@ -89,7 +89,7 @@ async function searchPapers(form: SearchForm): Promise<Paper[]> {
         ['isStarred', 'DESC'],
         ['relevancy', 'DESC']
       ],
-      limit: 2000,
+      limit: 1000,
       raw: true,
     });
     return papers;
