@@ -12,6 +12,7 @@ import { LoadingButton } from '@mui/lab';
 import { DateItem, batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisabledAtom, getDatesAtom } from './store';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { throttle } from '~/shared/utils/throttle';
 
 const DualListContainer = styled(Box)({
   display: 'flex',
@@ -147,6 +148,8 @@ const BatchTable: React.FC = () => {
 const BatchScrapeButton = ({ disabled }) => {
   const state = useAtomValue(batchStateAtom);
   const scrapeBatch = useSetAtom(batchScrapeAtom);
+  const throttledScrapeBatch = throttle(scrapeBatch, 1000); // Adjust the delay (in milliseconds) as needed
+
   const navigate = useNavigate();
   const isComplete = state === 'complete';
 
@@ -159,7 +162,7 @@ const BatchScrapeButton = ({ disabled }) => {
       const newUrl = `/search?${searchParamsString}`;
       navigate(newUrl);
     } else {  
-      scrapeBatch();
+      throttledScrapeBatch();
     }
   }
 
