@@ -4,7 +4,7 @@ import { setSidebarDataAtom } from '~/shared/components/layout/sidebar/dates/sto
 import { selectedDateAtom } from '~/shared/store';
 import dayjs from 'dayjs';
 import { addSnackAtom } from '~/shared/components/notification/store';
-import { getDatesAtom } from '../batch-scrape/store';
+import { batchStateAtom, getDatesAtom } from '../batch-scrape/store';
 
 export const backfillStateAtom = atom<'pending' | 'loading'>('pending');
 
@@ -27,8 +27,11 @@ export const addDatesAtom = atom(
       
       set(addSnackAtom, { message: `Added ${newCount} dates`, autoClose: true });
 
-      set(getDatesAtom, 'rightEnd');
-      // const hasDates = dateList.length > 0;
+      const batchState = get(batchStateAtom);
+
+      if(batchState === 'idle') {
+        set(getDatesAtom, 'rightEnd');
+      }
     } catch (error) {
       console.error("Failed to backfill data", error);
       // set(calendarStateAtom, 'error');
