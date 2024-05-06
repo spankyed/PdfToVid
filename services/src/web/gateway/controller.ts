@@ -15,17 +15,6 @@ async function scrapePapers(request: any, h: any){
   return 'Scraping started';
 }
 
-function onboard(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const form = request.payload.form;
-
-    const onboardResult: any = await maintenanceService.post('onboardNewUser', { form });
-    console.log('onboardResult: ', onboardResult); // ! doesnt include newly scraped days for references, only backfilled dates
-    
-    resolve('success')
-  });
-}
-
 function backFillDates(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const backFilledDateList: any = await maintenanceService.post('backfillDates', request.payload);
@@ -40,8 +29,13 @@ function backFillDates(request: any, h: any){
 function gateway(method: string){
   return (request: any, h: any) => {
     return new Promise(async (resolve, reject) => {
-      const result: any = await maintenanceService.post(method, request.payload);
-      resolve(result)
+      try {
+        const result: any = await maintenanceService.post(method, request.payload);
+        resolve(result)
+      } catch (err) {
+        console.error('Error in gateway: ', err);
+        reject(err);
+      }
     });
   }
 }
@@ -50,7 +44,7 @@ function gateway(method: string){
 export default [
   route.post('/scrapeBatch', gateway('scrapeBatch')),
   route.post('/getBatchDates', gateway('getBatchDates')),
-  route.post('/onboardNewUser', onboard),
+  route.post('/onboardNewUser', gateway('onboardNewUser')),
   route.post('/scrape/{date}', scrapePapers),
   route.post('/backfillDates', backFillDates)
 ]

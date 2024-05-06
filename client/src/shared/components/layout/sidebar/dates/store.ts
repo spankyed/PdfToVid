@@ -6,6 +6,13 @@ export const datesRowsAtom = atom<DatesRow[]>([]);
 export const openMonthAtom = atom('');
 export const lastOpenMonthAtom = atom('');
 
+export const setSidebarDataAtom = atom(
+  null, // write-only atom
+  async (get, set, dateList: DatesRow[]) => {
+    set(datesRowsAtom, dateList);
+    set(openMonthAtom, dateList[0]?.month ?? '');
+  }
+);
 
 export const fetchDatesSidebarDataAtom = atom(
   null, // write-only atom
@@ -15,8 +22,7 @@ export const fetchDatesSidebarDataAtom = atom(
       const response = await api.getDatesSidebarData();
       const dateList = response.data;
       console.log('Sidebar dates:', {dateList});
-      set(datesRowsAtom, dateList);
-      set(openMonthAtom, dateList[0]?.month ?? '');
+      set(setSidebarDataAtom, dateList);
 
       // set(calendarStateAtom, dateList.length > 0 ? 'ready' : 'backfill')
       // set(calendarStateAtom, 'selected');

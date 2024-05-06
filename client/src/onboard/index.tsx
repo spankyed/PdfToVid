@@ -11,9 +11,13 @@ import PageLayout from '~/shared/components/layout/page-layout';
 import { BackfillComponent } from '~/onboard/components/dates';
 import OnboardingStepper from './components/stepper';
 import ReferencesInput from './components/references';
-import { canGoNextAtom, onboardSubmitAtom, onboardingStateAtom } from './store';
+import { autoAddDatesAtom, autoScrapeDatesAtom, canGoNextAtom, inputIdsAtom, maxBackfillAtom, onboardingStateAtom, startDateAtom } from './store';
 import UserSettings from './components/settings';
 import { useNavigate } from 'react-router-dom';
+import * as api from '~/shared/api/fetch';
+import { addAlertAtom } from '~/shared/components/notification/store';
+import { setSidebarDataAtom } from '~/shared/components/layout/sidebar/dates/store';
+import { isNewUserAtom } from '~/shared/components/layout/store';
 
 const steps = ['Dates', 'References', 'Finish'];
 
@@ -27,19 +31,45 @@ const OnboardPage = () => {
 
 function OnboardFlow() {
   const [activeStep, setActiveStep] = useState(0);
-  const [completed, setCompleted] = useState<{ [k: number]: boolean; }>({});
-  const submitForm = useSetAtom(onboardSubmitAtom);
-  const onboardingState = useAtomValue(onboardingStateAtom);
-  const navigate = useNavigate();
-  // const allStepsCompleted = () => {
-  //   return Object.keys(completed).length === steps.length;
-  // };
+  const [completed, setStepperCompleted] = useState<{ [k: number]: boolean; }>({});
 
-  useEffect(() => {
-    if (onboardingState === 'complete'){
-      navigate(`/backfill?isNewUser=true`);
+  const setOnboardingState = useSetAtom(onboardingStateAtom);
+  const startDate = useAtomValue(startDateAtom);
+  const inputIds = useAtomValue(inputIdsAtom);
+  const autoAddNewDates = useAtomValue(autoAddDatesAtom);
+  const autoScrapeNewDates = useAtomValue(autoScrapeDatesAtom);
+  const maxBackfill = useAtomValue(maxBackfillAtom);
+
+  const setSidebarData = useSetAtom(setSidebarDataAtom);
+  const setIsNewUser = useSetAtom(isNewUserAtom);
+  const addAlert = useSetAtom(addAlertAtom);
+  const navigate = useNavigate();
+
+  async function submitForm(){
+    const form = {
+      startDate: startDate?.format('YYYY-MM-DD'),
+      inputIds,
+      config: {
+        autoAddNewDates,
+        autoScrapeNewDates,
+        maxBackfill,
+      }
     }
-  }, [onboardingState]);
+    try {
+      const response = await api.onboard(form);
+      const dateList = response.data;
+      if (dateList.length) {
+        setSidebarData(dateList)
+      }
+      setIsNewUser(false);
+
+      navigate(`/backfill?isNewUser=true`);
+    } catch (error) {
+      addAlert({ message: 'Failed to complete onboarding due to a server error.' });
+      setOnboardingState('onboarding');
+      console.error("Failed to backfill data", error);
+    }
+  }
 
   const handleSkip = () => {
     setActiveStep(activeStep + 1);
@@ -56,7 +86,7 @@ function OnboardFlow() {
   const handleNext = () => {
     const newCompleted = completed;
     newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
+    setStepperCompleted(newCompleted);
 
     if (activeStep === 2) {
       submitForm();
@@ -65,9 +95,10 @@ function OnboardFlow() {
     }
   };
 
+
   // const handleReset = () => {
   //   setActiveStep(0);
-  //   setCompleted({});
+  //   setStepperCompleted({});
   // };
 
   return (

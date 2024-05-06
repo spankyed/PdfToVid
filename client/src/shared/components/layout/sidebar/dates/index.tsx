@@ -21,7 +21,7 @@ function DateList(): React.ReactElement {
   const [selectedDate] = useAtom(selectedDateAtom);
   const [openMonth, setOpenMonth] = useAtom(openMonthAtom);
   const [lastOpenMonth, setLastOpenMonth] = useAtom(lastOpenMonthAtom);
-  const [, fetchData] = useAtom(fetchDatesSidebarDataAtom);
+  const [, fetchSidebarData] = useAtom(fetchDatesSidebarDataAtom);
   const [, loadMonth] = useAtom(calendarLoadMonthAtom);
   const [, setCalendarState] = useAtom(calendarStateAtom);
   const collapseRefs = useRef({}); // Step 1: Create refs object
@@ -31,8 +31,8 @@ function DateList(): React.ReactElement {
 
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchSidebarData();
+  }, [fetchSidebarData]);
 
   const clickMonth = (month: string) => {
     setOpenMonth(openMonth === month ? '' : month);

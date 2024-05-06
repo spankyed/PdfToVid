@@ -45,13 +45,14 @@ async function storeDates(dates: string[]): Promise<DatesTable[]> {
     status: 'pending'
   }));
 
+  let results: DatesTable[] = [];
   if (newDateRecords.length > 0) {
-    await DatesTable.bulkCreate(newDateRecords, {
+    results = await DatesTable.bulkCreate(newDateRecords, {
       ignoreDuplicates: true // This option depends on your DBMS and Sequelize version
     });
   }
 
-  return newDateRecords as unknown as DatesTable[];
+  return results;
 }
 
 function storeReferencePapers(paperIds: string[]): Promise<any> {

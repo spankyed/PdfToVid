@@ -34,7 +34,10 @@ export const BackfillComponent: React.FC = () => {
         To get started, choose the earliest date for which you'd like to scrape papers.
       </Typography>
       <Typography>
-        Don't worry, more dates can be added later!
+        Adding dates makes them available for scraping. This will not scrape them immediately.
+      </Typography>
+      <Typography>
+        And don't worry, more dates can be added later!
       </Typography>
     
 
