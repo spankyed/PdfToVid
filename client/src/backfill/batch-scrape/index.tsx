@@ -166,7 +166,8 @@ const BatchScrapeButton = ({ disabled, dates }) => {
     }
   }
 
-  const scrapeInfo = `Scrape papers for dates in batch. This could take a few minutes.`
+  const scrapeInfo = `Scrape and rank papers for dates in batch. This could take a few minutes. We recommend having less than 75 starred papers as it may reduce the time spent ranking papers.
+  `
   const viewInfo = `After scraping a date batch take the opportunity to review the papers, starring the ones you find interesting. Occasionally un-star papers you no longer find interesting.`
 
   return (
