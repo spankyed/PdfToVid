@@ -48,7 +48,7 @@ async function storeDates(dates: string[]): Promise<DatesTable[]> {
   let results: DatesTable[] = [];
   if (newDateRecords.length > 0) {
     results = await DatesTable.bulkCreate(newDateRecords, {
-      ignoreDuplicates: true // This option depends on your DBMS and Sequelize version
+      ignoreDuplicates: true
     });
   }
 

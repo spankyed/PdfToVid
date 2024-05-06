@@ -15,16 +15,6 @@ async function scrapePapers(request: any, h: any){
   return 'Scraping started';
 }
 
-function backFillDates(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const backFilledDateList: any = await maintenanceService.post('backfillDates', request.payload);
-
-    resolve({
-      records: groupDatesByMonth(backFilledDateList.records),
-      newCount: backFilledDateList.newCount
-    })
-  });
-}
 
 function gateway(method: string){
   return (request: any, h: any) => {
@@ -45,6 +35,6 @@ export default [
   route.post('/scrapeBatch', gateway('scrapeBatch')),
   route.post('/getBatchDates', gateway('getBatchDates')),
   route.post('/onboardNewUser', gateway('onboardNewUser')),
+  route.post('/backfillDates', gateway('backfillDates')),
   route.post('/scrape/{date}', scrapePapers),
-  route.post('/backfillDates', backFillDates)
 ]

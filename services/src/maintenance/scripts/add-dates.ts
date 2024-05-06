@@ -7,35 +7,16 @@ type DateParam = string | Date;
 
 
 // ? Returns either an interface including  all records or only a list of new date values
-export async function backfillDates(startDate: DateParam, endDate?: DateParam, returnAllRecords = false): Promise<any> {
+export async function backfillDates(startDate: DateParam, endDate?: DateParam): Promise<any> {
   const to = endDate || new Date();
   const from = new Date(startDate);
   const datesToBackfill = getDatesBetween(from, to);
 
-  const dateRecords = returnAllRecords
-    ? await repository.getAllDates()
-    : await repository.getDates(datesToBackfill);
-
-  const existingDates = dateRecords.map(record => record.value);
-  const newDates = datesToBackfill
-    .filter(date => !existingDates.includes(date))
-    .filter((date, index, self) => self.indexOf(date) === index) // Filter duplicates
-
-  if (!(newDates.length > 0)) {
-    return returnAllRecords ? {
-      records: dateRecords,
-      newCount: 0
-    } : [];
-  }
-
-  const newRecords = await repository.storeDates(newDates);
+  const newRecords = await repository.storeDates(datesToBackfill);
 
   console.log('Backfill completed.');
 
-  return returnAllRecords ? {
-    records: dateRecords.concat(newRecords),
-    newCount: newRecords.length
-  } : newRecords;
+  return newRecords;
 };
 
 export function getDatesBetween(startDate: DateParam, endDate: DateParam): string[] {

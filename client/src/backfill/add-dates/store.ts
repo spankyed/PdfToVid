@@ -1,8 +1,10 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { datesRowsAtom, openMonthAtom } from '~/shared/components/layout/sidebar/dates/store';
+import { setSidebarDataAtom } from '~/shared/components/layout/sidebar/dates/store';
 import { selectedDateAtom } from '~/shared/store';
 import dayjs from 'dayjs';
+import { addSnackAtom } from '~/shared/components/notification/store';
+import { getDatesAtom } from '../batch-scrape/store';
 
 export const backfillStateAtom = atom<'pending' | 'loading'>('pending');
 
@@ -17,16 +19,16 @@ export const addDatesAtom = atom(
     set(backfillStateAtom, 'loading');
     try {
       const response = await api.backfillDates(date);
-      const { records, newCount } = response.data;
-      console.log('Backfilled: ', { records, newCount });
+      const { dateList, newCount } = response.data;
 
-      set(datesRowsAtom, records);
-      // set(selectedDateAtom, records[0]?.dates[0]?.value ?? '');
-      set(openMonthAtom, records[0]?.month ?? '');
+      set(setSidebarDataAtom, dateList);
 
       set(backfillStateAtom, 'pending');
+      
+      set(addSnackAtom, { message: `Added ${newCount} dates`, autoClose: true });
 
-      // const hasDates = records.length > 0;
+      set(getDatesAtom, 'rightEnd');
+      // const hasDates = dateList.length > 0;
     } catch (error) {
       console.error("Failed to backfill data", error);
       // set(calendarStateAtom, 'error');
