@@ -2,11 +2,7 @@ import { io } from "..";
 import * as repository from './repository';
 import { groupDatesByMonth } from "./transform";
 import { route } from '../../shared/route';
-
-export default [
-  route.get('/getDates', getDates),
-  route.post('/work-status/{type}', updateStatus),
-]
+import { getConfig } from "~/shared/utils/get-config";
 
 // async function checkStatus(request, h) {
 //   const status = {
@@ -21,7 +17,6 @@ export default [
 //     return h.response({ error: 'No status found' }).code(404);
 //   }
 // }
-
 
 function getDates(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -44,3 +39,18 @@ async function updateStatus(request, h) {
 
   return h.response({ status: 'success' }).code(200);
 }
+
+function checkIsNewUser(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const config = await getConfig();
+    const isNewUser = config.settings.isNewUser;
+    
+    resolve(isNewUser)
+  });
+}
+
+export default [
+  route.get('/checkIsNewUser', checkIsNewUser),
+  route.get('/getDates', getDates),
+  route.post('/work-status/{type}', updateStatus),
+]

@@ -2,7 +2,8 @@ export default {
   "settings": {
     "autoScrapeNewDates": true,
     "autoAddNewDates": true,
-    "maxBackfill": "14"
+    "maxBackfill": "14",
+    "isNewUser": false
   },
   "features": [
     "video_generator"

@@ -25,10 +25,10 @@ function CalendarMain(): React.ReactElement {
   }, [calendarState]);
 
   useEffect(() => {
-    const date = datesRows.find(d => d.month === openMonth)?.dates[0]?.value;
+    const firstDateOfMonth = datesRows.find(d => d.month === openMonth)?.dates[0]?.value; // first date of the open month in sidebar
 
-    if (openMonth && date) {
-      loadMonth(date)
+    if (openMonth && firstDateOfMonth) {
+      loadMonth(firstDateOfMonth)
     } else {
       fetchData();
     }

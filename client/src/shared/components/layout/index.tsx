@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AppBar, Toolbar, Typography, Box, IconButton, Button, InputBase, TextField } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
@@ -9,17 +9,39 @@ import { colors } from '~/shared/styles/theme';
 import MenuIcon from '@mui/icons-material/Menu';
 import { sidebarOpenAtom } from './sidebar/store';
 import { NotificationManager } from '../notification';
+import * as api from '~/shared/api/fetch';
+import { isNewUserAtom } from './store';
 
 const height = 'calc(100vh - 65px)';
 
 function Layout(): React.ReactElement {
+  const navigate = useNavigate();
+  const [isNewUser, setIsNewUser] = useAtom(isNewUserAtom);
+
+  const checkIsNewUser = useCallback(async () => {
+    const { data: newUserCheck } = await api.checkIsNewUser();
+  
+    if (newUserCheck) {
+      setIsNewUser(true);
+      navigate('/onboard');
+    }
+  }, [])
+
+  useEffect(() => {
+    checkIsNewUser()
+      .catch(console.error);
+  }, [checkIsNewUser]);
+
   return (
     <>
       <AppBar position="sticky" sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', boxShadow: 'none' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <TitleArea />
-
-          <SearchInput />
+          <TitleArea isNewUser={isNewUser}/>
+          {
+            !isNewUser && (
+              <SearchInput />
+            )
+          }
         </Toolbar>
       </AppBar>
       <Box sx={{
@@ -28,9 +50,17 @@ function Layout(): React.ReactElement {
         transition: 'all 0.5s ease-in-out',
         backgroundColor: colors.main,
       }}>
-        <Sidebar />
+        {
+          !isNewUser && (
+            <Sidebar />
+          )
+        }
         <Box component="main" sx={{ flexGrow: 1 }}>
-          <SidebarToggleButton/>
+          {
+            !isNewUser && (
+              <SidebarToggleButton/>
+            )
+          }
           <Outlet />
         </Box>
       </Box>
@@ -40,7 +70,7 @@ function Layout(): React.ReactElement {
   );
 };
 
-function TitleArea() {
+function TitleArea({ isNewUser }) {
   const [, setSidebarOpen] = useAtom(sidebarOpenAtom); // Assuming you have a setter function for the sidebar open state
 
   const toggleSidebar = () => {
@@ -49,16 +79,21 @@ function TitleArea() {
 
   return (
     <div style={{ display: 'flex', marginLeft: '.4rem', width: '230px'}}>
-      <IconButton
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        sx={{ mr: 2 }}
-        onClick={toggleSidebar}
-      >
-        <MenuIcon />
-      </IconButton>
-      <Link color="inherit" to="/calendar">
+      {
+        !isNewUser && (
+          <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+          onClick={toggleSidebar}
+        >
+          <MenuIcon />
+        </IconButton>
+        )
+      }
+
+      <Link color="inherit" to={isNewUser ? '/onboard' : "/calendar"}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <Typography variant="h6" component="div" sx={{
             borderRadius: '10%', padding: '2px 7px', border: '2px solid white'

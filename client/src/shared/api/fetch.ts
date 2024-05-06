@@ -7,6 +7,7 @@ socket.on('connect', () => console.log('Connected to WebSocket server'));
 // socket.onAny((event, ...args) => console.log('socket event:', {event}, args));
 
 // get
+export const checkIsNewUser = () => axios.get(apiUrl + '/checkIsNewUser');
 export const getDatesSidebarData = () => axios.get(apiUrl + '/getDates');
 export const getCalendarModelData = () => axios.get(apiUrl + '/getCalendar');
 export const calendarLoadMore = (cursor) => axios.get(apiUrl + '/loadMore/' + cursor);
