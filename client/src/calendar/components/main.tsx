@@ -20,7 +20,7 @@ function CalendarMain(): React.ReactElement {
 
   useEffect(() => {
     if (showBackfill) {
-      navigate('/onboard');
+      navigate('/backfill');
     }
   }, [calendarState]);
 

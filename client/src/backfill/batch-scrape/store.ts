@@ -85,10 +85,8 @@ export const batchScrapeAtom = atom(
     try {
       const dates = get(batchDatesAtom);
       const response = await api.scrapeBatch(dates.map(d => d.value));
-      console.log('response: ', response);
       // const { records, newCount } = response.data;
       // console.log('Backfilled: ', { records, newCount });
-
 
       // const hasDates = records.length > 0;
     } catch (error) {

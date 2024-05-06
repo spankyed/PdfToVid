@@ -124,7 +124,6 @@ function SearchInput(){
     const newUrl = `/search?${searchParamsString}`;
 
     navigate(newUrl);
-    console.log('Searching for:', searchValue);
   };
 
   return (

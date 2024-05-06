@@ -15,7 +15,6 @@ const BackfillPage = () => {
   const updateStatus = useSetAtom(updateStatusAtom);
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }) => {
-    console.log('key: ', {key, newStatus, papers});
     updateStatus({ key, status: newStatus, count: papers?.length });
   };
   return (

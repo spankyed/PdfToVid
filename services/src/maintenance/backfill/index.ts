@@ -16,7 +16,6 @@ function backfillDates(request: any, h: any){
 function getBatchDates(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const { cursor, direction } = request.payload;
-    console.log('cursor, direction: ', cursor, direction);
 
     const dates = await repository.getBackfillDates({ cursor, direction });
   
@@ -27,7 +26,6 @@ function getBatchDates(request: any, h: any){
 function batchScrape(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const dates = request.payload;
-    console.log('dates: ', dates);
 
     scrapeBatch(dates)
 
