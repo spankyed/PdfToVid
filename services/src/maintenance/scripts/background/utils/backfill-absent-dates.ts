@@ -13,9 +13,7 @@ export async function backFillAbsentDates(maxBackfill: Config['settings']['maxBa
     return;
   } 
 
-  if (lastDateAdded > today) {
-    // throw new Error('Latest date is in the future');
-
+  if (lastDateAdded > today || lastDateAdded === today) {
     return;
   }
 

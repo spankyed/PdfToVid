@@ -5,8 +5,6 @@ import { scrapeBatch } from "../scrape-batch";
 import { startJobAddNewDates, startJobScrapeNewDatesWithRetry } from "./utils/cron-jobs";
 
 async function runBackgroundScripts() {
-  console.log('Running maintenance server background scripts...');
-
   const config = await getConfig();
   const isNewUser = config.settings.isNewUser;
 
@@ -34,6 +32,5 @@ async function runBackgroundScripts() {
 
   console.log('Background scripts running.');
 }
-
 
 export default runBackgroundScripts

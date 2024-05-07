@@ -11,7 +11,6 @@ const routes = [
   ...backfillRoutes,
 ];
 
-
 const serverConfig: Hapi.ServerOptions | undefined = { 
   port: ports.maintenance,
   // routes: {
@@ -25,17 +24,17 @@ const serverConfig: Hapi.ServerOptions | undefined = {
 (async function start () {
   const server = createServer(serverConfig, routes);
 
-  await runBackgroundScripts()
-
   try {
     await server.start();
+
+    console.log('Maintenance service running at:', server.info.uri);
+
+    await runBackgroundScripts()
   }
   catch (err) {
     console.log(err);
     process.exit(1);
   }
-
-  console.log('Maintenance service running at:', server.info.uri);
 })();
 
 
