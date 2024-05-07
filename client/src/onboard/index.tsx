@@ -55,6 +55,9 @@ function OnboardFlow() {
         maxBackfill,
       }
     }
+
+    setOnboardingState('loading');
+
     try {
       const response = await api.onboard(form);
       const dateList = response.data;

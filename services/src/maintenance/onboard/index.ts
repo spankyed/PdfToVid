@@ -4,6 +4,7 @@ import { seedReferencePapers } from "../scripts/background/utils/seed-reference-
 import { setConfig } from "~/shared/utils/set-config";
 import { groupDatesByMonth } from "~/web/shared/transform";
 import runBackgroundScripts from "../scripts/background";
+import repository from "../repository";
 
 function onboardNewUser(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -12,14 +13,16 @@ function onboardNewUser(request: any, h: any){
     const { startDate, inputIds, config } = form;
 
     try {
-      const newDateRecords = await backfillDates(startDate);
-
       if (inputIds && inputIds.length) {
         const papers = await seedReferencePapers(undefined, inputIds);
         // console.log('papers: ', papers);
       }
+
+      await backfillDates(startDate);
+
+      const allDates = await repository.getAllDates();
   
-      const dateList = groupDatesByMonth(newDateRecords as any);
+      const dateList = groupDatesByMonth(allDates as any);
       
       await setConfig({...config, isNewUser: false });
 
