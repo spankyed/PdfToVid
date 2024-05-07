@@ -37,7 +37,7 @@ const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
   const colorByStatus = {
     default: 'inherit',
     scraping: '#FFA500', // orange hex
-    ranking: '#800080', // purple hex
+    ranking: '#125EA8', // blue hex
     complete: '#008000', // green hex
     error: '#FF0000', // red hex
   };
