@@ -23,7 +23,8 @@ const BackfillPage = () => {
     if (key === 'batch' && newStatus === 'complete') {
       addAlert({ type: 'success', message: 'Batch scraping complete!' })
     } else if (newStatus === 'error') {
-      addAlert({message: `There was a problem scraping papers for ${dayjs(key).format('MM/DD/YYYY')}` })
+      const id = dayjs(key).format('MM/DD/YYYY')
+      addAlert({message: `There was a problem scraping papers for ${id}`, id })
     }
   };
   return (

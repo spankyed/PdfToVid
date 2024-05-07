@@ -22,17 +22,27 @@ export const snackbarsAtom = atom<Snackbar[]>([]);
 
 export const addAlertAtom = atom(
   null,
-  (get, set, { message, type, autoClose }: Alert) => {
+  (get, set, { id, message, type, autoClose }: Alert) => {
     const alerts = get(alertsAtom);
-    set(alertsAtom, [...alerts, { id: createId(), message, type, autoClose }]);
+
+    if (alerts.some(alert => alert.id === id)) {
+      return;
+    }
+
+    set(alertsAtom, [...alerts, { id: id || createId(), message, type, autoClose }]);
   }
 );
 
 export const addSnackAtom = atom(
   null,
-  (get, set, { message, autoClose }: Snackbar) => {
+  (get, set, { id, message, autoClose }: Snackbar) => {
     const snackbars = get(snackbarsAtom);
-    set(snackbarsAtom, [...snackbars, { id: createId(), message, autoClose }]);
+
+    if (snackbars.some(alert => alert.id === id)) {
+      return;
+    }
+
+    set(snackbarsAtom, [...snackbars, { id: id || createId(), message, autoClose }]);
   }
 );
 

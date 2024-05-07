@@ -6,10 +6,13 @@ import { isSummaryOpenAtom } from '../shared/components/paper/tile/summary/store
 import { calendarModelAtomBase, scrollableContainerRefAtom } from './store';
 import PageLayout from '~/shared/components/layout/page-layout';
 import SocketListener from '~/shared/api/socket-listener';
+import { addAlertAtom } from '~/shared/components/notification/store';
+import dayjs from 'dayjs';
 
 const Calendar: React.FC = () => {
   const [, setScrollableContainerRef] = useAtom(scrollableContainerRefAtom);
   const [isOpen, setIsOpen] = useAtom(isSummaryOpenAtom);
+  const addAlert = useSetAtom(addAlertAtom);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -28,6 +31,12 @@ const Calendar: React.FC = () => {
   const setCalendarModelBase = useSetAtom(calendarModelAtomBase);
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data }) => {
+
+    if (newStatus === 'error') {
+      const id = dayjs(key).format('MM/DD/YYYY')
+      addAlert({message: `There was a problem scraping papers for ${id}`, id })
+    }
+
     setCalendarModelBase((prevModel) => {
       const updatedModel = prevModel.map((item) => {
         if (item.date.value === key) {
