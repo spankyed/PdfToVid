@@ -20,8 +20,12 @@ export function startJobScrapeNewDatesWithRetry(){
     const date = getCurrentDate();
     await repository.storeDate(date)
 
+    let attempts = 0;
+
     scrapeJobs[date] = cron.schedule('0 */6 * * *', async () => {
-      console.log(`Starting attempts to scrape date, ${date}...`);
+      attempts++;
+
+      console.log(`Attempt [${attempts}] to scrape papers for date, ${date}...`);
 
       attemptToScrapeTodaysPapers(date)
     });
