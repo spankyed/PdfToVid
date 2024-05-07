@@ -1,6 +1,6 @@
 import * as sharedRepository from '~/shared/repository';
 import repository from '~/maintenance/repository';
-import scrapePapersByIds from "../scrape-papers-by-ids";
+import scrapePapersByIds from "../../scrape-papers-by-ids";
 import { seedReferencePaperIds } from "~/shared/constants";
 import { getConfig } from '~/shared/utils/get-config';
 
@@ -27,7 +27,7 @@ export async function seedReferencePapers(papers?: any[], ids = null) {
 
 
 async function scrapeAndStoreReferencePapers(ids =  null) {
-  const seedReferencesIds = ids || getConfig().seedReferencesIds;
+  const seedReferencesIds = ids || (await getConfig()).seedReferencesIds!;
   const referencePapers = await scrapePapersByIds(seedReferencesIds);
 
   const scrapedIds = referencePapers.map(paper => paper.id);

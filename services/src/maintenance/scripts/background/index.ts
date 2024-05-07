@@ -1,24 +1,39 @@
-import onboard from "./states/onboard";
-import doDailyOperations from "./states/operate-daily";
-
-const stateHandlers = {
-  onboarding: onboard, // todo rename to first run
-  operating: doDailyOperations
-};
-
-// const state = 'operating';
-const state = 'onboarding';
+import { getConfig } from "~/shared/utils/get-config";
+import { ensureReferenceCollectionExists } from "./utils/ensure-reference-collection";
+import { backFillAbsentDates } from "./utils/backfill-absent-dates";
+import { scrapeBatch } from "../scrape-batch";
+import { startJobAddNewDates, startJobScrapeNewDatesWithRetry } from "./utils/cron-jobs";
 
 async function runBackgroundScripts() {
-  console.log('Initializing maintenance server...');
+  console.log('Running maintenance server background scripts...');
 
-  // todo check if chroma is up and running
+  const config = await getConfig();
+  const isNewUser = config.settings.isNewUser;
 
-  // stateHandlers[state]();
+  if (isNewUser) {
+    return;
+  }
 
-  console.log('Maintenance server initialized.');
+  ensureReferenceCollectionExists();
+
+  if (!config.settings.autoAddNewDates) {
+    return;
+  }
+
+  const absentDates = await backFillAbsentDates(config.settings.maxBackfill);
+
+  if (!config.settings.autoScrapeNewDates) {
+    startJobAddNewDates()
+
+    return;
+  }
+
+  await scrapeBatch(absentDates, false);
+
+  startJobScrapeNewDatesWithRetry();
+
+  console.log('Background scripts running.');
 }
-
 
 
 export default runBackgroundScripts

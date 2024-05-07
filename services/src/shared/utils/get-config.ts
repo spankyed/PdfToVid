@@ -10,6 +10,7 @@ export type Config = {
   settings: {
     autoAddNewDates?: boolean;
     autoScrapeNewDates?: boolean;
+    maxBackfill?: string;
     isNewUser?: boolean;
   },
   features?: string[];

@@ -5,9 +5,8 @@ import repository from '../repository';
 
 type DateParam = string | Date;
 
-
 // ? Returns either an interface including  all records or only a list of new date values
-export async function backfillDates(startDate: DateParam, endDate?: DateParam): Promise<any> {
+export async function backfillDates(startDate: DateParam, endDate?: DateParam) {
   const to = endDate || new Date();
   const from = new Date(startDate);
   const datesToBackfill = getDatesBetween(from, to);
@@ -41,4 +40,10 @@ export function getDatesBetween(startDate: DateParam, endDate: DateParam): strin
 export function getCurrentDate() {
   const date = new Date();
   return new Date(date.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
+}
+
+export function getDateNDaysBack(n: string) {
+  const date = new Date();
+  const pastDate = new Date(date.setDate(date.getDate() - Number(n)));
+  return new Date(pastDate.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
 }

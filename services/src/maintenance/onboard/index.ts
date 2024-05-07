@@ -1,8 +1,9 @@
 import { backfillDates } from "../scripts/add-dates";
 import { route } from '../../shared/route';
-import { seedReferencePapers } from "../scripts/background/seed-reference-papers";
+import { seedReferencePapers } from "../scripts/background/utils/seed-reference-papers";
 import { setConfig } from "~/shared/utils/set-config";
 import { groupDatesByMonth } from "~/web/shared/transform";
+import runBackgroundScripts from "../scripts/background";
 
 function onboardNewUser(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -13,15 +14,16 @@ function onboardNewUser(request: any, h: any){
     try {
       const newDateRecords = await backfillDates(startDate);
 
-
       if (inputIds && inputIds.length) {
         const papers = await seedReferencePapers(undefined, inputIds);
         // console.log('papers: ', papers);
       }
   
-      const dateList = groupDatesByMonth(newDateRecords);
+      const dateList = groupDatesByMonth(newDateRecords as any);
       
-      setConfig({...config, isNewUser: false });
+      await setConfig({...config, isNewUser: false });
+
+      runBackgroundScripts();
   
       resolve(dateList)
     } catch (err) {

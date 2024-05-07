@@ -2,7 +2,11 @@ import scrapeAndRankPapers from '~/worker/controllers/scrape';
 import repository from '../repository';
 import { notifyClient } from '~/shared/status';
 
-export async function scrapeBatch(dates: any[]) {
+export async function scrapeBatch(dates?: any[], shouldNotify = true) {
+  if (!dates || dates.length === 0) {
+    return;
+  }
+
   // const results = [];
   const batchSize = 3; 
 
@@ -14,7 +18,7 @@ export async function scrapeBatch(dates: any[]) {
     const batch = pendingDates.slice(i, i + batchSize);
 
     try {
-      const batchResults = await Promise.all(batch.map((date: any) => scrapeAndRankPapers(date)));
+      const batchResults = await Promise.all(batch.map((date: any) => scrapeAndRankPapers(date, shouldNotify)));
       // results.push(...batchResults);
     } catch (error) {
       // Log the error and possibly decide whether to continue with the next batch
