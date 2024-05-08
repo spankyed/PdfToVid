@@ -30,7 +30,7 @@ export const LearnTab = () => {
   };
 
   return (
-    <Box sx={{ marginTop: 3 }}>
+    <Box sx={{ marginTop: 3, mb: 1 }}>
       {mockPrompts.map((prompt: { question: string, answer: string }, index: number) => (
         <Box key={index} marginBottom={2} sx={{ marginTop: 4 }}>
           <Box display="flex" alignItems="center" marginBottom={1}>

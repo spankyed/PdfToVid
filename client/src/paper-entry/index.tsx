@@ -49,7 +49,7 @@ const PaperEntryPage: React.FC<{}> = () => {
         ? <PaperTitle title={`Error Loading Paper ${paperId}`} id={null}/>
         : (
         <>
-          <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={3}>
+          <Box display="flex" justifyContent="center" flexDirection="column" marginBottom={1}>
             <DateAuthorsPdf paper={paper} />
             <PaperTitle title={paper?.title} id={paper?.id}/>
             <Typography variant="body1" paragraph>
