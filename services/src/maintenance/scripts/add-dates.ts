@@ -1,4 +1,6 @@
 import repository from '../repository';
+import { setConfig } from '~/shared/utils/set-config';
+import { Config } from '~/shared/utils/get-config';
 
 // usage: backfill from current date to May 1, 2023
 // backfillDates('2023-05-01');
@@ -10,13 +12,34 @@ export async function backfillDates(startDate: DateParam, endDate?: DateParam) {
   const to = endDate || new Date();
   const from = new Date(startDate);
   const datesToBackfill = getDatesBetween(from, to);
-
   const newRecords = await repository.storeDates(datesToBackfill);
 
   console.log('Backfill completed.');
 
   return newRecords;
 };
+
+export async function backFillAbsentDates(maxBackfill: Config['settings']['maxBackfill']) {
+  const lastDateAdded = await repository.getLatestDate();
+  const today = getCurrentDate();
+
+  if (!lastDateAdded) {
+    setConfig({ settings: { isNewUser: true }});
+
+    return;
+  } 
+
+  if (lastDateAdded > today || lastDateAdded === today) {
+    return;
+  }
+
+  const dateBackNDays = getDateNDaysBack(maxBackfill!)
+  const startDate = lastDateAdded < dateBackNDays ? dateBackNDays : lastDateAdded;
+  const dateRecords = await backfillDates(startDate, new Date());
+
+  return dateRecords.map(dateRecord => dateRecord.value);
+}
+
 
 export function getDatesBetween(startDate: DateParam, endDate: DateParam): string[] {
   const dates: string[] = [];

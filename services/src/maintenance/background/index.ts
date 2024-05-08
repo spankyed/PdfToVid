@@ -1,8 +1,8 @@
 import { getConfig } from "~/shared/utils/get-config";
-import { ensureReferenceCollectionExists } from "./utils/ensure-reference-collection";
-import { backFillAbsentDates } from "./utils/backfill-absent-dates";
-import { scrapeBatch } from "../scrape-batch";
-import { startJobAddNewDates, startJobScrapeNewDatesWithRetry } from "./utils/cron-jobs";
+import { ensureReferenceCollectionExists } from "../scripts/ensure-reference-collection";
+import { scrapeBatch } from "../scripts/scrape-batch";
+import { startJobAddNewDates, startJobScrapeNewDatesWithRetry } from "../scripts/cron-jobs";
+import { backFillAbsentDates } from "../scripts/add-dates";
 
 async function runBackgroundScripts() {
   const config = await getConfig();

@@ -1,7 +1,7 @@
 import createServer from '../shared/server';
 import { ports } from '../shared/constants';
 import Hapi from '@hapi/hapi';
-import runBackgroundScripts from './scripts/background';
+import runBackgroundScripts from './background';
 
 import onboardRoutes from './onboard';
 import backfillRoutes from './backfill';

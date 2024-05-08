@@ -1,6 +1,6 @@
 import * as sharedRepository from '~/shared/repository';
 import repository from '~/maintenance/repository';
-import scrapePapersByIds from "../../scrape-papers-by-ids";
+import scrapePapersByIds from "./scrape-papers-by-ids";
 import { seedReferencePaperIds } from "~/shared/constants";
 import { getConfig } from '~/shared/utils/get-config';
 

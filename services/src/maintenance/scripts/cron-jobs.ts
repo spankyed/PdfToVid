@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import scrapeAndRankPapers from '~/worker/controllers/scrape';
 import repository from '~/maintenance/repository';
-import { getCurrentDate } from '../../add-dates';
+import { getCurrentDate } from './add-dates';
 
 type Jobs = { [key: string]: any };
 const scrapeJobs: Jobs = {};

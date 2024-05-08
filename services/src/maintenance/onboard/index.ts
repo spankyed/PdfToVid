@@ -1,9 +1,9 @@
 import { backfillDates } from "../scripts/add-dates";
 import { route } from '../../shared/route';
-import { seedReferencePapers } from "../scripts/background/utils/seed-reference-papers";
+import { seedReferencePapers } from "../scripts/seed-reference-papers";
 import { setConfig } from "~/shared/utils/set-config";
 import { groupDatesByMonth } from "~/web/shared/transform";
-import runBackgroundScripts from "../scripts/background";
+import runBackgroundScripts from "../background";
 import repository from "../repository";
 
 function onboardNewUser(request: any, h: any){
