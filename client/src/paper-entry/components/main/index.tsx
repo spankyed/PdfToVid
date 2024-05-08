@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import { LearnTab } from './prompts';
 import { ReviewTab } from './review';
+import { useAtom } from 'jotai';
+import { paperAtom } from '~/paper-entry/store';
 
 const MockEntry = {
   videoTitle: 'AI Brainstorm, Process Mining Revolution, Business Superpowers Unleashed!',
@@ -33,7 +35,8 @@ const MockEntry = {
   ],
 }
 
-const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
+const MainContent = () => {
+  const [paper] = useAtom(paperAtom);
   const [tabValue, setTabValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -43,9 +46,9 @@ const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
   return (
     <Box>
       <Tabs value={tabValue} onChange={handleChange}>
-        <Tab label="Generate" />
         <Tab label="Prompts" />
         <Tab label="Analytics" />
+        <Tab label="Generate" />
         {/* instead of integrate as separate tab, consider having in review section under meta */}
       </Tabs>
       {tabValue === 0 && <ReviewTab entry={MockEntry} />}
@@ -55,4 +58,4 @@ const EntryTabs: React.FC<{ entry: any }> = ({ entry }) => {
   );
 }
 
-export default EntryTabs;
+export default MainContent;

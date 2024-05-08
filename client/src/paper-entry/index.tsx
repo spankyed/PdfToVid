@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
 import PageLayout from '~/shared/components/layout/page-layout';
-import EntryTabs from './components/tabs';
+import MainContent from './components/main';
 import { useAtom, useSetAtom } from 'jotai';
 import { fetchPaperAtom, pageStateAtom, paperAtom } from './store';
 import PdfModal from './components/pdf/modal';
@@ -57,7 +57,7 @@ const PaperEntryPage: React.FC<{}> = () => {
             </Typography>
           </Box>
 
-          <EntryTabs entry={{}} />
+          <MainContent />
 
           <PdfModal urlId={paper?.id}/>
         </>
