@@ -1,7 +1,22 @@
 import React, { useState } from 'react';
 import { Box, Button } from '@mui/material';
 
-export const LearnTab: React.FC<{ entry: any }> = ({ entry }) => {
+const mockPrompts = [
+  {
+    question: "What is the main idea of this research?",
+    answer: "The main idea of this research is to make process mining as easy to use as a GPS system."
+  },
+  {
+    question: "What is the main idea of this research?",
+    answer: "The main idea of this research is to make process mining as easy to use as a GPS system."
+  },
+  {
+    question: "What is the main idea of this research?",
+    answer: "The main idea of this research is to make process mining as easy to use as a GPS system."
+  },
+]
+
+export const LearnTab = () => {
   // todo show video prompts, allow editing prompt (will update globally)
     // dont ask again button
   const [editablePromptIndex, setEditablePromptIndex] = useState<number | null>(null);
@@ -16,7 +31,7 @@ export const LearnTab: React.FC<{ entry: any }> = ({ entry }) => {
 
   return (
     <Box sx={{ marginTop: 3 }}>
-      {entry.prompts.map((prompt: { question: string, answer: string }, index: number) => (
+      {mockPrompts.map((prompt: { question: string, answer: string }, index: number) => (
         <Box key={index} marginBottom={2} sx={{ marginTop: 4 }}>
           <Box display="flex" alignItems="center" marginBottom={1}>
             <input 
