@@ -14,6 +14,14 @@ function getDates(dates: string[], status?: string) {
   });
 }
 
+function getDate(date: string) {
+  return DatesTable.findOne({
+    where: {
+      value: date
+    }
+  });
+}
+
 function getAllDates() {
   return DatesTable.findAll();
 }
@@ -35,7 +43,9 @@ async function storeDate(date: string) {
   });
 
   if (!existingDate) {
-    await DatesTable.create({ value: date, status: 'pending' });
+    return await DatesTable.create({ value: date, status: 'pending' });
+  } else {
+    return existingDate;
   }
 }
 
@@ -114,6 +124,7 @@ function getBackfillDates(params: getBackfillDateParams): Promise<DatesTable[]> 
 }
 
 export default {
+  getDate,
   getDates,
   getAllDates,
   getLatestDate,
