@@ -1,6 +1,7 @@
 import * as repository from './repository';
 import * as sharedRepository from '~/shared/repository';
 import { route } from '~/shared/route';
+import axios from 'axios';
 
 function paperById(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -50,7 +51,22 @@ function updatePaperStatus(request: any, h: any){
   });
 }
 
+async function fetchPdf(request: any, h: any) {
+  const { arxivId } = request.params;
+  try {
+      const response = await axios.get(`http://export.arxiv.org/pdf/${arxivId}`, {
+        responseType: 'stream'
+      });
+
+      return h.response(response.data).type('application/pdf');
+  } catch (error) {
+      console.error('Error fetching PDF from arXiv:', error);
+      return h.response('Error fetching PDF').code(500);
+  }
+}
+
 export default [
+  route.get('/fetchPdf/{arxivId}', fetchPdf),
   route.get('/paperById/{paperId}', paperById),
   route.post('/starPaper/{paperId}', starPaper),
   route.post('/updatePaperStatus/{paperId}', updatePaperStatus),

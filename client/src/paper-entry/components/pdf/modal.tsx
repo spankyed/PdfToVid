@@ -4,11 +4,9 @@ import ModalWrapper from '~/shared/components/modal';
 import PdfViewer from './pdf-viewer';
 import { useEffect, useState } from 'react';
 
-function PdfModal({ urlId }) {
+function PdfModal({ paperId }) {
   const [open, setOpen] = useAtom(pdfModalOpen);
   const handleClose = () => setOpen(false);
-  const url = `https://arxiv.org/pdf/${urlId}.pdf`;
-
   const [width, setCalculatedWidth] = useState(750); // Default width
 
   useEffect(() => {
@@ -19,7 +17,7 @@ function PdfModal({ urlId }) {
 
   return (
       <ModalWrapper open={open} handleClose={handleClose} width={width}>
-        <PdfViewer url={url} width={width - 100}/>
+        <PdfViewer paperId={paperId} width={width - 100}/>
       </ModalWrapper>
   );
 }

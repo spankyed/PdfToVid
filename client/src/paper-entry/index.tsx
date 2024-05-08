@@ -59,7 +59,7 @@ const PaperEntryPage: React.FC<{}> = () => {
 
           <MainSection />
 
-          <PdfModal urlId={paper?.id}/>
+          <PdfModal paperId={paper?.id}/>
         </>
         )
       }

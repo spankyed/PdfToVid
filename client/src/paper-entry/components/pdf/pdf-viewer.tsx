@@ -2,17 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { pdfjs, Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
+import * as api from '~/shared/api/fetch';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 
 const options = {
   cMapUrl: '/cmaps/',
   standardFontDataUrl: '/standard_fonts/',
 };
 
-export default function PdfViewer({ url, width }) {
+export default function PdfViewer({ paperId, width }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [pdfUrl, setPdfUrl] = useState('');
+
+  useEffect(() => {
+    const fetchPdf = async (arxivId) => {
+      try {
+        const response = await api.fetchPdf(arxivId);
+        const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+        const url = URL.createObjectURL(pdfBlob);
+        setPdfUrl(url);
+      } catch (error) {
+        console.error('Error fetching PDF:', error);
+      }
+    };
+
+    fetchPdf(paperId);
+  }, [paperId]);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -36,14 +56,19 @@ export default function PdfViewer({ url, width }) {
 
   return (
     <div className="pdf-viewer p-2" style={{ display: 'flex', flexDirection: 'column-reverse'}}>
+      {
+        !pdfUrl
+        ? <div>Loading PDF...</div>
+        : <Document
+            file={pdfUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            onError={(error) => console.error('Error loading document', error)}
+            options={options}
+          >
+            <Page pageNumber={pageNumber} width={width} loading={<div>Loading...</div>}/>
+          </Document>
+      }
       
-      <Document
-        file={url}
-        onLoadSuccess={onDocumentLoadSuccess}
-        options={options}
-      >
-        <Page pageNumber={pageNumber} width={width} loading={<div>Loading...</div>}/>
-      </Document>
       <Pagination
         pageNumber={pageNumber}
         numPages={numPages}

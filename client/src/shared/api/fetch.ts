@@ -14,6 +14,7 @@ export const calendarLoadMore = (cursor) => axios.get(apiUrl + '/loadMore/' + cu
 export const calendarLoadMonth = (cursor) => axios.get(apiUrl + '/loadMonth/' + cursor);
 export const getDateEntryModel = (date) => axios.get(apiUrl + '/getDateEntry/' + date);
 export const getPaperById = (paperId) => axios.get(apiUrl + '/paperById/' + paperId);
+export const fetchPdf = (paperId) => axios.get(apiUrl + '/fetchPdf/' + paperId, { responseType: 'blob' });
 
 // post
 export const updateIsStarred = (paperId, value) => axios.post(apiUrl + '/starPaper/' + paperId, { value });
