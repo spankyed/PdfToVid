@@ -3,7 +3,7 @@ import scrapeAndRankPapers from '~/worker/controllers/scrape';
 import repository from '~/maintenance/repository';
 import { getCurrentDate } from './add-dates';
 
-type Jobs = { [key: string]: any };
+type Jobs = { [key: string]: cron.ScheduledTask };
 const scrapeJobs: Jobs = {};
 
 export async function startJobAddNewDates() {
@@ -52,12 +52,12 @@ async function scrapeTodayWithRetry(tryNow = false) {
 }
 
 async function attemptToScrapeTodaysPapers(date: any) {
-  const dateRecord = await repository.getDate(date)
+  const dateRecord = await repository.getDate(date) 
   const isPending = dateRecord?.status === 'pending';
   const result = isPending ? await scrapeAndRankPapers(date) : [];
 
   if (scrapeJobs[date] && (result.length || !isPending)) {
-    scrapeJobs[date].destroy();
+    scrapeJobs[date].stop();
     delete scrapeJobs[date];
   }
 };
