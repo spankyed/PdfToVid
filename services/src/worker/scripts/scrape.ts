@@ -7,11 +7,11 @@ import repository from '../repository'; // Assume this exists
 import * as sharedRepository from '../../shared/repository'; // Assume this exists
 import { notifyClient } from '~/shared/status';
 
-const scrapeAndRankPapers = async (date: string, shouldNotify = true) => {
+const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
   try {
     console.log('Scraping papers...', date);
     sharedRepository.updateDateStatus(date, 'scraping')
-    notifyClient({ key: date, status: 'scraping' }, shouldNotify);
+    notifyClient({ key: date, status: 'scraping' }, alwaysNotify);
 
     const papers = await scrapePapersByDate(date);
   
@@ -21,7 +21,7 @@ const scrapeAndRankPapers = async (date: string, shouldNotify = true) => {
   
     console.log('Ranking papers...', date);
     sharedRepository.updateDateStatus(date, 'ranking')
-    notifyClient({ key: date, status: 'ranking' }, shouldNotify);
+    notifyClient({ key: date, status: 'ranking' }, alwaysNotify);
   
     const rankedPapers = await getRelevancyScores(papers);
     const paperRecords = rankedPapers.sort((a, b) => b.relevancy - a.relevancy);
@@ -39,7 +39,7 @@ const scrapeAndRankPapers = async (date: string, shouldNotify = true) => {
       throw error
     }
 
-    notifyClient({ key: date, status: 'complete', data: paperRecords, final: true }, shouldNotify);
+    notifyClient({ key: date, status: 'complete', data: paperRecords, final: true }, alwaysNotify);
   
     console.log('Scraped, ranked, and stored papers for:', date);
   
@@ -49,7 +49,7 @@ const scrapeAndRankPapers = async (date: string, shouldNotify = true) => {
   
     // sharedRepository.updateDateStatus(date, 'error')
     sharedRepository.updateDateStatus(date, 'pending')
-    notifyClient({ key: date, status: 'error', data: [], final: true }, shouldNotify);
+    notifyClient({ key: date, status: 'error', data: [], final: true }, alwaysNotify);
     
     // throw error
     return []

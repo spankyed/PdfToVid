@@ -10,8 +10,8 @@ type Notification = {
   final?: boolean;
 };
 
-export function notifyClient(notification: Notification, shouldNotify = true) {
-  if (shouldNotify){
+export function notifyClient(notification: Notification, alwaysNotify = true) {
+  if (alwaysNotify || notification.status === 'complete') {
     return webService.post(`work-status/dates`, notification);
   }
 

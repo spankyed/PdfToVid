@@ -56,6 +56,7 @@ async function scrapeTodayWithRetry(tryNow = false) {
 async function attemptToScrapeTodaysPapers(date: any) {
   const dateRecord = await repository.getDate(date) 
   const isPending = dateRecord?.status === 'pending';
+
   const result = isPending ? await scrapeAndRankPapers(date, false) : [];
 
   if (scrapeJobs[date] && (result.length || !isPending)) {
