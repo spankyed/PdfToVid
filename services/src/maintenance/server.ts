@@ -2,14 +2,7 @@ import createServer from '../shared/server';
 import { ports } from '../shared/constants';
 import Hapi from '@hapi/hapi';
 import runBackgroundScripts from './background';
-
-import onboardRoutes from './onboard';
-import backfillRoutes from './backfill';
-
-const routes = [
-  ...onboardRoutes,
-  ...backfillRoutes,
-];
+import routes from './endpoints';
 
 const serverConfig: Hapi.ServerOptions | undefined = { 
   port: ports.maintenance,

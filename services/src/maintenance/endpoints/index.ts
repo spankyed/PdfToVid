@@ -3,6 +3,9 @@ import repository from '../repository';
 import { scrapeBatch } from '../scripts/scrape-batch';
 import { backfillDates } from "../scripts/add-dates";
 import { groupDatesByMonth } from '~/web/shared/transform';
+import { seedReferencePapers } from "../scripts/seed-reference-papers";
+import { setConfig } from "~/shared/utils/set-config";
+import runBackgroundScripts from "../background";
 
 function datesBackfill(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -38,8 +41,39 @@ function batchScrape(request: any, h: any){
   });
 }
 
+function onboardNewUser(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const form = request.payload.form;
+
+    const { startDate, inputIds, config } = form;
+
+    try {
+      if (inputIds && inputIds.length) {
+        const papers = await seedReferencePapers(undefined, inputIds);
+        // console.log('papers: ', papers);
+      }
+
+      await backfillDates(startDate);
+
+      const allDates = await repository.getAllDates();
+  
+      const dateList = groupDatesByMonth(allDates as any);
+      
+      await setConfig({...config, isNewUser: false });
+
+      runBackgroundScripts();
+  
+      resolve(dateList)
+    } catch (err) {
+      console.error('Error onboarding new user: ', err);
+      reject(err);
+    }
+  });
+}
+
 export default [
   route.post('/backfillDates', datesBackfill),
   route.post('/getBatchDates', getBatchDates),
   route.post('/scrapeBatch', batchScrape),
+  route.post('/onboardNewUser', onboardNewUser),
 ]
