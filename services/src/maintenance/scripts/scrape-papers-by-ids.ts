@@ -14,7 +14,6 @@ const createArxivIdQuery = (ids: string[]): string => {
 
 
 export default async function scrapePapersByIds(ids: string[]): Promise<PaperRecord[]> {
-  console.log('Fetching papers for IDs: ', ids);
   try {
     const query = createArxivIdQuery(ids);
     const url = ARXIV_API_ENDPOINT + query;

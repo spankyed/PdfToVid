@@ -4,8 +4,6 @@ import scrapeAndRankPapers from '../scripts/scrape';
 async function scrapePapers(request: any, h: any){
   const { date } = request.payload;
 
-  // workerService.post('scrape', { date });
-
   scrapeAndRankPapers(date)
   
   return { message: 'Scraping started!' };

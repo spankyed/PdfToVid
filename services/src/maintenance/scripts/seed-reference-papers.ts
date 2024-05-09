@@ -27,6 +27,8 @@ export async function seedReferencePapers(papers?: any[], ids = null) {
 
 async function scrapeAndStoreReferencePapers(ids =  null) {
   const seedReferencesIds = ids || (await getConfig()).seedReferencesIds!;
+  console.log('Scraping and storing reference papers: ', ids);
+
   const referencePapers = await scrapePapersByIds(seedReferencesIds);
 
   const scrapedIds = referencePapers.map(paper => paper.id);
@@ -36,10 +38,12 @@ async function scrapeAndStoreReferencePapers(ids =  null) {
 
   await repository.storeDates(datesToStore)
   
-  Promise.all([
+  await Promise.all([
     repository.storeReferencePapers(scrapedIds),
     sharedRepository.storePapers(referencePapers)
   ]);
+
+  console.log('Reference papers added.', ids);
 
   return referencePapers;
 }
