@@ -3,31 +3,27 @@ import * as repository from './repository';
 import { groupDatesByMonth } from "./transform";
 import { route } from '../../shared/route';
 import { getConfig } from "~/shared/utils/get-config";
+import { WorkerPath, MaintenancePath } from "../../shared/constants";
+import createRequest from "../../shared/request";
 
-// async function checkStatus(request, h) {
-//   const status = {
-//       current: string;
-//       updated: boolean | undefined;
-//       data: any;
-//   };
+const workerService = createRequest(WorkerPath);
+const maintenanceService = createRequest(MaintenancePath);
 
-//   if (status) {
-//     return h.response({ status }).code(200);
-//   } else {
-//     return h.response({ error: 'No status found' }).code(404);
-//   }
-// }
-
-function getDates(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const dates = await repository.getAllDates();
-    const dateList = groupDatesByMonth(dates);
-    
-    resolve(dateList)
-  });
+function gateway(method: string){
+  return (request: any, h: any) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result: any = await maintenanceService.post(method, request.payload);
+        resolve(result)
+      } catch (err) {
+        console.error('Error in gateway: ', err);
+        reject(err);
+      }
+    });
+  }
 }
 
-async function updateStatus(request, h) {
+async function updateStatus(request: any, h: any) {
   const type = request.params.type;
   const { key, status, data, final } = request.payload;
 
@@ -49,8 +45,30 @@ function checkIsNewUser(request: any, h: any){
   });
 }
 
+function getDates(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const dates = await repository.getAllDates();
+    const dateList = groupDatesByMonth(dates as any);
+    
+    resolve(dateList)
+  });
+}
+
+async function scrapePapers(request: any, h: any){
+  const date = request.params.date;
+
+  workerService.post('scrape', { date });
+
+  return 'Scraping started';
+}
+
 export default [
+  route.post('/scrapeBatch', gateway('scrapeBatch')),
+  route.post('/getBatchDates', gateway('getBatchDates')),
+  route.post('/backfillDates', gateway('backfillDates')),
+  route.post('/onboardNewUser', gateway('onboardNewUser')),
   route.get('/checkIsNewUser', checkIsNewUser),
-  route.get('/getDates', getDates),
   route.post('/work-status/{type}', updateStatus),
+  route.get('/getDates', getDates),
+  route.post('/scrape/{date}', scrapePapers),
 ]
