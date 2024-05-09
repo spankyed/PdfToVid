@@ -18,15 +18,13 @@ async function runBackgroundScripts(skipToday = false) {
     return;
   }
 
-  const absentDates = await backFillAbsentDates(config.settings.maxBackfill);
+  await backFillAbsentDates(config.settings.maxBackfill);
 
   if (!config.settings.autoScrapeNewDates) {
     startJobAddNewDates()
 
     return;
   }
-
-  // await scrapeBatch(absentDates, false);
 
   startJobScrapeNewDatesWithRetry(skipToday);
 
