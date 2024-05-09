@@ -3,12 +3,12 @@ import { ClientPath, ports } from '../shared/constants';
 import { Server as IOServer } from 'socket.io';
 // import eventHandlers from './service/handlers/socket';
 
-import calendarRoutes from './calendar/controller';
-import paperEntryRoutes from './paper-entry/controller';
-import dateEntryRoutes from './date-entry/controller';
-import searchRoutes from './search/controller';
-import sharedRoutes from './shared/controller';
-import gatewayRoutes from './gateway/controller';
+import calendarRoutes from './calendar';
+import paperEntryRoutes from './paper-entry';
+import dateEntryRoutes from './date-entry';
+import searchRoutes from './search';
+import sharedRoutes from './shared';
+import gatewayRoutes from './shared/gateway';
 
 // import mocks from '../../../tests/mocks';
 // const { calendarModel } = mocks;

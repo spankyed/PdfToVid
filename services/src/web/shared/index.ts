@@ -1,4 +1,4 @@
-import { io } from "..";
+import { io } from "../server";
 import * as repository from './repository';
 import { groupDatesByMonth } from "./transform";
 import { route } from '../../shared/route';

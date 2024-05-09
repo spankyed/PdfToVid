@@ -2,7 +2,7 @@ import { WorkerPath, MaintenancePath } from "../../shared/constants";
 import createRequest from "../../shared/request";
 import { route } from '../../shared/route';
 import { mapRecordsToModel } from "../calendar/transform";
-import { groupDatesByMonth } from "../shared/transform";
+import { groupDatesByMonth } from "./transform";
 
 const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);
