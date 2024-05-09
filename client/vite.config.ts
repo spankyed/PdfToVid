@@ -13,4 +13,7 @@ export default defineConfig({
       '@config': resolve('../config.ts'),
     },
   },
+  build: {
+    assetsInlineLimit: 1,
+  }
 })
