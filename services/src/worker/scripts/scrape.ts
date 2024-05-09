@@ -1,8 +1,8 @@
 // https://blog.theodo.com/2022/07/simplify-your-applications-with-xstate/
 // https://www.youtube.com/watch?v=qqyQGEjWSAw
 import * as fs from 'fs';
-import scrapePapersByDate from '../scripts/scrape-papers-by-date'; // Assume this exists
-import { getRelevancyScores } from '../scripts/relevancy-compute'; // Assume this exists
+import scrapePapersByDate from './scrape-papers-by-date'; // Assume this exists
+import { getRelevancyScores } from './relevancy-compute'; // Assume this exists
 import repository from '../repository'; // Assume this exists
 import * as sharedRepository from '../../shared/repository'; // Assume this exists
 import { notifyClient } from '~/shared/status';

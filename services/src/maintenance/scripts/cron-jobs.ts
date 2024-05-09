@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import scrapeAndRankPapers from '~/worker/controllers/scrape';
+import scrapeAndRankPapers from '~/worker/scripts/scrape';
 import repository from '~/maintenance/repository';
 import { getCurrentDate } from './add-dates';
 

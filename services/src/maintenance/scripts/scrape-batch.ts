@@ -1,4 +1,4 @@
-import scrapeAndRankPapers from '~/worker/controllers/scrape';
+import scrapeAndRankPapers from '~/worker/scripts/scrape';
 import repository from '../repository';
 import { notifyClient } from '~/shared/status';
 
