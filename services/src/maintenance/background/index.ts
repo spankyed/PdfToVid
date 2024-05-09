@@ -14,7 +14,7 @@ async function runBackgroundScripts(skipToday = false) {
 
   ensureReferenceCollectionExists();
 
-  if (!config.settings.autoAddNewDates) {
+  if (!config.settings.autoAddNewDates) { // todo remove this setting for dynamic dates
     return;
   }
 
