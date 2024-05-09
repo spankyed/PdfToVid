@@ -4,7 +4,7 @@ import { scrapeBatch } from "../scripts/scrape-batch";
 import { startJobAddNewDates, startJobScrapeNewDatesWithRetry } from "../scripts/cron-jobs";
 import { backFillAbsentDates } from "../scripts/add-dates";
 
-async function runBackgroundScripts() {
+async function runBackgroundScripts(skipToday = false) {
   const config = await getConfig();
   const isNewUser = config.settings.isNewUser;
 
@@ -26,9 +26,9 @@ async function runBackgroundScripts() {
     return;
   }
 
-  await scrapeBatch(absentDates, false);
+  // await scrapeBatch(absentDates, false);
 
-  startJobScrapeNewDatesWithRetry();
+  startJobScrapeNewDatesWithRetry(skipToday);
 
   console.log('Background scripts running.');
 }

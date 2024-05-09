@@ -61,7 +61,7 @@ function onboardNewUser(request: any, h: any){
       
       await setConfig({...config, isNewUser: false });
 
-      runBackgroundScripts();
+      runBackgroundScripts(true);
   
       resolve(dateList)
     } catch (err) {

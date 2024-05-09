@@ -19,8 +19,10 @@ export async function startJobAddNewDates() {
   });
 }
 
-export async function startJobScrapeNewDatesWithRetry() {
-  scrapeTodayWithRetry(true);
+export async function startJobScrapeNewDatesWithRetry(skipToday = false) {
+  if (!skipToday) {
+    scrapeTodayWithRetry(true);
+  }
 
   return cron.schedule('0 0 * * *', async () => {
     // runs at midnight every day
@@ -54,7 +56,7 @@ async function scrapeTodayWithRetry(tryNow = false) {
 async function attemptToScrapeTodaysPapers(date: any) {
   const dateRecord = await repository.getDate(date) 
   const isPending = dateRecord?.status === 'pending';
-  const result = isPending ? await scrapeAndRankPapers(date) : [];
+  const result = isPending ? await scrapeAndRankPapers(date, false) : [];
 
   if (scrapeJobs[date] && (result.length || !isPending)) {
     scrapeJobs[date].stop();
