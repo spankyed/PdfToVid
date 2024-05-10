@@ -16,7 +16,7 @@ const mockPrompts = [
   },
 ]
 
-export const LearnTab = () => {
+export default function ChatTab() {
   // todo show video prompts, allow editing prompt (will update globally)
     // dont ask again button
   const [editablePromptIndex, setEditablePromptIndex] = useState<number | null>(null);
@@ -49,3 +49,4 @@ export const LearnTab = () => {
     </Box>
   );
 }
+

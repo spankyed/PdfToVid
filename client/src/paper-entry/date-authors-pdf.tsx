@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Box, Button, Link } from '@mui/material';
 import { useAtom } from 'jotai';
-import { pdfModalOpen } from '../store';
+import { pdfModalOpen } from './store';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
 import Favorite from '~/shared/components/paper/favorite';

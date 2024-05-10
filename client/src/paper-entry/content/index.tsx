@@ -19,7 +19,7 @@ const MockEntry = {
   So, in a nutshell, this research is about turning the complex map of process mining into an easy-to-use GPS system that anyone in your business can use to navigate your business processes.`,
 }
 
-export const ContentTab = () => {
+export default function ContentTab() {
   const videoContent = MockEntry;
   return (
     <Box>

@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
-import { Typography, Box } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Typography, Box, Tabs, Tab } from '@mui/material';
 import PageLayout from '~/shared/components/layout/page-layout';
-import MainSection from './components/main';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useSetAtom, useAtomValue } from 'jotai';
 import { fetchPaperAtom, pageStateAtom, paperAtom } from './store';
-import PdfModal from './components/pdf/modal';
+import PdfModal from './pdf/modal';
 import { useParams } from 'react-router-dom';
-import DateAuthorsPdf from './components/date-authors-pdf';
-import PaperTitle from './components/title';
+import DateAuthorsPdf from './date-authors-pdf';
+import PaperTitle from './title';
 import './paper-entry.css';
 import { updatePaperAtom } from '~/shared/store';
+import ContentTab from './content';
+import ChatTab from './chat';
 
 const orEmpty = (value: string | undefined) => value || '';
 
@@ -57,13 +58,36 @@ const PaperEntryPage: React.FC<{}> = () => {
             </Typography>
           </Box>
 
-          <MainSection />
+          <TabSection />
 
           <PdfModal paperId={paper?.id}/>
         </>
         )
       }
     </PageLayout>
+  );
+}
+
+const TabSection = () => {
+  const paper = useAtomValue(paperAtom);
+  const [tabValue, setTabValue] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
+  return (
+    <Box>
+      <Tabs value={tabValue} onChange={handleChange}>
+        <Tab label="Chat" />
+        <Tab label="Content" />
+        {/* <Tab label="Analytics" /> */}
+        {/* todo add "Integrate" tab to apply and implement research into projects */}
+      </Tabs>
+      {tabValue === 0 && <ChatTab />}  {/* prompts*/}
+      {tabValue === 1 && <ContentTab />}
+      {/* {tabValue === 2 && <div>empty</div>} */}
+    </Box>
   );
 }
 
