@@ -14,7 +14,7 @@ import ChatTab from './chat';
 
 const orEmpty = (value: string | undefined) => value || '';
 
-const PaperEntryPage: React.FC<{}> = () => {
+const PaperEntryPage = () => {
   let { paperId } = useParams<{ paperId: string }>();
   paperId = orEmpty(paperId);
 
