@@ -1,29 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, TextField, IconButton, Typography, List, ListItem } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { addMessageAtom, messagesAtom } from './store';
+import { addMessageAtom, messagesAtom, tokenUsageAtom } from './store';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { scrollableContainerRefAtom } from '../store';
 
 export default function MessageList () {
   const messages = useAtomValue(messagesAtom);
+  const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
+  
+  useEffect(() => {
+    const scrollableElement = scrollableContainerRef?.current;
+
+    if (!scrollableElement) {
+      return;
+    }
+    // scroll to bottom
+    setTimeout(() => {
+      scrollableElement.scrollTo({ top: scrollableElement.scrollHeight, behavior: 'smooth' });
+    }, 300);
+    }, [scrollableContainerRef]); 
 
   return (
-    <Box p={2} sx={{ width: '100%', maxHeight: '400px', overflowY: 'auto' }} flexDirection="column">
-      {messages.map((message) => (
-        <Message key={message.id} message={message} />
-      ))}
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          // flexDirection: 'column',
+          flexDirection: 'column-reverse',
+          width: '100%',
+          height: '400px',
+          maxHeight: '400px',
+          overflowY: 'auto',
+          // overflowAnchor: 'none',
+        }}
+      >
+        {messages.slice().reverse().map((message) => (
+          <Message key={message.id} message={message} />
+        ))}
+      </Box>
       <ChatInput />
-    </Box>
+    </>
   );
 };
 
 const Message = ({ message }) => {
+  const isAssistant = message.sender === 'assistant';
   return (
-    <Box mb={2} sx={{ textAlign: 'left' }}>
-      <Typography variant="subtitle1">{message.text}</Typography>
-      <Typography variant="caption">{new Date(message.timestamp).toLocaleString()}</Typography>
+    // <Box mb={2} p={2} sx={{ textAlign: 'left' }} className={`${isAssistant ? 'bg-slate-100' : ''}`}>
+    <Box mb={2} p={2} sx={{ textAlign: 'left', whiteSpace: 'pre-wrap' }} className='border'>
+      {/* <Typography variant="caption">{new Date(message.timestamp).toLocaleString()}</Typography> */}
+      <Typography>{message.text}</Typography>
     </Box>
   );
 };
@@ -32,6 +61,7 @@ const ChatInput = () => {
   const [input, setInput] = useState('');
   const addMessage = useSetAtom(addMessageAtom);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [tokenUsage] = useAtom(tokenUsageAtom);
 
   const handleSend = () => {
     if (input.trim()) {
@@ -46,42 +76,46 @@ const ChatInput = () => {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (!event.shiftKey && event.key === 'Enter') {
       event.preventDefault(); // Prevent the default action to avoid form submission or newline in textfield
       handleSend();
     }
   };
 
-  const handleMenuOpen = (event) => {
-    setIsOpen(true);
+  const handleMenuToggle = (event) => {
+    setIsOpen(!isOpen);
   };
 
   return (
-    <Box display="flex" position="relative" mt={2} alignItems="center">
+    <Box display="flex" position="relative" flexDirection={'column'}>
       {
         isOpen && <AutofillMenu setInput={setInput} setIsOpen={setIsOpen}/>
       }
 
       <TextField
+        multiline
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyPress}
         fullWidth
         placeholder="Type a message"
         InputProps={{
+          startAdornment: (
+            <IconButton onClick={handleMenuToggle} color="primary" className="menu-toggle-button">
+              <MoreVertIcon />
+            </IconButton>
+          ),
           endAdornment: (
             <>
               <IconButton onClick={handleSend}>
                 <SendIcon />
-              </IconButton>
-              <IconButton onClick={handleMenuOpen} color="primary">
-                <MoreVertIcon />
               </IconButton>
             </>
           ),
         }}
       />
 
+      <Typography variant="caption" mt={1} mb={3} pl={1}>Token usage {tokenUsage.current} / {tokenUsage.max}</Typography>
     </Box>
   );
 };
@@ -100,7 +134,11 @@ const AutofillMenu = ({ setInput, setIsOpen }) => {
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      if (!event.target.closest('#autofill-menu')) {
+      const isDescendantOfMenuToggle = (target) => {
+        return target.classList.contains('menu-toggle-button') || target.closest('.menu-toggle-button') != null;
+      };
+
+      if (!event.target.closest('#autofill-menu') && !isDescendantOfMenuToggle(event.target)) {
         handleClose();
       }
     };

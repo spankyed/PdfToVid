@@ -1,6 +1,9 @@
 import { atom } from 'jotai';
+import { RefObject } from 'react';
 import * as api from '~/shared/api/fetch';
 import { Paper } from '~/shared/utils/types';
+
+export const scrollableContainerRefAtom = atom<RefObject<HTMLDivElement> | null>(null);
 
 export const paperAtom = atom<Paper | undefined>(undefined);
 

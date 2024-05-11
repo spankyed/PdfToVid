@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Typography, Box, Tabs, Tab } from '@mui/material';
 import PageLayout from '~/shared/components/layout/page-layout';
 import { useAtom, useSetAtom, useAtomValue } from 'jotai';
-import { fetchPaperAtom, pageStateAtom, paperAtom } from './store';
+import { fetchPaperAtom, pageStateAtom, paperAtom, scrollableContainerRefAtom } from './store';
 import PdfModal from './pdf/modal';
 import { useParams } from 'react-router-dom';
 import DateAuthorsPdf from './header/date-authors-pdf';
@@ -18,10 +18,16 @@ const PaperEntryPage = () => {
   let { paperId } = useParams<{ paperId: string }>();
   paperId = orEmpty(paperId);
 
+  const [, setScrollableContainerRef] = useAtom(scrollableContainerRefAtom);
   const [, fetchData] = useAtom(fetchPaperAtom);
   const [paper] = useAtom(paperAtom);
   const [pageState, setPageState] = useAtom(pageStateAtom);
   const updatePaper = useSetAtom(updatePaperAtom);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setScrollableContainerRef(containerRef);
+  }, [setScrollableContainerRef]);
 
   useEffect(() => {
     const handlePaperUpdate = (event) => {
@@ -44,7 +50,9 @@ const PaperEntryPage = () => {
   }, [fetchData]);
   
   return (
-    <PageLayout padding={3}>
+    <PageLayout
+      ref={containerRef}
+      padding={3} >
       {
         pageState === 'error'
         ? <PaperTitle title={`Error Loading Paper ${paperId}`} id={null}/>
