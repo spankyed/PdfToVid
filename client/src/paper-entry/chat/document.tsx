@@ -9,7 +9,7 @@ export default function DocumentSection() {
   // todo read more button, should open pdf modal
 
   return (
-    <Box p={2} className='bg-slate-100'>
+    <Box px={2} pb={2} className='bg-slate-100'>
       <div className='flex justify-between'>
         <Typography variant="h6">{doc.title}</Typography>
         <Select

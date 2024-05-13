@@ -10,10 +10,10 @@ export default function ChatOptions() {
   return (
     // <Box display="flex" justifyContent="space-between" p={2}>
     // <Box sx={{ my: 4, width: '80rem', mx: 'auto', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-    <Paper elevation={2} className='flex row w-full px-12 py-6' style={{ backgroundColor: '#fff' }}>
+    <div className='flex row w-full pt-6 pl-3 pb-3 bg-slate-100'>
       <ModelOptions/>
       <ThreadOptions />
-    </Paper>
+    </div>
   );
 };
 

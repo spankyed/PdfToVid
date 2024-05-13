@@ -20,7 +20,7 @@ export default function MessageList () {
     // scroll to bottom
     setTimeout(() => {
       scrollableElement.scrollTo({ top: scrollableElement.scrollHeight, behavior: 'smooth' });
-    }, 300);
+    }, 200);
     }, [scrollableContainerRef]); 
 
   return (
@@ -31,9 +31,12 @@ export default function MessageList () {
           // flexDirection: 'column',
           flexDirection: 'column-reverse',
           width: '100%',
-          height: '400px',
-          maxHeight: '400px',
+          height: '420px',
+          // flexGrow: 1,
+          maxHeight: '500px',
           overflowY: 'auto',
+          borderRight: '1px solid rgba(57, 61, 64, .3)',
+          borderLeft: '1px solid rgba(57, 61, 64, .3)',
           // overflowAnchor: 'none',
         }}
       >
@@ -100,6 +103,7 @@ const ChatInput = () => {
         fullWidth
         placeholder="Type a message"
         InputProps={{
+          sx: {  borderTopLeftRadius: 0, borderTopRightRadius: 0 },
           startAdornment: (
             <IconButton onClick={handleMenuToggle} color="primary" className="menu-toggle-button">
               <MoreVertIcon />
