@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, TextField, IconButton, Typography, List, ListItem } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { addMessageAtom, messagesAtom, tokenUsageAtom } from './store';
+import { addMessageAtom, messagesAtom, tokenUsageAtom } from '../store';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { scrollableContainerRefAtom } from '../store';
+import { scrollableContainerRefAtom } from '../../store';
+import Message from './message';
 
 export default function MessageList () {
   const messages = useAtomValue(messagesAtom);
@@ -49,17 +50,6 @@ export default function MessageList () {
   );
 };
 
-const Message = ({ message }) => {
-  const isAssistant = message.sender === 'assistant';
-  return (
-    // <Box mb={2} p={2} sx={{ textAlign: 'left' }} className={`${isAssistant ? 'bg-slate-100' : ''}`}>
-    <Box mb={2} p={2} sx={{ textAlign: 'left', whiteSpace: 'pre-wrap' }} className='border'>
-      {/* <Typography variant="caption">{new Date(message.timestamp).toLocaleString()}</Typography> */}
-      <Typography>{message.text}</Typography>
-    </Box>
-  );
-};
-
 const ChatInput = () => {
   const [input, setInput] = useState('');
   const addMessage = useSetAtom(addMessageAtom);
@@ -71,7 +61,8 @@ const ChatInput = () => {
       const newMessage = {
         id: Date.now(),
         text: input,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        sender: 'you'
       };
       addMessage(newMessage);
       setInput('');

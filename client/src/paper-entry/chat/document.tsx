@@ -13,7 +13,7 @@ export default function DocumentSection() {
       <div className='flex justify-between'>
         <Typography variant="h6">{doc.title}</Typography>
         <Select
-          sx={{ ml: 2, height: '2rem', mb: 1 }}
+          sx={{ ml: 2, height: '2rem', mb: 1, px: 2 }}
           size="small"
           variant='standard'
           value={doc.viewMode}

@@ -15,7 +15,7 @@ export const docAtom = atom({
 // export const messagesAtom = atom<any>([]);
 
 export const messagesAtom = atom([
-  { id: 2, text: "Can you help me with my project?", timestamp: "2023-05-10T09:01:00Z" },
+  { id: 2, text: "Can you help me with my project?", timestamp: "2023-05-10T09:01:00Z", sender: 'you' },
   { id: 3, text: "Of course! What do you need help with?", timestamp: "2023-05-10T09:02:00Z", sender: 'assistant' }
 ]);
 
