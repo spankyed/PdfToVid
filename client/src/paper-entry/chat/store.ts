@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 import { Paper } from '~/shared/utils/types';
 
-export const threadAtom = atom('Thread 1');
+export const threadAtom = atom('1');
 export const modelAtom = atom('Claude');
 export const tokenUsageAtom = atom({ current: 19000, max: 180000 });
 

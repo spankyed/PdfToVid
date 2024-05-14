@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAtom } from 'jotai';
 import { Button, Box, TextField, MenuItem, Select, InputLabel, FormControl, Paper, Typography } from '@mui/material';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
@@ -39,6 +39,19 @@ function ModelOptions(){
 }
 function ThreadOptions(){
   const [thread, setThread] = useAtom(threadAtom);
+  const [threadOptions, setThreadOptions] = useState([
+    { name: 'Main thread', id: `1` },
+    // { name: 'Can you write a...', id: `2` },
+  ]);
+
+  const handleAddThread = () => {
+    const newThreadName = {
+      name: `Thread ${threadOptions.length + 1}`,
+      id: `${threadOptions.length + 1}`,
+    };
+    setThreadOptions([...threadOptions, newThreadName]);
+    setThread(newThreadName.id);
+  };
 
   return (
     <Box flex={1} pl={3} sx={{ display: 'flex', width: '40rem', justifyContent: 'space-between' }}>
@@ -46,20 +59,23 @@ function ThreadOptions(){
         <InputLabel id="thread-select-label">Thread</InputLabel>
         <Select
           labelId="thread-select-label"
-          value={thread}
+          value={thread || `${threadOptions.length}`}
           label="Thread"
           onChange={(e) => setThread(e.target.value)}
           startAdornment={<AltRouteIcon sx={{ mr: 1 }} />}
         >
-          <MenuItem value="Thread 1">Main thread</MenuItem>
-          <MenuItem value="Thread 2">Can you write a...</MenuItem>
+          {
+            threadOptions.map((option) => (
+              <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
+            ))
+          }
+          <Button
+            onClick={handleAddThread}
+            sx={{ width: '100%' }}>
+            Start new thread
+          </Button>
         </Select>
       </FormControl>
-
-      {/* <Box sx={{ display: 'flex', height: '3rem' }}>
-        <Button variant="outlined">Summarize</Button>
-        <Button variant="outlined" sx={{ ml: '1rem'}}>Hide</Button>
-      </Box> */}
     </Box>
   )
 }
