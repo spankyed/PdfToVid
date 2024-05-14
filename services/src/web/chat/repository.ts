@@ -23,5 +23,6 @@ function getMessages(threadId: string): Promise<any> {
 
 export {
   getThreads,
-  addMessage
+  addMessage,
+  getMessages
 }
