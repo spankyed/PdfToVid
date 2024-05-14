@@ -6,12 +6,13 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import * as api from '~/shared/api/fetch';
 import { paperAtom } from '~/paper-entry/store';
+import { promptPresetsOpenAtom } from './store';
 
 
 export const ChatInput = () => {
   const [input, setInput] = useState('');
   const addMessage = useSetAtom(addMessageAtom);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useAtom(promptPresetsOpenAtom);
   const [inputEnabled, toggleInput] = useState(true);
   const [tokenUsage] = useAtom(tokenUsageAtom);
   const [paper] = useAtom(paperAtom);
@@ -75,7 +76,7 @@ export const ChatInput = () => {
         fullWidth
         placeholder="Type a message"
         InputProps={{
-          sx: {  borderTopLeftRadius: 0, borderTopRightRadius: 0 },
+          sx: { borderTopLeftRadius: 0, borderTopRightRadius: 0 },
           startAdornment: (
             <IconButton
               disabled={!inputEnabled}
@@ -141,6 +142,11 @@ const AutofillMenu = ({ setInput, setIsOpen }) => {
       // top="-140px"
       top="-8.5rem"
       left="0"
+      sx={{
+        borderRight: '1px solid rgba(57, 61, 64, .3)',
+        borderLeft: '1px solid rgba(57, 61, 64, .3)',
+        borderTop: '1px solid rgba(57, 61, 64, .3)',
+      }}
     >
       <List>
         {autofillMessages.map((message, index) => (
