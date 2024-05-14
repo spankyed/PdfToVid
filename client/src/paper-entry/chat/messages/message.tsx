@@ -45,7 +45,9 @@ export default function Message({ message }) {
   return (
     // <Box mb={2} p={2} sx={{ textAlign: 'left' }} className={`${isAssistant ? 'bg-slate-100' : ''}`}>
     <Box
-      mb={2} p={2} sx={{ textAlign: 'left', whiteSpace: 'pre-wrap' }} className=''
+      mb={2} p={2}
+      sx={{ textAlign: 'left', whiteSpace: 'pre-wrap', backgroundColor: isAssistant ? 'rgba(0, 0, 0, 0.4)' : ''}}
+      className=''
       onMouseEnter={() => showActions(true)}
       onMouseLeave={() => showActions(false)}
       >
