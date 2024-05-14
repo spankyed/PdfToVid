@@ -54,6 +54,7 @@
     "node-fetch": "^3.3.1",
     "open": "^9.1.0",
     "path": "^0.12.7",
+    "pdf-ts": "^0.0.2",
     "playwright": "^1.36.1",
     "sequelize": "^6.37.1",
     "sharp": "^0.32.3",

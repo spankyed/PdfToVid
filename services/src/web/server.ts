@@ -8,6 +8,7 @@ import paperEntryRoutes from './paper-entry';
 import dateEntryRoutes from './date-entry';
 import searchRoutes from './search';
 import sharedRoutes from './shared';
+import chatRoutes from './chat';
 
 // import mocks from '../../../tests/mocks';
 // const { calendarModel } = mocks;
@@ -16,6 +17,7 @@ export const routes = [
   ...calendarRoutes,
   ...dateEntryRoutes,
   ...paperEntryRoutes,
+  ...chatRoutes,
   ...searchRoutes,
   ...sharedRoutes,
 ];

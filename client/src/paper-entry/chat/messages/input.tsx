@@ -5,6 +5,7 @@ import { addMessageAtom, messagesAtom, tokenUsageAtom } from '../store';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import * as api from '~/shared/api/fetch';
+import { paperAtom } from '~/paper-entry/store';
 
 
 export const ChatInput = () => {
@@ -13,6 +14,7 @@ export const ChatInput = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputEnabled, toggleInput] = useState(true);
   const [tokenUsage] = useAtom(tokenUsageAtom);
+  const [paper] = useAtom(paperAtom);
 
   const handleSend = async () => {
     if (input.trim()) {
@@ -27,13 +29,16 @@ export const ChatInput = () => {
 
       toggleInput(false);
 
-      // try {
-      //   const response = await api.sendMessage(input);
-      //   // const { tokenUsage: newTokenUsage } = response.data;
-      //   // tokenUsage.current = newTokenUsage;
-      // } catch (error) {
-      //   console.error("Failed to send message", error);
-      // }
+      try {
+        const response = await api.sendMessage({
+          paperId: paper?.id,
+          text: input
+        });
+        // const { tokenUsage: newTokenUsage } = response.data;
+        // tokenUsage.current = newTokenUsage;
+      } catch (error) {
+        console.error("Failed to send message", error);
+      }
 
       setTimeout(() => {
         toggleInput(true);

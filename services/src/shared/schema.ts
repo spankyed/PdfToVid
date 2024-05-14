@@ -37,6 +37,79 @@ export class ReferencePapersTable extends Model {
   // declare chroma_id: string;
 }
 
+export class ThreadsTable extends Model {
+  declare id: string;
+  declare paperId: string;
+  declare messageId: string;
+  declare viewMode: number;
+}
+
+export class MessagesTable extends Model {
+  declare id: string;
+  declare threadId: string;
+  declare content: string;
+  declare sender: string;
+  declare timestamp: string;
+}
+
+export class PdfDocumentTable extends Model {
+  declare id: string;
+  declare paperId: string;
+  declare type: string; // 'whole' or 'summary' 1 | 0
+  declare content: string;
+}
+
+PdfDocumentTable.init({
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    unique: true
+  },
+  paperId: DataTypes.STRING,
+  type: DataTypes.STRING,
+  content: DataTypes.STRING,
+}, {
+  sequelize,
+  modelName: 'PdfDocumentTable',
+  tableName: 'PdfDocuments',
+  timestamps: true,
+});
+
+MessagesTable.init({
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    unique: true
+  },
+  threadId: DataTypes.STRING,
+  content: DataTypes.STRING,
+  sender: DataTypes.STRING,
+  // timestamp: DataTypes.STRING,
+}, {
+  sequelize,
+  modelName: 'MessagesTable',
+  tableName: 'Messages',
+  // paranoid: true, // This enables soft deletes
+  timestamps: true, // Ensure timestamps are true for paranoid to work
+  // deletedAt: 'deletedAt',
+});
+
+ThreadsTable.init({
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    unique: true
+  },
+  paperId: DataTypes.STRING,
+  messageId: DataTypes.STRING,
+  viewMode: DataTypes.INTEGER,
+}, {
+  sequelize,
+  modelName: 'ThreadsTable',
+  tableName: 'Threads',
+  timestamps: true,
+});
+
 ReferencePapersTable.init({
   id: {
     type: DataTypes.STRING,

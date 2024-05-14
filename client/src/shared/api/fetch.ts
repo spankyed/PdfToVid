@@ -27,3 +27,5 @@ export const onboard = (form) => axios.post(apiUrl + '/onboardNewUser', { form }
 export const backfillDates = (dateRange) => axios.post(apiUrl + '/backfillDates', dateRange);
 export const scrapeBatch = (dates) => axios.post(apiUrl + '/scrapeBatch', dates);
 export const getBatchDates = (params) => axios.post(apiUrl + '/getBatchDates', params);
+
+export const sendMessage = (params) => axios.post(apiUrl + '/sendMessage', params);
