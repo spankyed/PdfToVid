@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, TextField, IconButton, Typography, List, ListItem, Button } from '@mui/material';
+import { Box, TextField, IconButton, Typography, List, ListItem, Button, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 import { promptPresetsOpenAtom, inputAtom, promptOptionsAtom } from './store';
 
 const PromptMenu = () => {
-  const autofillMessages = useAtomValue(promptOptionsAtom);
+  const [autofillMessages, setAutofillMessages] = useAtom(promptOptionsAtom);
   const setIsOpen = useSetAtom(promptPresetsOpenAtom);
   const setInput = useSetAtom(inputAtom);
 
@@ -16,6 +17,12 @@ const PromptMenu = () => {
   const handleSelect = (message) => {
     setInput(message);
     handleClose();
+  };
+
+  const removePrompt = index => (event) => {
+    event.stopPropagation();
+
+    setAutofillMessages(autofillMessages.filter((_, i) => i !== index));
   };
 
   useEffect(() => {
@@ -56,10 +63,22 @@ const PromptMenu = () => {
 
         <List>
           {autofillMessages.map((message, index) => (
-            <ListItem key={index} button onClick={() => handleSelect(message)}
-              sx={{ borderBottom: index === autofillMessages.length - 1 ? 'none' : '1px solid rgba(57, 61, 64, .3)'}}
+            <ListItem
+              key={index}
+              onClick={() => handleSelect(message)}
+              sx={{
+                borderBottom: index === autofillMessages.length - 1 ? 'none' : '1px solid rgba(57, 61, 64, .3)',
+                cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
             >
               <Typography>{message}</Typography>
+              <Tooltip title="Remove">
+                <IconButton onClick={removePrompt(index)}>
+                  <CloseIcon />
+                </IconButton>
+              </Tooltip>
             </ListItem>
           ))}
         </List>
