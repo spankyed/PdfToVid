@@ -59,14 +59,35 @@ export class PdfDocumentTable extends Model {
   declare content: string;
 }
 
+export class PromptPresetsTable extends Model {
+  declare id: string;
+  declare prompt: string;
+}
+
+PromptPresetsTable.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    unique: true
+  },
+  prompt: DataTypes.STRING,
+}, {
+  sequelize,
+  modelName: 'PromptPresetsTable',
+  tableName: 'PromptPresets',
+  timestamps: true,
+});
+
 PdfDocumentTable.init({
   id: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
     primaryKey: true,
     unique: true
   },
   paperId: DataTypes.STRING,
-  type: DataTypes.STRING,
+  type: DataTypes.STRING, // 'whole' or 'summary' 1 | 0
   content: DataTypes.STRING,
 }, {
   sequelize,
@@ -77,7 +98,8 @@ PdfDocumentTable.init({
 
 MessagesTable.init({
   id: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
     primaryKey: true,
     unique: true
   },
@@ -96,7 +118,8 @@ MessagesTable.init({
 
 ThreadsTable.init({
   id: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
     primaryKey: true,
     unique: true
   },

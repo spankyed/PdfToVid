@@ -4,8 +4,9 @@ import { scrapeBatch } from '../scripts/scrape-batch';
 import { backfillDates } from "../scripts/add-dates";
 import { groupDatesByMonth } from '~/web/shared/transform';
 import { seedReferencePapers } from "../scripts/seed-reference-papers";
-import { setConfig } from "~/shared/utils/set-config";
+import { setConfigSettings } from "~/shared/utils/set-config";
 import runBackgroundScripts from "../background";
+import { getConfig } from '~/shared/utils/get-config';
 
 function datesBackfill(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -59,7 +60,16 @@ function onboardNewUser(request: any, h: any){
   
       const dateList = groupDatesByMonth(allDates as any);
       
-      await setConfig({...config, isNewUser: false });
+      const defaultConfig = await getConfig();
+
+      const defaultPrompts = defaultConfig.defaultPromptPresets?.map((preset) => ({
+        prompt: preset,
+      }));
+
+      Promise.all([
+        repository.addPromptPresets(defaultPrompts),
+        setConfigSettings({...config, isNewUser: false })
+      ]);
 
       runBackgroundScripts(true);
   

@@ -15,6 +15,7 @@ export type Config = {
   },
   features?: string[];
   seedReferencesIds?: string[];
+  defaultPromptPresets?: string[];
 };
 
 export async function getConfig(): Promise<Config> {

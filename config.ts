@@ -44,5 +44,10 @@ export default {
     "2305.01157",
     "2404.05966",
     "2404.07439"
+  ],
+  "defaultPromptPresets": [
+    "Write me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper.",
+    "Explain the value of this in basic terms like you're talking to a CEO. So what? What's the bottom line here?",
+    "Write an analogy or metaphor that will help explain this paper to a broad audience."
   ]
 };

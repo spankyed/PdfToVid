@@ -1,5 +1,5 @@
 import repository from '../repository';
-import { setConfig } from '~/shared/utils/set-config';
+import { setConfigSettings } from '~/shared/utils/set-config';
 import { Config } from '~/shared/utils/get-config';
 
 // usage: backfill from current date to May 1, 2023
@@ -24,7 +24,7 @@ export async function backFillAbsentDates(maxBackfill: Config['settings']['maxBa
   const today = getCurrentDate();
 
   if (!lastDateAdded) {
-    setConfig({ settings: { isNewUser: true }});
+    setConfigSettings({ isNewUser: true });
 
     return;
   } 
