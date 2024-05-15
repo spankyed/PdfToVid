@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, TextField, IconButton, Typography, List, ListItem } from '@mui/material';
+import { Box, TextField, IconButton, Typography, List, ListItem, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { addMessageAtom, messagesAtom, tokenUsageAtom } from '../store';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import * as api from '~/shared/api/fetch';
 import { paperAtom } from '~/paper-entry/store';
-import { promptPresetsOpenAtom } from './store';
+import { inputAtom, promptPresetsOpenAtom, addMessageAtom, messagesAtom, tokenUsageAtom } from './store';
+import AddIcon from '@mui/icons-material/Add';
 
 
 export const ChatInput = () => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useAtom(inputAtom);
   const addMessage = useSetAtom(addMessageAtom);
   const [isOpen, setIsOpen] = useAtom(promptPresetsOpenAtom);
   const [inputEnabled, toggleInput] = useState(true);
@@ -63,9 +63,7 @@ export const ChatInput = () => {
 
   return (
     <Box display="flex" position="relative" flexDirection={'column'}>
-      {
-        isOpen && <AutofillMenu setInput={setInput} setIsOpen={setIsOpen}/>
-      }
+
 
       <TextField
         disabled={!inputEnabled}
@@ -97,64 +95,6 @@ export const ChatInput = () => {
       />
 
       <Typography variant="caption" mt={1} mb={3} pl={1}>Token usage {tokenUsage.current} / {tokenUsage.max}</Typography>
-    </Box>
-  );
-};
-
-const AutofillMenu = ({ setInput, setIsOpen }) => {
-  const autofillMessages = ["Hello, how can I help you?", "Can you provide more details?", "Thank you for reaching out."];
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
-  const handleSelect = (message) => {
-    setInput(message);
-    handleClose();
-  };
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      const isDescendantOfMenuToggle = (target) => {
-        return target.classList.contains('menu-toggle-button') || target.closest('.menu-toggle-button') != null;
-      };
-
-      if (!event.target.closest('#autofill-menu') && !isDescendantOfMenuToggle(event.target)) {
-        handleClose();
-      }
-    };
-
-    document.addEventListener('mousedown', handleOutsideClick);
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
-
-  return (
-    <Box
-      id="autofill-menu"
-      position="absolute"
-      zIndex="modal"
-      width="100%"
-      bgcolor="background.paper"
-      boxShadow={3}
-      // top="-140px"
-      top="-8.5rem"
-      left="0"
-      sx={{
-        borderRight: '1px solid rgba(57, 61, 64, .3)',
-        borderLeft: '1px solid rgba(57, 61, 64, .3)',
-        borderTop: '1px solid rgba(57, 61, 64, .3)',
-      }}
-    >
-      <List>
-        {autofillMessages.map((message, index) => (
-          <ListItem key={index} button onClick={() => handleSelect(message)}>
-            <Typography>{message}</Typography>
-          </ListItem>
-        ))}
-      </List>
     </Box>
   );
 };

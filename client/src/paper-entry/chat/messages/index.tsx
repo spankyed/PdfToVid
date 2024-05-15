@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
-import { messagesAtom } from '../store';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { scrollableContainerRefAtom } from '../../store';
 import Message from './message';
 import { ChatInput } from './input';
-import { promptPresetsOpenAtom } from './store';
+import { promptPresetsOpenAtom, messagesAtom } from './store';
+import PromptMenu from './prompt-menu';
 
 export default function MessageList () {
   const promptPresetsOpen = useAtomValue(promptPresetsOpenAtom);
@@ -35,7 +35,7 @@ export default function MessageList () {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
               zIndex: 1,
             }}
           />
@@ -59,6 +59,10 @@ export default function MessageList () {
             <Message key={message.id} message={message} />
           ))}
         </Box>
+
+        {
+          promptPresetsOpen && <PromptMenu/>
+        }
       </div>
       <ChatInput />
     </>

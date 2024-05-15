@@ -4,7 +4,6 @@ import { Paper } from '~/shared/utils/types';
 
 export const threadAtom = atom('1');
 export const modelAtom = atom('Claude');
-export const tokenUsageAtom = atom({ current: 19000, max: 180000 });
 
 export const docAtom = atom({
   title: "Chain of Thoughtlessness: An Analysis of CoT in Planning",
@@ -14,17 +13,3 @@ export const docAtom = atom({
 
 // export const messagesAtom = atom<any>([]);
 
-export const messagesAtom = atom([
-  { id: 2, text: "Can you help me with my project?", timestamp: "2023-05-10T09:01:00Z", sender: 'you' },
-  { id: 3, text: "Of course! What do you need help with?", timestamp: "2023-05-10T09:02:00Z", sender: 'assistant' }
-]);
-
-export const addMessageAtom = atom(
-  null, // no read function, as this atom is write-only
-  (get, set, newMessage: any) => {
-    set(messagesAtom, [
-      ...get(messagesAtom),
-      newMessage
-    ]);
-  }
-);

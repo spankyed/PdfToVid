@@ -4,7 +4,30 @@ import * as api from '~/shared/api/fetch';
 import { Paper } from '~/shared/utils/types';
 
 export const promptPresetsOpenAtom = atom(false);
+export const tokenUsageAtom = atom({ current: 19000, max: 180000 });
 
+export const inputAtom = atom('');
+
+export const messagesAtom = atom([
+  { id: 2, text: "Can you help me with my project?", timestamp: "2023-05-10T09:01:00Z", sender: 'you' },
+  { id: 3, text: "Of course! What do you need help with?", timestamp: "2023-05-10T09:02:00Z", sender: 'assistant' }
+]);
+
+export const addMessageAtom = atom(
+  null, // no read function, as this atom is write-only
+  (get, set, newMessage: any) => {
+    set(messagesAtom, [
+      ...get(messagesAtom),
+      newMessage
+    ]);
+  }
+);
+
+export const promptOptionsAtom = atom([
+  "Write me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper.",
+  "Explain the value of this in basic terms like you're talking to a CEO. So what? What's the bottom line here?",
+  "Write an analogy or metaphor that will help explain this paper to a broad audience."
+])
 
 // export const fetchPaperAtom = atom(
 //   null,

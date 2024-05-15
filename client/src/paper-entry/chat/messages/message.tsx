@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, TextField, IconButton, Typography, List, ListItem, Tooltip } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -45,8 +42,9 @@ export default function Message({ message }) {
   return (
     // <Box mb={2} p={2} sx={{ textAlign: 'left' }} className={`${isAssistant ? 'bg-slate-100' : ''}`}>
     <Box
-      mb={2} p={2}
-      sx={{ textAlign: 'left', whiteSpace: 'pre-wrap', backgroundColor: isAssistant ? 'rgba(0, 0, 0, 0.4)' : ''}}
+      mb={2}
+      p={2}
+      sx={{ textAlign: 'left', whiteSpace: 'pre-wrap', backgroundColor: isAssistant ? 'rgba(0, 0, 0, 0.1)' : ''}}
       className=''
       onMouseEnter={() => showActions(true)}
       onMouseLeave={() => showActions(false)}
