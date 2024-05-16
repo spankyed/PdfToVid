@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Button, Box, TextField, MenuItem, Select, InputLabel, FormControl, Paper, Typography } from '@mui/material';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
-import { threadAtom, modelAtom } from './store';
+import { threadOptionsAtom, selectedThreadAtom, modelAtom, addNewThreadAtom } from './store';
+import { paperAtom } from '../store';
 
 export default function ChatOptions() {
-  // todo add new thread option to dropdown, adds an empty thread
-
   return (
     // <Box display="flex" justifyContent="space-between" p={2}>
     // <Box sx={{ my: 4, width: '80rem', mx: 'auto', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
@@ -38,19 +37,13 @@ function ModelOptions(){
   )
 }
 function ThreadOptions(){
-  const [thread, setThread] = useAtom(threadAtom);
-  const [threadOptions, setThreadOptions] = useState([
-    { name: 'Main thread', id: `1` },
-    // { name: 'Can you write a...', id: `2` },
-  ]);
+  const paper = useAtomValue(paperAtom);
+  const [thread, setThread] = useAtom(selectedThreadAtom);
+  const addNewThread = useSetAtom(addNewThreadAtom);
+  const threadOptions = useAtomValue(threadOptionsAtom);
 
-  const handleAddThread = () => {
-    const newThreadName = {
-      name: `Thread ${threadOptions.length + 1}`,
-      id: `${threadOptions.length + 1}`,
-    };
-    setThreadOptions([...threadOptions, newThreadName]);
-    setThread(newThreadName.id);
+  const handleAddThread = async () => {
+    addNewThread(paper?.id);
   };
 
   return (
@@ -66,7 +59,7 @@ function ThreadOptions(){
         >
           {
             threadOptions.map((option) => (
-              <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
+              <MenuItem key={option.id} value={option.id}>{option.description}</MenuItem>
             ))
           }
           <Button

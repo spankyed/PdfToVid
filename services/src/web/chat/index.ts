@@ -49,38 +49,40 @@ async function sendMessage(request: any, h: any) {
 // }
 
 async function createThread(request: any, h: any) {
-  // const { paperId, description } = request.payload;
+  const { paperId, description } = request.payload;
+  console.log('paperId, description: ', {paperId, description});
 
-  // let newThread = await repository.addThread({
-  //   paperId,
-  //   description,
-  // });
+  let newThread = await repository.addThread({
+    paperId,
+    description,
+  });
 
-  // return h.response(newThread.id);
+  console.log('newThread.id: ', newThread.id);
+  return h.response(newThread.id);
 }
 
 async function branchThread(request: any, h: any) {
-  // const { paperId, threadId, messageId, description } = request.payload;
+  const { paperId, threadId, messageId, description } = request.payload;
 
-  // let newThread = await repository.addThread({
-  //   paperId,
-  //   description,
-  //   messageId,
-  //   parentId: threadId,
-  // });
+  let newThread = await repository.addThread({
+    paperId,
+    description,
+    messageId,
+    parentId: threadId,
+  });
 
-  // let messages = await repository.getMessages(threadId, messageId);
-  // let messageCopies = messages.map((message) => ({
-  //   ...message,
-  //   id: newThread.id,
-  // }));
+  let messages = await repository.getMessages(threadId, messageId);
+  let messageCopies = messages.map((message) => ({
+    ...message,
+    id: newThread.id,
+  }));
 
-  // repository.addMessagesBulk(messageCopies);
+  repository.addMessagesBulk(messageCopies);
 
-  // return h.response({
-  //   threadId: newThread.id,
-  //   messages,
-  // });
+  return h.response({
+    threadId: newThread.id,
+    messages,
+  });
 }
 
 async function addPromptPreset(request: any, h: any) {
