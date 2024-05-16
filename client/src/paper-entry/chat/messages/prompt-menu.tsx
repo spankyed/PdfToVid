@@ -6,7 +6,7 @@ import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 import { promptPresetsOpenAtom, inputAtom, promptOptionsAtom } from './store';
 
 const PromptMenu = () => {
-  const [autofillMessages, setAutofillMessages] = useAtom(promptOptionsAtom);
+  const [promptPresets, setPromptPresets] = useAtom(promptOptionsAtom);
   const setIsOpen = useSetAtom(promptPresetsOpenAtom);
   const setInput = useSetAtom(inputAtom);
 
@@ -14,15 +14,15 @@ const PromptMenu = () => {
     setIsOpen(false);
   };
 
-  const handleSelect = (message) => {
-    setInput(message);
+  const handleSelect = (prompt) => {
+    setInput(prompt);
     handleClose();
   };
 
   const removePrompt = index => (event) => {
     event.stopPropagation();
 
-    setAutofillMessages(autofillMessages.filter((_, i) => i !== index));
+    setPromptPresets(promptPresets.filter((_, i) => i !== index));
   };
 
   useEffect(() => {
@@ -62,18 +62,18 @@ const PromptMenu = () => {
       >
 
         <List>
-          {autofillMessages.map((message, index) => (
+          {promptPresets.map((prompt, index) => (
             <ListItem
               key={index}
-              onClick={() => handleSelect(message)}
+              onClick={() => handleSelect(prompt)}
               sx={{
-                borderBottom: index === autofillMessages.length - 1 ? 'none' : '1px solid rgba(57, 61, 64, .3)',
+                borderBottom: index === promptPresets.length - 1 ? 'none' : '1px solid rgba(57, 61, 64, .3)',
                 cursor: 'pointer',
                 display: 'flex',
                 justifyContent: 'space-between',
               }}
             >
-              <Typography>{message}</Typography>
+              <Typography>{prompt.text}</Typography>
               <Tooltip title="Remove">
                 <IconButton onClick={removePrompt(index)}>
                   <CloseIcon />
@@ -88,13 +88,13 @@ const PromptMenu = () => {
 };
 
 function AddPrompt(){
-  const [autofillMessages, setAutofillMessages] = useAtom(promptOptionsAtom);
+  const [promptPresets, setPromptPresets] = useAtom(promptOptionsAtom);
   const [newPrompt, setNewPrompt] = useState("");
   const [isAddingPrompt, setIsAddingPrompt] = useState(false);
   
   const handleAddNewPrompt = () => {
     if (newPrompt.trim()) {
-      setAutofillMessages([ newPrompt.trim(), ...autofillMessages]);
+      setPromptPresets([ { text: newPrompt.trim() }, ...promptPresets]);
       setNewPrompt("");
       setIsAddingPrompt(false);
     }

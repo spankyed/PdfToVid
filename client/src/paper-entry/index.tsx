@@ -66,7 +66,7 @@ const PaperEntryPage = () => {
             </Typography>
           </Box>
 
-          <TabSection />
+          <TabSection paperId={paperId}/>
 
           <PdfModal paperId={paper?.id}/>
         </>
@@ -76,8 +76,8 @@ const PaperEntryPage = () => {
   );
 }
 
-const TabSection = () => {
-  const paper = useAtomValue(paperAtom);
+const TabSection = ({ paperId }) => {
+  // const paper = useAtomValue(paperAtom);
   const [tabValue, setTabValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -92,7 +92,7 @@ const TabSection = () => {
         {/* <Tab label="Analytics" /> */}
         {/* todo add "Integrate" tab to apply and implement research into projects */}
       </Tabs>
-      {tabValue === 0 && <ChatTab />}  {/* prompts*/}
+      {tabValue === 0 && <ChatTab paperId={paperId}/>}  {/* prompts*/}
       {tabValue === 1 && <ContentTab />}
       {/* {tabValue === 2 && <div>empty</div>} */}
     </Box>

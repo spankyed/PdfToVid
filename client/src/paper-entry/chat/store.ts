@@ -1,9 +1,15 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { Paper } from '~/shared/utils/types';
+import { messagesAtom, promptOptionsAtom } from './messages/store';
 
-export const threadAtom = atom('1');
+export const selectedThreadAtom = atom<string | null>(null);
+export const threadOptionsAtom = atom<any[]>([
+  // { description: 'Main thread', id: `1` },
+]);
+
 export const modelAtom = atom('Claude');
+
+export const chatStateAtom = atom<'loading' | 'ready' | 'error'>('loading');
 
 export const docAtom = atom({
   title: "Chain of Thoughtlessness: An Analysis of CoT in Planning",
@@ -11,5 +17,21 @@ export const docAtom = atom({
   viewMode: "full"
 });
 
-// export const messagesAtom = atom<any>([]);
+export const loadChatDataAtom = atom(
+  null,
+  async (get, set, paperId) => {
+    try {
+      const response = await api.getChatData(paperId);
+      const { messages, threads, promptPresets } = response.data;
 
+      set(messagesAtom, messages);
+      set(threadOptionsAtom, threads);
+      set(selectedThreadAtom, threads[0].id);
+      set(promptOptionsAtom, promptPresets);
+
+      console.log('chat data: ', response.data);
+    } catch (error) {
+      console.error(`Failed to load chat data: ${paperId}`, error);
+    }
+  }
+);

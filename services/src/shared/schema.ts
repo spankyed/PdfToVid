@@ -39,6 +39,7 @@ export class ReferencePapersTable extends Model {
 
 export class ThreadsTable extends Model {
   declare id: string;
+  declare description: string;
   declare paperId: string;
   declare messageId: string;
   declare viewMode: number;
@@ -47,7 +48,7 @@ export class ThreadsTable extends Model {
 export class MessagesTable extends Model {
   declare id: string;
   declare threadId: string;
-  declare content: string;
+  declare text: string;
   declare sender: string;
   declare timestamp: string;
 }
@@ -61,7 +62,7 @@ export class PdfDocumentTable extends Model {
 
 export class PromptPresetsTable extends Model {
   declare id: string;
-  declare prompt: string;
+  declare text: string;
 }
 
 PromptPresetsTable.init({
@@ -71,7 +72,7 @@ PromptPresetsTable.init({
     primaryKey: true,
     unique: true
   },
-  prompt: DataTypes.STRING,
+  text: DataTypes.STRING,
 }, {
   sequelize,
   modelName: 'PromptPresetsTable',
@@ -104,7 +105,7 @@ MessagesTable.init({
     unique: true
   },
   threadId: DataTypes.STRING,
-  content: DataTypes.STRING,
+  text: DataTypes.STRING,
   sender: DataTypes.STRING,
   // timestamp: DataTypes.STRING,
 }, {
@@ -123,6 +124,7 @@ ThreadsTable.init({
     primaryKey: true,
     unique: true
   },
+  description: DataTypes.STRING,
   paperId: DataTypes.STRING,
   messageId: DataTypes.STRING,
   viewMode: DataTypes.INTEGER,

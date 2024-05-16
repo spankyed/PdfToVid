@@ -16,6 +16,8 @@ export const getDateEntryModel = (date) => axios.get(apiUrl + '/getDateEntry/' +
 export const getPaperById = (paperId) => axios.get(apiUrl + '/paperById/' + paperId);
 export const fetchPdf = (paperId) => axios.get(apiUrl + '/fetchPdf/' + paperId, { responseType: 'blob' });
 
+export const getChatData = (paperId) => axios.get(apiUrl + '/getChatData/' + paperId);
+
 // post
 export const updateIsStarred = (paperId, value) => axios.post(apiUrl + '/starPaper/' + paperId, { value });
 export const updatePaperStatus = (paperId, status) => axios.post(apiUrl + '/updatePaperStatus/' + paperId, { status });
@@ -29,3 +31,6 @@ export const scrapeBatch = (dates) => axios.post(apiUrl + '/scrapeBatch', dates)
 export const getBatchDates = (params) => axios.post(apiUrl + '/getBatchDates', params);
 
 export const sendMessage = (params) => axios.post(apiUrl + '/sendMessage', params);
+export const createThread = (params) => axios.post(apiUrl + '/createThread', params);
+export const branchThread = (params) => axios.post(apiUrl + '/branchThread', params);
+export const addPromptPreset = (params) => axios.post(apiUrl + '/addPromptPreset', params);

@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, Button, Typography } from '@mui/material';
 import ChatOptions from './options';
 import DocumentSection from './document';
 import MessageList from './messages';
 import { scrollableContainerRefAtom } from '../store';
-import { useAtom } from 'jotai';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { AccordionActions } from '@mui/material';
+import { useAtom, useSetAtom } from 'jotai';
+import { loadChatDataAtom } from './store';
 
-// todo show video prompts, allow editing prompt (will update globally)
-// dont ask again button
 
-export default function ChatTab() {
+export default function ChatTab({ paperId }) {
+  const loadChatData = useSetAtom(loadChatDataAtom);
+
+  useEffect(() => {
+    loadChatData(paperId);
+  }, []); 
+
   return (
     <Box sx={{ marginTop: 2, mb: 1 }}>
       <ChatOptions />

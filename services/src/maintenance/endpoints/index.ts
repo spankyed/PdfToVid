@@ -63,7 +63,7 @@ function onboardNewUser(request: any, h: any){
       const defaultConfig = await getConfig();
 
       const defaultPrompts = defaultConfig.defaultPromptPresets?.map((preset) => ({
-        prompt: preset,
+        text: preset,
       }));
 
       Promise.all([

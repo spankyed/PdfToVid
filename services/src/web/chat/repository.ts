@@ -1,28 +1,74 @@
 import { Op } from "sequelize";
-import { MessagesTable, ThreadsTable } from "../../shared/schema";
+import { MessagesTable, PdfDocumentTable, PromptPresetsTable, ThreadsTable } from "../../shared/schema";
 
-function getThreads(paperId: string): Promise<any> {
+function getThreads(paperId: string) {
   return ThreadsTable.findAll({
     where: { paperId }
   });
 }
 
-function addMessage(threadId: string, content: string, sender: string): Promise<any> {
-  return MessagesTable.create({
-    threadId,
-    content,
-    sender
+function getMessages(threadId: string, messageId?: number) {
+  let whereClause: { [key: string]: any } = {
+    threadId
+  };
+
+  if (messageId){
+    whereClause.id = {
+      [Op.lte]: messageId
+    }
+
+  }
+  return MessagesTable.findAll({
+    where: whereClause
   });
 }
 
-function getMessages(threadId: string): Promise<any> {
-  return MessagesTable.findAll({
-    where: { threadId }
+function getPromptPresets() {
+  return PromptPresetsTable.findAll();
+}
+
+function getPdfDocuments(paperId: string){
+  return PdfDocumentTable.findAll({
+    where: {
+      paperId
+    }
   });
+}
+
+function addPdfDocument(pdfDocument: any) {
+  return PdfDocumentTable.create(pdfDocument);
+}
+
+function addMessage(message: any) {
+  return MessagesTable.create(message);
+  // {
+  //   threadId,
+  //   content,
+  //   sender
+  // }
+}
+
+function addMessagesBulk(messages: any[]) {
+  return MessagesTable.bulkCreate(messages);
+}
+
+function addThread(thread: any) {
+  return ThreadsTable.create(thread);
+  // {
+  //   paperId,
+  //   description,
+  //   messageId,
+  //   viewMode: 0
+  // }
 }
 
 export {
-  getThreads,
   addMessage,
-  getMessages
+  addMessagesBulk,
+  addThread,
+  addPdfDocument,
+  getPromptPresets,
+  getThreads,
+  getMessages,
+  getPdfDocuments
 }
