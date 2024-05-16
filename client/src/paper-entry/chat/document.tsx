@@ -5,7 +5,7 @@ import { docAtom } from './store';
 import { paperAtom, pdfModalOpen } from '../store';
 
 export default function DocumentSection() {
-  const [doc, setDoc] = useAtom(docAtom);
+  // const [doc, setDoc] = useAtom(docAtom);
   const setPdfOpen = useSetAtom(pdfModalOpen);
   const [paper] = useAtom(paperAtom);
 
@@ -20,7 +20,7 @@ export default function DocumentSection() {
     <Box px={2} pb={2} className='bg-slate-100'>
       <div className='flex justify-between'>
         <Typography variant="h6">{paper?.title}</Typography>
-        <Select
+        {/* <Select
           sx={{ ml: 2, height: '2rem', mb: 1, px: 2 }}
           name='document-view-mode'
           size="small"
@@ -30,7 +30,7 @@ export default function DocumentSection() {
         >
           <MenuItem value="full">Whole document</MenuItem>
           <MenuItem value="summary">Summary only</MenuItem>
-        </Select>
+        </Select> */}
       </div>
 
       <p className='inline'>{truncateText(paper?.abstract)}...</p>
