@@ -48,6 +48,7 @@ export class ThreadsTable extends Model {
 export class MessagesTable extends Model {
   declare id: string;
   declare threadId: string;
+  declare hidden: boolean;
   declare text: string;
   declare sender: string;
   declare timestamp: string;
@@ -56,7 +57,7 @@ export class MessagesTable extends Model {
 export class PdfDocumentTable extends Model {
   declare id: string;
   declare paperId: string;
-  declare type: string; // 'whole' or 'summary' 1 | 0
+  declare viewMode: string; // 'whole' or 'summary' 1 | 0
   declare content: string;
 }
 
@@ -88,7 +89,7 @@ PdfDocumentTable.init({
     unique: true
   },
   paperId: DataTypes.STRING,
-  type: DataTypes.STRING, // 'whole' or 'summary' 1 | 0
+  viewMode: DataTypes.STRING, // 'whole' or 'summary' 1 | 0
   content: DataTypes.STRING,
 }, {
   sequelize,
@@ -104,6 +105,7 @@ MessagesTable.init({
     primaryKey: true,
     unique: true
   },
+  hidden: DataTypes.BOOLEAN,
   threadId: DataTypes.STRING,
   text: DataTypes.STRING,
   sender: DataTypes.STRING,

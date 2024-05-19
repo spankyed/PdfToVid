@@ -7,6 +7,7 @@ import * as api from '~/shared/api/fetch';
 import { paperAtom } from '~/paper-entry/store';
 import { inputAtom, promptPresetsOpenAtom, addMessageAtom, messagesAtom, tokenUsageAtom } from './store';
 import AddIcon from '@mui/icons-material/Add';
+import { selectedThreadAtom } from '../store';
 
 
 export const ChatInput = () => {
@@ -14,8 +15,9 @@ export const ChatInput = () => {
   const addMessage = useSetAtom(addMessageAtom);
   const [isOpen, setIsOpen] = useAtom(promptPresetsOpenAtom);
   const [inputEnabled, toggleInput] = useState(true);
-  const [tokenUsage] = useAtom(tokenUsageAtom);
-  const [paper] = useAtom(paperAtom);
+  const tokenUsage = useAtomValue(tokenUsageAtom);
+  const paper = useAtomValue(paperAtom);
+  const selectedThread = useAtomValue(selectedThreadAtom);
 
   const handleSend = async () => {
     if (input.trim()) {
@@ -33,8 +35,10 @@ export const ChatInput = () => {
       try {
         const response = await api.sendMessage({
           paperId: paper?.id,
+          threadId: selectedThread,
           text: input
         });
+        console.log('send message res', response);
         // const { tokenUsage: newTokenUsage } = response.data;
         // tokenUsage.current = newTokenUsage;
       } catch (error) {

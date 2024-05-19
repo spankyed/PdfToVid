@@ -5,7 +5,7 @@ import initializeChat from './scripts/initialize-chat';
 
 async function getChatData(request: any, h: any){
   const paperId = request.params.paperId;
-  let threads = await repository.getThreads(paperId);
+  let threads = await repository.getAllThreads(paperId);
   
   let firstThread = threads[0];
 
@@ -13,6 +13,7 @@ async function getChatData(request: any, h: any){
     firstThread = await repository.addThread({
       paperId,
       description: 'Main thread',
+      viewMode: 0,
     });
 
     threads = [firstThread];
@@ -20,12 +21,12 @@ async function getChatData(request: any, h: any){
 
   const [promptPresets, messages] = await Promise.all([
     repository.getPromptPresets(),
-    repository.getMessages(firstThread.id)
+    repository.getMessages({ threadId: firstThread.id, includeHidden: true })
   ]);
 
-  // setTimeout(() => {
-  //   initializeChat(paperId);
-  // }, 10);
+  setTimeout(() => {
+    initializeChat(paperId);
+  }, 10);
 
   return h.response({
     threads,
@@ -35,11 +36,40 @@ async function getChatData(request: any, h: any){
 }
 
 async function sendMessage(request: any, h: any) {
-  const { paperId, text } = request.payload;
+  const { paperId, threadId, text } = request.payload;
 
-  // 2. get completion from gpt or claude
-  // 3. save message to db
-  // 4. update estimated token usage
+  const thread = await repository.getThread(threadId);
+
+  if (!thread) {
+    return h.response('Thread not found').code(404);
+  }
+
+  const viewMode = thread.viewMode || 0;
+
+  const prevMessages = await repository.getMessages({
+    threadId,
+  });
+
+  const pdfDoc = await repository.getPdfDocuments(paperId, viewMode);
+
+  const conversation = [
+    pdfDoc[0]?.content,
+    ...prevMessages.map((message) => message.text),
+    text
+  ]
+
+  console.log('conversation: ', conversation);
+
+  repository.addMessage({
+    paperId,
+    threadId,
+    text,
+    hidden: false,
+    sender: 'user',
+  });
+
+  // const completion = await getCompletion(conversation);
+
   console.log('message received');
   return h.response('');
 }
@@ -50,14 +80,13 @@ async function sendMessage(request: any, h: any) {
 
 async function createThread(request: any, h: any) {
   const { paperId, description } = request.payload;
-  console.log('paperId, description: ', {paperId, description});
 
   let newThread = await repository.addThread({
     paperId,
     description,
+    viewMode: 0,
   });
 
-  console.log('newThread.id: ', newThread.id);
   return h.response(newThread.id);
 }
 
@@ -71,7 +100,7 @@ async function branchThread(request: any, h: any) {
     parentId: threadId,
   });
 
-  let messages = await repository.getMessages(threadId, messageId);
+  let messages = await repository.getMessages({ threadId, messageId, includeHidden: true});
   let messageCopies = messages.map((message) => ({
     ...message,
     id: newThread.id,
@@ -85,9 +114,13 @@ async function branchThread(request: any, h: any) {
   });
 }
 
-async function addPromptPreset(request: any, h: any) {
-  // todo add new prompt preset
-}
+// async function addPromptPreset(request: any, h: any) {
+//   const { prompt } = request.payload;
+
+//   let newPrompt = await repository.addPromptPreset(prompt);
+
+//   return h.response(newPrompt.id);
+// }
 
 export default [
   route.get('/getChatData/{paperId}', getChatData),
