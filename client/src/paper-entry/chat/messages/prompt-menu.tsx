@@ -15,7 +15,7 @@ const PromptMenu = () => {
   };
 
   const handleSelect = (prompt) => {
-    setInput(prompt);
+    setInput(prompt.text);
     handleClose();
   };
 
