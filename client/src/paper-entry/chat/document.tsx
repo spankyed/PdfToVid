@@ -11,7 +11,7 @@ export default function DocumentSection() {
 
   const truncateText = (description?: string) => {
     if (!description) return ''
-    return description.slice(0, 376)
+    return description.slice(0, 330)
   }
 
   return (

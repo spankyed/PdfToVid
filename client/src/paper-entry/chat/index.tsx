@@ -5,14 +5,18 @@ import DocumentSection from './document';
 import MessageList from './messages';
 import { scrollableContainerRefAtom } from '../store';
 import { useAtom, useSetAtom } from 'jotai';
-import { loadChatDataAtom } from './store';
+import { chatStateAtom, loadChatDataAtom } from './store';
 
 
 export default function ChatTab({ paperId }) {
   const loadChatData = useSetAtom(loadChatDataAtom);
+  const setChatState = useSetAtom(chatStateAtom);
 
   useEffect(() => {
     loadChatData(paperId);
+    return () => {
+      setChatState('loading');
+    }
   }, []); 
 
   return (
