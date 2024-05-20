@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import { RefObject } from 'react';
 import * as api from '~/shared/api/fetch';
 import { Paper } from '~/shared/utils/types';
@@ -23,11 +24,11 @@ export const addMessageAtom = atom(
   }
 );
 
-export const promptOptionsAtom = atom<any[]>([
-  // "Write me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper.",
-  // "Explain the value of this in basic terms like you're talking to a CEO. So what? What's the bottom line here?",
-  // "Write an analogy or metaphor that will help explain this paper to a broad audience."
-])
+export const promptOptionsAtom = atomWithStorage<any[]>('promptPresets', [
+{ id: 1, text: "Write me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper." },
+{ id: 2, text: "Write an analogy or metaphor that will help explain this paper to a broad audience." },
+{ id: 3, text: "Explain the value of this in basic terms like you're talking to a CEO. So what? What's the bottom line here?" },
+]);
 
 // export const fetchPaperAtom = atom(
 //   null,

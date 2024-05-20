@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { messagesAtom, promptOptionsAtom } from './messages/store';
+import { messagesAtom } from './messages/store';
 
 export const selectedThreadAtom = atom<string | null>(null);
 export const threadOptionsAtom = atom<any[]>([
@@ -22,12 +22,11 @@ export const loadChatDataAtom = atom(
   async (get, set, paperId) => {
     try {
       const response = await api.getChatData(paperId);
-      const { messages, threads, promptPresets } = response.data;
+      const { messages, threads } = response.data;
 
       set(messagesAtom, messages);
       set(threadOptionsAtom, threads);
       set(selectedThreadAtom, threads[0].id);
-      set(promptOptionsAtom, promptPresets);
 
       console.log('chat data: ', response.data);
     } catch (error) {

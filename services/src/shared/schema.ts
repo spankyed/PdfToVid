@@ -61,26 +61,6 @@ export class PdfDocumentTable extends Model {
   declare content: string;
 }
 
-export class PromptPresetsTable extends Model {
-  declare id: string;
-  declare text: string;
-}
-
-PromptPresetsTable.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    unique: true
-  },
-  text: DataTypes.STRING,
-}, {
-  sequelize,
-  modelName: 'PromptPresetsTable',
-  tableName: 'PromptPresets',
-  timestamps: true,
-});
-
 PdfDocumentTable.init({
   id: {
     type: DataTypes.INTEGER,

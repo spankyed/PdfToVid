@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import { MessagesTable, PdfDocumentTable, PromptPresetsTable, ThreadsTable } from "../../shared/schema";
+import { MessagesTable, PdfDocumentTable, ThreadsTable } from "../../shared/schema";
 
 function getAllThreads(paperId: string) {
   return ThreadsTable.findAll({
@@ -38,9 +38,6 @@ function getMessages({ threadId, messageId, includeHidden }: MessageParams) {
   });
 }
 
-function getPromptPresets() {
-  return PromptPresetsTable.findAll();
-}
 
 function getPdfDocuments(paperId: string, viewMode = 0){
   return PdfDocumentTable.findAll({
@@ -78,17 +75,11 @@ function addThread(thread: any) {
   // }
 }
 
-function addPromptPreset(prompt: string) {
-  return PromptPresetsTable.create({ text: prompt });
-}
-
 export {
-  addPromptPreset,
   addMessage,
   addMessagesBulk,
   addThread,
   addPdfDocument,
-  getPromptPresets,
   getAllThreads,
   getThread,
   getMessages,

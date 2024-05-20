@@ -19,10 +19,7 @@ async function getChatData(request: any, h: any){
     threads = [firstThread];
   }
 
-  const [promptPresets, messages] = await Promise.all([
-    repository.getPromptPresets(),
-    repository.getMessages({ threadId: firstThread.id, includeHidden: true })
-  ]);
+  const messages = await repository.getMessages({ threadId: firstThread.id, includeHidden: true });
 
   setTimeout(() => {
     initializeChat(paperId);
@@ -30,7 +27,6 @@ async function getChatData(request: any, h: any){
 
   return h.response({
     threads,
-    promptPresets,
     messages
   });
 }
@@ -128,5 +124,5 @@ export default [
   // route.post('/setDocumentViewMode', setDocumentViewMode),
   route.post('/createThread', createThread),
   route.post('/branchThread', branchThread),
-  route.post('/addPromptPreset', addPromptPreset),
+  // route.post('/addPromptPreset', addPromptPreset),
 ]
