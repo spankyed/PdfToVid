@@ -11,6 +11,13 @@ async function getMessages(request: any, h: any) {
   return h.response(messages);
 }
 
+async function initChat(request: any, h: any){
+  const paperId = request.params.paperId;
+  let textLength = await initializeChat(paperId);
+  let pdfTokenCount = textLength / 4;
+
+  return h.response(pdfTokenCount);
+}
 async function getThreads(request: any, h: any){
   const paperId = request.params.paperId;
   let threads = await repository.getAllThreads(paperId);
@@ -123,8 +130,9 @@ async function branchThread(request: any, h: any) {
 // }
 
 export default [
-  route.get('/getMessages/{threadId}', getMessages),
+  route.get('/initializeChat/{paperId}', initChat),
   route.get('/getThreads/{paperId}', getThreads),
+  route.get('/getMessages/{threadId}', getMessages),
   route.post('/sendMessage', sendMessage),
   // route.post('/setDocumentViewMode', setDocumentViewMode),
   route.post('/createThread', createThread),

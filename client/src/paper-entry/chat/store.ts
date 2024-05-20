@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { messagesAtom } from './messages/store';
+import { messagesAtom, tokenUsageAtom } from './messages/store';
 import { atomWithStorage } from 'jotai/utils';
 
 type SelectedThreads = { [ key: string ]: string };
@@ -53,6 +53,11 @@ export const loadChatDataAtom = atom(
           [paperId]: threads[0]?.id 
         });
       }
+
+      const initializeChatResponse = await api.initializeChat(paperId);
+      const pdfTokenCount = initializeChatResponse.data;
+
+      set(tokenUsageAtom, prev => ({ ...prev, document: pdfTokenCount }));
 
       set(chatStateAtom, 'ready');
 

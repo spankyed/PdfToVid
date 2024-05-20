@@ -5,7 +5,7 @@ import * as api from '~/shared/api/fetch';
 import { Paper } from '~/shared/utils/types';
 
 export const promptPresetsOpenAtom = atom(false);
-export const tokenUsageAtom = atom({ current: 19000, max: 180000 });
+export const tokenUsageAtom = atom({ document: 0, total: 0, max: 180000 });
 
 export const inputAtom = atom('');
 

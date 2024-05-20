@@ -107,9 +107,17 @@ export const ChatInput = () => {
 };
 
 const TokenUsage = () => {
-  const tokenUsage = useAtomValue(tokenUsageAtom);
+  const [tokenUsage, setTokenUsage] = useAtom(tokenUsageAtom);
+  const messages = useAtomValue(messagesAtom);
+  const chatState = useAtomValue(chatStateAtom);
+  useEffect(() => {
+    const newTokenUsage = messages.reduce((acc, message) => acc + (message.text.length / 4), 0);
+    const totalTokensRounded = Math.round(tokenUsage.document + newTokenUsage);
+
+    setTokenUsage(prev => ({ ...prev, total: totalTokensRounded }))
+  }, [tokenUsage, messages]);
 
   return (
-    <Typography variant="caption" mt={1} mb={3} pl={1}>Token usage {tokenUsage.current} / {tokenUsage.max}</Typography>
+    <Typography variant="caption" mt={1} mb={3} pl={1}>Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total} / {tokenUsage.max}</Typography>
   );
 }

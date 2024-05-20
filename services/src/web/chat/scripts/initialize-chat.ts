@@ -11,5 +11,9 @@ export default async function initializeChat(paperId: string) {
       viewMode: 0,
       content: pdfText
     });
+
+    return pdfText.length;
   }
+
+  return pdfDoc[0].content.length; // todo alter index based on current view mode
 }

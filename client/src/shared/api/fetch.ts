@@ -16,6 +16,7 @@ export const getDateEntryModel = (date) => axios.get(apiUrl + '/getDateEntry/' +
 export const getPaperById = (paperId) => axios.get(apiUrl + '/paperById/' + paperId);
 export const fetchPdf = (paperId) => axios.get(apiUrl + '/fetchPdf/' + paperId, { responseType: 'blob' });
 
+export const initializeChat = (paperId) => axios.get(apiUrl + '/initializeChat/' + paperId);
 export const getThreads = (paperId) => axios.get(apiUrl + '/getThreads/' + paperId);
 export const getMessages = (threadId) => axios.get(apiUrl + '/getMessages/' + threadId);
 
