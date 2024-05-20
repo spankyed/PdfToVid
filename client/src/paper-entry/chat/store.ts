@@ -1,8 +1,10 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 import { messagesAtom } from './messages/store';
+import { atomWithStorage } from 'jotai/utils';
 
-export const selectedThreadAtom = atom<string | null>(null);
+type SelectedThreads = { [ key: string ]: string };
+export const selectedThreadsAtom = atomWithStorage<SelectedThreads>('selectedThread', {});
 export const threadOptionsAtom = atom<any[]>([
   // { description: 'Main thread', id: `1` },
 ]);
@@ -11,25 +13,52 @@ export const modelAtom = atom('Claude');
 
 export const chatStateAtom = atom<'loading' | 'ready' | 'error'>('loading');
 
-export const docAtom = atom({
-  title: "Chain of Thoughtlessness: An Analysis of CoT in Planning",
-  description: "Large language model (LLM) performance on reasoning problems typically does not generalize out of distribution. Previous work has claimed that this can be mitigated by modifying prompts to include examples with chains of thought--demonstrations of solution procedures--with the intuition that it is possible to in-context teach an LLM an algorithm for solving the problem.",
-  viewMode: "full"
-});
+export const selectAndLoadMessagesAtom = atom(
+  null,
+  async (get, set, paperId: string, selectedId: string) => {
+    try {
+      set(selectedThreadsAtom, prev => ({ ...prev, [paperId]: selectedId }));
+      set(chatStateAtom, 'loading');
+      const response = await api.getMessages(selectedId);
+      const messages = response.data;
+
+      set(chatStateAtom, 'ready');
+
+      set(messagesAtom, messages);
+    } catch (error) {
+      set(chatStateAtom, 'error');
+      console.error(`Failed to load chat data: ${paperId}`, error);
+    }
+  }
+);
 
 export const loadChatDataAtom = atom(
   null,
-  async (get, set, paperId) => {
+  async (get, set, paperId: string) => {
     try {
-      const response = await api.getChatData(paperId);
-      const { messages, threads } = response.data;
+      const selectedThread = get(selectedThreadsAtom)[paperId];
+      const noSelectedThread = selectedThread === undefined || selectedThread === null;
+      const threadsResponse = await api.getThreads(paperId);
+      const threads = threadsResponse.data;
+      const thread = !noSelectedThread ? selectedThread : threads[0]?.id;
+      const messagesResponse = await api.getMessages(thread);
+      const messages = messagesResponse.data;
+      const noMatchingThread = threads.find(thread => thread.id === selectedThread) === undefined;
 
       set(messagesAtom, messages);
       set(threadOptionsAtom, threads);
-      set(selectedThreadAtom, threads[0].id);
 
-      console.log('chat data: ', response.data);
+      if (noSelectedThread || noMatchingThread) {
+        set(selectedThreadsAtom, {
+          [paperId]: threads[0]?.id 
+        });
+      }
+
+      set(chatStateAtom, 'ready');
+
+      console.log('chat data: ', {messages, threads, thread});
     } catch (error) {
+      set(chatStateAtom, 'error');
       console.error(`Failed to load chat data: ${paperId}`, error);
     }
   }
@@ -37,7 +66,7 @@ export const loadChatDataAtom = atom(
 
 export const addNewThreadAtom = atom(
   null,
-  async (get, set, paperId) => {
+  async (get, set, paperId: string) => {
     const threadOptions = get(threadOptionsAtom);
     const newThread = {
       paperId,
@@ -46,7 +75,8 @@ export const addNewThreadAtom = atom(
     };
 
     set(threadOptionsAtom, prev => ([...prev, newThread]));
-    set(selectedThreadAtom, newThread.id);
+    set(selectedThreadsAtom, prev => ({ ...prev, [paperId]: newThread.id }));
+    set(messagesAtom, []);
 
     set(chatStateAtom, 'loading')
 
@@ -63,7 +93,7 @@ export const addNewThreadAtom = atom(
         return thread;
       })));
 
-      set(selectedThreadAtom, newThreadId);
+      set(selectedThreadsAtom, prev => ({ ...prev, [paperId]: newThreadId }));
   
       set(chatStateAtom, 'ready');
 
@@ -72,7 +102,7 @@ export const addNewThreadAtom = atom(
       // set(threadOptionsAtom, prev => {
       //   return prev.filter(thread => thread.id !== newThread.id);
       // })
-      // set(selectedThreadAtom, '1');
+      // set(selectedThreadsAtom, {});
       console.error(`Failed to create new thread`, error);
     }
   }

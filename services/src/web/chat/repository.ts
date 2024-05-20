@@ -18,7 +18,7 @@ type MessageParams = {
   messageId?: string;
   includeHidden?: boolean;
 }
-function getMessages({ threadId, messageId, includeHidden }: MessageParams) {
+function getMessages({ threadId, messageId, includeHidden = false }: MessageParams) {
   let whereClause: { [key: string]: any } = {
     threadId
   };

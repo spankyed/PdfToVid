@@ -16,7 +16,8 @@ export const getDateEntryModel = (date) => axios.get(apiUrl + '/getDateEntry/' +
 export const getPaperById = (paperId) => axios.get(apiUrl + '/paperById/' + paperId);
 export const fetchPdf = (paperId) => axios.get(apiUrl + '/fetchPdf/' + paperId, { responseType: 'blob' });
 
-export const getChatData = (paperId) => axios.get(apiUrl + '/getChatData/' + paperId);
+export const getThreads = (paperId) => axios.get(apiUrl + '/getThreads/' + paperId);
+export const getMessages = (threadId) => axios.get(apiUrl + '/getMessages/' + threadId);
 
 // post
 export const updateIsStarred = (paperId, value) => axios.post(apiUrl + '/starPaper/' + paperId, { value });

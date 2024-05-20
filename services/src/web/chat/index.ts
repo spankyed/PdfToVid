@@ -3,32 +3,36 @@ import { route } from '~/shared/route';
 import getPdfText from './scripts/get-pdf-text';
 import initializeChat from './scripts/initialize-chat';
 
-async function getChatData(request: any, h: any){
+async function getMessages(request: any, h: any) {
+  const threadId = request.params.threadId;
+  const messages = await repository.getMessages({ threadId, includeHidden: true });
+  // const messages = await repository.getMessages(paperId, selectedThread);
+
+  return h.response(messages);
+}
+
+async function getThreads(request: any, h: any){
   const paperId = request.params.paperId;
   let threads = await repository.getAllThreads(paperId);
   
-  let firstThread = threads[0];
+  let thread;
 
   if (!threads.length) {
-    firstThread = await repository.addThread({
+    thread = await repository.addThread({
       paperId,
       description: 'Main thread',
       viewMode: 0,
     });
 
-    threads = [firstThread];
+    threads = [thread];
   }
 
-  const messages = await repository.getMessages({ threadId: firstThread.id, includeHidden: true });
 
   setTimeout(() => {
     initializeChat(paperId);
   }, 10);
 
-  return h.response({
-    threads,
-    messages
-  });
+  return h.response(threads);
 }
 
 async function sendMessage(request: any, h: any) {
@@ -119,7 +123,8 @@ async function branchThread(request: any, h: any) {
 // }
 
 export default [
-  route.get('/getChatData/{paperId}', getChatData),
+  route.get('/getMessages/{threadId}', getMessages),
+  route.get('/getThreads/{paperId}', getThreads),
   route.post('/sendMessage', sendMessage),
   // route.post('/setDocumentViewMode', setDocumentViewMode),
   route.post('/createThread', createThread),

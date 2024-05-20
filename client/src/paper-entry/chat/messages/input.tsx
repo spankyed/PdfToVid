@@ -6,20 +6,23 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import * as api from '~/shared/api/fetch';
 import { paperAtom } from '~/paper-entry/store';
 import { inputAtom, promptPresetsOpenAtom, addMessageAtom, messagesAtom, tokenUsageAtom } from './store';
-import AddIcon from '@mui/icons-material/Add';
-import { selectedThreadAtom } from '../store';
-
+import { chatStateAtom, selectedThreadsAtom } from '../store';
 
 export const ChatInput = () => {
   const [input, setInput] = useAtom(inputAtom);
   const addMessage = useSetAtom(addMessageAtom);
   const [isOpen, setIsOpen] = useAtom(promptPresetsOpenAtom);
   const [inputEnabled, toggleInput] = useState(true);
-  const tokenUsage = useAtomValue(tokenUsageAtom);
   const paper = useAtomValue(paperAtom);
-  const selectedThread = useAtomValue(selectedThreadAtom);
+  const selectedThreads = useAtomValue(selectedThreadsAtom);
+  const chatState = useAtomValue(chatStateAtom);
+  const notReady = chatState !== 'ready';
 
   const handleSend = async () => {
+    if (chatState !== 'ready') {
+      return;
+    }
+
     if (input.trim()) {
       const newMessage = {
         id: Date.now(),
@@ -35,7 +38,7 @@ export const ChatInput = () => {
       try {
         const response = await api.sendMessage({
           paperId: paper?.id,
-          threadId: selectedThread,
+          threadId: selectedThreads[paper!.id],
           text: input
         });
         console.log('send message res', response);
@@ -70,7 +73,7 @@ export const ChatInput = () => {
 
 
       <TextField
-        disabled={!inputEnabled}
+        disabled={!inputEnabled || notReady}
         multiline
         value={input}
         onChange={(e) => setInput(e.target.value)}
@@ -81,7 +84,7 @@ export const ChatInput = () => {
           sx: { borderTopLeftRadius: 0, borderTopRightRadius: 0 },
           startAdornment: (
             <IconButton
-              disabled={!inputEnabled}
+              disabled={!inputEnabled || notReady}
               onClick={handleMenuToggle} color="primary" className="menu-toggle-button">
               <MoreVertIcon />
             </IconButton>
@@ -89,7 +92,7 @@ export const ChatInput = () => {
           endAdornment: (
             <>
               <IconButton
-                disabled={!inputEnabled}
+                disabled={!inputEnabled || notReady}
                 onClick={handleSend}>
                 <SendIcon />
               </IconButton>
@@ -98,7 +101,15 @@ export const ChatInput = () => {
         }}
       />
 
-      <Typography variant="caption" mt={1} mb={3} pl={1}>Token usage {tokenUsage.current} / {tokenUsage.max}</Typography>
+      <TokenUsage />
     </Box>
   );
 };
+
+const TokenUsage = () => {
+  const tokenUsage = useAtomValue(tokenUsageAtom);
+
+  return (
+    <Typography variant="caption" mt={1} mb={3} pl={1}>Token usage {tokenUsage.current} / {tokenUsage.max}</Typography>
+  );
+}

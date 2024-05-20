@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Button, Box, TextField, MenuItem, Select, InputLabel, FormControl, Paper, Typography } from '@mui/material';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
-import { threadOptionsAtom, selectedThreadAtom, modelAtom, addNewThreadAtom } from './store';
+import { threadOptionsAtom, selectedThreadsAtom, modelAtom, addNewThreadAtom, selectAndLoadMessagesAtom } from './store';
 import { paperAtom } from '../store';
 
 export default function ChatOptions() {
@@ -38,13 +38,24 @@ function ModelOptions(){
 }
 function ThreadOptions(){
   const paper = useAtomValue(paperAtom);
-  const [thread, setThread] = useAtom(selectedThreadAtom);
+  const selectedThreads = useAtomValue(selectedThreadsAtom);
+  const selectAndLoadMessages = useSetAtom(selectAndLoadMessagesAtom);
   const addNewThread = useSetAtom(addNewThreadAtom);
   const threadOptions = useAtomValue(threadOptionsAtom);
 
+  const selectedThread = paper?.id && selectedThreads?.hasOwnProperty(paper?.id) ? selectedThreads[paper?.id] : null;
+
   const handleAddThread = async () => {
-    addNewThread(paper?.id);
+    addNewThread(paper!.id);
   };
+
+  const select = (e) => {
+    console.log('e.target.value: ', e.target.value);
+    if (!paper?.id || !e.target.value){
+      return
+    }
+    selectAndLoadMessages(paper!.id, e.target.value);
+  }
 
   return (
     <Box flex={1} pl={3} sx={{ display: 'flex', width: '40rem', justifyContent: 'space-between' }}>
@@ -52,9 +63,9 @@ function ThreadOptions(){
         <InputLabel id="thread-select-label">Thread</InputLabel>
         <Select
           labelId="thread-select-label"
-          value={thread || `${threadOptions.length}`}
+          value={selectedThread || ''}
           label="Thread"
-          onChange={(e) => setThread(e.target.value)}
+          onChange={select}
           startAdornment={<AltRouteIcon sx={{ mr: 1 }} />}
         >
           {
