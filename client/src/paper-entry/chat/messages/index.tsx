@@ -6,12 +6,16 @@ import Message from './message';
 import { ChatInput } from './input';
 import { promptPresetsOpenAtom, messagesAtom } from './store';
 import PromptMenu from './prompt-menu';
+import { chatStateAtom } from '../store';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function MessageList () {
   const promptPresetsOpen = useAtomValue(promptPresetsOpenAtom);
   const messages = useAtomValue(messagesAtom);
   const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
-  
+  const chatState = useAtomValue(chatStateAtom);
+  const isLoading = chatState === 'loading';
+
   useEffect(() => {
     const scrollableElement = scrollableContainerRef?.current;
 
@@ -27,7 +31,7 @@ export default function MessageList () {
   return (
     <>
       <div className='relative'>
-        {promptPresetsOpen && (
+        {promptPresetsOpen || isLoading && (
           <Box
             sx={{
               position: 'absolute',
@@ -55,9 +59,13 @@ export default function MessageList () {
             // overflowAnchor: 'none',
           }}
         >
-          {messages.slice().reverse().map((message) => (
-            <Message key={message.id} message={message} />
-          ))}
+          {
+            isLoading 
+            ? <Loader />
+            : messages.slice().reverse().map((message) => (
+                <Message key={message.id} message={message} />
+              ))
+          }
         </Box>
 
         {
@@ -68,3 +76,19 @@ export default function MessageList () {
     </>
   );
 };
+
+function Loader () {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        width: '100%',
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
+}
