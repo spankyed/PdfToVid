@@ -1,11 +1,9 @@
 import React from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { Box, Select, MenuItem, Typography } from '@mui/material';
-import { docAtom } from './store';
 import { paperAtom, pdfModalOpen } from '../store';
 
 export default function DocumentSection() {
-  // const [doc, setDoc] = useAtom(docAtom);
   const setPdfOpen = useSetAtom(pdfModalOpen);
   const [paper] = useAtom(paperAtom);
 
