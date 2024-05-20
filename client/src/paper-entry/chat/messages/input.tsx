@@ -114,6 +114,10 @@ const TokenUsage = () => {
     const newTokenUsage = messages.reduce((acc, message) => acc + (message.text.length / 4), 0);
     const totalTokensRounded = Math.round(tokenUsage.document + newTokenUsage);
 
+    if (tokenUsage.total === totalTokensRounded) {
+      return;
+    } 
+
     setTokenUsage(prev => ({ ...prev, total: totalTokensRounded }))
   }, [tokenUsage, messages]);
 
