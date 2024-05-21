@@ -44,10 +44,10 @@ export const sendMessageAtom = atom(
 
       set(messagesAtom, prev => prev.map(m => m.id === newMessage.id ? { ...m, id: messageId } : m));
 
-      // set(inputEnabledAtom, true);
-      setTimeout(() => {
-        set(inputEnabledAtom, true);
-      }, 5000);
+      set(inputEnabledAtom, true);
+      // setTimeout(() => {
+      //   set(inputEnabledAtom, true);
+      // }, 5000);
 
       console.log('send message res', response);
       // const { tokenUsage: newTokenUsage } = response.data;
