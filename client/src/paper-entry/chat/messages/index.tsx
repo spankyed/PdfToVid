@@ -31,7 +31,7 @@ export default function MessageList () {
   return (
     <>
       <div className='relative'>
-        {promptPresetsOpen || isLoading && (
+        {(promptPresetsOpen || isLoading) && (
           <Box
             sx={{
               position: 'absolute',

@@ -92,7 +92,7 @@ export default function Message({ message }) {
   const [actionsShowing, showActions] = useState(false);
   const isAssistant = message.sender === 'assistant';
   const isHidden = message.hidden;
-  const yellowRGBA = 'rgba(255, 235, 59, 0.4)';
+  const yellowRGBA = 'rgba(255, 235, 59, 0.1)';
   const opacity = isHidden ? 0.4 : 1;
 
   return (
