@@ -98,7 +98,8 @@ const TokenUsage = () => {
     const newTokenUsage = messages
       .filter(message => !message.hidden)
       .reduce((acc, message) => acc + (message.text.length / 4), 0);
-    const totalTokensRounded = Math.round(tokenUsage.document + newTokenUsage);
+
+    const totalTokensRounded = Number(((tokenUsage.document + newTokenUsage) / 1000).toFixed(1));
 
     if (tokenUsage.total === totalTokensRounded) {
       return;
@@ -108,6 +109,6 @@ const TokenUsage = () => {
   }, [tokenUsage, messages]);
 
   return (
-    <Typography variant="caption" mt={1} mb={3} pl={1}>Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total} / {tokenUsage.max}</Typography>
+    <Typography variant="caption" mt={1} mb={3} pl={1} sx={{ opacity: '.7' }}>Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k / {tokenUsage.max}k</Typography>
   );
 }
