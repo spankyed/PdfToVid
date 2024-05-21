@@ -48,6 +48,11 @@ export default function ThreadOptions(){
             sx={{ width: '100%' }}>
             Start new thread
           </Button>
+          {/* <Button
+            onClick={deleteCurrentThread}
+            sx={{ width: '100%', color: 'red' }}>
+            Delete current thread
+          </Button> */}
         </Select>
       </FormControl>
     </Box>
