@@ -60,16 +60,7 @@ function onboardNewUser(request: any, h: any){
   
       const dateList = groupDatesByMonth(allDates as any);
       
-      const defaultConfig = await getConfig();
-
-      const defaultPrompts = defaultConfig.defaultPromptPresets?.map((preset) => ({
-        text: preset,
-      }));
-
-      Promise.all([
-        repository.addPromptPresets(defaultPrompts),
-        setConfigSettings({...config, isNewUser: false })
-      ]);
+      setConfigSettings({...config, isNewUser: false })
 
       runBackgroundScripts(true);
   

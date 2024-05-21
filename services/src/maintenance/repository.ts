@@ -1,6 +1,6 @@
 // Assuming PaperRecord matches the structure of your PapersTable model
 import { FindOptions, Op } from 'sequelize';
-import { DatesTable, PapersTable, PromptPresetsTable, ReferencePapersTable } from '../shared/schema';
+import { DatesTable, PapersTable, ReferencePapersTable } from '../shared/schema';
 
 
 // Fetch all stored dates
@@ -123,14 +123,7 @@ function getBackfillDates(params: getBackfillDateParams): Promise<DatesTable[]> 
     });
 }
 
-function addPromptPresets(presets: any) {
-  return PromptPresetsTable.bulkCreate(presets, {
-    ignoreDuplicates: true
-  });
-}
-
 export default {
-  addPromptPresets,
   getDate,
   getDates,
   getAllDates,
