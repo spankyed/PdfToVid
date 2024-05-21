@@ -16,7 +16,6 @@ export const loadChatDataAtom = atom(
       const noSelectedThread = selectedThreadId === undefined || selectedThreadId === null;
       const threadsResponse = await api.getThreads(paperId);
       const threads = threadsResponse.data;
-      console.log('threads: ', threads);
       const thread = !noSelectedThread ? selectedThreadId : threads[0]?.id;
       const messagesResponse = await api.getMessages(thread);
       const messages = messagesResponse.data;
