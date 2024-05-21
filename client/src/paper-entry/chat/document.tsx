@@ -2,17 +2,11 @@ import React from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { Box, Select, MenuItem, Typography } from '@mui/material';
 import { paperAtom, pdfModalOpen } from '../store';
+import { truncateText } from '~/shared/utils/truncateText';
 
 export default function DocumentSection() {
   const setPdfOpen = useSetAtom(pdfModalOpen);
   const [paper] = useAtom(paperAtom);
-
-  // todo read more button, should open pdf modal
-
-  const truncateText = (description?: string) => {
-    if (!description) return ''
-    return description.slice(0, 330)
-  }
 
   return (
     <Box px={2} pb={2} className='bg-slate-100'>
@@ -31,7 +25,7 @@ export default function DocumentSection() {
         </Select> */}
       </div>
 
-      <p className='inline'>{truncateText(paper?.abstract)}...</p>
+      <p className='inline'>{truncateText(330, paper?.abstract)}...</p>
       {/* read more link */}
       <Typography
         variant="body2" color="textSecondary" sx={{ display: 'inline', ml: 1, cursor: 'pointer' }}
