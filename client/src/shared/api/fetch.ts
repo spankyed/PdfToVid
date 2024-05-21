@@ -35,7 +35,6 @@ export const getBatchDates = (params) => axios.post(apiUrl + '/getBatchDates', p
 export const sendMessage = (params) => axios.post(apiUrl + '/sendMessage', params);
 export const createThread = (params) => axios.post(apiUrl + '/createThread', params);
 export const branchThread = (params) => axios.post(apiUrl + '/branchThread', params);
-export const addPromptPreset = (params) => axios.post(apiUrl + '/addPromptPreset', params);
 
 export const toggleHideMessage = (params) => axios.post(apiUrl + '/toggleHideMessage', params);
 export const deleteMessage = (messageId) => axios.post(apiUrl + '/deleteMessage', { messageId });

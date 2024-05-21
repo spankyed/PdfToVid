@@ -126,14 +126,6 @@ async function branchThread(request: any, h: any) {
   });
 }
 
-// async function addPromptPreset(request: any, h: any) {
-//   const { prompt } = request.payload;
-
-//   let newPrompt = await repository.addPromptPreset(prompt);
-
-//   return h.response(newPrompt.id);
-// }
-
 async function toggleHideMessage(request: any, h: any) {
   const { messageId, state } = request.payload;
 
@@ -152,5 +144,4 @@ export default [
   route.post('/branchThread', branchThread),
   route.post('/toggleHideMessage', toggleHideMessage),
   route.post('/deleteMessage', deleteMessage),
-  // route.post('/addPromptPreset', addPromptPreset),
 ]
