@@ -12,11 +12,14 @@ export default function ChatTab({ paperId }) {
   const setChatState = useSetAtom(chatStateAtom);
 
   useEffect(() => {
-    loadChatData(paperId);
     return () => {
       setChatState('loading');
     }
   }, []); 
+
+  useEffect(() => {
+    loadChatData(paperId);
+  }, [paperId]); 
 
   return (
     <Box sx={{ marginTop: 2, mb: 1 }}>
