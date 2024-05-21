@@ -12,15 +12,15 @@ export const loadChatDataAtom = atom(
   null,
   async (get, set, paperId: string) => {
     try {
-      const selectedThread = get(selectedThreadsAtom)[paperId].id;
-      const noSelectedThread = selectedThread === undefined || selectedThread === null;
+      const selectedThreadId = get(selectedThreadsAtom)[paperId]?.id;
+      const noSelectedThread = selectedThreadId === undefined || selectedThreadId === null;
       const threadsResponse = await api.getThreads(paperId);
       const threads = threadsResponse.data;
       console.log('threads: ', threads);
-      const thread = !noSelectedThread ? selectedThread : threads[0]?.id;
+      const thread = !noSelectedThread ? selectedThreadId : threads[0]?.id;
       const messagesResponse = await api.getMessages(thread);
       const messages = messagesResponse.data;
-      const noMatchingThread = threads.find(thread => thread.id === selectedThread) === undefined;
+      const noMatchingThread = threads.find(thread => thread.id === selectedThreadId) === undefined;
 
       set(messagesAtom, messages);
       set(threadOptionsAtom, threads);
