@@ -38,3 +38,4 @@ export const branchThread = (params) => axios.post(apiUrl + '/branchThread', par
 export const addPromptPreset = (params) => axios.post(apiUrl + '/addPromptPreset', params);
 
 export const toggleHideMessage = (params) => axios.post(apiUrl + '/toggleHideMessage', params);
+export const deleteMessage = (messageId) => axios.post(apiUrl + '/deleteMessage', { messageId });

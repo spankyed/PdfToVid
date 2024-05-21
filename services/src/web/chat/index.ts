@@ -3,6 +3,14 @@ import { route } from '~/shared/route';
 import getPdfText from './scripts/get-pdf-text';
 import initializeChat from './scripts/initialize-chat';
 
+async function deleteMessage(request: any, h: any) {
+  const messageId = request.payload.messageId;
+
+  await repository.deleteMessage(messageId);
+
+  return h.response('');
+}
+
 async function getMessages(request: any, h: any) {
   const threadId = request.params.threadId;
   const messages = await repository.getMessages({ threadId, includeHidden: true });
@@ -143,5 +151,6 @@ export default [
   route.post('/createThread', createThread),
   route.post('/branchThread', branchThread),
   route.post('/toggleHideMessage', toggleHideMessage),
+  route.post('/deleteMessage', deleteMessage),
   // route.post('/addPromptPreset', addPromptPreset),
 ]

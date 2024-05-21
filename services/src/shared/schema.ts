@@ -94,7 +94,7 @@ MessagesTable.init({
   sequelize,
   modelName: 'MessagesTable',
   tableName: 'Messages',
-  // paranoid: true, // This enables soft deletes
+  paranoid: true, // This enables soft deletes
   timestamps: true, // Ensure timestamps are true for paranoid to work
   // deletedAt: 'deletedAt',
 });

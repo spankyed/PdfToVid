@@ -1,6 +1,12 @@
 import { Op } from "sequelize";
 import { MessagesTable, PdfDocumentTable, ThreadsTable } from "../../shared/schema";
 
+function deleteMessage(messageId: string) {
+  return MessagesTable.destroy({
+    where: { id: messageId }
+  });
+}
+
 function getAllThreads(paperId: string) {
   return ThreadsTable.findAll({
     where: { paperId }
@@ -82,6 +88,7 @@ function toggleHideMessage( messageId: string, state: boolean) {
 }
 
 export {
+  deleteMessage,
   addMessage,
   addMessagesBulk,
   addThread,
