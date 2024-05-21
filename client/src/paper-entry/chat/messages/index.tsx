@@ -15,6 +15,7 @@ export default function MessageList () {
   const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
   const chatState = useAtomValue(chatStateAtom);
   const isLoading = chatState === 'loading';
+  const isError = chatState === 'error';
 
   useEffect(() => {
     const scrollableElement = scrollableContainerRef?.current;
@@ -44,6 +45,21 @@ export default function MessageList () {
             }}
           />
         )}
+        {
+          isError && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                zIndex: 1,
+              }}
+            />
+          )
+        }
         <Box
           sx={{
             display: 'flex',
