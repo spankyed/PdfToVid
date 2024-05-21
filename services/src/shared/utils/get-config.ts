@@ -22,7 +22,8 @@ export type Config = {
 export async function getConfig(): Promise<Config> {
   const fileContents = await fs.readFile(configPath, 'utf8')
 
-  const rawJson = fileContents.replace('export default ', '').replace(';', '')
+  const json = fileContents.replace('export default ', '').replace(';', '')
+    .replace(`],\n}\n`, `]\n}\n`)
 
-  return JSON.parse(rawJson)
+  return JSON.parse(json)
 }
