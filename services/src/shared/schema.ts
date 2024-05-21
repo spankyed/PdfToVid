@@ -47,6 +47,7 @@ export class ThreadsTable extends Model {
 
 export class MessagesTable extends Model {
   declare id: string;
+  declare parentId: string;
   declare threadId: string;
   declare hidden: boolean;
   declare text: string;
@@ -85,6 +86,7 @@ MessagesTable.init({
     primaryKey: true,
     unique: true
   },
+  parentId: DataTypes.INTEGER,
   hidden: DataTypes.BOOLEAN,
   threadId: DataTypes.STRING,
   text: DataTypes.STRING,

@@ -5,10 +5,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CachedIcon from '@mui/icons-material/Cached';
-import { atom, useAtom, useSetAtom } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { messagesAtom } from './store';
 import * as api from '~/shared/api/fetch';
-import { addNewThreadAtom } from '../threads/store';
+import { addNewThreadAtom, branchThreadAtom, selectedThreadsAtom } from '../threads/store';
+import { paperAtom } from '~/paper-entry/store';
 
 const capitalize = (s) => (s && s[0].toUpperCase() + s.slice(1)) || '';
 
@@ -21,8 +22,9 @@ const actions = [
 ];
 
 export default function Actions({ message }) {
+  const paper = useAtomValue(paperAtom);
   const [messages, setMessages] = useAtom(messagesAtom);
-  const branchThread = useSetAtom(addNewThreadAtom);
+  const branchThread = useSetAtom(branchThreadAtom);
 
   const filters = {
     regenerate: (m) => m.sender === 'assistant',
@@ -58,7 +60,7 @@ export default function Actions({ message }) {
       });
     },
     thread: () => {
-      branchThread(message.id);
+      branchThread(paper!.id, message);
     },
   }
 

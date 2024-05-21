@@ -100,7 +100,7 @@ const TokenUsage = () => {
   useEffect(() => {
     const newTokenUsage = messages
       .filter(message => !message.hidden)
-      .reduce((acc, message) => acc + (message.text.length / 4), 0);
+      .reduce((acc, message) => acc + (message.text ? message.text.length / 4 : 0), 0);
 
     const totalTokensRounded = Number(((tokenUsage.document + newTokenUsage) / 1000).toFixed(1));
 

@@ -3,6 +3,7 @@ import * as api from '~/shared/api/fetch';
 import { messagesAtom } from '../messages/store';
 import { atomWithStorage } from 'jotai/utils';
 import { chatStateAtom } from '../store';
+import { truncateText } from '~/shared/utils/truncateText';
 
 type Thread = {
   id: string;
@@ -36,6 +37,52 @@ export const selectAndLoadMessagesAtom = atom(
   }
 );
 
+
+export const branchThreadAtom = atom(
+  null,
+  async (get, set, paperId: string, message: any) => {
+    const threadOptions = get(threadOptionsAtom);
+    const description = truncateText(25, message.text);
+    const newThread = {
+      paperId,
+      parentThreadId: message.threadId,
+      messageId: message.id,
+      description,
+      id: `${threadOptions.length + 1}`,
+    };
+
+    set(threadOptionsAtom, prev => ([...prev, newThread]));
+    set(selectedThreadsAtom, prev => ({ ...prev, [paperId]: newThread }));
+    set(chatStateAtom, 'loading')
+
+    try {
+      const response = await api.branchThread(newThread);
+      const { messages, thread: newThreadRecord} = response.data;
+
+      set(messagesAtom, messages);
+
+      set(threadOptionsAtom, prev => (prev.map(thread => {
+        if (thread.id === newThread.id) {
+          return { ...thread, id: newThreadRecord.id };
+        }
+        return thread;
+      })));
+
+      set(selectedThreadsAtom, prev => ({ ...prev, [paperId]: newThreadRecord }));
+  
+      set(chatStateAtom, 'ready');
+
+      console.log('branched thread: ', newThreadRecord);
+    } catch (error) {
+      // set(threadOptionsAtom, prev => {
+      //   return prev.filter(thread => thread.id !== newThread.id);
+      // })
+      // set(selectedThreadsAtom, {});
+      console.error(`Failed to create new thread`, error);
+    }
+  }
+);
+
 export const addNewThreadAtom = atom(
   null,
   async (get, set, paperId: string) => {
@@ -49,14 +96,11 @@ export const addNewThreadAtom = atom(
     set(threadOptionsAtom, prev => ([...prev, newThread]));
     set(selectedThreadsAtom, prev => ({ ...prev, [paperId]: newThread }));
     set(messagesAtom, []);
-
     set(chatStateAtom, 'loading')
 
     try {
       const response = await api.createThread(newThread);
       const newThreadRecord = response.data;
-
-      console.log('newThreadRecord: ', {newThreadRecord});
 
       set(threadOptionsAtom, prev => (prev.map(thread => {
         if (thread.id === newThread.id) {
@@ -69,7 +113,7 @@ export const addNewThreadAtom = atom(
   
       set(chatStateAtom, 'ready');
 
-      console.log('new thread id: ', newThreadRecord.id);
+      console.log('new thread: ', newThreadRecord);
     } catch (error) {
       // set(threadOptionsAtom, prev => {
       //   return prev.filter(thread => thread.id !== newThread.id);

@@ -103,26 +103,28 @@ async function createThread(request: any, h: any) {
 }
 
 async function branchThread(request: any, h: any) {
-  const { paperId, threadId, messageId, description } = request.payload;
+  const { paperId, parentThreadId, messageId, description } = request.payload;
 
   let newThread = await repository.addThread({
     paperId,
     description,
     messageId,
-    parentId: threadId,
   });
 
-  let messages = await repository.getMessages({ threadId, messageId, includeHidden: true});
+  let messages = await repository.getMessages({ threadId: parentThreadId, messageId, includeHidden: false });
   let messageCopies = messages.map((message) => ({
-    ...message,
-    id: newThread.id,
+    parentId: message.id === messageId ? message.id : null,
+    threadId: newThread.id,
+    text: message.text,
+    sender: message.sender,
+    hidden: message.hidden,
   }));
 
-  repository.addMessagesBulk(messageCopies);
+  const newMessages = await repository.addMessagesBulk(messageCopies);
 
   return h.response({
-    threadId: newThread.id,
-    messages,
+    thread: newThread,
+    messages: newMessages,
   });
 }
 

@@ -68,7 +68,7 @@ function addMessage(message: any) {
 }
 
 function addMessagesBulk(messages: any[]) {
-  return MessagesTable.bulkCreate(messages);
+  return MessagesTable.bulkCreate(messages, { returning: true });
 }
 
 function addThread(thread: any) {

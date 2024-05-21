@@ -30,6 +30,7 @@ export const sendMessageAtom = atom(
     set(inputEnabledAtom, false);
 
     const newMessage = {
+      threadId,
       id: Date.now(),
       text,
       timestamp: new Date().toISOString(),
@@ -49,7 +50,6 @@ export const sendMessageAtom = atom(
       //   set(inputEnabledAtom, true);
       // }, 5000);
 
-      console.log('send message res', response);
       // const { tokenUsage: newTokenUsage } = response.data;
       // tokenUsage.current = newTokenUsage;
     } catch (error) {
