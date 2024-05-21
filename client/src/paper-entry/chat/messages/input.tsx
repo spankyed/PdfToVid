@@ -95,7 +95,9 @@ const TokenUsage = () => {
   const messages = useAtomValue(messagesAtom);
   const chatState = useAtomValue(chatStateAtom);
   useEffect(() => {
-    const newTokenUsage = messages.reduce((acc, message) => acc + (message.text.length / 4), 0);
+    const newTokenUsage = messages
+      .filter(message => !message.hidden)
+      .reduce((acc, message) => acc + (message.text.length / 4), 0);
     const totalTokensRounded = Math.round(tokenUsage.document + newTokenUsage);
 
     if (tokenUsage.total === totalTokensRounded) {
