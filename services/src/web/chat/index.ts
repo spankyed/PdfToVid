@@ -51,23 +51,7 @@ async function sendMessage(request: any, h: any) {
     return h.response('Thread not found').code(404);
   }
 
-  const viewMode = thread.viewMode || 0;
-
-  const prevMessages = await repository.getMessages({
-    threadId,
-  });
-
-  const pdfDoc = await repository.getPdfDocuments(paperId, viewMode);
-
-  const conversation = [
-    pdfDoc[0]?.content,
-    ...prevMessages.map((message) => message.text),
-    text
-  ]
-
-  console.log('conversation: ', conversation);
-
-  repository.addMessage({
+  const messageRecord = await repository.addMessage({
     paperId,
     threadId,
     text,
@@ -75,10 +59,23 @@ async function sendMessage(request: any, h: any) {
     sender: 'user',
   });
 
+  // todo move this to a separate async function and update status with websockets
+  const [pdfDoc, messages] = await Promise.all([
+    repository.getPdfDocuments(paperId, thread.viewMode || 0),
+    repository.getMessages({ threadId }),
+  ]);
+
+  const conversation = [
+    pdfDoc[0]?.content,
+    ...messages.map((message) => message.text),
+  ]
+
+  console.log('conversation: ', conversation);
+
   // const completion = await getCompletion(conversation);
 
   console.log('message received');
-  return h.response('');
+  return h.response(messageRecord.id);
 }
 
 // async function setDocumentViewMode(request: any, h: any) {
@@ -129,6 +126,14 @@ async function branchThread(request: any, h: any) {
 //   return h.response(newPrompt.id);
 // }
 
+async function toggleHideMessage(request: any, h: any) {
+  const { messageId, state } = request.payload;
+
+  await repository.toggleHideMessage(messageId, state);
+
+  return h.response('');
+}
+
 export default [
   route.get('/initializeChat/{paperId}', initChat),
   route.get('/getThreads/{paperId}', getThreads),
@@ -137,5 +142,6 @@ export default [
   // route.post('/setDocumentViewMode', setDocumentViewMode),
   route.post('/createThread', createThread),
   route.post('/branchThread', branchThread),
+  route.post('/toggleHideMessage', toggleHideMessage),
   // route.post('/addPromptPreset', addPromptPreset),
 ]

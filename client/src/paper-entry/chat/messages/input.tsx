@@ -5,19 +5,26 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import * as api from '~/shared/api/fetch';
 import { paperAtom } from '~/paper-entry/store';
-import { inputAtom, promptPresetsOpenAtom, addMessageAtom, messagesAtom, tokenUsageAtom } from './store';
+import { inputAtom, promptPresetsOpenAtom, sendMessageAtom, messagesAtom, tokenUsageAtom, inputEnabledAtom } from './store';
 import { chatStateAtom } from '../store';
 import { selectedThreadsAtom } from '../threads/store';
 
 export const ChatInput = () => {
   const [input, setInput] = useAtom(inputAtom);
-  const addMessage = useSetAtom(addMessageAtom);
+  const sendMessage = useSetAtom(sendMessageAtom);
   const [isOpen, setIsOpen] = useAtom(promptPresetsOpenAtom);
-  const [inputEnabled, toggleInput] = useState(true);
+  const inputEnabled = useAtomValue(inputEnabledAtom);
   const paper = useAtomValue(paperAtom);
   const selectedThreads = useAtomValue(selectedThreadsAtom);
   const chatState = useAtomValue(chatStateAtom);
   const notReady = chatState !== 'ready';
+  // const setInputRef = useSetAtom(inputRefAtom);
+
+  // const inputRef = useRef<HTMLInputElement>(null);
+
+  // useEffect(() => {
+  //   setInputRef(inputRef);
+  // }, [setInputRef]);
 
   const handleSend = async () => {
     if (chatState !== 'ready') {
@@ -25,36 +32,11 @@ export const ChatInput = () => {
     }
 
     if (input.trim()) {
-      const newMessage = {
-        id: Date.now(),
+      sendMessage({
         text: input,
-        timestamp: new Date().toISOString(),
-        sender: 'you'
-      };
-      addMessage(newMessage);
-      setInput('');
-
-      toggleInput(false);
-
-      try {
-        const response = await api.sendMessage({
-          paperId: paper?.id,
-          threadId: selectedThreads[paper!.id]?.id,
-          text: input
-        });
-        console.log('send message res', response);
-        // const { tokenUsage: newTokenUsage } = response.data;
-        // tokenUsage.current = newTokenUsage;
-      } catch (error) {
-        console.error("Failed to send message", error);
-      }
-
-      setTimeout(() => {
-        toggleInput(true);
-      }, 5000);
-
-      // todo set loading state and disable button
-
+        paperId: paper!.id,
+        threadId: selectedThreads[paper!.id]?.id,
+      });
     }
   };
 
@@ -74,6 +56,7 @@ export const ChatInput = () => {
 
 
       <TextField
+        // ref={inputRef}
         disabled={!inputEnabled || notReady}
         multiline
         value={input}

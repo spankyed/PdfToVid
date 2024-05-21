@@ -75,6 +75,12 @@ function addThread(thread: any) {
   // }
 }
 
+function toggleHideMessage( messageId: string, state: boolean) {
+  return MessagesTable.update({ hidden: state }, {
+    where: { id: messageId }
+  });
+}
+
 export {
   addMessage,
   addMessagesBulk,
@@ -83,5 +89,6 @@ export {
   getAllThreads,
   getThread,
   getMessages,
-  getPdfDocuments
+  getPdfDocuments,
+  toggleHideMessage
 }
