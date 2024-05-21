@@ -94,6 +94,9 @@ const TokenUsage = () => {
   const [tokenUsage, setTokenUsage] = useAtom(tokenUsageAtom);
   const messages = useAtomValue(messagesAtom);
   const chatState = useAtomValue(chatStateAtom);
+  const overLimit = tokenUsage.total > (tokenUsage.max * .95);
+  const reachingLimit = tokenUsage.total > (tokenUsage.max * .7);
+
   useEffect(() => {
     const newTokenUsage = messages
       .filter(message => !message.hidden)
@@ -109,6 +112,9 @@ const TokenUsage = () => {
   }, [tokenUsage, messages]);
 
   return (
-    <Typography variant="caption" mt={1} mb={3} pl={1} sx={{ opacity: '.7' }}>Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k / {tokenUsage.max}k</Typography>
+    <Typography variant="caption" mt={1} mb={3} pl={1} sx={{
+      opacity: '.7',
+      color: reachingLimit ? 'orange' : overLimit ? 'red' : '',
+    }}>Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k / {tokenUsage.max}k</Typography>
   );
 }

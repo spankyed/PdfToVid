@@ -6,7 +6,7 @@ import * as api from '~/shared/api/fetch';
 
 export const inputRefAtom = atom<RefObject<HTMLInputElement> | null>(null);
 export const promptPresetsOpenAtom = atom(false);
-export const tokenUsageAtom = atom({ document: 0, total: 0, max: 180 });
+export const tokenUsageAtom = atom({ document: 0, total: 0, max: 128 });
 
 export const inputAtom = atom('');
 
