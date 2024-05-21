@@ -6,7 +6,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import * as api from '~/shared/api/fetch';
 import { paperAtom } from '~/paper-entry/store';
 import { inputAtom, promptPresetsOpenAtom, addMessageAtom, messagesAtom, tokenUsageAtom } from './store';
-import { chatStateAtom, selectedThreadsAtom } from '../store';
+import { chatStateAtom } from '../store';
+import { selectedThreadsAtom } from '../threads/store';
 
 export const ChatInput = () => {
   const [input, setInput] = useAtom(inputAtom);
@@ -38,7 +39,7 @@ export const ChatInput = () => {
       try {
         const response = await api.sendMessage({
           paperId: paper?.id,
-          threadId: selectedThreads[paper!.id],
+          threadId: selectedThreads[paper!.id]?.id,
           text: input
         });
         console.log('send message res', response);

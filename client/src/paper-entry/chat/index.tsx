@@ -3,7 +3,6 @@ import { Box, Button, Typography } from '@mui/material';
 import ChatOptions from './options';
 import DocumentSection from './document';
 import MessageList from './messages';
-import { scrollableContainerRefAtom } from '../store';
 import { useAtom, useSetAtom } from 'jotai';
 import { chatStateAtom, loadChatDataAtom } from './store';
 

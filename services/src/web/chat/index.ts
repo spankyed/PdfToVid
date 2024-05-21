@@ -94,7 +94,7 @@ async function createThread(request: any, h: any) {
     viewMode: 0,
   });
 
-  return h.response(newThread.id);
+  return h.response(newThread);
 }
 
 async function branchThread(request: any, h: any) {
