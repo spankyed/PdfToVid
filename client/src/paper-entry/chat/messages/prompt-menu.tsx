@@ -98,8 +98,9 @@ function AddPrompt(){
     if (newPrompt.trim()) {
       setPromptPresets([ { text: newPrompt.trim() }, ...promptPresets]);
       setNewPrompt("");
-      setIsAddingPrompt(false);
     }
+
+    setIsAddingPrompt(false);
   };
 
   const handleKeyPress = (event) => {
