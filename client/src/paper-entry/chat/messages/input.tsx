@@ -5,7 +5,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import * as api from '~/shared/api/fetch';
 import { paperAtom } from '~/paper-entry/store';
-import { inputAtom, promptPresetsOpenAtom, sendMessageAtom, messagesAtom, tokenUsageAtom, inputEnabledAtom } from './store';
+import { inputAtom, promptPresetsOpenAtom, sendMessageAtom, messagesAtom, tokenUsageAtom, inputEnabledAtom, inputRefAtom } from './store';
 import { chatStateAtom } from '../store';
 import { selectedThreadsAtom } from '../threads/store';
 
@@ -18,13 +18,13 @@ export const ChatInput = () => {
   const selectedThreads = useAtomValue(selectedThreadsAtom);
   const chatState = useAtomValue(chatStateAtom);
   const notReady = chatState !== 'ready';
-  // const setInputRef = useSetAtom(inputRefAtom);
+  const setInputRef = useSetAtom(inputRefAtom);
 
-  // const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // useEffect(() => {
-  //   setInputRef(inputRef);
-  // }, [setInputRef]);
+  useEffect(() => {
+    setInputRef(inputRef);
+  }, [setInputRef]);
 
   const handleSend = async () => {
     if (chatState !== 'ready') {
@@ -56,7 +56,7 @@ export const ChatInput = () => {
 
 
       <TextField
-        // ref={inputRef}
+        inputRef={inputRef}
         disabled={!inputEnabled || notReady}
         multiline
         value={input}

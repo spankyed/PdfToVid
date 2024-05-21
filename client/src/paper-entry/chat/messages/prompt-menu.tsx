@@ -3,12 +3,13 @@ import { Box, TextField, IconButton, Typography, List, ListItem, Button, Tooltip
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
-import { promptPresetsOpenAtom, inputAtom, promptOptionsAtom } from './store';
+import { promptPresetsOpenAtom, inputAtom, promptOptionsAtom, inputRefAtom } from './store';
 
 const PromptMenu = () => {
   const [promptPresets, setPromptPresets] = useAtom(promptOptionsAtom);
   const setIsOpen = useSetAtom(promptPresetsOpenAtom);
   const setInput = useSetAtom(inputAtom);
+  const inputRef = useAtomValue(inputRefAtom);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -17,6 +18,7 @@ const PromptMenu = () => {
   const handleSelect = (prompt) => {
     setInput(prompt.text);
     handleClose();
+    inputRef?.current?.focus();
   };
 
   const removePrompt = index => (event) => {
