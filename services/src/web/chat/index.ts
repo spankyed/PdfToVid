@@ -116,13 +116,21 @@ async function branchThread(request: any, h: any) {
     messageId,
   });
 
-  let messages = await repository.getMessages({ threadId: parentThreadId, messageId, includeHidden: false });
+  let [messages, parentMessage] = await Promise.all([
+    repository.getMessages({ threadId: parentThreadId, messageId, includeHidden: false }),
+    repository.getSingleMessage(messageId),
+  ]);
+
+  if (parentMessage) {
+    messages.push(parentMessage);
+  }
+
   let messageCopies = messages.map((message) => ({
     parentId: message.id === messageId ? message.id : null,
     threadId: newThread.id,
     text: message.text,
     sender: message.sender,
-    hidden: message.hidden,
+    hidden: false,
   }));
 
   const newMessages = await repository.addMessagesBulk(messageCopies);

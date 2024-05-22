@@ -43,7 +43,7 @@ function getMessages({ threadId, messageId, includeHidden = false }: MessagePara
 
   if (messageId) {
     whereClause.id = {
-      [Op.lte]: messageId
+      [Op.lt]: messageId
     }
   }
 
@@ -53,6 +53,12 @@ function getMessages({ threadId, messageId, includeHidden = false }: MessagePara
 
   return MessagesTable.findAll({
     where: whereClause
+  });
+}
+
+function getSingleMessage(messageId: string) {
+  return MessagesTable.findOne({
+    where: { id: messageId }
   });
 }
 
@@ -108,6 +114,7 @@ export {
   getAllThreads,
   getThread,
   getMessages,
+  getSingleMessage,
   getPdfDocuments,
   toggleHideMessage,
   findDuplicateDescriptions
