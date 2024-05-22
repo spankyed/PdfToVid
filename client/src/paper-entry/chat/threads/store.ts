@@ -3,7 +3,6 @@ import * as api from '~/shared/api/fetch';
 import { messagesAtom } from '../messages/store';
 import { atomWithStorage } from 'jotai/utils';
 import { chatStateAtom } from '../store';
-import { truncateText } from '~/shared/utils/truncateText';
 
 type Thread = {
   id: string;
@@ -42,12 +41,11 @@ export const branchThreadAtom = atom(
   null,
   async (get, set, paperId: string, message: any) => {
     const threadOptions = get(threadOptionsAtom);
-    const description = truncateText(25, message.text);
     const newThread = {
       paperId,
       parentThreadId: message.threadId,
       messageId: message.id,
-      description,
+      description: message.text,
       id: `${threadOptions.length + 1}`,
     };
 
@@ -63,7 +61,10 @@ export const branchThreadAtom = atom(
 
       set(threadOptionsAtom, prev => (prev.map(thread => {
         if (thread.id === newThread.id) {
-          return { ...thread, id: newThreadRecord.id };
+          return {
+            ...thread,
+            ...newThreadRecord
+          };
         }
         return thread;
       })));

@@ -40,6 +40,7 @@ export class ReferencePapersTable extends Model {
 export class ThreadsTable extends Model {
   declare id: string;
   declare description: string;
+  declare duplicateNumber: string;
   declare paperId: string;
   declare messageId: string;
   declare viewMode: number;
@@ -109,6 +110,7 @@ ThreadsTable.init({
     unique: true
   },
   description: DataTypes.STRING,
+  duplicateNumber: DataTypes.INTEGER,
   paperId: DataTypes.STRING,
   messageId: DataTypes.STRING,
   viewMode: DataTypes.INTEGER,

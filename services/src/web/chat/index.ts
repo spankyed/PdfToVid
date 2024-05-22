@@ -105,9 +105,14 @@ async function createThread(request: any, h: any) {
 async function branchThread(request: any, h: any) {
   const { paperId, parentThreadId, messageId, description } = request.payload;
 
+  const duplicateThreadDescriptions = await repository.findDuplicateDescriptions(paperId, description);
+  const newDescription = description;
+  const duplicateNumber = duplicateThreadDescriptions?.length ? duplicateThreadDescriptions?.length + 1 : null;
+
   let newThread = await repository.addThread({
     paperId,
-    description,
+    duplicateNumber,
+    description: newDescription,
     messageId,
   });
 

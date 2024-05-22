@@ -4,6 +4,7 @@ import { Button, Box, TextField, MenuItem, Select, InputLabel, FormControl, Pape
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import { threadOptionsAtom, selectedThreadsAtom, addNewThreadAtom, selectAndLoadMessagesAtom } from './store';
 import { paperAtom } from '~/paper-entry/store';
+import { truncateText } from '~/shared/utils/truncateText';
 
 
 export default function ThreadOptions(){
@@ -40,7 +41,13 @@ export default function ThreadOptions(){
         >
           {
             threadOptions.map((option) => (
-              <MenuItem key={option.id} value={option.id}>{option.description}</MenuItem>
+              <MenuItem key={option.id} value={option.id}>
+                { option.description.length > 25
+                  ? truncateText(25, option.description) + '...'
+                  : option.description
+                }
+                {option.duplicateNumber ? ` [${option.duplicateNumber}]` : ''}
+              </MenuItem>
             ))
           }
           <Button

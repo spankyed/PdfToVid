@@ -19,6 +19,18 @@ function getThread(threadId: string) {
   });
 }
 
+function findDuplicateDescriptions(paperId: string, description: string) {
+  return ThreadsTable.findAll({
+    where: {
+      paperId,
+      description: {
+        [Op.startsWith]: description
+      }
+    }
+  });
+
+}
+
 type MessageParams = {
   threadId: string;
   messageId?: string;
@@ -97,5 +109,6 @@ export {
   getThread,
   getMessages,
   getPdfDocuments,
-  toggleHideMessage
+  toggleHideMessage,
+  findDuplicateDescriptions
 }
