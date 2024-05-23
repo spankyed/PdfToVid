@@ -78,11 +78,6 @@ function addPdfDocument(pdfDocument: any) {
 
 function addMessage(message: any) {
   return MessagesTable.create(message);
-  // {
-  //   threadId,
-  //   content,
-  //   sender
-  // }
 }
 
 function addMessagesBulk(messages: any[]) {

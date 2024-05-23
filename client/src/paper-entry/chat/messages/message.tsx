@@ -13,7 +13,7 @@ export default function Message({ message }) {
   const isBranchMessage = message.parentId && currThread?.messageId == message.parentId;
 
   const [actionsShowing, showActions] = useState(false);
-  const isAssistant = message.sender === 'assistant';
+  const isAssistant = message.role === 'assistant';
   const isHidden = message.hidden;
   const yellowRGBA = 'rgba(255, 235, 59, 0.1)';
   const blueRGBA = 'rgba(33, 150, 243, 0.3)';
@@ -52,7 +52,7 @@ export default function Message({ message }) {
         </Tooltip>
 
         {
-          actionsShowing &&
+          actionsShowing && !message.stream &&
           <Actions message={message}/>
         }
       </div>

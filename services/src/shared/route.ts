@@ -1,12 +1,8 @@
-type RouteHandler = (request: any, h: any) => Promise<any>;
+import { Request, ResponseToolkit } from '@hapi/hapi';
 
-type Route = { method: string; path: string; handler: RouteHandler; };
-
-const constructRoute = (method: string, path: string, handler: RouteHandler): Route => {
-  return { method, path, handler }
-}
+type RouteHandler = (request: Request, h: ResponseToolkit) => Promise<any>;
 
 export const route = {
-  get: (path: any, handler: any) => constructRoute('GET', path, handler),
-  post: (path: any, handler: any) => constructRoute('POST', path, handler),
+  get: (path: string, handler: RouteHandler) => ({ method: 'GET', path, handler }),
+  post: (path: string, handler: RouteHandler) => ({ method: 'POST', path, handler }),
 }

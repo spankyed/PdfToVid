@@ -52,7 +52,7 @@ export class MessagesTable extends Model {
   declare threadId: string;
   declare hidden: boolean;
   declare text: string;
-  declare sender: string;
+  declare role: string;
   declare timestamp: string;
 }
 
@@ -91,7 +91,7 @@ MessagesTable.init({
   hidden: DataTypes.BOOLEAN,
   threadId: DataTypes.STRING,
   text: DataTypes.STRING,
-  sender: DataTypes.STRING,
+  role: DataTypes.STRING,
   // timestamp: DataTypes.STRING,
 }, {
   sequelize,

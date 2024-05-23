@@ -27,7 +27,7 @@ export default function Actions({ message }) {
   const branchThread = useSetAtom(branchThreadAtom);
 
   const filters = {
-    regenerate: (m) => m.sender === 'assistant',
+    regenerate: (m) => m.role === 'assistant',
     show: (m) => m.hidden,
     hide: (m) => !m.hidden,
     // thread: (m) => !m.hidden,

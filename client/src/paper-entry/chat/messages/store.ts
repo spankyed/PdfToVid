@@ -3,7 +3,6 @@ import { atomWithStorage } from 'jotai/utils';
 import { RefObject } from 'react';
 import * as api from '~/shared/api/fetch';
 
-
 export const inputRefAtom = atom<RefObject<HTMLInputElement> | null>(null);
 export const promptPresetsOpenAtom = atom(false);
 export const tokenUsageAtom = atom({ document: 0, total: 0, max: 128 });
@@ -13,9 +12,11 @@ export const inputAtom = atom('');
 export const inputEnabledAtom = atom(true);
 
 export const messagesAtom = atom<any[]>([
-  // { id: 2, text: "Can you help me with my project?", timestamp: "2023-05-10T09:01:00Z", sender: 'you' },
-  // { id: 3, text: "Of course! What do you need help with?", timestamp: "2023-05-10T09:02:00Z", sender: 'assistant' }
+  // { id: 2, text: "Can you help me with my project?", timestamp: "2023-05-10T09:01:00Z", role: 'user' },
+  // { id: 3, text: "Of course! What do you need help with?", timestamp: "2023-05-10T09:02:00Z", role: 'assistant' }
 ]);
+
+export const responseStreamAtom = atom<string>('');
 
 export const promptOptionsAtom = atomWithStorage<any[]>('promptPresets', [
 { id: 1, text: "Write me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper." },
@@ -34,18 +35,47 @@ export const sendMessageAtom = atom(
       id: Date.now(),
       text,
       timestamp: new Date().toISOString(),
-      sender: 'user'
+      role: 'user'
     };
 
     set(messagesAtom, prev => [...prev, newMessage]);
 
     try {
-      const response = await api.sendMessage({ paperId, threadId, text });
+      const response = await api.addMessage({ paperId, threadId, text });
       const messageId = response.data;
 
       set(messagesAtom, prev => prev.map(m => m.id === newMessage.id ? { ...m, id: messageId } : m));
 
+      const streamResponse = await api.streamResponse({ paperId, threadId, text });
+      const reader = streamResponse.body?.getReader();
+      console.log('reader: ', reader);
+      const decoder = new TextDecoder('utf-8');
+
+      const responsePlaceholder = {
+        threadId,
+        id: 'temp',
+        text: '',
+        timestamp: new Date().toISOString(),
+        role: 'assistant'
+      };
+  
+      set(messagesAtom, prev => [...prev, responsePlaceholder]);
+
+      if (reader){
+        let result = '';
+        while (true) {
+            const { done, value } = await reader!.read();
+            if (done) break;
+            const chunk = decoder.decode(value, { stream: true });
+            console.log('chunk: ', chunk);
+            result += chunk;
+            set(messagesAtom, prev => prev.map(m => m.id === 'temp' ? { ...m, text: result } : m))
+        }
+      }
+      
       set(inputEnabledAtom, true);
+      // set(responseStreamAtom, '');
+
       // setTimeout(() => {
       //   set(inputEnabledAtom, true);
       // }, 5000);
@@ -58,6 +88,7 @@ export const sendMessageAtom = atom(
     // todo set loading state and disable button
   }
 );
+
 
 
 // export const fetchPaperAtom = atom(

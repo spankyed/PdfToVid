@@ -2,13 +2,15 @@ import * as repository from './repository';
 import { route } from '~/shared/route';
 import getPdfText from './scripts/get-pdf-text';
 import initializeChat from './scripts/initialize-chat';
+import streamChatResponse from './scripts/stream-chat-response';
+import { Request, ResponseToolkit } from '@hapi/hapi';
 
-async function deleteMessage(request: any, h: any) {
-  const messageId = request.payload.messageId;
+async function initChat(request: any, h: any){
+  const paperId = request.params.paperId;
+  let textLength = await initializeChat(paperId);
+  let pdfTokenCount = textLength / 4;
 
-  await repository.deleteMessage(messageId);
-
-  return h.response('');
+  return h.response(pdfTokenCount);
 }
 
 async function getMessages(request: any, h: any) {
@@ -19,13 +21,6 @@ async function getMessages(request: any, h: any) {
   return h.response(messages);
 }
 
-async function initChat(request: any, h: any){
-  const paperId = request.params.paperId;
-  let textLength = await initializeChat(paperId);
-  let pdfTokenCount = textLength / 4;
-
-  return h.response(pdfTokenCount);
-}
 async function getThreads(request: any, h: any){
   const paperId = request.params.paperId;
   let threads = await repository.getAllThreads(paperId);
@@ -48,42 +43,6 @@ async function getThreads(request: any, h: any){
   }, 10);
 
   return h.response(threads);
-}
-
-async function sendMessage(request: any, h: any) {
-  const { paperId, threadId, text } = request.payload;
-
-  const thread = await repository.getThread(threadId);
-
-  if (!thread) {
-    return h.response('Thread not found').code(404);
-  }
-
-  const messageRecord = await repository.addMessage({
-    paperId,
-    threadId,
-    text,
-    hidden: false,
-    sender: 'user',
-  });
-
-  // todo move this to a separate async function and update status with websockets
-  const [pdfDoc, messages] = await Promise.all([
-    repository.getPdfDocuments(paperId, thread.viewMode || 0),
-    repository.getMessages({ threadId }),
-  ]);
-
-  const conversation = [
-    pdfDoc[0]?.content,
-    ...messages.map((message) => message.text),
-  ]
-
-  console.log('conversation: ', conversation);
-
-  // const completion = await getCompletion(conversation);
-
-  console.log('message received');
-  return h.response(messageRecord.id);
 }
 
 // async function setDocumentViewMode(request: any, h: any) {
@@ -129,7 +88,7 @@ async function branchThread(request: any, h: any) {
     parentId: message.id === messageId ? message.id : null,
     threadId: newThread.id,
     text: message.text,
-    sender: message.sender,
+    role: message.role,
     hidden: false,
   }));
 
@@ -149,14 +108,68 @@ async function toggleHideMessage(request: any, h: any) {
   return h.response('');
 }
 
+async function deleteMessage(request: any, h: any) {
+  const messageId = request.payload.messageId;
+
+  await repository.deleteMessage(messageId);
+
+  return h.response('');
+}
+
+async function addMessage(request: any, h: any) {
+  const { paperId, threadId, text } = request.payload;
+  console.log('message received');
+
+  const thread = await repository.getThread(threadId);
+
+  if (!thread) {
+    return h.response('Thread not found').code(404);
+  }
+
+  const messageRecord = await repository.addMessage({
+    paperId,
+    threadId,
+    text,
+    hidden: false,
+    role: 'user',
+  });
+
+  return h.response(messageRecord.id);
+}
+async function streamResponse(request: Request, h: ResponseToolkit) {
+  const { paperId, threadId } = request.payload as any;
+  console.log('paperId: ', paperId);
+  console.log('streaming response');
+
+  const thread = await repository.getThread(threadId);
+
+  if (!thread) {
+    return h.response('Thread not found').code(404);
+  }
+
+  const model = 'gpt-4o';
+
+  const responseStream = await streamChatResponse({
+    paperId,
+    thread,
+    model,
+  })
+
+  return h.response(responseStream);
+}
+
+
+
 export default [
   route.get('/initializeChat/{paperId}', initChat),
   route.get('/getThreads/{paperId}', getThreads),
   route.get('/getMessages/{threadId}', getMessages),
-  route.post('/sendMessage', sendMessage),
   // route.post('/setDocumentViewMode', setDocumentViewMode),
   route.post('/createThread', createThread),
   route.post('/branchThread', branchThread),
+
   route.post('/toggleHideMessage', toggleHideMessage),
   route.post('/deleteMessage', deleteMessage),
+  route.post('/addMessage', addMessage),
+  route.post('/streamResponse', streamResponse),
 ]

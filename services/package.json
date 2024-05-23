@@ -53,6 +53,7 @@
     "node-emoji": "^2.1.0",
     "node-fetch": "^3.3.1",
     "open": "^9.1.0",
+    "openai": "^4.47.1",
     "path": "^0.12.7",
     "pdf-ts": "^0.0.2",
     "playwright": "^1.36.1",
