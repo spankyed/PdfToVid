@@ -24,7 +24,7 @@ export default function ChatTab({ paperId }) {
   return (
     <Box sx={{ marginTop: 2, mb: 1 }}>
       <ChatOptions />
-      <DocumentSection />
+      {/* <DocumentSection /> */}
       <MessageList />
     </Box>
   );
