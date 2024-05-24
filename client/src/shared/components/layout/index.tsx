@@ -12,7 +12,7 @@ import { NotificationManager } from '../notification';
 import * as api from '~/shared/api/fetch';
 import { isNewUserAtom } from './store';
 
-const height = 'calc(100vh - 65px)';
+// const height = 'calc(100vh - 65px)';
 
 function Layout(): React.ReactElement {
   const navigate = useNavigate();
@@ -34,28 +34,36 @@ function Layout(): React.ReactElement {
 
   return (
     <>
-      <AppBar position="sticky" sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)', boxShadow: 'none' }}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <TitleArea isNewUser={isNewUser}/>
-          {
-            !isNewUser && (
-              <SearchInput />
-            )
-          }
-        </Toolbar>
-      </AppBar>
       <Box sx={{
         display: 'flex',
-        maxHeight: height,
+        // maxHeight: height,
+        maxHeight: '100vh',
         transition: 'all 0.5s ease-in-out',
         backgroundColor: colors.main,
       }}>
+        <TitleArea isNewUser={isNewUser}/>
+
         {
           !isNewUser && (
             <Sidebar />
           )
         }
         <Box component="main" sx={{ flexGrow: 1 }}>
+          <AppBar
+            position="sticky"
+            sx={{
+              backgroundColor: 'rgb(76 61 168)',
+              borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+              boxShadow: 'none'
+            }}>
+            <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              {
+                !isNewUser && (
+                  <SearchInput />
+                )
+              }
+            </Toolbar>
+          </AppBar>
           {
             !isNewUser && (
               <SidebarToggleButton/>
@@ -78,7 +86,13 @@ function TitleArea({ isNewUser }) {
   };
 
   return (
-    <div style={{ display: 'flex', marginLeft: '.4rem', width: '230px'}}>
+    <div style={{
+      display: 'flex', marginLeft: '.4rem', width: '230px',
+      position: 'absolute',
+      top: '.7rem',
+      left: '1.4rem',
+      zIndex: 9999,
+    }}>
       {
         !isNewUser && (
           <IconButton
@@ -96,12 +110,13 @@ function TitleArea({ isNewUser }) {
       <Link color="inherit" to={isNewUser ? '/onboard' : "/calendar"}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <Typography variant="h6" component="div" sx={{
-            borderRadius: '10%', padding: '2px 7px', border: '2px solid white'
+            borderRadius: '10%', padding: '2px 7px', border: '2px solid white',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
           }}>
-            AI
+            Curate
           </Typography>
           <Typography variant="h6" component="div" sx={{ padding: '4px 4px' }}>
-            Labs
+            GPT
           </Typography>
         </div>
       </Link>
@@ -129,20 +144,32 @@ function SearchInput(){
   return (
     <form onSubmit={handleSearch} style={{ display: 'flex' }}> {/* Form submission */}
       <TextField
-          id="query-input"
-          label="Keyword"
-          value={searchValue}
-          size="small"
-          onChange={handleSearchInputChange}
-          sx={{
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-          }}
-          fullWidth/>
+        id="query-input"
+        label="Keyword"
+        value={searchValue}
+        size="small"
+        onChange={handleSearchInputChange}
+        sx={{
+          borderTopRightRadius: '0',
+          borderBottomRightRadius: '0',
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        }}
+        InputProps={{
+          sx: {
+            borderTopRightRadius: '0',
+            borderBottomRightRadius: '0',
+          },
+        }}
+        
+        fullWidth/>
       <Button
         type="submit"
         variant="contained"
-        color="success"
-        sx={{ boxShadow: 'none' }}
+        sx={{
+          borderTopLeftRadius: '0',
+          borderBottomLeftRadius: '0',
+          boxShadow: 'none'
+        }}
       >
         Search
       </Button>

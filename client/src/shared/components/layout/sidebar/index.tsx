@@ -23,7 +23,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <Box sx={{
-      paddingTop: '1rem', // Add 1rem margin to the left
+      // paddingTop: '1rem', // Add 1rem margin to the left
       width: isSidebarOpen ? 240 : 0,
       minWidth: 0,
       transition: 'width .3s ease',
@@ -32,28 +32,40 @@ const Sidebar: React.FC = () => {
       display: 'flex',
       flexDirection: 'column',
       flexShrink: 0,
+      // borderRight: '1px solid rgba(0, 0, 0, 0.9)',
       backgroundColor: colors.sidebar,
+      paddingTop: '4rem',
     }}>
-      <List component="nav" sx={{ paddingBottom: 0 }}>
-        <NavItem onClick={() => navigate('calendar')}>
+      <List component="nav" sx={{
+        // paddingBottom: 0,
+        // marginTop: '2rem',
+        borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+      }}>
+        {/* <NavItem onClick={() => navigate('calendar')}>
           <ListItemIcon>
             <DateRangeIcon />
           </ListItemIcon>
           <ListItemText primary="Calendar" />
-        </NavItem>
-        <NavItem onClick={() => navigate('search')}>
+        </NavItem> */}
+        <NavItem
+          onClick={() => navigate('search')}
+          sx={{
+
+          }}
+        >
           <ListItemIcon>
             <SearchIcon />
           </ListItemIcon>
           <ListItemText primary="Search" />
         </NavItem>
 
-        <NavItem onClick={() => navigate('analytics')}>
+        {/* <NavItem onClick={() => navigate('analytics')}>
           <ListItemIcon>
             <AssessmentIcon />
           </ListItemIcon>
           <ListItemText primary="Reports" />
-        </NavItem>
+        </NavItem> */}
 
         <NavItem onClick={() => navigate('backfill')}>
           <ListItemIcon>
@@ -61,24 +73,6 @@ const Sidebar: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Backfill" />
         </NavItem>
-
-        <Divider 
-        sx={{
-          marginTop: '1rem', // Add 1rem margin to the left
-          // marginBottom: '1rem', // Add 1rem margin to the left
-        }}
-        />
-        
-        {/* <ListSubheader component="div" id="dates-subheader"
-        sx={{
-          marginLeft: '.5rem', // Add 1rem margin to the left
-          marginTop: '1rem', // Add 1rem margin to the left
-          marginBottom: '-.5rem', // Add 1rem margin to the left
-        }}
-        >
-          DATES
-        </ListSubheader> */}
-
       </List>
       <Dates />
     </Box>
