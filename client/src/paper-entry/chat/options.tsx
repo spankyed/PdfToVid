@@ -23,13 +23,14 @@ function ModelOptions(){
       <FormControl sx={{ width: '10rem' }}>
         <InputLabel id="model-select-label">Model</InputLabel>
         <Select
+          disabled={true}
           labelId="model-select-label"
           value={model}
           label="Model"
           onChange={(e) => setModel(e.target.value)}
         >
-          <MenuItem value="Claude">Claude</MenuItem>
-          <MenuItem value="GPT-4">GPT-4</MenuItem>
+          <MenuItem value="gpt-4o">GPT-4o</MenuItem>
+          <MenuItem value="claude-sonnet">Claude Sonnet</MenuItem>
         </Select>
       </FormControl>
     </Box>

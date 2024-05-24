@@ -4,7 +4,7 @@ import { messagesAtom, tokenUsageAtom } from './messages/store';
 import { atomWithStorage } from 'jotai/utils';
 import { selectedThreadsAtom, threadOptionsAtom } from './threads/store';
 
-export const modelAtom = atom('Claude');
+export const modelAtom = atom('gpt-4o');
 
 export const chatStateAtom = atom<'loading' | 'ready' | 'error'>('loading');
 
