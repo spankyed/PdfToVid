@@ -12,7 +12,7 @@ function getProvider(model: keyof typeof modelProviders){
   return modelProviders[model] || undefined;
 }
 
-export async function getChatStream({
+export async function createChatStream({
   model,
   pdf,
   messages,
@@ -35,6 +35,8 @@ export async function getChatStream({
 
     streamOpenAI({ ...paramsTemplate, model }, handlers)
   } else {
-
+    // todo if provider is anthropic,
+    // ! the first message must be from the user
+    // todo handle branches from assistant messages
   }
 }

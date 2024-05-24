@@ -2,7 +2,7 @@ import * as repository from './repository';
 import { route } from '~/shared/route';
 import getPdfText from './scripts/get-pdf-text';
 import initializeChat from './scripts/initialize-chat';
-import streamChatResponse from './scripts/stream-chat-response';
+import startChatStream from './scripts/start-chat-stream';
 import { Request, ResponseToolkit } from '@hapi/hapi';
 
 async function initChat(request: any, h: any){
@@ -116,7 +116,7 @@ async function deleteMessage(request: any, h: any) {
   return h.response('');
 }
 
-async function addMessage(request: any, h: any) {
+async function sendMessage(request: any, h: any) {
   const { paperId, threadId, text } = request.payload;
   console.log('message received');
 
@@ -149,13 +149,13 @@ async function streamResponse(request: Request, h: ResponseToolkit) {
 
   const model = 'gpt-4o';
 
-  const responseStream = await streamChatResponse({
+  const responseMessageId = await startChatStream({
     paperId,
     thread,
     model,
   })
 
-  return h.response(responseStream);
+  return h.response(responseMessageId);
 }
 
 
@@ -170,6 +170,6 @@ export default [
 
   route.post('/toggleHideMessage', toggleHideMessage),
   route.post('/deleteMessage', deleteMessage),
-  route.post('/addMessage', addMessage),
+  route.post('/sendMessage', sendMessage),
   route.post('/streamResponse', streamResponse),
 ]

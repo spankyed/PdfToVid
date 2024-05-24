@@ -84,6 +84,12 @@ function addMessagesBulk(messages: any[]) {
   return MessagesTable.bulkCreate(messages, { returning: true });
 }
 
+function updateMessage(messageId: string, message: any) {
+  return MessagesTable.update(message, {
+    where: { id: messageId }
+  });
+}
+
 function addThread(thread: any) {
   return ThreadsTable.create(thread);
   // {
@@ -104,6 +110,7 @@ export {
   deleteMessage,
   addMessage,
   addMessagesBulk,
+  updateMessage,
   addThread,
   addPdfDocument,
   getAllThreads,

@@ -11,6 +11,8 @@ import './paper-entry.css';
 import { updatePaperAtom } from '~/shared/store';
 import ContentTab from './content';
 import ChatTab from './chat';
+import SocketListener from '~/shared/api/socket-listener';
+import { handleStreamStatusAtom } from './chat/messages/store';
 
 const orEmpty = (value: string | undefined) => value || '';
 
@@ -23,6 +25,7 @@ const PaperEntryPage = () => {
   const [paper] = useAtom(paperAtom);
   const [pageState, setPageState] = useAtom(pageStateAtom);
   const updatePaper = useSetAtom(updatePaperAtom);
+  const handleStreamStatus = useSetAtom(handleStreamStatusAtom);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,6 +75,7 @@ const PaperEntryPage = () => {
         </>
         )
       }
+      <SocketListener eventName="chat_status" handleEvent={handleStreamStatus}/>
     </PageLayout>
   );
 }

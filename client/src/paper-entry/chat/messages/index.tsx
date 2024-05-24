@@ -4,7 +4,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { scrollableContainerRefAtom } from '../../store';
 import Message from './message';
 import { ChatInput } from './input';
-import { promptPresetsOpenAtom, messagesAtom, responseStreamAtom } from './store';
+import { promptPresetsOpenAtom, messagesAtom } from './store';
 import PromptMenu from './prompt-menu';
 import { chatStateAtom } from '../store';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -12,7 +12,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function MessageList () {
   const promptPresetsOpen = useAtomValue(promptPresetsOpenAtom);
   const messages = useAtomValue(messagesAtom);
-  const streamMessage = useAtomValue(responseStreamAtom);
   const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
   const chatState = useAtomValue(chatStateAtom);
   const isLoading = chatState === 'loading';
@@ -80,9 +79,6 @@ export default function MessageList () {
             isLoading 
             ? <Loader />
             : <>
-                {streamMessage &&
-                <Message message={{ text: streamMessage, role: 'assistant', stream: true }} />}
-
                 {messages.slice().reverse().map((message) => (
                   <Message key={message.id} message={message} />
                 ))}

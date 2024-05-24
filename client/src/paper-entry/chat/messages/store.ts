@@ -16,8 +16,6 @@ export const messagesAtom = atom<any[]>([
   // { id: 3, text: "Of course! What do you need help with?", timestamp: "2023-05-10T09:02:00Z", role: 'assistant' }
 ]);
 
-export const responseStreamAtom = atom<string>('');
-
 export const promptOptionsAtom = atomWithStorage<any[]>('promptPresets', [
 { id: 1, text: "Write me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper." },
 { id: 2, text: "Write an analogy or metaphor that will help explain this paper to a broad audience." },
@@ -41,40 +39,24 @@ export const sendMessageAtom = atom(
     set(messagesAtom, prev => [...prev, newMessage]);
 
     try {
-      const response = await api.addMessage({ paperId, threadId, text });
+      const response = await api.sendMessage({ paperId, threadId, text });
       const messageId = response.data;
 
       set(messagesAtom, prev => prev.map(m => m.id === newMessage.id ? { ...m, id: messageId } : m));
 
       const streamResponse = await api.streamResponse({ paperId, threadId, text });
-      const reader = streamResponse.body?.getReader();
-      console.log('reader: ', reader);
-      const decoder = new TextDecoder('utf-8');
+      const responseId = streamResponse.data;
 
       const responsePlaceholder = {
         threadId,
-        id: 'temp',
-        text: '',
-        timestamp: new Date().toISOString(),
-        role: 'assistant'
+        id: responseId,
+        text: '...',
+        // timestamp: new Date().toISOString(),
+        role: 'assistant',
+        streaming: 1
       };
   
       set(messagesAtom, prev => [...prev, responsePlaceholder]);
-
-      if (reader){
-        let result = '';
-        while (true) {
-            const { done, value } = await reader!.read();
-            if (done) break;
-            const chunk = decoder.decode(value, { stream: true });
-            console.log('chunk: ', chunk);
-            result += chunk;
-            set(messagesAtom, prev => prev.map(m => m.id === 'temp' ? { ...m, text: result } : m))
-        }
-      }
-      
-      set(inputEnabledAtom, true);
-      // set(responseStreamAtom, '');
 
       // setTimeout(() => {
       //   set(inputEnabledAtom, true);
@@ -91,31 +73,22 @@ export const sendMessageAtom = atom(
 
 
 
-// export const fetchPaperAtom = atom(
-//   null,
-//   async (get, set, paperId) => {
-//     if (!paperId) {
-//       console.error("Paper id not provided", paperId);
-//       return;
-//     }
-//     set(pageStateAtom, 'loading');
+export const handleStreamStatusAtom = atom(
+  null,
+  async (get, set, { key: responseMessageId, status: newStatus, data: text, final }) => {
+    if (!responseMessageId) {
+      console.error("Message id not provided", responseMessageId);
+      return;
+    }
 
-//     try {
-//       const response = await api.getPaperById(paperId);
-//       const paper = response.data;
-//       console.log('Paper fetched: ', {paper});
+    set(messagesAtom, prev => prev.map(m => m.id === responseMessageId ? {
+      ...m,
+      text,
+      streaming: final ? 0 : 1
+    } : m))
 
-//       if (!paper) {
-//         set(pageStateAtom, 'error');
-
-//         return;
-//       }
-
-//       set(paperAtom, paper);
-//       set(pageStateAtom, 'ready');
-//     } catch (error) {
-//       console.error(`Failed to fetch paper with id: ${paperId}`, error);
-//       set(pageStateAtom, 'error');
-//     }
-//   }
-// );
+    if (final) {
+      set(inputEnabledAtom, true);
+    }
+  }
+);

@@ -37,13 +37,5 @@ export const branchThread = (params) => axios.post(apiUrl + '/branchThread', par
 
 export const toggleHideMessage = (params) => axios.post(apiUrl + '/toggleHideMessage', params);
 export const deleteMessage = (messageId) => axios.post(apiUrl + '/deleteMessage', { messageId });
-export const addMessage = (params) => axios.post(apiUrl + '/addMessage', params);
-
-// export const streamResponse = (params) => axios.post(apiUrl + '/streamResponse', params, { responseType: 'stream' });
-export const streamResponse = (params) => fetch(apiUrl + '/streamResponse', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(params),
-});
+export const sendMessage = (params) => axios.post(apiUrl + '/sendMessage', params);
+export const streamResponse = (params) => axios.post(apiUrl + '/streamResponse', params);
