@@ -17,7 +17,7 @@ export const ChatInput = () => {
   const paper = useAtomValue(paperAtom);
   const selectedThreads = useAtomValue(selectedThreadsAtom);
   const chatState = useAtomValue(chatStateAtom);
-  const notReady = chatState !== 'ready';
+  const ready = inputEnabled && chatState === 'ready';
   const setInputRef = useSetAtom(inputRefAtom);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -57,7 +57,7 @@ export const ChatInput = () => {
 
       <TextField
         inputRef={inputRef}
-        disabled={!inputEnabled || notReady}
+        disabled={!ready}
         multiline
         value={input}
         onChange={(e) => setInput(e.target.value)}
@@ -68,7 +68,7 @@ export const ChatInput = () => {
           sx: { borderTopLeftRadius: 0, borderTopRightRadius: 0 },
           startAdornment: (
             <IconButton
-              disabled={!inputEnabled || notReady}
+              disabled={!ready}
               onClick={handleMenuToggle} color="primary" className="menu-toggle-button">
               <MoreVertIcon />
             </IconButton>
@@ -76,7 +76,7 @@ export const ChatInput = () => {
           endAdornment: (
             <>
               <IconButton
-                disabled={!inputEnabled || notReady}
+                disabled={!ready}
                 onClick={handleSend}>
                 <SendIcon />
               </IconButton>
