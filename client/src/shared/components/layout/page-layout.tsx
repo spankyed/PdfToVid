@@ -61,7 +61,7 @@ const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(({
           width: compact ? '90%' : '98%',
           display: 'flex',
           flexDirection: 'column',
-          padding: compact ? 2 : 4,
+          // padding: compact ? 2 : 4,
         }}
       >
         {children}

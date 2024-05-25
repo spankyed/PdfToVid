@@ -8,7 +8,7 @@ import PageTitle from './components/page-title';
 import MainTabs from './components/main';
 import PageLayout from '~/shared/components/layout/page-layout';
 import ResetState from '~/shared/components/date/reset';
-import ScrapeStatus from '~/shared/components/date/scrape-status';
+import ScrapeStatus from '~/shared/components/date/status';
 import SocketListener from '~/shared/api/socket-listener';
 import { addAlertAtom } from '~/shared/components/notification/store';
 import dayjs from 'dayjs';

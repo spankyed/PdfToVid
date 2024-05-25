@@ -2,8 +2,8 @@ import { createTheme } from '@mui/material/styles';
 import './index.css';
 
 export const colors = {
-  main: 'rgb(25,28,28)',
-  sidebar: 'rgb(17,20,20)',
+  main: 'rgba(0, 0, 0, 0.3)',
+  sidebar: '',
   // primary: '#f5f5f5',
 }
 

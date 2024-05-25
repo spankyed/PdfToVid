@@ -54,7 +54,7 @@ const Calendar: React.FC = () => {
 
   return (
       <PageLayout
-        padding={2}
+        // padding={2}
         compact={false}
         ref={containerRef}
         onScroll={handleScroll}

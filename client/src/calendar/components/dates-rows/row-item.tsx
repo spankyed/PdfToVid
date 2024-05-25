@@ -7,7 +7,7 @@ import List from './papers-carousel';
 import { useNavigate } from 'react-router-dom';
 import { selectedDateAtom } from '~/shared/store';
 import { scrapePapersAtom } from '~/calendar/store';
-import ScrapeStatus from '~/shared/components/date/scrape-status';
+import ScrapeStatus from '~/shared/components/date/status';
 
 function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow>; isFocalElement: boolean }): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
@@ -40,11 +40,12 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
         display: 'flex', 
         flexDirection: 'column', 
         alignItems: 'center', 
-        borderBottom: '1px solid rgba(0, 0, 0, 0.3)',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
         paddingTop: 2,  
         paddingBottom: 2,
-        backgroundColor: selectedDate === value ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
-        margin: '.5rem 2rem',
+        // backgroundColor: selectedDate === value ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+        backgroundColor: status === 'pending' ? 'rgba(50,50,50, .4)' : 'transparent',
+        margin: '0rem 2rem',
       }}
       onClick={onDateClick(date)}
     >
@@ -62,7 +63,7 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
           fontWeight: 'bold',
           transform: 'skewX(-5deg)', // Adds a slant to the text
           display: 'inline-block', // Necessary for transform
-          boxShadow: '2px 2px 10px rgba(106, 48, 147, 0.4)', // Soft shadow with a color that matches the gradient
+          boxShadow: '2px 2px 5px rgb(76 61 168)', // Soft shadow with a color that matches the gradient
           fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
           letterSpacing: '0.01em',
           textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)', // subtle text shadow for depth

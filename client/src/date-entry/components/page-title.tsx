@@ -47,7 +47,7 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
             webkitBackgroundClip: 'text',
             webkitTextFillColor: 'transparent',
             borderBottom: '2px solid #FF8E53',
-            boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+            boxShadow: '0 3px 5px 2px rgb(76 61 168)',
             padding: '.5em 2em .5em 2em',
             fontWeight: 'bold',
             borderRadius: '5px',

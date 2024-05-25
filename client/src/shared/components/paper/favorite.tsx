@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 // import { Paper } from '~/shared/utils/types';
 
 // import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -31,15 +31,13 @@ function Favorite ({ paper = {} }: { paper?: Partial<Paper> }): React.ReactEleme
   }
 
   return (
-    <Button
-      onClick={updateIsStarred}
-    >
+    <IconButton onClick={updateIsStarred}>
       {
         paper.isStarred
           ? <StarOutlinedIcon color="warning" />
           : <StarBorderOutlinedIcon color='warning' />
       }
-    </Button>
+    </IconButton>
   )
 }
 

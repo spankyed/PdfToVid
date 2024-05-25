@@ -11,9 +11,10 @@ import { calendarLoadMonthAtom, calendarStateAtom } from '~/calendar/store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 
 const MonthItem = styled(ListItemButton)(({ theme }) => ({
-  marginLeft: '.5rem', // Add 1rem margin to the left
+  // marginLeft: '.5rem', // Add 1rem margin to the left
   // marginRight: '4rem', // Add 1rem margin to the left
   whiteSpace: 'nowrap',
+  borderBottom: '1px solid rgba(140, 130, 115, 0.22)', 
 }));
 
 function DateList(): React.ReactElement {
@@ -91,13 +92,17 @@ function DateList(): React.ReactElement {
       {datesRows.map(({ month, dates }) => (
         <div key={month} ref={el => collapseRefs.current[month] = el}>
           <MonthItem onClick={() => clickMonth(month)} sx={{ fontWeight: 'bolder' }}>
-            <ListItemText primary={month} sx={{ 
-              borderBottom: '1px solid rgba(0, 0, 0, 0.3)', 
-              paddingBottom: '4px',
-              // marginLeft: '16%',
-              // textAlign: 'center' 
-              // paddingLeft: '.2rem', 
-            }}/>
+            <ListItemText
+              primary={<span style={{ fontWeight: '600', color: 'rgba(232, 230, 227, 0.85)' }}>{month}</span>}
+              sx={{ 
+                // borderBottom: '1px solid rgba(0, 0, 0, 0.3)', 
+                paddingBottom: '4px',
+                // textAlign: 'center',
+                marginLeft: '5%',
+                // paddingLeft: '.2rem', 
+                color: 'rgba(232, 230, 227, 0.1)',
+              }}
+            />
           </MonthItem>
           <Collapse in={openMonth === month} timeout="auto" onEntered={() => handleMonthOpen(month)}>
             <List component="div">

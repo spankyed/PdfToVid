@@ -43,7 +43,11 @@ export default function Message({ message }) {
         <Tooltip
           title={dayjs(message.timestamp).format('MMM D, YYYY h:mm A')}
           placement='top'>
-          <p style={{ fontWeight: '600', color: 'rgba(0, 0, 0, 0.47)', opacity }} className='pr-4  '>
+          <p style={{
+            fontWeight: '600',
+            color: isAssistant ? '#7057f7b3' : 'rgba(0, 0, 0, 0.65)',
+            opacity
+          }} className='pr-4  pb-1'>
             { isAssistant
             ? 'Assistant'
             : 'You'

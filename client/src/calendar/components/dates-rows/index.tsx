@@ -86,7 +86,7 @@ const LoadMoreButton = ({ dbCursor }) => {
     <div className="flex justify-center mt-8 pb-16">
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         disabled={isLoading || lastRecordReached}
         onClick={handleClick} // Pass the function directly
         className="text-white bg-red-500 hover:bg-red-700 ... your tailwind classes here ..."

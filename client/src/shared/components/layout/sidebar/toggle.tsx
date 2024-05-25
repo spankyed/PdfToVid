@@ -87,8 +87,7 @@ function SidebarToggleButton() {
     >
       <div
         style={{
-          backgroundColor: colors.main,
-          padding: '.75rem 1rem',
+          padding: '0rem 1rem',
         }}
       >
         <div style={getStyle('top')}></div>

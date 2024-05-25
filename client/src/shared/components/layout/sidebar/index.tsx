@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
       flexDirection: 'column',
       flexShrink: 0,
       // borderRight: '1px solid rgba(0, 0, 0, 0.9)',
-      backgroundColor: colors.sidebar,
+      // backgroundColor: colors.sidebar,
       paddingTop: '4rem',
     }}>
       <List component="nav" sx={{
@@ -41,6 +41,7 @@ const Sidebar: React.FC = () => {
         // marginTop: '2rem',
         borderTop: '1px solid rgba(0, 0, 0, 0.12)',
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderBottom: '1px solid rgba(140, 130, 115, 0.22)', 
       }}>
         {/* <NavItem onClick={() => navigate('calendar')}>
           <ListItemIcon>
@@ -51,7 +52,7 @@ const Sidebar: React.FC = () => {
         <NavItem
           onClick={() => navigate('search')}
           sx={{
-
+            // borderBottom: '1px solid rgba(140, 130, 115, 0.22)', 
           }}
         >
           <ListItemIcon>

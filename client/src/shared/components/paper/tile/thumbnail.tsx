@@ -76,23 +76,27 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
         aria-label="paper actions"
         style={{
           position: 'absolute',
-          top: 0,
+          // top: 0,
+          // left: 0,
+          bottom: 0,
           right: 0,
           // padding: '8px',
-          backgroundColor: 'rgba(0, 0, 0, 0.8)', // Translucent black background
+          // backgroundColor: 'rgba(0, 0, 0, 0.8)', // Translucent black background
           // color: 'white',
           // textAlign: 'center',
           borderBottomLeftRadius: '4px',
           borderBottomRightRadius: '4px',
+          zIndex: 999,
         }}
       >
         <Favorite paper={paper}/>
-        <Button onClick={onViewClick}>
+        {/* <Button onClick={onViewClick}>
           <Tooltip title='View on Arxiv'>
             <VisibilityIcon color="info" style={{ marginRight: '4px' }} />
           </Tooltip>
-        </Button>
+        </Button> */}
       {
+        /*
         // notUploaded(paper) && (
           <>
             <PaperAction paper={paper} />
@@ -103,6 +107,7 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
           }
           </>
         // )
+        */
       }
       </ButtonGroup>
     </>

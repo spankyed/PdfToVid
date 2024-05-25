@@ -54,7 +54,7 @@
   }
   
   .carousel-wrapper .thumb-img:hover {
-    box-shadow: 0 0 10px 3px rgba(255, 255, 0, 0.5);
+    box-shadow: 0 0 10px 3px rgb(76, 61, 168, .9);
   }
   
   .carousel-wrapper .thumb-img:not(:last-child) {
