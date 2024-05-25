@@ -45,7 +45,7 @@ export default function Message({ message }) {
           placement='top'>
           <p style={{
             fontWeight: '600',
-            color: isAssistant ? '#7057f7b3' : 'rgba(0, 0, 0, 0.65)',
+            color: isAssistant ? '#53A7EB' : 'rgba(0, 0, 0, 0.65)',
             opacity
           }} className='pr-4  pb-1'>
             { isAssistant
