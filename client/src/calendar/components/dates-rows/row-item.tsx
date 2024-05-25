@@ -33,6 +33,8 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
     navigate(`/date/${date.value}`);
   }
 
+  const transparentBg = status === 'complete';
+
   return (
     <Box 
       // onMouseEnter={() => setSelectedDate(value)}
@@ -44,7 +46,7 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
         paddingTop: 2,  
         paddingBottom: 2,
         // backgroundColor: selectedDate === value ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
-        backgroundColor: status === 'pending' ? 'rgba(50,50,50, .4)' : 'transparent',
+        backgroundColor: !transparentBg ? 'rgba(50,50,50, .4)' : 'transparent',
         margin: '0rem 2rem',
       }}
       onClick={onDateClick(date)}
