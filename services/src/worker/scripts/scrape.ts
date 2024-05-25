@@ -10,7 +10,7 @@ import { notifyClient } from '~/shared/status';
 const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
   try {
     console.log('Scraping papers...', date);
-    sharedRepository.updateDateStatus(date, 'scraping')
+    sharedRepository.updateDate(date, { status: 'scraping' })
     notifyClient({ key: date, status: 'scraping' }, alwaysNotify);
 
     const papers = await scrapePapersByDate(date);
@@ -20,7 +20,7 @@ const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
     }
   
     console.log('Ranking papers...', date);
-    sharedRepository.updateDateStatus(date, 'ranking')
+    sharedRepository.updateDate(date, { status: 'ranking' })
     notifyClient({ key: date, status: 'ranking' }, alwaysNotify);
   
     const rankedPapers = await getRelevancyScores(papers);
@@ -31,7 +31,7 @@ const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
     try {
       Promise.all([
         sharedRepository.storePapers(paperRecords),
-        sharedRepository.updateDateStatus(date, 'complete')
+        sharedRepository.updateDate(date, { status: 'complete', count: paperRecords.length })
       ]);
     } catch (error) {
       console.error(`Error storing papers: ${date}`, error);
@@ -47,8 +47,8 @@ const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
   } catch (error) {
     console.error('Error scraping/ranking papers for:', date);
   
-    // sharedRepository.updateDateStatus(date, 'error')
-    sharedRepository.updateDateStatus(date, 'pending')
+    // sharedRepository.updateDate(date, 'error')
+    sharedRepository.updateDate(date, { status: 'pending' })
     notifyClient({ key: date, status: 'error', data: [], final: true }, alwaysNotify);
     
     // throw error

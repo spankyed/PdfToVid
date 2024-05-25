@@ -34,7 +34,7 @@ function loadMonth(request: any, h: any){
 function reset(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const date = request.params.date;
-    const success = await sharedRepository.updateDateStatus(date, 'pending');
+    const success = await sharedRepository.updateDate(date, { status: 'pending' });
     resolve(success) 
   });
 }

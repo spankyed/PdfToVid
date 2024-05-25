@@ -11,6 +11,7 @@ export type TableTypes = {
 export type DateRecord = {
   value: string;
   status: DateStatuses;
+  count?: number;
 };
 export type PaperRecord = {
   id: string;

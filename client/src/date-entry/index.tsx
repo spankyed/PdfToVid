@@ -12,6 +12,7 @@ import ScrapeStatus from '~/shared/components/date/status';
 import SocketListener from '~/shared/api/socket-listener';
 import { addAlertAtom } from '~/shared/components/notification/store';
 import dayjs from 'dayjs';
+import { updateSidebarDataAtom } from '~/shared/components/layout/sidebar/dates/store';
 
 function DateEntryPage(): React.ReactElement {
   let { dateId } = useParams<{ dateId: string }>();
@@ -45,6 +46,7 @@ function RenderByState({ dateId, state }) {
   const setPageState = useSetAtom(dateEntryStateAtom);
   const setPapers = useSetAtom(dateEntryPapersAtom);
   const addAlert = useSetAtom(addAlertAtom);
+  const updateSidebarData = useSetAtom(updateSidebarDataAtom);
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }) => {
     if (newStatus === 'complete') {
@@ -63,6 +65,8 @@ function RenderByState({ dateId, state }) {
       const id = dayjs(key).format('MM/DD/YYYY')
       addAlert({message: `There was a problem scraping papers for ${id}`, id })
     }
+
+    updateSidebarData({ key, status: newStatus, count: papers?.length});
   };
 
   switch (state) {

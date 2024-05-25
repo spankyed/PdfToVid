@@ -24,3 +24,9 @@ export function getDatePrior(datesPrior: number): string {
   const priorDate = new Date(Date.now() - datesPrior * 86400000);
   return priorDate.toISOString().split('T')[0];
 }
+
+export function formatMonthYear(dateStr: string): string {
+  const date = new Date(dateStr);
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long' };
+  return date.toLocaleDateString('en-US', options);
+}

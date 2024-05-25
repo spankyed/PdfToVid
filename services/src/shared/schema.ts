@@ -30,6 +30,7 @@ export class PapersTable extends Model {
 export class DatesTable extends Model {
   declare value: string;
   declare status: string;
+  declare count: number;
 }
 
 export class ReferencePapersTable extends Model {
@@ -146,6 +147,7 @@ DatesTable.init({
   status: {
     type: DataTypes.STRING,
   },
+  count: DataTypes.INTEGER,
 }, { sequelize, modelName: 'DatesTable', tableName: 'Dates' });
 
 PapersTable.init({

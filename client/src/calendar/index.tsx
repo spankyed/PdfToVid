@@ -8,6 +8,7 @@ import PageLayout from '~/shared/components/layout/page-layout';
 import SocketListener from '~/shared/api/socket-listener';
 import { addAlertAtom } from '~/shared/components/notification/store';
 import dayjs from 'dayjs';
+import { updateSidebarDataAtom } from '~/shared/components/layout/sidebar/dates/store';
 
 const Calendar: React.FC = () => {
   const [, setScrollableContainerRef] = useAtom(scrollableContainerRefAtom);
@@ -29,9 +30,9 @@ const Calendar: React.FC = () => {
   };
 
   const setCalendarModelBase = useSetAtom(calendarModelAtomBase);
+  const updateSidebarData = useSetAtom(updateSidebarDataAtom);
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data }) => {
-
     if (newStatus === 'error') {
       const id = dayjs(key).format('MM/DD/YYYY')
       addAlert({message: `There was a problem scraping papers for ${id}`, id })
@@ -50,6 +51,8 @@ const Calendar: React.FC = () => {
       });
       return updatedModel;
     });
+
+    updateSidebarData({ key, status: newStatus, count: data?.length});
   };
 
   return (

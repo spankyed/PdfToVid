@@ -3,10 +3,10 @@ import { DatesTable, PapersTable } from './schema';
 import { ChromaClient } from 'chromadb';
 import { createEmbedder } from '~/shared/embedder';
 import { ReferenceCollectionName } from './constants';
-import { PaperRecord } from './types';
+import { DateRecord, PaperRecord } from './types';
 
-function updateDateStatus(date: string, status: string): Promise<any> {
-  return DatesTable.update({ status }, { where: { value: date } });
+function updateDate(date: string, changes: Partial<DateRecord>): Promise<any> {
+  return DatesTable.update(changes, { where: { value: date } });
 }
 
 async function storePapers(papers: PaperRecord[]): Promise<any> {
@@ -112,7 +112,7 @@ const chroma = {
 }
 
 export {
-  updateDateStatus,
+  updateDate,
   storePapers,
   chroma
 }
