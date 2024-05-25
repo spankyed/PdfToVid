@@ -14,10 +14,10 @@ import BasicCriteriaControl from './controls/basic-criteria';
 import DateRangeControl from './controls/date-range';
 import StateControl from './controls/state';
 import { updatePaperInListAtom } from '~/shared/store';
+import TocIcon from '@mui/icons-material/Toc';
+import AppsIcon from '@mui/icons-material/Apps';
 
 const SearchPage: React.FC<{}> = () => {
-  const resetFields = useSetAtom(resetFieldsAtom);
-  const submitSearch = useSetAtom(submitSearchAtom);
 
   return (
     <PageLayout padding={3}>
@@ -31,7 +31,7 @@ const SearchPage: React.FC<{}> = () => {
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           style={{backgroundColor: 'rgb(30 32 34)'}}>
-          <Typography>Advanced</Typography>
+          <Typography>Additional Fields</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ margin: '0 0 2rem 2rem' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -48,14 +48,7 @@ const SearchPage: React.FC<{}> = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 200, placeSelf: 'center', marginTop: 2  }}>
-      {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
-        <Button variant="contained" color='success' onClick={() => submitSearch()}>Search</Button>
-        <Button variant="contained" color="warning" onClick={resetFields}>Reset</Button>
-        {/* <Button variant="contained" color="secondary">Clear Results</Button> */}
-      </Box>
-
-      <Divider sx={{ width: '100%', my: 2, marginTop: 4 }} />
+      {/* <Divider sx={{ width: '100%', my: 2, marginTop: 4 }} /> */}
 
       {/* <Typography sx={{ width: '100%', mx: 2,  marginBottom: 2 }}>Results</Typography> */}
 
@@ -110,8 +103,8 @@ const Results = ({ isLoading = false }) => {
   return (
     <Box>
       <Tabs value={tabValue} onChange={handleChange} centered>
-        <Tab label="Table" />
-        <Tab label="Grid" />
+      <Tab label={<span><TocIcon/> </span>} />
+          <Tab label={<span><AppsIcon/> </span>} />
       </Tabs>
       <Box>
         {tabValue === 0 && <PapersTable papers={results} isLoading={isLoading} placeholderRows={10}/>}
