@@ -35,7 +35,7 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
   }, [value]);
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" marginBottom={1}>
+    <Box display="flex" flexDirection="column" alignItems="center">
       <ScoreBadge 
         badgeContent={`${count}`} 
         count={count}
@@ -52,7 +52,7 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
             fontWeight: 'bold',
             borderRadius: '5px',
             letterSpacing: '0.0075em',
-            marginTop: '20px',
+            // marginTop: '20px',
           }}
         >
           {

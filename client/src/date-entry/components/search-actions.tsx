@@ -17,11 +17,12 @@ const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable })
     <Box display="flex" alignItems="flex-start" justifyContent="space-between" flexDirection="row" gap={2} 
       style={{ 
         marginTop: '2em', 
-        marginBottom: '2em', 
+        marginBottom: '1em', 
         marginRight: showingTable ? '2em' : '6em',
+        width: '80%'
       }}
     >
-      <Box sx={{ width: '70%' }}>
+      <Box sx={{ width: '100%' }}>
         <TextField
           label="Search"
           variant="outlined"

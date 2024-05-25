@@ -7,6 +7,8 @@ import { Paper } from '~/shared/utils/types';
 import { dateEntryPapersAtom, tabValueAtom } from '../store';
 import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { emptyListAtom, updatePaperInListAtom } from "~/shared/store";
+import TocIcon from '@mui/icons-material/Toc';
+import AppsIcon from '@mui/icons-material/Apps';
 
 const MainTabs: React.FC<{
   papersAtom?: Atom<Paper[]>;
@@ -36,19 +38,19 @@ const MainTabs: React.FC<{
     };
   }, []);
 
-  const style = slideUp ? { marginTop: -3 } : {} 
+  const style = {} 
 
   return (
     <Box sx={style}>
-      <Tabs value={tabValue} onChange={handleChange}>
-        <Tab label="Table" />
-        <Tab label="Grid" />
-      </Tabs>
-      <Box>
+      <div className="flex justify-between align-middle items-center">
         <SearchAndActions showingTable={tabValue === 0}/>
-        {tabValue === 0 && <PapersTable papers={papers} isLoading={isLoading}/>}
-        {tabValue === 1 && <ThumbPapersGrid papers={papers} isLoading={isLoading}/>}
-      </Box>
+        <Tabs value={tabValue} onChange={handleChange} sx={{ height: '3rem' }}>
+          <Tab label={<span><TocIcon/> </span>} />
+          <Tab label={<span><AppsIcon/> </span>} />
+        </Tabs>
+      </div>
+      {tabValue === 0 && <PapersTable papers={papers} isLoading={isLoading}/>}
+      {tabValue === 1 && <ThumbPapersGrid papers={papers} isLoading={isLoading}/>}
     </Box>
   );
 }
