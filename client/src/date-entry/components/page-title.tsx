@@ -39,6 +39,7 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
       <ScoreBadge 
         badgeContent={`${count}`} 
         count={count}
+        max={999}
       >
         <Typography variant="h4"
           sx={{
