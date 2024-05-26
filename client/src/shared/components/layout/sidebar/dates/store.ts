@@ -40,7 +40,6 @@ export const updateSidebarDataAtom = atom(
     
     set(datesRowsAtom, (prevModel) => {
       const month = dayjs(key).format('MMMM YYYY');
-      console.log('month update: ', month);
       const updatedModel = prevModel.map((item) => {
         if (item.month === month) {
           return {
@@ -50,7 +49,7 @@ export const updateSidebarDataAtom = atom(
                 return {
                   ...date,
                   status,
-                  count
+                  count: count || undefined,
                 };
               }
               return date;
