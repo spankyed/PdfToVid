@@ -162,7 +162,7 @@ const MonthItem = styled(ListItemButton)(({ theme }) => ({
 
 const dateStyle = {
   padding: '4px 16px 4px 0px',
-  borderRight: '1px solid rgba(0, 0, 0, 0.4)',
+  borderRight: '1px solid rgba(255, 255, 255, 0.1)',
   // marginLeft: '-.8rem',
   whiteSpace: 'nowrap',
   color: 'rgba(232, 230, 227, 0.6)'
