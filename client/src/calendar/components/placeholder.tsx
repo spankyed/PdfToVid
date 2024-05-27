@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
+import { colors } from '~/shared/styles/theme';
 
 function DatesPlaceholder(): React.ReactElement {
   const fakeDates = Array(3).fill(null);
@@ -25,7 +26,7 @@ function DatesPlaceholder(): React.ReactElement {
             width: '188px', height: '45px',
             marginBottom: '4px',
             marginTop: '.6em',
-            backgroundColor: '#ccc',
+            backgroundColor: colors.palette.background.paper,
             // background: '#FE6B8B', // Adjust the gradient colors as needed
             padding: '.25em 1em .25em 1em',
             borderRadius: '5px',
@@ -41,7 +42,7 @@ function DatesPlaceholder(): React.ReactElement {
             style={{ 
               width: '17rem',
               height: '1.2rem',
-              backgroundColor: '#ccc',
+              backgroundColor: colors.palette.background.paper,
               marginBottom: '1em',
               marginTop: '1.5rem'
             }}
@@ -76,10 +77,10 @@ function ThumbnailPlaceholder({ shadow = false }): React.ReactElement {
         position: 'relative', 
         width: '320px', 
         height: '180px',  
-        backgroundColor: '#ccc', // This makes the box grey
+        backgroundColor: colors.palette.background.paper,
         borderBottomRightRadius: '4px',
         borderBottomLeftRadius: '4px',
-        boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none',
+        boxShadow: shadow ? `0px 2px 15px rgba(0, 0, 0, 0.6)` : 'none',
         padding: '1em',
       }}
       className='thumb-img'
