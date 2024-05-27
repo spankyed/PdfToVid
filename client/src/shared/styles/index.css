@@ -49,4 +49,27 @@ body {
   /* min-height: 100vh; */
   display: block;
   margin: 0px !important;
+
+  
+}
+
+::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #757575; /* color of the scrollbar thumb with some opacity */
+  border-radius: 6px; /* roundness of the scrollbar thumb */
+  border: 3px solid transparent; /* creates padding around thumb */
+  background-clip: content-box; /* clips the background to the padding box */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin; /* width of the scrollbar */
+  scrollbar-color: #757575 transparent; /* color of the scrollbar thumb and track */
 }
