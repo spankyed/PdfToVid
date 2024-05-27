@@ -45,7 +45,7 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | undefined }> = ({ paper }) => {
       <Box sx={{ maxWidth: '70%' }}>
         {authorsList.map((author, index) => (
           <React.Fragment key={index}>
-            <Link href={createAuthorSearchURL(author)} color="primary" underline="hover" target="_blank">
+            <Link href={createAuthorSearchURL(author)} color="secondary.light" underline="hover" target="_blank">
               {author}
             </Link>
             {index < authorsList.length - 1 ? ', ' : ''}

@@ -117,9 +117,10 @@ function AddPrompt(){
         ? (
           <Box display="flex" alignItems="center" bgcolor="background.paper">
             <TextField
+              color='secondary'
               autoFocus
               multiline
-              label="New Prompt"
+              // label="New Prompt"
               value={newPrompt}
               onChange={(e) => setNewPrompt(e.target.value)}
               fullWidth

@@ -31,9 +31,10 @@ export default function ThreadOptions(){
 
   return (
     <Box flex={1} pl={3} sx={{ display: 'flex', width: '40rem', justifyContent: 'space-between' }}>
-      <FormControl  sx={{ width: '20rem' }}>
+      <FormControl color='secondary' sx={{ width: '20rem' }}>
         <InputLabel id="thread-select-label">Thread</InputLabel>
         <Select
+          
           labelId="thread-select-label"
           value={selectedThread?.id || ''}
           label="Thread"
@@ -58,7 +59,10 @@ export default function ThreadOptions(){
             onClick={handleAddThread}
             sx={{
               width: '100%', mb: -.9,
-              borderTop: `1px solid rgba(255, 255, 255, 0.2)`,
+              borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
+              borderBottom: `3px solid rgba(0, 0, 0, 0.3 )`,
+              borderTopRightRadius: 0,
+              borderTopLeftRadius: 0,
             }}>
             Start new thread
           </Button>

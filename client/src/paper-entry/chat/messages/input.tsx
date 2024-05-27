@@ -56,6 +56,7 @@ export const ChatInput = () => {
 
 
       <TextField
+        color='secondary'
         inputRef={inputRef}
         disabled={!ready}
         multiline
@@ -69,6 +70,7 @@ export const ChatInput = () => {
           startAdornment: (
             <IconButton
               // color="secondary"
+              sx={{ mr: 1 }}
               disabled={!ready}
               onClick={handleMenuToggle} className="menu-toggle-button">
               <MoreVertIcon />

@@ -79,8 +79,8 @@ export default function Actions({ message }) {
           <Tooltip title={capitalize(action.name)} key={action.name} placement='top'>
             <IconButton onClick={handlers[action.name]}
               sx={{
-                padding: 0,
-                mr: 1,
+                padding: '.3rem',
+                // mr: .5,
                 scale: '.8',
                 '&:hover .MuiSvgIcon-root': { color: action.color },
               }}

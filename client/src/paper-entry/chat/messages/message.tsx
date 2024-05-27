@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import Actions from './actions';
 import { paperAtom } from '~/paper-entry/store';
 import { selectedThreadsAtom } from '../threads/store';
+import { colors } from '~/shared/styles/theme';
 
 export default function Message({ message }) {
   const paper = useAtomValue(paperAtom);
@@ -16,7 +17,8 @@ export default function Message({ message }) {
   const isAssistant = message.role === 'assistant';
   const isHidden = message.hidden;
   const yellowRGBA = 'rgba(255, 235, 59, 0.1)';
-  const blueRGBA = 'rgba(33, 150, 243, 0.3)';
+  const blueRGBA = colors.palette.background.paper;
+  // const blueRGBA = 'rgba(33, 150, 243, 0.3)';
   const opacity = isHidden ? 0.4 : 1;
 
   return (
@@ -45,7 +47,7 @@ export default function Message({ message }) {
           placement='top'>
           <p style={{
             fontWeight: '600',
-            color: isAssistant ? '#53A7EB' : 'rgba(0, 0, 0, 0.65)',
+            color: isAssistant ? colors.palette.secondary.light : 'rgba(255, 255, 255, 0.65)',
             opacity
           }} className='pr-4  pb-1'>
             { isAssistant
