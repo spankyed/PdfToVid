@@ -40,6 +40,7 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
         position: 'relative',
         width: '320px', 
         height: '180px',  
+        border: `2px solid ${getColorShadeRedToGreen(paper.relevancy)}`,
         borderBottom: `10px solid ${getColorShadeRedToGreen(paper.relevancy)}`,
         // boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none',
         '&:hover': {
