@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, ButtonGroup, Tooltip } from '@mui/material';
+import { Box, Button, ButtonGroup, Tooltip } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Paper, PaperState } from '~/shared/utils/types';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -33,15 +33,19 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
   }
   return (
 
-    <div
+    <Box
       onClick={onThumbnailClick} key={paper.id}
-      style={{ 
+      sx={{ 
         cursor: 'pointer',
         position: 'relative',
         width: '320px', 
         height: '180px',  
         borderBottom: `10px solid ${getColorShadeRedToGreen(paper.relevancy)}`,
         // boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none',
+        '&:hover': {
+          border: '2px solid white',
+          borderBottom: '10px solid white'
+        }
       }}
       className='thumb-img'
     >
@@ -56,7 +60,7 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
       {/* <LikeBtn paper={paper} /> */}
       <Actions paper={paper} />
       <PaperTitle paper={paper} />
-    </div>
+    </Box>
   )
 }
 function Actions ({ paper }: { paper: Paper }): React.ReactElement {

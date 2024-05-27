@@ -67,9 +67,3 @@
     /* background-color: var(--light-purple); */
   }
 }
-.thumb-img:hover {
-  /* box-shadow: 0 0 10px 3px rgba(31,94,168,.6); */
-  border: 2px solid white !important;
-  border-bottom: 10px solid white !important;
-
-}

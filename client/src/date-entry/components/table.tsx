@@ -7,6 +7,7 @@ import Relevancy from '~/shared/components/paper/relevancy';
 import { paperStates } from '~/shared/utils/paperStates';
 import PaperAction, { RejectAction } from '~/shared/components/paper/paper-action';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { colors } from '~/shared/styles/theme';
 
 const Row = ({paper, index}) => {
   const statusType = paperStates[paper.status]
@@ -20,7 +21,7 @@ const Row = ({paper, index}) => {
         sx={{ 
           fontSize: '1.075rem', padding: 0,
           '&:hover': {
-            backgroundColor: 'rgba(25, 118, 210, 0.08)',
+            backgroundColor: colors.palette.background.paper,
           }
         }}
       >
