@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Typography, Box, Tabs, Tab } from '@mui/material';
+import { Typography, Box, Tabs, Tab, ToggleButtonGroup, ToggleButton } from '@mui/material';
 import PageLayout from '~/shared/components/layout/page-layout';
 import { useAtom, useSetAtom, useAtomValue } from 'jotai';
 import { fetchPaperAtom, pageStateAtom, paperAtom, scrollableContainerRefAtom } from './store';
@@ -82,22 +82,27 @@ const PaperEntryPage = () => {
 
 const TabSection = ({ paperId }) => {
   // const paper = useAtomValue(paperAtom);
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState('chat');
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: 'chat' | 'content') => {
     setTabValue(newValue);
   };
 
   return (
     <Box>
-      <Tabs value={tabValue} onChange={handleChange}>
-        <Tab label="Chat" />
-        <Tab label="Content" />
-        {/* <Tab label="Analytics" /> */}
-        {/* todo add "Integrate" tab to apply and implement research into projects */}
-      </Tabs>
-      {tabValue === 0 && <ChatTab paperId={paperId}/>}  {/* prompts*/}
-      {tabValue === 1 && <ContentTab />}
+      <ToggleButtonGroup
+        color="secondary"
+        value={tabValue}
+        exclusive
+        onChange={handleChange}
+        aria-label="Section"
+      >
+        <ToggleButton value="chat">Chat</ToggleButton>
+        <ToggleButton value="content">Content</ToggleButton>
+      </ToggleButtonGroup>
+
+      {tabValue === 'chat' && <ChatTab paperId={paperId}/>}  {/* prompts*/}
+      {tabValue === 'content' && <ContentTab />}
       {/* {tabValue === 2 && <div>empty</div>} */}
     </Box>
   );

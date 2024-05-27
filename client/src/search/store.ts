@@ -5,7 +5,7 @@ import type dayjs from 'dayjs'; // Import dayjs if you haven't already
 import { addAlertAtom, addSnackAtom } from '~/shared/components/notification/store';
 
 export const searchStateAtom = atom<'pending' | 'loading'| 'complete' | 'empty' | 'error'>('pending');
-export const tabValueAtom = atom<0 | 1>(0);
+export const tabValueAtom = atom<'table' | 'grid'>('table');
 export const resultListAtom = atom<Paper[]>([]);
 
 export const queryAtom = atom('');

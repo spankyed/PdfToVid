@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { Button, Box, Accordion, AccordionSummary, AccordionDetails, Typography, Divider, Tab, Tabs } from '@mui/material';
+import { Button, Box, Accordion, AccordionSummary, AccordionDetails, Typography, Divider, Tab, Tabs, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import './search.css';
@@ -79,7 +79,7 @@ const RenderByState = () => {
 const Results = ({ isLoading = false }) => {
   const [tabValue, setTabValue] = useAtom(tabValueAtom);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: 0 | 1) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: 'table' | 'grid') => {
     setTabValue(newValue);
   };
   const [results] = useAtom(resultListAtom);
@@ -102,13 +102,26 @@ const Results = ({ isLoading = false }) => {
 
   return (
     <Box>
-      <Tabs value={tabValue} onChange={handleChange} centered>
-      <Tab label={<span><TocIcon/> </span>} />
-          <Tab label={<span><AppsIcon/> </span>} />
-      </Tabs>
+      <div className='flex justify-center'>
+
+      <ToggleButtonGroup
+        color="secondary"
+        value={tabValue}
+        exclusive
+        onChange={handleChange}
+        aria-label="Data view"
+        sx={{
+          alignSelf: 'center',
+        }}
+      >
+        <ToggleButton value="table"><TocIcon /></ToggleButton>
+        <ToggleButton value="grid"><AppsIcon /></ToggleButton>
+      </ToggleButtonGroup>
+      </div>
+
       <Box>
-        {tabValue === 0 && <PapersTable papers={results} isLoading={isLoading} placeholderRows={10}/>}
-        {tabValue === 1 &&
+        {tabValue === 'table' && <PapersTable papers={results} isLoading={isLoading} placeholderRows={10}/>}
+        {tabValue === 'grid' &&
           <Box sx={{ marginTop: 2 }}>
             <ThumbPapersGrid papers={results} isLoading={isLoading} placeholderRows={4}/>
           </Box>  

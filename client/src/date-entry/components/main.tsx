@@ -50,7 +50,7 @@ const MainTabs: React.FC<{
           value={tabValue}
           exclusive
           onChange={handleChange}
-          aria-label="Platform"
+          aria-label="Data view"
         >
           <ToggleButton value="table"><TocIcon/></ToggleButton>
           <ToggleButton value="grid"><AppsIcon/></ToggleButton>
