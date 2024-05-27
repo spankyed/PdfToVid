@@ -30,9 +30,11 @@ const ScoreDiv = styled(Box)<{ score: number }>(({ theme, score }) => ({
   fontWeight: 'bold',
   letterSpacing: '0.1em',
   border: '1px solid rgba(255, 255, 255, 0.4)',
-  boxShadow: '0 0 0 2px rgba(0, 0, 0, 0.35)', // Add shadow for contrast
+  // boxShadow: '0 0 0 2px rgba(0, 0, 0, 0.35)', // Add shadow for contrast
   textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)', // subtle text shadow for depth
   margin: '0 12px 0px 0', // Margin for wrapping text around the div
+  // black tint
+  filter: 'brightness(0.9)',
 }));
 
 const SummaryPopover: React.FC = () => {
@@ -145,17 +147,6 @@ const SummaryPopover: React.FC = () => {
             {abstract}
           </Typography>
         </PopoverText>
-
-          {/* <ScoreBadge 
-            badgeContent={`${roundScore(score)}%`} 
-            score={score}
-          >
-            <PopoverText>
-              <Typography variant="body2"
-
-              >{abstract}</Typography>
-            </PopoverText>
-          </ScoreBadge> */}
         </div>
       }
     </>
