@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Typography, Fade, Badge } from '@mui/material';
+import { Paper, Typography, Fade, Badge, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import { getColorShadeRedToGreen } from '../../../../utils/getColorShade';
 import { useAtom } from 'jotai';
@@ -12,28 +12,27 @@ const padding = -8;
 const PopoverText = styled(Paper)(({ theme }) => ({
   maxWidth: '400px',
   padding: theme.spacing(2),
-  backgroundColor: colors.sidebar,
+  // backgroundColor: colors.sidebar,
   color: theme.palette.common.white,
   borderRadius: theme.shape.borderRadius,
   boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
   // transition: 'opacity 0.2s ease-in-out',
 }));
 
-const ScoreBadge = styled(Badge)<{ score: number }>(({ theme, score }) => ({
-  '& .MuiBadge-badge': {
-    top: padding,
-    right: '50%',
-    transform: 'translateX(50%) skewX(-5deg)',
-    backgroundColor: getColorShadeRedToGreen(score),
-    color: theme.palette.common.white,
-    borderRadius: theme.shape.borderRadius,
-    padding: '4px 8px',
-    fontWeight: 'bold',
-    letterSpacing: '0.1em',
-    border: '1px solid rgba(255, 255, 255, 0.4)',
-    boxShadow: `0 0 0 2px rgba(0, 0, 0, 0.35)`, // Add shadow for contrast
-    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)', // subtle text shadow for depth
-  },
+const ScoreDiv = styled(Box)<{ score: number }>(({ theme, score }) => ({
+  display: 'inline-block',
+  float: 'left', // Ensures the text wraps around the div
+  backgroundColor: getColorShadeRedToGreen(score),
+  color: theme.palette.common.white,
+  borderRadius: theme.shape.borderRadius,
+  // backgroundColor: colors.palette.background.paper,
+  padding: '4px 8px',
+  fontWeight: 'bold',
+  letterSpacing: '0.1em',
+  border: '1px solid rgba(255, 255, 255, 0.4)',
+  boxShadow: '0 0 0 2px rgba(0, 0, 0, 0.35)', // Add shadow for contrast
+  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)', // subtle text shadow for depth
+  margin: '0 12px 0px 0', // Margin for wrapping text around the div
 }));
 
 const SummaryPopover: React.FC = () => {
@@ -138,7 +137,16 @@ const SummaryPopover: React.FC = () => {
             cursor: 'pointer'
           }}
         >
-          <ScoreBadge 
+        <PopoverText>
+          <ScoreDiv score={score}>
+            {`${roundScore(score)}%`}
+          </ScoreDiv>
+          <Typography variant="body2">
+            {abstract}
+          </Typography>
+        </PopoverText>
+
+          {/* <ScoreBadge 
             badgeContent={`${roundScore(score)}%`} 
             score={score}
           >
@@ -147,7 +155,7 @@ const SummaryPopover: React.FC = () => {
 
               >{abstract}</Typography>
             </PopoverText>
-          </ScoreBadge>
+          </ScoreBadge> */}
         </div>
       }
     </>
