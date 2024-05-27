@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 import './index.css';
-import { purple, deepPurple, grey, red, amber, blue, deepOrange, indigo } from '@mui/material/colors';
+import { purple, deepPurple, grey, red, amber, blue, deepOrange, indigo, green } from '@mui/material/colors';
 import darkScrollbar from '@mui/material/darkScrollbar';
 
 // export const colors = {
@@ -38,6 +38,9 @@ export const colors = createTheme({
   },
   palette: {
     mode: 'dark',
+    success: {
+      main: green[600],
+    },
     primary: {
       // main: purple[900],
       main: '#4a39ab',
@@ -52,7 +55,8 @@ export const colors = createTheme({
     secondary: {
       // main: '#7b1fa2',
       main: indigo[700],
-      light: indigo[500],
+      light: indigo[400],
+
       // main: deepOrange[900],
     },
     background: {

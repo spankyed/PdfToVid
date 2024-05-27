@@ -11,6 +11,7 @@ import { calendarLoadMonthAtom, calendarStateAtom } from '~/calendar/store';
 import { scrollToElement } from '~/shared/utils/scrollPromise';
 import getDaysInMonth from '~/shared/utils/getDaysInMonth';
 import DoneIcon from '@mui/icons-material/Done';
+import { colors } from '~/shared/styles/theme';
 
 function DateList(): React.ReactElement {
   const [datesRows] = useAtom(datesRowsAtom); // todo useMemo
@@ -113,7 +114,7 @@ function Month({ month, dates, container }) {
               {month}
               {
                 allComplete
-                ? <DoneIcon sx={{ color: 'green'}}/>
+                ? <DoneIcon sx={{ color: colors.palette.success.main }}/>
                 : null
               }
             </span>

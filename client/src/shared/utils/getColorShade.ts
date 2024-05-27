@@ -1,7 +1,7 @@
 export const getColorShadeRedToGreen = (value: number): string => {
-  const greenRGB = [0, 255, 0];
-  const yellowRGB = [125, 125, 0];
-  const redRGB = [125, 0, 0];
+  const greenRGB = [0, 145, 0];
+  const yellowRGB = [145, 145, 0];
+  const redRGB = [145, 0, 0];
 
   const interpolateRGB = (start: number[], end: number[], t: number): number[] =>
     start.map((channel, i) => Math.round(channel + t * (end[i] - channel)));
