@@ -51,8 +51,8 @@ const QueryControl: React.FC<{}> = () => {
       </FormControl>
       <Box sx={{ display: 'flex', justifyContent: "space-between", placeSelf: 'center'  }}>
         {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
-        <Button variant="contained" color='success' onClick={() => submitSearch()}>Search</Button>
-        <Button variant="contained" color="warning" onClick={resetFields} sx={{ml:1}}>Reset</Button>
+        <Button variant="contained" color='primary' onClick={() => submitSearch()}>Search</Button>
+        <Button variant="contained" color="secondary" onClick={resetFields} sx={{ml:1}}>Reset</Button>
         {/* <Button variant="contained" color="secondary">Clear Results</Button> */}
       </Box>
     </>

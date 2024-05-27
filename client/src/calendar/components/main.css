@@ -1,4 +1,7 @@
-
+* {
+  --light-purple: #5a48a7; /* 1em = 16px */
+  --indigo: #303f9f; /* 1em = 16px */
+}
 
 .calendar {
   .wrapper {
@@ -53,12 +56,20 @@
     margin-top: 20px;
   }
   
-  .carousel-wrapper .thumb-img:hover {
-    box-shadow: 0 0 10px 3px rgb(76, 61, 168, .9);
-  }
-  
+  .carousel-wrapper 
+
   .carousel-wrapper .thumb-img:not(:last-child) {
     margin-right: var(--img-margin);
   }
 
-}  
+  .date-row-title:hover {
+    background-color: var(--indigo);
+    /* background-color: var(--light-purple); */
+  }
+}
+.thumb-img:hover {
+  /* box-shadow: 0 0 10px 3px rgba(31,94,168,.6); */
+  border: 2px solid white !important;
+  border-bottom: 10px solid white !important;
+
+}

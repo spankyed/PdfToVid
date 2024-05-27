@@ -5,6 +5,7 @@ import AltRouteIcon from '@mui/icons-material/AltRoute';
 import { threadOptionsAtom, selectedThreadsAtom, addNewThreadAtom, selectAndLoadMessagesAtom } from './store';
 import { paperAtom } from '~/paper-entry/store';
 import { truncateText } from '~/shared/utils/truncateText';
+import { colors } from '~/shared/styles/theme';
 
 
 export default function ThreadOptions(){
@@ -51,8 +52,14 @@ export default function ThreadOptions(){
             ))
           }
           <Button
+            variant='contained'
+            // color='primary'
+            color='secondary'
             onClick={handleAddThread}
-            sx={{ width: '100%' }}>
+            sx={{
+              width: '100%', mb: -.9,
+              borderTop: `1px solid rgba(255, 255, 255, 0.2)`,
+            }}>
             Start new thread
           </Button>
           {/* <Button

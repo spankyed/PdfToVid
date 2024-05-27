@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { forwardRef } from 'react';
+import { colors } from '~/shared/styles/theme';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -58,7 +59,7 @@ const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(({
     >
       <div
         style={{
-          width: compact ? '90%' : '98%',
+          width: compact ? '90%' : '100%',
           display: 'flex',
           flexDirection: 'column',
           // padding: compact ? 2 : 4,

@@ -68,8 +68,9 @@ export const ChatInput = () => {
           sx: { borderTopLeftRadius: 0, borderTopRightRadius: 0 },
           startAdornment: (
             <IconButton
+              // color="secondary"
               disabled={!ready}
-              onClick={handleMenuToggle} color="primary" className="menu-toggle-button">
+              onClick={handleMenuToggle} className="menu-toggle-button">
               <MoreVertIcon />
             </IconButton>
           ),

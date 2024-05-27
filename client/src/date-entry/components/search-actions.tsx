@@ -24,10 +24,11 @@ const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable })
     >
       <Box sx={{ width: '100%' }}>
         <TextField
+          color="secondary"
           label="Search"
           variant="outlined"
           fullWidth
-          onChange={handleSearchChange} // Add onChange handler here
+          onChange={handleSearchChange}
         />
       </Box>
     </Box>

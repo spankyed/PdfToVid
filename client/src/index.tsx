@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'jotai';
-import { theme } from './shared/styles/theme';
+import { colors } from './shared/styles/theme';
 import Layout from './shared/components/layout';
 import CalendarPage from './calendar';
 import DateEntryPage from '~/date-entry';
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
 ]);
 
 const App: React.FC = () => (
-  <ThemeProvider theme={theme}>
+  <ThemeProvider theme={colors}>
     <Provider>
       <RouterProvider router={router} />
     </Provider>

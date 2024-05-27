@@ -39,7 +39,9 @@ function Layout(): React.ReactElement {
         // maxHeight: height,
         maxHeight: '100vh',
         transition: 'all 0.5s ease-in-out',
-        backgroundColor: colors.main,
+        backgroundColor: colors.palette.background.default,
+        // backgroundColor: colors.palette.background.paper,
+          // backgroundColor: '#000',
       }}>
         <TitleArea isNewUser={isNewUser}/>
 
@@ -52,9 +54,13 @@ function Layout(): React.ReactElement {
           <AppBar
             position="sticky"
             sx={{
-              backgroundColor: 'rgb(76 61 168)',
-              borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-              boxShadow: 'none'
+              backgroundColor: colors.palette.background.default,
+              // backgroundColor: 'rgb(76 61 168)',
+              // backgroundColor: colors.palette.mom.main,
+              // backgroundColor: colors.palette.background.paper,
+              // borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+              boxShadow: 'none',
+              // backgroundImage: 'none',
             }}>
             <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               {
@@ -111,7 +117,9 @@ function TitleArea({ isNewUser }) {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <Typography variant="h6" component="div" sx={{
             borderRadius: '10%', padding: '2px 7px', border: '2px solid white',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            // backgroundColor: '#4a39ab7a',
+            backgroundColor: colors.palette.primary.dark,
+            // backgroundColor: 'rgba(0, 0, 0, 0.3)',
           }}>
             Curate
           </Typography>
@@ -164,6 +172,7 @@ function SearchInput(){
         fullWidth/>
       <Button
         type="submit"
+        color="secondary"
         variant="contained"
         sx={{
           borderTopLeftRadius: '0',

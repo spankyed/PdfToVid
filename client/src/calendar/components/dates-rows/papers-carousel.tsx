@@ -35,7 +35,7 @@ function List({ papers, date }: { papers: Paper[]; date: string }): React.ReactE
                 <Pagination
                   count={Math.ceil(totalImages / imagesPerPage)}
                   shape="rounded"
-                  color="primary"
+                  color="secondary"
                   page={currentPage}
                   onChange={handlePageChange}
                 />

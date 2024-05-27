@@ -20,12 +20,18 @@ const GradientBackground = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(4),
   marginTop: theme.spacing(2),
   minHeight: '5rem',
+  background: 'linear-gradient(135deg, #7d1b1d 50%, #222222 50%)',
+  // background: 'linear-gradient(135deg, #B4191C 50%, #222222 50%)',
   // background: 'linear-gradient(135deg, #222222 50%, #B4191C 50%)',
-  background: 'linear-gradient(135deg, #B4191C 50%, #222222 50%)',
   // background: 'linear-gradient(to right, #B4191C 50%, #222222 50%)',
   // background: 'linear-gradient(to right, #222222 50%, #B4191C 50%)',
   borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(1),
+  alignSelf: 'center',
+  display: 'flex',
+  justifyContent: 'center',
+  width: '100%',
+  textAlign: 'center',
 }));
 
 const PaperTitle: React.FC<{ title?: string; id?: string | null }> = ({ title, id }) => {
@@ -46,7 +52,7 @@ const PaperTitle: React.FC<{ title?: string; id?: string | null }> = ({ title, i
   return (
     <GradientBackground onClick={onTitleClick} sx={{ cursor: 'pointer' }}>
       { title && (
-        <EntryTitleStyled variant="h4" gutterBottom>
+        <EntryTitleStyled variant="h4" gutterBottom sx={{maxWidth:'none', width: '100%'}}>
           {title}
         </EntryTitleStyled>
         )

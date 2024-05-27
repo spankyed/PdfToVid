@@ -34,7 +34,7 @@ const BackfillPage = () => {
   return (
     <PageLayout padding={3}>
       <Box sx={{ my: 4, width: '80rem', mx: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <Paper elevation={2} className='flex row w-full justify-between p-12' style={{ backgroundColor: '#fff' }}>
+        <Paper elevation={2} className='flex row w-full justify-between p-12'>
           
           <div
             style={{

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Typography, Tabs, Tab, Box, Badge, styled } from '@mui/material';
+import { Typography, Tabs, Tab, Box, Badge, styled, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import ThumbPapersGrid from './grid';
 import SearchAndActions from './search-actions';
 import PapersTable from './table';
@@ -9,6 +9,7 @@ import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { emptyListAtom, updatePaperInListAtom } from "~/shared/store";
 import TocIcon from '@mui/icons-material/Toc';
 import AppsIcon from '@mui/icons-material/Apps';
+import { colors } from '~/shared/styles/theme';
 
 const MainTabs: React.FC<{
   papersAtom?: Atom<Paper[]>;
@@ -19,7 +20,7 @@ const MainTabs: React.FC<{
   const updatePaper = useSetAtom(updatePaperInListAtom);
   const papers = useAtomValue(papersAtom || emptyListAtom);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: 0 | 1) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: 'table' | 'grid') => {
     setTabValue(newValue);
   };
 
@@ -43,14 +44,20 @@ const MainTabs: React.FC<{
   return (
     <Box sx={style}>
       <div className="flex justify-between align-middle items-center">
-        <SearchAndActions showingTable={tabValue === 0}/>
-        <Tabs value={tabValue} onChange={handleChange} sx={{ height: '3rem' }}>
-          <Tab label={<span><TocIcon/> </span>} />
-          <Tab label={<span><AppsIcon/> </span>} />
-        </Tabs>
+        <SearchAndActions showingTable={tabValue === 'table'}/>
+        <ToggleButtonGroup
+          color="secondary"
+          value={tabValue}
+          exclusive
+          onChange={handleChange}
+          aria-label="Platform"
+        >
+          <ToggleButton value="table"><TocIcon/></ToggleButton>
+          <ToggleButton value="grid"><AppsIcon/></ToggleButton>
+        </ToggleButtonGroup>
       </div>
-      {tabValue === 0 && <PapersTable papers={papers} isLoading={isLoading}/>}
-      {tabValue === 1 && <ThumbPapersGrid papers={papers} isLoading={isLoading}/>}
+      {tabValue === 'table' && <PapersTable papers={papers} isLoading={isLoading}/>}
+      {tabValue === 'grid' && <ThumbPapersGrid papers={papers} isLoading={isLoading}/>}
     </Box>
   );
 }

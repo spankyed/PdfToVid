@@ -3,13 +3,15 @@ import { Typography, Box, Badge, styled } from '@mui/material';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { dateEntryStateAtom } from '../store';
 import { useAtom } from 'jotai';
+import { colors } from '~/shared/styles/theme';
 
 const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   '& .MuiBadge-badge': {
     top: 8,
     right: '100%',
     transform: 'translateX(50%)',
-    backgroundColor: 'rgb(32, 123, 145)',
+    // backgroundColor: 'rgb(32, 123, 145)',
+    backgroundColor: colors.palette.primary.main,
     color: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
     padding: '4px 8px',
@@ -43,14 +45,12 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
       >
         <Typography variant="h4"
           sx={{
-            background: '#FE6B8B',
-            color: 'white',
-            webkitBackgroundClip: 'text',
-            webkitTextFillColor: 'transparent',
-            borderBottom: '2px solid #FF8E53',
-            boxShadow: '0 3px 5px 2px rgb(76 61 168)',
+            background: colors.palette.background.paper,
+            // borderBottom: '2px solid #FF8E53',
+            // boxShadow: `0 3px 5px 2px ${colors.primary}`,
             padding: '.5em 2em .5em 2em',
-            fontWeight: 'bold',
+            border: `2px solid white`,
+          // fontWeight: 'bold',
             borderRadius: '5px',
             letterSpacing: '0.0075em',
             // marginTop: '20px',

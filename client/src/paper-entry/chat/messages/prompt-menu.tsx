@@ -141,7 +141,8 @@ function AddPrompt(){
         : (
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
+            // color="primary"
             onClick={() => setIsAddingPrompt(!isAddingPrompt)}
             startIcon={<AddIcon />}
             sx={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0, borderTopLeftRadius: 0}}

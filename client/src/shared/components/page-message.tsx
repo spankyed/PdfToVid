@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { useAtom } from 'jotai';
+import { Paper } from '@mui/material';
 
 const PageMessage = ({ message }) => {
   return (
-    <div className="flex flex-col items-center p-6 bg-white rounded-lg shadow-md max-w-md mx-auto my-8">
-      <div className="font-medium text-gray-800 text-lg mb-2">{message}</div>
-    </div>
+    <Paper className="px-6 py-8 max-w-md mx-auto my-8">
+      <div className="font-medium text-lg">{message}</div>
+    </Paper>
   );
 };
 

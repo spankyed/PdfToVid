@@ -40,7 +40,7 @@ const Sidebar: React.FC = () => {
         // paddingBottom: 0,
         // marginTop: '2rem',
         borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        backgroundColor: colors.palette.background.default,
         borderBottom: '1px solid rgba(140, 130, 115, 0.22)', 
       }}>
         {/* <NavItem onClick={() => navigate('calendar')}>

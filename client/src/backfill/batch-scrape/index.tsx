@@ -14,14 +14,14 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { throttle } from '~/shared/utils/throttle';
 
-const DualListContainer = styled(Box)({
+const DualListContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  border: '.0005rem solid rgb(54 59 61 / 30%)',
+  border: `.0005rem solid rgb(54 59 61 / 30%)`,
   borderRadius: '8px',
   width: 'fit-content',
   midWidth: '20rem'
   // overflow: 'hidden',
-});
+}));
 
 // Styled List with dividers between lists
 const StyledList = styled(List)({
@@ -174,7 +174,7 @@ const BatchScrapeButton = ({ disabled, dates }) => {
   <div style={{ display: 'flex', alignItems: 'center' }}> {/* Ensure button and icon are aligned */}
     <LoadingButton
         variant="contained"
-        color={isComplete ? 'primary' : 'warning'}
+        color={isComplete ? 'success' : 'primary'}
         disabled={disabled}
         onClick={onClick}
         loading={state === 'loading'}

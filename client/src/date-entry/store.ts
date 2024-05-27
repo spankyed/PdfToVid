@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
 
-export const tabValueAtom = atom<0 | 1>(0);
+export const tabValueAtom = atom<'table' | 'grid'>('table');
 export const searchKeywordAtom = atom('');
 export const scrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
 export const dateEntryStateAtom = atom<'loading'| 'pending' | 'complete' | 'error' | 'unexpected'>('loading');
