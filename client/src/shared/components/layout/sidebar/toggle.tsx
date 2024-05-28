@@ -61,6 +61,7 @@ function SidebarToggleButton() {
     left: '50%',
     width: '0.25rem',
     height: '0.75rem',
+    // backgroundColor: colors.palette.background.paper,
     backgroundColor: 'grey',
     transition: 'transform 0.3s ease',
     borderRadius: '9999px',
