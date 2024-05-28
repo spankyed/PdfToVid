@@ -73,7 +73,7 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
           fontWeight: 'bold',
           // transform: 'skewX(-5deg)', // Adds a slant to the text
           display: 'inline-block', // Necessary for transform
-          border: `2px solid white`,
+          // border: `2px solid white`,
           // boxShadow: `2px 2px 5px rgba(0, 0, 0, 0.4)`, // Soft shadow with a color that matches the gradient
           // boxShadow: '2px 2px 5px rgb(76 61 168)', // Soft shadow with a color that matches the gradient
           fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',

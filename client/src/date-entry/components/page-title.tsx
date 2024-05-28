@@ -7,13 +7,17 @@ import { colors } from '~/shared/styles/theme';
 
 const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   '& .MuiBadge-badge': {
-    top: 8,
+    // top: 8,
+    top: '50%',
+    // left: '0',
     right: '100%',
-    transform: 'translateX(50%)',
+    // transform: 'translateX(50%)',
     // backgroundColor: 'rgb(32, 123, 145)',
-    backgroundColor: colors.palette.primary.main,
+    backgroundColor: colors.palette.secondary.main,
+    // backgroundColor: colors.palette.background.paper,
     color: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
+    width: '2rem',
     padding: '4px 8px',
     fontWeight: 'bold',
     letterSpacing: '0.2em',
@@ -42,14 +46,16 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
         badgeContent={`${count}`} 
         count={count}
         max={999}
+        
       >
         <Typography variant="h4"
           sx={{
             background: colors.palette.background.paper,
+            // background: colors.palette.secondary.main,
             // borderBottom: '2px solid #FF8E53',
             // boxShadow: `0 3px 5px 2px ${colors.primary}`,
             padding: '.5em 2em .5em 2em',
-            border: `2px solid white`,
+            // border: `2px solid white`,
           // fontWeight: 'bold',
             borderRadius: '5px',
             letterSpacing: '0.0075em',
