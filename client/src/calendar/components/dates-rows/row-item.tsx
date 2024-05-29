@@ -65,7 +65,7 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
           marginBottom: '4px',
           marginTop: '.5em',
           // background: '#FE6B8B', // Adjust the gradient colors as needed
-          backgroundColor: colors.palette.background.paper,
+          backgroundColor: !transparentBg ? colors.palette.background.default : colors.palette.background.paper,
           webkitBackgroundClip: 'text',
           webkitTextFillColor: 'transparent',
           padding: '.25em 1em .25em 1em',
