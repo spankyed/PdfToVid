@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatDate } from '~/shared/utils/dateFormatter';
 import Favorite from '~/shared/components/paper/favorite';
 import { Paper } from '~/shared/utils/types';
+import { colors } from '~/shared/styles/theme';
 
 const createAuthorSearchURL = (authorName) => {
   const [lastName, firstName] = authorName.split(' ');
@@ -36,8 +37,17 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | undefined }> = ({ paper }) => {
   return (
     <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
       { date && (
-          <Typography variant="subtitle1" color="textSecondary" onClick={onDateClick(date)}
-            style={{ cursor: 'pointer', paddingRight: '1rem' }}>
+          <Typography
+          variant="subtitle1"
+          color="textSecondary"
+          onClick={onDateClick(date)}
+          style={{ cursor: 'pointer', paddingRight: '1rem' }}
+          sx={{
+            '&:hover': {
+              textDecoration: 'underline',
+            }
+          }}
+          >
             {formattedDate}
           </Typography>
         )
