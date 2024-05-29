@@ -159,6 +159,7 @@ function SearchInput(){
         value={searchValue}
         size="small"
         onChange={handleSearchInputChange}
+        InputLabelProps={{ style: { color: '#9e9e9e' } }}
         sx={{
           borderTopRightRadius: '0',
           borderBottomRightRadius: '0',

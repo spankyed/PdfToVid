@@ -34,7 +34,7 @@ const DateRangeControl: React.FC<{}> = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label="After Date"
+            label={<span style={{ color: '#9e9e9e' }}>After Date</span>}
             value={startDate}
             disableHighlightToday={true}
             disableFuture={true}
@@ -42,8 +42,8 @@ const DateRangeControl: React.FC<{}> = () => {
             onChange={newValue => setStartDate(newValue)}
           />
           <DatePicker
+            label={<span style={{ color: '#9e9e9e' }}>Before Date</span>}
             sx={{ marginTop: 2 }}
-            label="Before Date"
             value={endDate}
             disableFuture={true}
             minDate={startDate ? startDate : null}

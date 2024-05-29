@@ -61,7 +61,7 @@ const DateRangeControl: React.FC<{}> = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Start Date"
+              label={<span style={{ color: '#9e9e9e' }}>Start Date</span>}
               value={startDate}
               disableHighlightToday={true}
               disableFuture={true}
@@ -70,7 +70,7 @@ const DateRangeControl: React.FC<{}> = () => {
             />
             <DatePicker
               sx={{ marginTop: 4 }}
-              label="End Date"
+              label={<span style={{ color: '#9e9e9e' }}>End Date</span>}
               value={endDate}
               disableFuture={true}
               minDate={startDate ? startDate : null}

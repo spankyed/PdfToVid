@@ -20,19 +20,13 @@ const QueryControl: React.FC<{}> = () => {
   }, [queryParam]);
   return (
     <>
-      <Box sx={{ width: '100%' }}>
-        <TextField
-          id="query-input"
-          label="Search Query"
-          variant="outlined"
-          size="small"
-          sx={{ marginRight: 2 }}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          fullWidth/>
-      </Box>
       <FormControl variant="outlined" sx={{ minWidth: 120 }} size="small">
-        <InputLabel id="search-field-label">Field</InputLabel>
+        <InputLabel
+          id="search-field-label"
+          sx={{ color: '#9e9e9e !important' }}
+        >
+            Field
+        </InputLabel>
         <Select
           labelId="search-field-label"
           id="search-field-select"
@@ -49,6 +43,19 @@ const QueryControl: React.FC<{}> = () => {
           {/* <MenuItem value="keywords">keywords</MenuItem> */}
         </Select>
       </FormControl>
+      <Box sx={{ width: '100%' }}>
+        <TextField
+          InputLabelProps={{ style: { color: '#9e9e9e' } }}
+          id="query-input"
+          label="Search Query"
+          variant="outlined"
+          size="small"
+          sx={{ marginRight: 2, minWidth: '20rem' }}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          fullWidth/>
+      </Box>
+
       <Box sx={{ display: 'flex', justifyContent: "space-between", placeSelf: 'center'  }}>
         {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
         <Button variant="contained" color='primary' onClick={() => submitSearch()}>Search</Button>

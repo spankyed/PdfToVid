@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAtom } from 'jotai';
-import { Select, MenuItem, FormControl, TextField, Checkbox, FormControlLabel, FormGroup, Grid, InputAdornment } from '@mui/material';
+import { Select, MenuItem, FormControl, TextField, Checkbox, FormControlLabel, FormGroup, Grid, InputAdornment, Button } from '@mui/material';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { favoriteAtom, viewedAtom, relevancyAtom, comparisonOperatorAtom } from '../store';
@@ -53,7 +53,7 @@ const BasicCriteriaControl: React.FC<{}> = () => {
       </Grid>
       <FormGroup>
         <FormControl sx={{marginTop: 2, display:'flex', flexDirection: 'row' }} variant="outlined">
-          <Select
+        <Select
             labelId="comparison-field-label"
             id="comparison-field-select"
             value={comparisonOperator}
@@ -63,15 +63,14 @@ const BasicCriteriaControl: React.FC<{}> = () => {
             <MenuItem value="≥">≥</MenuItem>
             <MenuItem value="≤">≤</MenuItem>
           </Select>
-
           <TextField
             id="relevancy-score-input"
-            label="Relevancy"
+            label={<span style={{ color: '#9e9e9e' }}>Relevancy</span>}
             variant="outlined"
             type="number"
             InputProps={{
               inputProps: { min: 0, max: 100 },
-              endAdornment: <InputAdornment position="end">%</InputAdornment>
+              endAdornment: <InputAdornment position="end" sx={{ ml: 1}}>%</InputAdornment>
             }}
             value={relevancy}
             onChange={clampRelevancyScore}
