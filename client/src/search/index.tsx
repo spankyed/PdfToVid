@@ -73,7 +73,7 @@ const RenderByState = () => {
 
   switch (searchState) {
     case 'pending':
-      return <PageMessage message={'Define criteria for papers then press search'}/>;
+      return <PageMessage message={'Define search criteria for papers'}/>;
     case 'loading':
       return <Results isLoading={true} />;
     case 'complete':
