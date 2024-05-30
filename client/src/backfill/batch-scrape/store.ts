@@ -6,7 +6,6 @@ export const batchStateAtom = atom<'idle' | 'loading' | 'complete'>('loading');
 
 // export const canGoNextAtom = atom(true);
 // export const inputIdsAtom = atom<string[]>([]);
-// export const maxBackfillAtom = atom(config.settings.maxBackfill);
 
 // const MockDatesTable = Array(21).fill('').map((_, i) => `04/${i}/2024`)
 // export const batchDatesAtom = atom<any[]>(MockDatesTable);

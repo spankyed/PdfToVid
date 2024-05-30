@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Box, Grid, Checkbox, Typography, TextField } from '@mui/material';
-import { useAtom } from 'jotai';
-import { autoAddDatesAtom, autoScrapeDatesAtom, maxBackfillAtom } from '../store';
+import { Box, Grid, Checkbox, Typography, TextField, FormControl, FormHelperText, IconButton, InputAdornment } from '@mui/material';
+import { useAtom, useSetAtom } from 'jotai';
+import { apiKeyOpenAIAtom, autoScrapeDatesAtom } from '../store';
+import { VisibilityOff, Visibility } from '@mui/icons-material';
 
 function UserSettings() {
-    const [autoAddDates, setAutoAddDates] = useAtom(autoAddDatesAtom);
     const [autoScrapeDates, setAutoScrapeDates] = useAtom(autoScrapeDatesAtom);
-    const [maxBackfill, setMaxBackfill] = useAtom(maxBackfillAtom);
+    const setApiKeyOpenAI = useSetAtom(apiKeyOpenAIAtom);
+    const [showApiKey, setShowApiKey] = useState(false);
+
+    const handleToggleShowApiKey = () => {
+      setShowApiKey(!showApiKey);
+    };
 
     return (
       <>
@@ -15,32 +20,13 @@ function UserSettings() {
           variant="h3">
           User Settings
         </Typography>
-        <Typography>
-          These settings control how new dates are added. The default settings are highly recommended.
-        </Typography>
-        <Typography>
-          Dates can always be added manually using the backfill page.
-        </Typography>
 
         <div style={{ marginTop: '3rem', display: 'flex', flexDirection: 'column' }}>
-          <Box sx={{ maxWidth: 600, m: 'auto' }}>
+          <Box sx={{ maxWidth: 620, m: 'auto' }}>
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={3}>
                   <Checkbox
-                    checked={autoAddDates}
-                    onChange={(event) => setAutoAddDates(event.target.checked)}
-                  />
-                </Grid>
-                <Grid item xs={9}>
-                  <Typography variant="body1">Automatically add new dates</Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    While running, the app automagically adds a new date each night. If you're starting the app after a long break, it will backfill dates for the past —
-                    {` ${maxBackfill}`} days. 
-                  </Typography>
-                </Grid>
-
-                <Grid item xs={3}>
-                  <Checkbox
+                    sx={{ color: '#9e9e9e !important' }}
                     checked={autoScrapeDates}
                     onChange={(event) => setAutoScrapeDates(event.target.checked)}
                   />
@@ -48,24 +34,34 @@ function UserSettings() {
                 <Grid item xs={9}>
                   <Typography variant="body1">Automatically scrape new dates</Typography>
                   <Typography variant="body2" color="textSecondary">
-                    In addition to adding a new date, scrape and rank papers for that day. If no papers are found while scraping, retry attempts are made every 6 hours. A new date will only appear after the day's papers have been successfully scraped.
+                    At noon each day, attempt to scrape and rank papers for that day. If no papers are found, retry every 3 hours until found. New dates will not appear in the calender until papers have been successfully scraped for that day.
                   </Typography>
                 </Grid>
-
-                <Grid item xs={3}>
+                <Grid item xs={3} sx={{ mt: 8 }}>
+                  <Typography>
+                    OpenAI API Key
+                  </Typography>
+                </Grid>
+                <Grid item xs={9} sx={{ mt: 10 }}>
                   <TextField
-                    type="number"
-                    value={maxBackfill}
-                    onChange={(event) => setMaxBackfill(event.target.value)}
-                    inputProps={{ min: 1, max: 90, sx: { height: 10 } }}
-                    sx={{ width: 70 }}
+                    type={showApiKey ? 'text' : 'password'}
+                    variant="outlined"
+                    fullWidth
+                    helperText="Your key is not shared and can be managed in the chat settings"
+                    onChange={(e) => setApiKeyOpenAI(e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleToggleShowApiKey}
+                            edge="end"
+                          >
+                            {showApiKey ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
-                </Grid>
-                <Grid item xs={9}>
-                  <Typography variant="body1">Maximum days to backfill</Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Manage the above settings by limiting how many days are added and scraped when you return to the app after an extended absence.
-                  </Typography>
                 </Grid>
               </Grid>
           </Box>

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, InputAdornment } from '@mui/material';
 import config from '@config';
 import { useAtom, useSetAtom } from 'jotai';
 import { canGoNextAtom, inputIdsAtom, recommendButtonDisabledAtom } from '../store';
+import { colors } from '~/shared/styles/theme';
 
 function ReferencesInput() {
     const [inputIds, setInputIds] = useAtom(inputIdsAtom);
@@ -64,18 +65,21 @@ function ReferencesInput() {
         <Typography 
           style={{ color: '#a1a1a1', marginBottom: '2rem'}}
           variant="h3">
-          Add References
+          Let's get started
         </Typography>
         <Typography>
-          List some ids of arXiv papers to be used when ranking papers.
+          When ranking new papers, we utilize a set of reference papers as benchmarks.
         </Typography>
         <Typography>
-          You can paste a list of ids separated by commas or spaces.
+          Please provide the IDs of arXiv papers that should be used as benchmarks for this ranking process.
         </Typography>
 
         <div style={{ marginTop: '3rem', display: 'flex', flexDirection: 'column' }}>
 
           <Autocomplete
+            ChipProps={{
+              sx: { bgcolor: 'rgba(0,0,0,.25)' }
+            }}
             multiple
             freeSolo
             sx={{ width: 765 }}
@@ -90,14 +94,16 @@ function ReferencesInput() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Enter Reference Ids"
+                InputLabelProps={{ style: { color: '#9e9e9e' } }}
+                label="Reference IDs"
                 variant="outlined"
                 // sx={{ display:  justifyContent: 'center'}}
                 onBlur={(event) => handleChange(event, params.InputProps, 'blur', {})}
                 InputProps={{
                   ...params.InputProps,
-                  sx: {  borderBottomLeftRadius: 0, borderBottomRightRadius: 0, minHeight: 250 },
-                  type: 'search'
+                    sx: {  borderBottomLeftRadius: 0, borderBottomRightRadius: 0, minHeight: 250 },
+                  type: 'text',
+                  // type: 'search',
                 }}
               />
             )}
