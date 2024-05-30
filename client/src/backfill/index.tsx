@@ -33,32 +33,17 @@ const BackfillPage = () => {
   };
   return (
     <PageLayout padding={3}>
-      <Box sx={{ my: 4, width: '80rem', mx: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <Paper elevation={2} className='flex row w-full justify-between p-12'>
-          
-          <div
-            style={{
-              borderRight: '1px solid rgba(140, 130, 115, 0.22)',
-              width: '30%',
-              paddingRight: '3rem',
-            }}>
-            <DateRange />
-          </div>
+      <Paper
+        sx={{ my: 4, width: '80rem', mx: 'auto'}}
+        elevation={2}
+        className='flex flex-col w-full p-12'>
+        <DateRange />
+        <BatchTable/>
+      </Paper>
 
-
-          <div style={{
-            flex: 1,
-            paddingLeft: '3rem',
-          }} className='flex flex-col items-center'>
-            <BatchTable/>
-          </div>
-
-        </Paper>
-
-        {/* <Button variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}>
-          Scrape Recommended
-        </Button> */}
-      </Box>
+      {/* <Button variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}>
+        Scrape Recommended
+      </Button> */}
 
       <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} id='batch-scrape'/>
     </PageLayout>

@@ -12,7 +12,7 @@ import PapersTable from '~/date-entry/components/table';
 import QueryControl from './controls/query';
 import BasicCriteriaControl from './controls/basic-criteria';
 import DateRangeControl from './controls/date-range';
-import StateControl from './controls/state';
+// import StateControl from './controls/state';
 import { updatePaperInListAtom } from '~/shared/store';
 import TocIcon from '@mui/icons-material/Toc';
 import AppsIcon from '@mui/icons-material/Apps';
@@ -27,23 +27,32 @@ const SearchPage: React.FC<{}> = () => {
         <QueryControl />
       </Box>
 
-      <Accordion defaultExpanded={true}>
+      <Accordion defaultExpanded={true} sx={{ my: 3}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           style={{backgroundColor: 'rgb(30 32 34)'}}>
           <Typography>Additional Fields</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ margin: '0 0 2rem 2rem' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <BasicCriteriaControl/>
+        <AccordionDetails>
+          <Box sx={{ display: 'flex', justifyContent: 'center', padding: '1rem 2rem' }}>
+          <div style={{ width: '40%' }} className='flex h-full justify-center self-center'>
+              <DateRangeControl />
+            </div>
+            <div style={{  width: '10%', height: '5rem' }} className='flex h-full justify-center'>
+              <Divider orientation="vertical" flexItem />
+            </div>
+            <div
+              style={{
+                width: '40%',
+              }}
+              className='flex justify-center '
+            >
+              <BasicCriteriaControl/>
+            </div>
 
-            <Divider orientation="vertical" flexItem />
 
-            <DateRangeControl />
 
-            <Divider orientation="vertical" flexItem />
-
-            <StateControl />
+            {/* <StateControl /> */}
           </Box>
         </AccordionDetails>
       </Accordion>
@@ -64,7 +73,7 @@ const RenderByState = () => {
 
   switch (searchState) {
     case 'pending':
-      return <PageMessage message={'Define search criteria then press search ...'}/>;
+      return <PageMessage message={'Define search criteria for papers'}/>;
     case 'loading':
       return <Results isLoading={true} />;
     case 'complete':
@@ -103,20 +112,19 @@ const Results = ({ isLoading = false }) => {
   return (
     <Box>
       <div className='flex justify-center'>
-
-      <ToggleButtonGroup
-        color="secondary"
-        value={tabValue}
-        exclusive
-        onChange={handleChange}
-        aria-label="Data view"
-        sx={{
-          alignSelf: 'center',
-        }}
-      >
-        <ToggleButton value="table"><TocIcon /></ToggleButton>
-        <ToggleButton value="grid"><AppsIcon /></ToggleButton>
-      </ToggleButtonGroup>
+        <ToggleButtonGroup
+          color="secondary"
+          value={tabValue}
+          exclusive
+          onChange={handleChange}
+          aria-label="Data view"
+          sx={{
+            alignSelf: 'center',
+          }}
+        >
+          <ToggleButton value="table"><TocIcon /></ToggleButton>
+          <ToggleButton value="grid"><AppsIcon /></ToggleButton>
+        </ToggleButtonGroup>
       </div>
 
       <Box>

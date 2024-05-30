@@ -11,7 +11,7 @@ const StateControl: React.FC<{}> = () => {
 
   return (
     <FormControl sx={{}} component="fieldset" variant="standard">
-      <FormLabel component="legend">State</FormLabel>
+      <FormLabel component="legend" sx={{color:'#9e9e9e !important'}}>State</FormLabel>
       <Grid container spacing={1} justifyContent="flex-end">
         <Grid item xs={6}>
           <FormControlLabel

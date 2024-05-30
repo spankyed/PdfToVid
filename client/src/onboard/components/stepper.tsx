@@ -5,6 +5,9 @@ import { StepConnector, stepConnectorClasses, StepIconProps, Stack, Stepper, Ste
 import Check from '@mui/icons-material/Check';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import StarIcon from '@mui/icons-material/Star';
+import { colors } from '~/shared/styles/theme';
+
+const secondaryColor = colors.palette.secondary.main;
 
 const StepConnectorStyled = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -12,21 +15,18 @@ const StepConnectorStyled = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(138,35,135) 0%,rgb(233,64,87) 50%,rgb(242,113,33) 100%)',
+      backgroundColor: secondaryColor,
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+      backgroundColor: secondaryColor,
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
     height: 3,
     border: 0,
-    backgroundColor:
-      theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
+    backgroundColor: secondaryColor,
     borderRadius: 1,
   },
 }));
@@ -34,7 +34,7 @@ const StepConnectorStyled = styled(StepConnector)(({ theme }) => ({
 const IconStyled = styled('div')<{
   ownerState: { completed?: boolean; active?: boolean };
 }>(({ theme, ownerState }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#ccc',
+  backgroundColor:  colors.palette.background.paper,
   zIndex: 1,
   color: '#fff',
   width: 50,
@@ -44,13 +44,12 @@ const IconStyled = styled('div')<{
   justifyContent: 'center',
   alignItems: 'center',
   ...(ownerState.active && {
-    backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+    backgroundColor: secondaryColor,
+    border: `2px solid rgba(255,255,255,0.25)`,
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
   }),
   ...(ownerState.completed && {
-    backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+    backgroundColor: secondaryColor,
   }),
 }));
 
@@ -58,9 +57,8 @@ function IconWrapper(props: StepIconProps) {
   const { active, completed, className } = props;
 
   const icons: { [index: string]: React.ReactElement } = {
-    1: <DateRangeIcon />,
-    2: <StarIcon />,
-    3: <Check />,
+    1: <StarIcon />,
+    2: <Check />,
   };
 
   return (
@@ -73,14 +71,14 @@ function IconWrapper(props: StepIconProps) {
 export default function OnboardingStepper({ steps, activeStep, completed, handleStep }) {
 
   return (
-    <Box sx={{ width: '100%' }} className='flex justify-center'>
+    <Box sx={{ width: '50%' }} className='flex justify-center self-center'>
       <Stepper sx={{ width: '70%' }} nonLinear activeStep={activeStep} connector={<StepConnectorStyled/>}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
             <StepLabel
               StepIconComponent={IconWrapper}
               onClick={handleStep(index)}
-              sx={{ display: 'flex', flexDirection: 'column' }}
+              sx={{ display: 'flex', flexDirection: 'column', width: '5rem' }}
               className='StepLabel'
             >
               {label}

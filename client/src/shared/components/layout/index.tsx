@@ -116,10 +116,12 @@ function TitleArea({ isNewUser }) {
       <Link color="inherit" to={isNewUser ? '/onboard' : "/calendar"}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <Typography variant="h6" component="div" sx={{
-            borderRadius: '10%', padding: '2px 7px', border: '2px solid white',
+            borderRadius: '10%',
+            padding: '2px 7px',
+            // border: '2px solid white',
             // backgroundColor: '#4a39ab7a',
-            backgroundColor: colors.palette.primary.dark,
-            // backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            // backgroundColor: colors.palette.primary.dark,
           }}>
             Curate
           </Typography>
@@ -157,6 +159,7 @@ function SearchInput(){
         value={searchValue}
         size="small"
         onChange={handleSearchInputChange}
+        InputLabelProps={{ style: { color: '#9e9e9e' } }}
         sx={{
           borderTopRightRadius: '0',
           borderBottomRightRadius: '0',
@@ -172,7 +175,7 @@ function SearchInput(){
         fullWidth/>
       <Button
         type="submit"
-        color="secondary"
+        color="primary"
         variant="contained"
         sx={{
           borderTopLeftRadius: '0',

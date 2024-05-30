@@ -97,7 +97,7 @@ const LoadMoreButton = ({ dbCursor }) => {
             : (
               lastRecordReached
                 ? 'All records loaded'
-                : 'Load More ...'
+                : 'Load More'
             )
         }
       </Button>

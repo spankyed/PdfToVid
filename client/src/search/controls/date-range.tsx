@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { FormControl, Box } from '@mui/material';
+import { FormControl, Box, InputBase } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { dateEndAtom, dateStartAtom, submitSearchAtom } from '../store';
@@ -25,34 +25,27 @@ const DateRangeControl: React.FC<{}> = () => {
 
   return (
     <FormControl
-      required
-      error={false}
-      component="fieldset"
-      variant="standard"
+      sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',  flexShrink: 0 }}
     >
-      {/* <FormLabel component="legend">By Date</FormLabel> */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="After Date"
-            value={startDate}
-            disableHighlightToday={true}
-            disableFuture={true}
-            maxDate={endDate ? endDate : null}
-            onChange={newValue => setStartDate(newValue)}
-          />
-          <DatePicker
-            sx={{ marginTop: 2 }}
-            label="Before Date"
-            value={endDate}
-            disableFuture={true}
-            minDate={startDate ? startDate : null}
-            onChange={newValue => setEndDate(newValue)}
-          />
-        </LocalizationProvider>
-      </Box>
-
-      {/* <FormHelperText>You can display an error</FormHelperText> */}
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          sx={{ maxWidth: '12rem' }}
+          label={<span style={{ color: '#9e9e9e' }}>After Date</span>}
+          value={startDate}
+          disableHighlightToday={true}
+          disableFuture={true}
+          maxDate={endDate ? endDate : null}
+          onChange={newValue => setStartDate(newValue)}
+        />
+        <DatePicker
+          label={<span style={{ color: '#9e9e9e' }}>Before Date</span>}
+          sx={{ marginLeft: 4, maxWidth: '12rem' }}
+          value={endDate}
+          disableFuture={true}
+          minDate={startDate ? startDate : null}
+          onChange={newValue => setEndDate(newValue)}
+        />
+      </LocalizationProvider>
     </FormControl>
   );
 }

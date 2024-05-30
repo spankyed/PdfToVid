@@ -11,15 +11,16 @@ import PageLayout from '~/shared/components/layout/page-layout';
 import { BackfillComponent } from '~/onboard/components/dates';
 import OnboardingStepper from './components/stepper';
 import ReferencesInput from './components/references';
-import { autoAddDatesAtom, autoScrapeDatesAtom, canGoNextAtom, inputIdsAtom, maxBackfillAtom, onboardingStateAtom, startDateAtom } from './store';
+import { apiKeyOpenAIAtom, autoScrapeDatesAtom, canGoNextAtom, inputIdsAtom, onboardingStateAtom, startDateAtom } from './store';
 import UserSettings from './components/settings';
 import { useNavigate } from 'react-router-dom';
 import * as api from '~/shared/api/fetch';
 import { addAlertAtom } from '~/shared/components/notification/store';
 import { setSidebarDataAtom } from '~/shared/components/layout/sidebar/dates/store';
 import { isNewUserAtom } from '~/shared/components/layout/store';
+import { colors } from '~/shared/styles/theme';
 
-const steps = ['Dates', 'References', 'Finish'];
+const steps = ['References', 'Finish'];
 
 const OnboardPage = () => {
   return (
@@ -36,12 +37,11 @@ function OnboardFlow() {
   const setOnboardingState = useSetAtom(onboardingStateAtom);
   const startDate = useAtomValue(startDateAtom);
   const inputIds = useAtomValue(inputIdsAtom);
-  const autoAddNewDates = useAtomValue(autoAddDatesAtom);
   const autoScrapeNewDates = useAtomValue(autoScrapeDatesAtom);
-  const maxBackfill = useAtomValue(maxBackfillAtom);
 
   const setSidebarData = useSetAtom(setSidebarDataAtom);
   const setIsNewUser = useSetAtom(isNewUserAtom);
+  const apiKeyOpenAI = useAtomValue(apiKeyOpenAIAtom);
   const addAlert = useSetAtom(addAlertAtom);
   const navigate = useNavigate();
 
@@ -50,9 +50,8 @@ function OnboardFlow() {
       startDate: startDate?.format('YYYY-MM-DD'),
       inputIds,
       config: {
-        autoAddNewDates,
         autoScrapeNewDates,
-        maxBackfill,
+        apiKeyOpenAI
       }
     }
 
@@ -91,7 +90,7 @@ function OnboardFlow() {
     newCompleted[activeStep] = true;
     setStepperCompleted(newCompleted);
 
-    if (activeStep === 2) {
+    if (activeStep === steps.length - 1) {
       submitForm();
     } else {
       handleSkip();
@@ -105,7 +104,7 @@ function OnboardFlow() {
   // };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
       <OnboardingStepper {
         ...{
           steps,
@@ -128,11 +127,16 @@ function OnboardFlow() {
         ) : ()} */}
 
           <>
-            <Paper elevation={2} style={{
-              backgroundColor: '#fff', paddingTop: '2rem', marginTop: '3rem',
-              display: 'flex', flexDirection: 'column', alignItems: 'center',
-              height: '35rem', width: '70rem', overflow: 'auto'
-            }} className='px-12 mx-auto'>
+            <Paper
+              elevation={2}
+              style={{
+                backgroundColor: colors.palette.background.paper,
+                paddingTop: '2rem', marginTop: '3rem',
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                height: '35rem', width: '70rem', overflow: 'auto'
+              }}
+              className='px-12 mx-auto'
+            >
               <RenderByState activeStep={activeStep} />
             </Paper>
 
@@ -156,10 +160,8 @@ function OnboardFlow() {
 const RenderByState = ({ activeStep }) => {
   switch (activeStep) {
     case 0:
-      return <BackfillComponent />;
-    case 1:
       return <ReferencesInput />;
-    case 2:
+    case 1:
       return <UserSettings />;
   }
 
@@ -170,14 +172,14 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
   const canGoNext = useAtomValue(canGoNextAtom);
   const state = useAtomValue(onboardingStateAtom);
   const isLastStep = activeStep === steps.length - 1
-  const isSecondStep = activeStep === 1
   const isFirstStep = activeStep === 0
 
   return (
     <Box sx={{ pt: 6, display: 'flex', justifyContent: 'center', width: '100%'}}>
       <div className='flex justify-between' style={{ width: '20rem' }}>
         <Button
-          color="inherit"
+          color='secondary'
+          variant='contained'
           disabled={isFirstStep || state === 'loading'}
           onClick={handleBack}
         >
@@ -185,7 +187,7 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
           Back
         </Button>
         {
-          isSecondStep && (
+          isFirstStep && (
             <Button
               disabled={canGoNext}
               onClick={handleSkip}
@@ -199,6 +201,7 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
 
         {!isLastStep ? (
           <Button
+            variant='contained'
             disabled={!canGoNext}
             onClick={handleNext}
           >
@@ -206,7 +209,8 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
             <ArrowForwardIcon sx={{ ml: 1, height: 20, width: 20 }}/>
           </Button>
         ) : (
-          <LoadingButton 
+          <LoadingButton
+            variant='contained'
             onClick={handleNext}
             loading={state === 'loading'}
           >

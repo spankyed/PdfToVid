@@ -13,10 +13,13 @@ import { DateItem, batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisab
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { throttle } from '~/shared/utils/throttle';
+import { colors } from '~/shared/styles/theme';
+
+const borderColor = '#787878';
 
 const DualListContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  border: `.0005rem solid rgb(54 59 61 / 30%)`,
+  border: `.0005rem solid ${borderColor}`,
   borderRadius: '8px',
   width: 'fit-content',
   midWidth: '20rem'
@@ -28,7 +31,7 @@ const StyledList = styled(List)({
   padding: 0,
   flex: 1,
   '&:not(:last-child)': {
-    borderRight: '1px solid #ccc', // Add divider except for the last list
+    borderRight: `1px solid ${borderColor}`, // Add divider except for the last list
   },
 });
 
@@ -44,7 +47,7 @@ const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
 
   return ({
     backgroundColor: colorByStatus[status],
-    borderBottom: '1px solid #ccc',  // Apply bottom border to all items
+    borderBottom: `1px solid ${borderColor  }`,  // Apply bottom border to all items
     padding: '2px 12px',
     '&:last-child': {
       borderBottom: 'none',  // Remove border for the last child
@@ -61,7 +64,8 @@ const BatchTable: React.FC = () => {
   const sections = 5;
   const dates = useAtomValue(batchDatesAtom);
   const state = useAtomValue(batchStateAtom);
-  const itemsPerColumn = Math.ceil(dates.length / sections);
+  const itemsPerColumn = Math.ceil(20 / sections);
+  // const itemsPerColumn = Math.ceil(dates.length / sections);
 
   const fetchDates = useSetAtom(getDatesAtom);
   const buttonsDisabled = useAtomValue(buttonsDisabledAtom);
@@ -86,25 +90,51 @@ const BatchTable: React.FC = () => {
     return acc;
   }, [] as DateItem[][]);
 
+  const populateEmptySections = (list) => {
+    for (let i = 0; i < sections - 1; i++) {
+      const currSection = list[i] ? list[i] : [];
+
+      if (currSection.length === itemsPerColumn) {
+        continue;
+      }
+      const amountToFill = itemsPerColumn - currSection.length;
+      const emptyColumn = new Array(amountToFill).fill({ status: 'default' });
+      
+      if (currSection.length) {
+        list[i] = currSection.concat(emptyColumn);
+      } else {
+        list.push(emptyColumn);
+      }
+    }
+    return list;
+  }
+
   const navBlocked = dates.length === 0 || state === 'loading';
 
   return (
-    <>
-      <Box sx={{ display: 'flex', justifyContent: "center", marginBottom: 2  }}>
-        <BatchScrapeButton disabled={navBlocked} dates={dates}/>
-        {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
-      </Box>
-
+    <Box sx={{
+        borderTop: '2px solid #ffffff17',
+        alignItems: 'center',
+        display: 'flex', justifyContent: "center",
+        paddingTop: 5,
+        flexDirection: 'column',
+        width: '100%'
+      }}>
       <DualListContainer>
         <div className='flex flex-col'>
           <div className='flex'>
             {
               splitList.length > 0
-              ? splitList.map((dates, index) => (
+              ? populateEmptySections(splitList).map((dates, index) => (
                 <StyledList key={`list-${index}`}>
                   {dates.map((date, index) => (
-                    <StyledListItem disablePadding key={`${date.value}-${index}`} status={date.status}>
-                      <ListItemText primary={formatDate('MM/DD/YYYY')(date.value)} />
+                    <StyledListItem disablePadding key={`${date.value}-${index}`} status={date.status}
+                      sx={{ height: '3em', maxHeight: '3em', width: '14rem' }}
+                    >
+                      <ListItemText
+                        sx={{ font: 'inherit', textAlign: 'center', letterSpacing: '0px' }}
+                        primary={date.value ? formatDate('MM/DD/YYYY')(date.value) : ''}
+                      />
                     </StyledListItem>
                   ))}
                 </StyledList>
@@ -121,9 +151,7 @@ const BatchTable: React.FC = () => {
             }
           </div>
           <Stack
-            sx={{
-              borderTop: '.0005rem solid rgb(54 59 61 / 30%)',
-            }}
+            sx={{ borderTop: `.0005rem solid ${borderColor}`, px: 2, py: 1 }}
             direction="row" justifyContent="space-between" padding={0} className=''>
             <IconButton onClick={goTo('leftEnd')} disabled={navBlocked || buttonsDisabled.leftEnd}>
               <KeyboardDoubleArrowLeftIcon />
@@ -131,6 +159,21 @@ const BatchTable: React.FC = () => {
             <IconButton onClick={goTo('left')} disabled={navBlocked || buttonsDisabled.left}>
               <KeyboardArrowLeftIcon />
             </IconButton>
+            <span className='mx-4 text-center self-center mr-2' style={{ color: '#ffffff89' }}>
+              Batch Size
+              <strong
+                className='px-3 py-1 ml-3'
+                style={{
+                  color: `${colors.palette.text.primary}`,
+                  borderRadius: '8px',
+                  backgroundColor: `rgba(0,0,0, 0.1)`,
+                  // backgroundColor: `${colors.palette.background.default}`,
+                  border: `.1rem solid ${borderColor}`
+                }}
+              >
+                {dates.length}
+              </strong>
+            </span>
             <IconButton onClick={goTo('right')} disabled={navBlocked || buttonsDisabled.right}>
               <KeyboardArrowRightIcon />
             </IconButton>
@@ -141,7 +184,9 @@ const BatchTable: React.FC = () => {
         </div>
 
       </DualListContainer>
-    </>
+      <BatchScrapeButton disabled={navBlocked} dates={dates}/>
+      {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
+    </Box>
   );
 };
 
@@ -166,8 +211,7 @@ const BatchScrapeButton = ({ disabled, dates }) => {
     }
   }
 
-  const scrapeInfo = `Scrape and rank papers for dates in batch. This could take a few minutes. We recommend having less than 75 starred papers as it may reduce the time spent ranking papers.
-  `
+  const scrapeInfo = `Scrape and rank papers for dates in batch. This could take a few minutes. We recommend having less than 75 starred papers as it may reduce the time spent ranking papers.`
   const viewInfo = `After scraping a date batch take the opportunity to review the papers, starring the ones you find interesting. Occasionally un-star papers you no longer find interesting.`
 
   return (
@@ -178,12 +222,12 @@ const BatchScrapeButton = ({ disabled, dates }) => {
         disabled={disabled}
         onClick={onClick}
         loading={state === 'loading'}
-        // sx={{ mr: 2 }}
+        sx={{ mt: 4, mb: 2}}
       >
       <Tooltip title={isComplete ? viewInfo : scrapeInfo}>
         <HelpOutlineIcon sx={{ mr: 1}}/>
       </Tooltip>
-      { isComplete ? 'View Batch' : 'Scrape Batch'  }
+      { isComplete ? 'View Batch' : 'Scrape dates in batch'  }
     </LoadingButton>
 
   </div>

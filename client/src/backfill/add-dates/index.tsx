@@ -6,6 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { dateEndAtom, dateStartAtom, backfillStateAtom } from './store';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { addDatesAtom } from './store';
+import dayjs from 'dayjs';
 
 const DateRangeControl: React.FC<{}> = () => {
   const [startDate, setStartDate] = useAtom(dateStartAtom);
@@ -24,64 +25,70 @@ const DateRangeControl: React.FC<{}> = () => {
   };
 
   const handleStartDateChange = (newDate) => {
-    if (newDate.isAfter(endDate)) {
-      setStartDate(endDate);
-    }
+    const fourteenDaysLater = dayjs(newDate.add(14, 'days'));
+    const today = dayjs();
+    const isAfterToday = fourteenDaysLater.isAfter(today);
     setStartDate(newDate);
+    setEndDate(isAfterToday ? dayjs().add(-1, 'day') : fourteenDaysLater)
   };
 
-  const handleEndDateChange = (newDate) => {
-    if (newDate.isBefore(startDate)) {
-      setEndDate(startDate);
-    }
-    setEndDate(newDate);
-  };
+  // const handleEndDateChange = (newDate) => {
+  //   if (newDate.isBefore(startDate)) {
+  //     setEndDate(startDate);
+  //   }
+  //   setEndDate(newDate);
+  // };
 
   return (
-    <div style={{ display: 'flex' }} className='flex flex-col'>
       <FormControl
         required
         error={false}
         component="fieldset"
         variant="standard"
-        sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 5
+        }}
       >
-      <LoadingButton
-        variant="contained"
-        color="success"
-        disabled={!startDate || !endDate}
-        onClick={handleSubmit}
-        loading={state === 'loading'}
-        sx={{ marginBottom: 2 }}
-      >
-        Add Dates
-      </LoadingButton>
+        <LoadingButton
+          variant="contained"
+          color="secondary"
+          disabled={!startDate || !endDate}
+          onClick={handleSubmit}
+          loading={state === 'loading'}
+          sx={{ marginBottom: 4 }}
+        >
+          Add dates to batch
+        </LoadingButton>
 
         {/* <FormLabel component="legend">By Date</FormLabel> */}
-        <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Start Date"
+              label={<span style={{ color: '#9e9e9e' }}>Start Date</span>}
               value={startDate}
               disableHighlightToday={true}
               disableFuture={true}
-              maxDate={endDate ? endDate : null}
+              maxDate={dayjs().add(-1, 'day')}
               onChange={handleStartDateChange}
             />
             <DatePicker
-              sx={{ marginTop: 4 }}
-              label="End Date"
+              disabled={true}
+              sx={{ marginLeft: 4 }}
+              label={<span style={{ color: '#9e9e9e' }}>End Date</span>}
               value={endDate}
               disableFuture={true}
               minDate={startDate ? startDate : null}
-              onChange={handleEndDateChange}
+              // onChange={handleEndDateChange}
             />
           </LocalizationProvider>
         </Box>
 
         {/* <FormHelperText>You can display an error</FormHelperText> */}
       </FormControl>
-    </div>
   );
 }
 

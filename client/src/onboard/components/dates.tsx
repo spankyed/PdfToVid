@@ -45,7 +45,7 @@ export const BackfillComponent: React.FC = () => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <DatePicker
-              label="From"
+              label={<span style={{ color: '#9e9e9e' }}>From</span>}
               value={value}
               format="MMMM D, YYYY"
               disableFuture={true}
