@@ -8,10 +8,9 @@ import Check from '@mui/icons-material/Check';
 
 import './onboard.css';
 import PageLayout from '~/shared/components/layout/page-layout';
-import { BackfillComponent } from '~/onboard/components/dates';
 import OnboardingStepper from './components/stepper';
 import ReferencesInput from './components/references';
-import { apiKeyOpenAIAtom, autoScrapeDatesAtom, canGoNextAtom, inputIdsAtom, onboardingStateAtom, startDateAtom } from './store';
+import { apiKeyOpenAIAtom, autoScrapeDatesAtom, canGoNextAtom, inputIdsAtom, onboardingStateAtom } from './store';
 import UserSettings from './components/settings';
 import { useNavigate } from 'react-router-dom';
 import * as api from '~/shared/api/fetch';
@@ -35,7 +34,6 @@ function OnboardFlow() {
   const [completed, setStepperCompleted] = useState<{ [k: number]: boolean; }>({});
 
   const setOnboardingState = useSetAtom(onboardingStateAtom);
-  const startDate = useAtomValue(startDateAtom);
   const inputIds = useAtomValue(inputIdsAtom);
   const autoScrapeNewDates = useAtomValue(autoScrapeDatesAtom);
 
@@ -47,7 +45,6 @@ function OnboardFlow() {
 
   async function submitForm(){
     const form = {
-      startDate: startDate?.format('YYYY-MM-DD'),
       inputIds,
       config: {
         autoScrapeNewDates,

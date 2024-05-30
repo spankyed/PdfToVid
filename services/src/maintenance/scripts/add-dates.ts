@@ -8,7 +8,7 @@ import { Config } from '~/shared/utils/get-config';
 type DateParam = string | Date;
 
 // ? Returns either an interface including  all records or only a list of new date values
-export async function backfillDates(startDate: DateParam | null, endDate?: DateParam) {
+export async function backfillDates(startDate: DateParam, endDate?: DateParam) {
   const to = endDate || new Date();
   const from = new Date(startDate);
   const datesToBackfill = getDatesBetween(from, to);
