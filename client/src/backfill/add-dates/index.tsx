@@ -61,7 +61,7 @@ const DateRangeControl: React.FC<{}> = () => {
           loading={state === 'loading'}
           sx={{ marginBottom: 4 }}
         >
-          Add dates to batch
+          Load Dates
         </LoadingButton>
 
         {/* <FormLabel component="legend">By Date</FormLabel> */}

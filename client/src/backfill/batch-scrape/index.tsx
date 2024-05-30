@@ -225,7 +225,7 @@ const BatchScrapeButton = ({ disabled, dates }) => {
       <Tooltip title={isComplete ? viewInfo : scrapeInfo}>
         <HelpOutlineIcon sx={{ mr: 1}}/>
       </Tooltip>
-      { isComplete ? 'View Batch' : 'Scrape dates in batch'  }
+      { isComplete ? 'View Batch' : 'Scrape batch'  }
     </LoadingButton>
 
   </div>
