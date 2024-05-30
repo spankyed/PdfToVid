@@ -2,30 +2,17 @@ import cron from 'node-cron';
 import scrapeAndRankPapers from '~/worker/scripts/scrape';
 import repository from '~/maintenance/repository';
 import { getCurrentDate } from './add-dates';
+import { getConfig } from '~/shared/utils/get-config';
 
 type Jobs = { [key: string]: cron.ScheduledTask };
 const scrapeJobs: Jobs = {};
 
-export async function startJobAddNewDates() {
-  const date = getCurrentDate();
-  await repository.storeDate(date)
-
-  return cron.schedule('0 0 * * *', async () => {
-    const date = getCurrentDate();
-
-    console.log(`Adding new date, ${date}`);
-
-    await repository.storeDate(date);
-  });
-}
-
-export async function startJobScrapeNewDatesWithRetry(skipToday = false) {
-  if (!skipToday) {
-    scrapeTodayWithRetry(true);
-  }
+export async function startJobScrapeNewDatesWithRetry() {
+  scrapeTodayWithRetry(true);
 
   return cron.schedule('0 0 * * *', async () => {
     // runs at midnight every day
+    // todo skip job if todays friday, and if its monday create 3 jobs for friday-monday
     scrapeTodayWithRetry();
   })
 }
@@ -43,8 +30,11 @@ async function scrapeTodayWithRetry(tryNow = false) {
   }
 
   let attempts = 0;
+  
+  const config = await getConfig();
+  const scrapeInterval = config.settings.scrapeInterval;
 
-  scrapeJobs[date] = cron.schedule('0 */6 * * *', async () => {
+  scrapeJobs[date] = cron.schedule(`0 */${scrapeInterval} * * *`, async () => {
     attempts++;
 
     console.log(`Attempt [${attempts}] to scrape papers for date, ${date}...`);

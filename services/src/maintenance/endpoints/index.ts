@@ -54,7 +54,7 @@ function onboardNewUser(request: any, h: any){
         // console.log('papers: ', papers);
       }
 
-      await backfillDates(startDate);
+      await backfillDates(null);
 
       const allDates = await repository.getAllDates();
   
@@ -62,7 +62,7 @@ function onboardNewUser(request: any, h: any){
       
       setConfigSettings({...config, isNewUser: false })
 
-      runBackgroundScripts(true);
+      runBackgroundScripts();
   
       resolve(dateList)
     } catch (err) {
