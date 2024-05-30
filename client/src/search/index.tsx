@@ -111,7 +111,7 @@ const Results = ({ isLoading = false }) => {
 
   return (
     <Box>
-      <div className='flex justify-center'>
+      <div className='flex justify-center' style={{ marginBottom: -34, marginTop: 2 }}>
         <ToggleButtonGroup
           color="secondary"
           value={tabValue}
@@ -130,7 +130,7 @@ const Results = ({ isLoading = false }) => {
       <Box>
         {tabValue === 'table' && <PapersTable papers={results} isLoading={isLoading} placeholderRows={10}/>}
         {tabValue === 'grid' &&
-          <Box sx={{ marginTop: 2 }}>
+          <Box sx={{ marginTop: 6 }}>
             <ThumbPapersGrid papers={results} isLoading={isLoading} placeholderRows={4}/>
           </Box>  
         }
