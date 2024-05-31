@@ -29,8 +29,8 @@ const Calendar: React.FC = () => {
     }
   };
 
-  const setCalendarModelBase = useSetAtom(calendarModelAtomBase);
-  const updateSidebarData = useSetAtom(updateSidebarDataAtom);
+  // const setCalendarModelBase = useSetAtom(calendarModelAtomBase);
+  // const updateSidebarData = useSetAtom(updateSidebarDataAtom);
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data }) => {
     if (newStatus === 'error') {
@@ -38,21 +38,21 @@ const Calendar: React.FC = () => {
       addAlert({message: `There was a problem scraping papers for ${id}`, id })
     }
 
-    setCalendarModelBase((prevModel) => {
-      const updatedModel = prevModel.map((item) => {
-        if (item.date.value === key) {
-          return {
-            ...item,
-            date: { ...item.date, status: newStatus },
-            papers: newStatus === 'complete' ? data : item.papers,
-          };
-        }
-        return item;
-      });
-      return updatedModel;
-    });
+    // setCalendarModelBase((prevModel) => {
+    //   const updatedModel = prevModel.map((item) => {
+    //     if (item.date.value === key) {
+    //       return {
+    //         ...item,
+    //         date: { ...item.date, status: newStatus },
+    //         papers: newStatus === 'complete' ? data : item.papers,
+    //       };
+    //     }
+    //     return item;
+    //   });
+    //   return updatedModel;
+    // });
 
-    updateSidebarData({ key, status: newStatus, count: data?.length});
+    // updateSidebarData({ key, status: newStatus, count: data?.length});
   };
 
   return (

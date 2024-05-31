@@ -7,6 +7,7 @@ import { scrollToElement } from '~/shared/utils/scrollPromise';
 import RowItem from './row-item';
 import { isSummaryOpenAtom } from '../../../shared/components/paper/tile/summary/store';
 import { emptyObjectAtom } from '~/shared/store';
+import { featureDisabledAlertAtom } from '~/shared/components/notification/store';
 
 function DateRows(): React.ReactElement {
   const datesAtoms = useAtomValue(calendarModelAtom);

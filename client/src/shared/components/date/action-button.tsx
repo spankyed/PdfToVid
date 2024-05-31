@@ -1,15 +1,17 @@
 import React, { useContext } from 'react';
 import { Typography, Box, Button } from '@mui/material';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import DescriptionIcon from '@mui/icons-material/Description';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
+import { featureDisabledAlertAtom } from '../notification/store';
 
 function ActionButton({ date, scrapeAtom }: { date: string; scrapeAtom: any }): React.ReactElement {
-  const [, scrapePapers] = useAtom(scrapeAtom);
+  // const [, scrapePapers] = useAtom(scrapeAtom);
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
   const scrape = () => {
-    scrapePapers(date);
+    featureDisabledAlert();
   }
   
   return (

@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
+import { featureDisabledAlertAtom } from '../notification/store';
 
 const ResetState = ({ date, resetStatusAtom }) => {
-  const [, resetDateStatus] = useAtom(resetStatusAtom);
+  // const [, resetDateStatus] = useAtom(resetStatusAtom);
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
   const reset = () => {
-    resetDateStatus(date)
+    featureDisabledAlert()
   };
 
   return (

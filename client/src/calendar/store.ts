@@ -5,6 +5,7 @@ import { CalendarModel, DateRow } from '~/shared/utils/types';
 import { RefObject } from 'react';
 import { resetDateStatus } from '../shared/api/fetch';
 import { splitAtom } from 'jotai/utils'
+import calendar from './calendar.json';
 
 export const calendarStateAtom = atom<'loading' | 'backfill' | 'ready' | 'error'>('loading');
 export const lastRecordReachedAtom = atom(false);
@@ -18,8 +19,8 @@ export const fetchCalendarModelAtom = atom(
       set(calendarStateAtom, 'loading');
       set(lastRecordReachedAtom, false);
 
-      const response = await api.getCalendarModelData();
-      const calendarModel = response.data as CalendarModel;
+      // const response = await api.getCalendarModelData();
+      const calendarModel = calendar;
       console.log('Calendar Model: ', calendarModel);
       set(calendarModelAtomBase, calendarModel);
 
@@ -40,13 +41,13 @@ export const calendarLoadMoreAtom = atom(
       // set(calendarStateAtom, 'loading');
       set(lastRecordReachedAtom, false);
 
-      const response = await api.calendarLoadMore(date);
-      const calendarModel = response.data as CalendarModel;
-      set(calendarModelAtomBase, [...get(calendarModelAtomBase), ...calendarModel]);
+      // const response = await api.calendarLoadMore(date);
+      // const calendarModel = calendar;
+      // set(calendarModelAtomBase, [...get(calendarModelAtomBase), ...calendarModel]);
 
-      if (calendarModel.length === 0) {
+      // if (calendarModel.length === 0) {
         set(lastRecordReachedAtom, true);
-      }
+      // }
 
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
       // set(calendarStateAtom, 'ready');
@@ -64,8 +65,8 @@ export const calendarLoadMonthAtom = atom(
     set(lastRecordReachedAtom, false);
 
     try {
-      const response = await api.calendarLoadMonth(date);
-      const calendarModel = response.data as CalendarModel;
+      // const response = await api.calendarLoadMonth(date);
+      const calendarModel = calendar;
       set(calendarModelAtomBase, calendarModel);
       set(calendarStateAtom, 'ready');
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
