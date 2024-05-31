@@ -1,5 +1,6 @@
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
+import calendar from '../calendar/calendar.json';
 
 export const tabValueAtom = atom<'table' | 'grid'>('table');
 export const searchKeywordAtom = atom('');
@@ -38,8 +39,8 @@ export const fetchPapersByDateAtom = atom(
     set(dateEntryStateAtom, 'loading');
 
     try {
-      const response = await api.getDateEntryModel(dateId);
-      const model = response.data;
+      // const response = await api.getDateEntryModel(dateId);
+      const model = calendar[1];
       const { date, papers } = model;
       
       if (!date) {
