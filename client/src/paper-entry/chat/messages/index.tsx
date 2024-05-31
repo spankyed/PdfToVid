@@ -26,7 +26,7 @@ export default function MessageList () {
     // scroll to bottom
     setTimeout(() => {
       scrollableElement.scrollTo({ top: scrollableElement.scrollHeight, behavior: 'smooth' });
-    }, 200);
+    }, 250);
     }, [scrollableContainerRef]); 
 
   return (

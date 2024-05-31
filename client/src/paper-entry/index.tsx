@@ -90,7 +90,7 @@ const TabSection = ({ paperId }) => {
 
   return (
     <Box>
-      <ToggleButtonGroup
+      {/* <ToggleButtonGroup
         color="secondary"
         value={tabValue}
         exclusive
@@ -99,7 +99,7 @@ const TabSection = ({ paperId }) => {
       >
         <ToggleButton value="chat">Chat</ToggleButton>
         <ToggleButton value="content">Content</ToggleButton>
-      </ToggleButtonGroup>
+      </ToggleButtonGroup> */}
 
       {tabValue === 'chat' && <ChatTab paperId={paperId}/>}  {/* prompts*/}
       {tabValue === 'content' && <ContentTab />}

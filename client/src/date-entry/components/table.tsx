@@ -41,7 +41,7 @@ const Row = ({paper, index}) => {
       <TableCell align="center">
         <Favorite paper={paper}/>
       </TableCell>
-      <TableCell align="center">
+      {/* <TableCell align="center">
         <Chip 
           label={statusType.label} 
           color={statusType.color} 
@@ -68,7 +68,7 @@ const Row = ({paper, index}) => {
             )
           }
         </ButtonGroup>
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   )
 }
@@ -84,12 +84,12 @@ const TablePlaceholder = ({ placeholderRows }) => {
           <TableCell>
             <Skeleton animation="wave" height={50} width="2em" />
           </TableCell>
-          <TableCell>
+          {/* <TableCell>
             <Skeleton animation="wave" height={50} width="100%" />
           </TableCell>
           <TableCell>
             <Skeleton animation="wave" height={50} width="100%" />
-          </TableCell>
+          </TableCell> */}
         </TableRow>
       ))}
     </>
@@ -108,8 +108,8 @@ const PapersTable: React.FC<{ papers?: Paper[]; isLoading?: boolean; placeholder
           <TableRow>
             <TableCell align="left">Paper Title</TableCell>
             <TableCell align="left"></TableCell>
-            <TableCell align="center">Status</TableCell>
-            <TableCell align="right" style={{ paddingRight: '3em' }}>Actions</TableCell>
+            {/* <TableCell align="center">Status</TableCell> */}
+            {/* <TableCell align="right" style={{ paddingRight: '3em' }}>Actions</TableCell> */}
           </TableRow>
         </TableHead>
 
