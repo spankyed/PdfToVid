@@ -15,7 +15,6 @@ import { colors } from '~/shared/styles/theme';
 
 function DateList(): React.ReactElement {
   const [datesRows] = useAtom(datesRowsAtom); // todo useMemo
-  console.log('datesRows: ', datesRows);
   const [, fetchSidebarData] = useAtom(fetchDatesSidebarDataAtom);
   const container = useRef(null);
 
@@ -48,7 +47,6 @@ function Month({ month, dates, container }) {
   useEffect(() => {
     const allComplete = dates.every(date => date.status === 'complete');
 
-    console.log('daysInMonth: ', {daysInMonth, datesCount: dates.length, allComplete});
     if (dates.length == daysInMonth && allComplete) {
       setAllComplete(true);
     }
@@ -72,7 +70,7 @@ function Month({ month, dates, container }) {
     const monthChanged = lastOpenMonth !== month;
 
     if (onCalendarPage && monthChanged) {
-      setCalendarState('loading');
+      // setCalendarState('loading');
     }
     
     if (element) {
@@ -92,9 +90,9 @@ function Month({ month, dates, container }) {
     setLastOpenMonth(month);
 
     if (onCalendarPage) {
-      const date = dates[0]?.value;
+      // const date = dates[0]?.value;
 
-      loadMonth(date)
+      // loadMonth(date)
     }
   }
 
