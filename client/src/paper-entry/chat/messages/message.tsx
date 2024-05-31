@@ -8,10 +8,10 @@ import { selectedThreadsAtom } from '../threads/store';
 import { colors } from '~/shared/styles/theme';
 
 export default function Message({ message }) {
-  const paper = useAtomValue(paperAtom);
-  const selectedThreads = useAtomValue(selectedThreadsAtom);
-  const currThread = selectedThreads[paper!.id];
-  const isBranchMessage = message.parentId && currThread?.messageId == message.parentId;
+  // const paper = useAtomValue(paperAtom);
+  // const selectedThreads = useAtomValue(selectedThreadsAtom);
+  // const currThread = selectedThreads[paper!.id];
+  const isBranchMessage = false;
 
   const [actionsShowing, showActions] = useState(false);
   const isAssistant = message.role === 'assistant';

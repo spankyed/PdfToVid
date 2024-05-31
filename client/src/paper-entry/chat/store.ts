@@ -6,7 +6,7 @@ import { selectedThreadsAtom, threadOptionsAtom } from './threads/store';
 
 export const modelAtom = atom('gpt-4o');
 
-export const chatStateAtom = atom<'loading' | 'ready' | 'error'>('loading');
+export const chatStateAtom = atom<'loading' | 'ready' | 'error'>('ready');
 
 export const loadChatDataAtom = atom(
   null,

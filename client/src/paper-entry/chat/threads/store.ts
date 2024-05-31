@@ -14,7 +14,7 @@ type Thread = {
 type SelectedThreads = { [ key: string ]: Thread };
 export const selectedThreadsAtom = atomWithStorage<SelectedThreads>('selectedThread', {});
 export const threadOptionsAtom = atom<any[]>([
-  // { description: 'Main thread', id: `1` },
+  { description: 'Main thread', id: 0 },
 ]);
 
 export const selectAndLoadMessagesAtom = atom(

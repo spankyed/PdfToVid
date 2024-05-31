@@ -8,6 +8,7 @@ import { paperAtom } from '~/paper-entry/store';
 import { inputAtom, promptPresetsOpenAtom, sendMessageAtom, messagesAtom, tokenUsageAtom, inputEnabledAtom, inputRefAtom } from './store';
 import { chatStateAtom } from '../store';
 import { selectedThreadsAtom } from '../threads/store';
+import { featureDisabledAlertAtom } from '~/shared/components/notification/store';
 
 export const ChatInput = () => {
   const [input, setInput] = useAtom(inputAtom);
@@ -15,10 +16,11 @@ export const ChatInput = () => {
   const [isOpen, setIsOpen] = useAtom(promptPresetsOpenAtom);
   const inputEnabled = useAtomValue(inputEnabledAtom);
   const paper = useAtomValue(paperAtom);
-  const selectedThreads = useAtomValue(selectedThreadsAtom);
+  // const selectedThreads = useAtomValue(selectedThreadsAtom);
   const chatState = useAtomValue(chatStateAtom);
   const ready = inputEnabled && chatState === 'ready';
   const setInputRef = useSetAtom(inputRefAtom);
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,11 +34,7 @@ export const ChatInput = () => {
     }
 
     if (input.trim()) {
-      sendMessage({
-        text: input,
-        paperId: paper!.id,
-        threadId: selectedThreads[paper!.id]?.id,
-      });
+      featureDisabledAlert();
     }
   };
 
@@ -95,29 +93,29 @@ export const ChatInput = () => {
 
 const TokenUsage = () => {
   const [tokenUsage, setTokenUsage] = useAtom(tokenUsageAtom);
-  const messages = useAtomValue(messagesAtom);
-  const chatState = useAtomValue(chatStateAtom);
+  // const messages = useAtomValue(messagesAtom);
+  // const chatState = useAtomValue(chatStateAtom);
   const overLimit = tokenUsage.total > (tokenUsage.max * .95);
   const reachingLimit = tokenUsage.total > (tokenUsage.max * .7);
 
-  useEffect(() => {
-    const newTokenUsage = messages
-      .filter(message => !message.hidden)
-      .reduce((acc, message) => acc + (message.text ? message.text.length / 4 : 0), 0);
+  // useEffect(() => {
+  //   const newTokenUsage = messages
+  //     .filter(message => !message.hidden)
+  //     .reduce((acc, message) => acc + (message.text ? message.text.length / 4 : 0), 0);
 
-    const totalTokensRounded = Number(((tokenUsage.document + newTokenUsage) / 1000).toFixed(1));
+  //   const totalTokensRounded = Number(((tokenUsage.document + newTokenUsage) / 1000).toFixed(1));
 
-    if (tokenUsage.total === totalTokensRounded) {
-      return;
-    } 
+  //   if (tokenUsage.total === totalTokensRounded) {
+  //     return;
+  //   } 
 
-    setTokenUsage(prev => ({ ...prev, total: totalTokensRounded }))
-  }, [tokenUsage, messages]);
+  //   setTokenUsage(prev => ({ ...prev, total: totalTokensRounded }))
+  // }, [tokenUsage, messages]);
 
   return (
     <Typography variant="caption" mt={1} mb={3} pl={1} sx={{
       opacity: '.7',
       color: reachingLimit ? 'orange' : overLimit ? 'red' : '',
-    }}>Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k / {tokenUsage.max}k</Typography>
+    }}>Token estimate 10k / {tokenUsage.max}k</Typography>
   );
 }

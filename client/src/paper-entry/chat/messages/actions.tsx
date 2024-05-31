@@ -11,6 +11,7 @@ import * as api from '~/shared/api/fetch';
 import { addNewThreadAtom, branchThreadAtom, selectedThreadsAtom } from '../threads/store';
 import { paperAtom } from '~/paper-entry/store';
 import { StopCircleOutlined } from '@mui/icons-material';
+import { featureDisabledAlertAtom } from '~/shared/components/notification/store';
 
 const capitalize = (s) => (s && s[0].toUpperCase() + s.slice(1)) || '';
 
@@ -24,6 +25,7 @@ const actions = [
 ];
 
 export default function Actions({ message }) {
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
   const paper = useAtomValue(paperAtom);
   const [messages, setMessages] = useAtom(messagesAtom);
   const branchThread = useSetAtom(branchThreadAtom);
@@ -40,36 +42,12 @@ export default function Actions({ message }) {
   const filteredActions = actions.filter(action => filters[action.name] ? filters[action.name](message) : true);
 
   const handlers = {
-    regenerate: async () => {
-      // setMessages(messages.filter(m => m.id !== message.id));
-      // const res = await api.regenerateMessage(message.id)
-      // todo stream new message
-    },
-    stop: async () => {
-      // setMessages(messages.filter(m => m.id !== message.id));
-      // await api.stopMessage(message.id)
-    },
-    delete: async () => {
-      setMessages(messages.filter(m => m.id !== message.id));
-      await api.deleteMessage(message.id)
-    },
-    show: async () => {
-      setMessages(messages.map(m => m.id === message.id ? { ...m, hidden: false } : m));
-      await api.toggleHideMessage({
-        messageId: message.id,
-        state: false,
-      });
-    },
-    hide: async () => {
-      setMessages(messages.map(m => m.id === message.id ? { ...m, hidden: true } : m));
-      await api.toggleHideMessage({
-        messageId: message.id,
-        state: true,
-      });
-    },
-    thread: () => {
-      branchThread(paper!.id, message);
-    },
+    regenerate: featureDisabledAlert,
+    stop: featureDisabledAlert,
+    delete: featureDisabledAlert,
+    show: featureDisabledAlert,
+    hide: featureDisabledAlert,
+    thread: featureDisabledAlert,
   }
 
   return (

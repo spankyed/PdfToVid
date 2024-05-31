@@ -5,21 +5,22 @@ import * as api from '~/shared/api/fetch';
 
 export const inputRefAtom = atom<RefObject<HTMLInputElement> | null>(null);
 export const promptPresetsOpenAtom = atom(false);
-export const tokenUsageAtom = atom({ document: 0, total: 0, max: 128 });
+export const tokenUsageAtom = atom({ document: 10, total: 10, max: 128 });
 
 export const inputAtom = atom('');
 
 export const inputEnabledAtom = atom(true);
 
 export const messagesAtom = atom<any[]>([
-  // { id: 2, text: "Can you help me with my project?", timestamp: "2023-05-10T09:01:00Z", role: 'user' },
-  // { id: 3, text: "Of course! What do you need help with?", timestamp: "2023-05-10T09:02:00Z", role: 'assistant' }
+  { id: 2, text: "Can this research help me bake a raspberry cheesecake?", timestamp: "2023-05-31T09:01:00Z", role: 'user' },
+  { id: 3, text: "No.", timestamp: "2023-05-31T09:02:00Z", role: 'assistant' }
 ]);
 
 export const promptOptionsAtom = atomWithStorage<any[]>('promptPresets', [
-{ id: 1, text: "Write me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper." },
-{ id: 2, text: "Write an analogy or metaphor that will help explain this paper to a broad audience." },
-{ id: 3, text: "Explain the value of this in basic terms like you're talking to a CEO. So what? What's the bottom line here?" },
+{ id: 1, text: "Just give me the recipe damnit!" },
+{ id: 2, text: "Write me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper." },
+{ id: 3, text: "Write an analogy or metaphor that will help explain this paper to a broad audience." },
+{ id: 4, text: "Explain the value of this in basic terms like you're talking to a CEO. So what? What's the bottom line here?" },
 ]);
 
 export const sendMessageAtom = atom(

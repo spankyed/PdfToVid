@@ -6,19 +6,21 @@ import { threadOptionsAtom, selectedThreadsAtom, addNewThreadAtom, selectAndLoad
 import { paperAtom } from '~/paper-entry/store';
 import { truncateText } from '~/shared/utils/truncateText';
 import { colors } from '~/shared/styles/theme';
+import { featureDisabledAlertAtom } from '~/shared/components/notification/store';
 
 
 export default function ThreadOptions(){
   const paper = useAtomValue(paperAtom);
-  const selectedThreads = useAtomValue(selectedThreadsAtom);
-  const selectAndLoadMessages = useSetAtom(selectAndLoadMessagesAtom);
-  const addNewThread = useSetAtom(addNewThreadAtom);
+  // const selectedThreads = useAtomValue(selectedThreadsAtom);
+  // const selectAndLoadMessages = useSetAtom(selectAndLoadMessagesAtom);
+  // const addNewThread = useSetAtom(addNewThreadAtom);
   const threadOptions = useAtomValue(threadOptionsAtom);
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
-  const selectedThread = paper?.id && selectedThreads?.hasOwnProperty(paper?.id) ? selectedThreads[paper?.id] : null;
+  // const selectedThread = 0;
 
   const handleAddThread = async () => {
-    addNewThread(paper!.id);
+    featureDisabledAlert();
   };
 
   const select = (e) => {
@@ -26,7 +28,7 @@ export default function ThreadOptions(){
     if (!paper?.id || !e.target.value || !thread){
       return
     }
-    selectAndLoadMessages(paper!.id, thread);
+    featureDisabledAlert();
   }
 
   return (
@@ -39,9 +41,9 @@ export default function ThreadOptions(){
           Thread
         </InputLabel>
         <Select
-          
+          disabled={true}
           labelId="thread-select-label"
-          value={selectedThread?.id || ''}
+          value={0}
           label="Thread"
           onChange={select}
           startAdornment={<AltRouteIcon sx={{ mr: 1 }} />}
