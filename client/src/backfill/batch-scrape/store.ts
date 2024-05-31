@@ -23,7 +23,22 @@ export const buttonsDisabledAtom = atom({
   rightEnd: false,
 });
 
-export const batchDatesAtom = atom<DateItem[]>([]);
+export const batchDatesAtom = atom<DateItem[]>([
+  { value: '2024-05-01', status: 'default' },
+  { value: '2024-05-02', status: 'default' },
+  { value: '2024-05-03', status: 'default' },
+  { value: '2024-05-04', status: 'default' },
+  { value: '2024-05-05', status: 'default' },
+  { value: '2024-05-06', status: 'default' },
+  { value: '2024-05-07', status: 'default' },
+  { value: '2024-05-08', status: 'default' },
+  { value: '2024-05-09', status: 'default' },
+  { value: '2024-05-10', status: 'default' },
+  { value: '2024-05-11', status: 'default' },
+  { value: '2024-05-12', status: 'default' },
+  { value: '2024-05-13', status: 'default' },
+  { value: '2024-05-14', status: 'default' },
+]);
 
 type Direction = 'left' | 'right' | 'leftEnd' | 'rightEnd';
 

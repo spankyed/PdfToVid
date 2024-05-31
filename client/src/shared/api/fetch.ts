@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 const apiUrl = 'http://localhost:3000';
-export const socket = io(apiUrl);
-socket.on('connect', () => console.log('Connected to WebSocket server'));
+// export const socket = io(apiUrl);
+// socket.on('connect', () => console.log('Connected to WebSocket server'));
 // socket.onAny((event, ...args) => console.log('socket event:', {event}, args));
 
 // get

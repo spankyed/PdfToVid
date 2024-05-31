@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { throttle } from '~/shared/utils/throttle';
 import { colors } from '~/shared/styles/theme';
+import { featureDisabledAlertAtom } from '~/shared/components/notification/store';
 
 const borderColor = '#787878';
 
@@ -69,17 +70,18 @@ const BatchTable: React.FC = () => {
 
   const fetchDates = useSetAtom(getDatesAtom);
   const buttonsDisabled = useAtomValue(buttonsDisabledAtom);
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
   const goTo = direction => () => {
-    fetchDates(direction);
+    featureDisabledAlert();
   }
 
-  useEffect(() => {
-    // Initial load: retrieves the most recent date records
-    if (dates.length === 0 || state === 'idle') {
-      fetchDates('rightEnd');
-    }
-  } , []);
+  // useEffect(() => {
+  //   // Initial load: retrieves the most recent date records
+  //   if (dates.length === 0 || state === 'idle') {
+  //     fetchDates('rightEnd');
+  //   }
+  // } , []);
 
   const splitList = dates.reduce((acc, date, index) => {
     const sectionIndex = Math.floor(index / itemsPerColumn);
@@ -191,22 +193,14 @@ const BatchTable: React.FC = () => {
 const BatchScrapeButton = ({ disabled, dates }) => {
   const state = useAtomValue(batchStateAtom);
   const scrapeBatch = useSetAtom(batchScrapeAtom);
-  const throttledScrapeBatch = throttle(scrapeBatch, 1000); // Adjust the delay (in milliseconds) as needed
+  // const throttledScrapeBatch = throttle(scrapeBatch, 1000); // Adjust the delay (in milliseconds) as needed
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const isComplete = state === 'complete';
 
   const onClick = () => {
-    if (isComplete) {
-      const startDate = dates[0].value;
-      const endDate = dates[dates.length - 1].value;
-      const queryParams = new URLSearchParams({ startDate, endDate });
-      const searchParamsString = queryParams.toString();
-      const newUrl = `/search?${searchParamsString}`;
-      navigate(newUrl);
-    } else {  
-      throttledScrapeBatch();
-    }
+    featureDisabledAlert();
   }
 
   const scrapeInfo = `Scrape and rank papers for dates in batch. This could take a few minutes. We recommend having less than 75 starred papers as it may reduce the time spent ranking papers.`

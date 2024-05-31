@@ -7,29 +7,28 @@ import { dateEndAtom, dateStartAtom, backfillStateAtom } from './store';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { addDatesAtom } from './store';
 import dayjs from 'dayjs';
+import { featureDisabledAlertAtom } from '~/shared/components/notification/store';
 
 const DateRangeControl: React.FC<{}> = () => {
   const [startDate, setStartDate] = useAtom(dateStartAtom);
   const [endDate, setEndDate] = useAtom(dateEndAtom);
   const state = useAtomValue(backfillStateAtom);
   const addDates = useSetAtom(addDatesAtom);
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
   const handleSubmit = () => {
     if (startDate && endDate) {
-      addDates({
-        startDate: startDate.format('YYYY-MM-DD'),
-        endDate: endDate.format('YYYY-MM-DD'),
-      });
+      featureDisabledAlert();
       // todo if new dates are prior to dates in current batch, update batch to start at new earliest date
     }
   };
 
   const handleStartDateChange = (newDate) => {
-    const fourteenDaysLater = dayjs(newDate.add(14, 'days'));
+    const twentyDaysLater = dayjs(newDate.add(20, 'days'));
     const today = dayjs();
-    const isAfterToday = fourteenDaysLater.isAfter(today);
+    const isAfterToday = twentyDaysLater.isAfter(today);
     setStartDate(newDate);
-    setEndDate(isAfterToday ? dayjs().add(-1, 'day') : fourteenDaysLater)
+    setEndDate(isAfterToday ? dayjs().add(-1, 'day') : twentyDaysLater)
   };
 
   // const handleEndDateChange = (newDate) => {
