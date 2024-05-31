@@ -61,6 +61,7 @@ const QueryControl: React.FC<{}> = () => {
           value={query}
           onKeyDown={handleKeyPress}
           onChange={(e) => setQuery(e.target.value)}
+          onFocus={event => { event.target.select() }}
           fullWidth/>
       </Box>
 
