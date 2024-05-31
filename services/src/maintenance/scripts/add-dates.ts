@@ -19,7 +19,7 @@ export async function backfillDates(startDate: DateParam, endDate?: DateParam) {
   return newRecords;
 };
 
-export async function backFillAbsentDates(maxBackfill: Config['settings']['maxBackfill']) {
+export async function backFillAbsentDates(lastDateChecked: Config['settings']['lastDateChecked']) {
   const lastDateAdded = await repository.getLatestDate();
   const today = getCurrentDate();
 
@@ -33,8 +33,7 @@ export async function backFillAbsentDates(maxBackfill: Config['settings']['maxBa
     return;
   }
 
-  const dateBackNDays = getDateNDaysBack(maxBackfill!)
-  const startDate = lastDateAdded < dateBackNDays ? dateBackNDays : lastDateAdded;
+  const startDate = lastDateChecked  ? lastDateChecked : lastDateAdded;
   const dateRecords = await backfillDates(startDate, new Date());
 
   return dateRecords.map(dateRecord => dateRecord.value);
@@ -65,8 +64,8 @@ export function getCurrentDate() {
   return new Date(date.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
 }
 
-export function getDateNDaysBack(n: string) {
-  const date = new Date();
-  const pastDate = new Date(date.setDate(date.getDate() - Number(n)));
-  return new Date(pastDate.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
-}
+// export function getDateNDaysBack(n: string) {
+//   const date = new Date();
+//   const pastDate = new Date(date.setDate(date.getDate() - Number(n)));
+//   return new Date(pastDate.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
+// }

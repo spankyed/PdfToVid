@@ -31,7 +31,7 @@ const StyledList = styled(List)({
   padding: 0,
   flex: 1,
   '&:not(:last-child)': {
-    borderRight: `1px solid ${borderColor}`, // Add divider except for the last list
+    borderRight: `.0005rem solid #78787875`, // Add divider except for the last list
   },
 });
 
@@ -47,7 +47,7 @@ const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
 
   return ({
     backgroundColor: colorByStatus[status],
-    borderBottom: `1px solid ${borderColor  }`,  // Apply bottom border to all items
+    borderBottom: `1px solid #78787875`,  // Apply bottom border to all items
     padding: '2px 12px',
     '&:last-child': {
       borderBottom: 'none',  // Remove border for the last child
@@ -113,10 +113,8 @@ const BatchTable: React.FC = () => {
 
   return (
     <Box sx={{
-        borderTop: '2px solid #ffffff17',
         alignItems: 'center',
         display: 'flex', justifyContent: "center",
-        paddingTop: 5,
         flexDirection: 'column',
         width: '100%'
       }}>
@@ -227,7 +225,7 @@ const BatchScrapeButton = ({ disabled, dates }) => {
       <Tooltip title={isComplete ? viewInfo : scrapeInfo}>
         <HelpOutlineIcon sx={{ mr: 1}}/>
       </Tooltip>
-      { isComplete ? 'View Batch' : 'Scrape dates in batch'  }
+      { isComplete ? 'View Batch' : 'Scrape batch'  }
     </LoadingButton>
 
   </div>

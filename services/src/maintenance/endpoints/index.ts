@@ -45,24 +45,30 @@ function batchScrape(request: any, h: any){
 function onboardNewUser(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const form = request.payload.form;
-
-    const { startDate, inputIds, config } = form;
+    const { inputIds, config } = form;
 
     try {
+      // const january1991 = new Date('1991-01-01'); // The year arxiv started
+      const january1991 = new Date('2024-01-01'); // The year arxiv started
+
       if (inputIds && inputIds.length) {
-        const papers = await seedReferencePapers(undefined, inputIds);
+        await Promise.all([
+          seedReferencePapers(undefined, inputIds),
+          backfillDates(january1991)
+        ])
         // console.log('papers: ', papers);
+      } else {
+        await backfillDates(january1991);
       }
 
-      await backfillDates(startDate);
-
+      // todo return dates for current year only instead
       const allDates = await repository.getAllDates();
   
       const dateList = groupDatesByMonth(allDates as any);
       
       setConfigSettings({...config, isNewUser: false })
 
-      runBackgroundScripts(true);
+      runBackgroundScripts();
   
       resolve(dateList)
     } catch (err) {

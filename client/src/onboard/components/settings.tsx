@@ -37,12 +37,12 @@ function UserSettings() {
                     At noon each day, attempt to scrape and rank papers for that day. If no papers are found, retry every 3 hours until found. New dates will not appear in the calender until papers have been successfully scraped for that day.
                   </Typography>
                 </Grid>
-                <Grid item xs={3} sx={{ mt: 8 }}>
+                <Grid item xs={3} sx={{ mt: 4 }}>
                   <Typography>
                     OpenAI API Key
                   </Typography>
                 </Grid>
-                <Grid item xs={9} sx={{ mt: 10 }}>
+                <Grid item xs={9} sx={{ mt: 6 }}>
                   <TextField
                     type={showApiKey ? 'text' : 'password'}
                     variant="outlined"

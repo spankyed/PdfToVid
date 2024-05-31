@@ -1,9 +1,9 @@
 export default {
   "settings": {
+    "isNewUser": false,
     "autoScrapeNewDates": true,
-    "autoAddNewDates": true,
-    "maxBackfill": "14",
-    "isNewUser": false
+    "apiKeyOpenAI": "",
+    "scrapeInterval": 3
   },
   "features": [
     "video_generator"
