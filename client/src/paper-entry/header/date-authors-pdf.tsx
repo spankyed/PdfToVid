@@ -22,7 +22,17 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | undefined }> = ({ paper }) => {
   const { date, authors } = paper || {};
   const authorsList = authors?.split(';').map(p => p.trim()) || [];
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (e) => {
+    e.stopPropagation()
+
+    if (!paper?.id) {
+      navigate(`/calendar`);
+
+      return
+    }
+
+    window.open(`http://export.arxiv.org/pdf/${paper.id}`, '_blank')
+  };
 
   const onDateClick = date => e => {
     navigate(`/date/${date}`);
