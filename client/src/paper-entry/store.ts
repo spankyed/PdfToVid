@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 import { RefObject } from 'react';
 import * as api from '~/shared/api/fetch';
 import { Paper } from '~/shared/utils/types';
+import calendar from '../calendar/calendar.json';
 
 export const scrollableContainerRefAtom = atom<RefObject<HTMLDivElement> | null>(null);
 
@@ -21,8 +22,8 @@ export const fetchPaperAtom = atom(
     set(pageStateAtom, 'loading');
 
     try {
-      const response = await api.getPaperById(paperId);
-      const paper = response.data;
+      // const response = await api.getPaperById(paperId);
+      const paper = calendar[1].papers[1];
       console.log('Paper fetched: ', {paper});
 
       if (!paper) {
