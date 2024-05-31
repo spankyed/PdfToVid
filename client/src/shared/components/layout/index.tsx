@@ -19,19 +19,19 @@ function Layout(): React.ReactElement {
   const navigate = useNavigate();
   const [isNewUser, setIsNewUser] = useAtom(isNewUserAtom);
 
-  const checkIsNewUser = useCallback(async () => {
-    const { data: newUserCheck } = await api.checkIsNewUser();
+  // const checkIsNewUser = useCallback(async () => {
+  //   const { data: newUserCheck } = await api.checkIsNewUser();
   
-    if (newUserCheck) {
-      setIsNewUser(true);
-      navigate('/onboard');
-    }
-  }, [])
+  //   if (newUserCheck) {
+  //     setIsNewUser(true);
+  //     navigate('/onboard');
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    checkIsNewUser()
-      .catch(console.error);
-  }, [checkIsNewUser]);
+  // useEffect(() => {
+  //   checkIsNewUser()
+  //     .catch(console.error);
+  // }, [checkIsNewUser]);
 
   return (
     <>
