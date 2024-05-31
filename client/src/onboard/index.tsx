@@ -19,7 +19,7 @@ import { setSidebarDataAtom } from '~/shared/components/layout/sidebar/dates/sto
 import { isNewUserAtom } from '~/shared/components/layout/store';
 import { colors } from '~/shared/styles/theme';
 
-const steps = ['References', 'Finish'];
+const steps = ['References', 'Settings'];
 
 const OnboardPage = () => {
   return (
@@ -128,7 +128,7 @@ function OnboardFlow() {
               elevation={2}
               style={{
                 backgroundColor: colors.palette.background.paper,
-                paddingTop: '2rem', marginTop: '3rem',
+                paddingTop: '2rem', marginTop: '2rem',
                 display: 'flex', flexDirection: 'column', alignItems: 'center',
                 height: '35rem', width: '70rem', overflow: 'auto'
               }}
@@ -172,7 +172,7 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
   const isFirstStep = activeStep === 0
 
   return (
-    <Box sx={{ pt: 6, display: 'flex', justifyContent: 'center', width: '100%'}}>
+    <Box sx={{ pt: 3, display: 'flex', justifyContent: 'center', width: '100%'}}>
       <div className='flex justify-between' style={{ width: '20rem' }}>
         <Button
           color='secondary'
@@ -210,9 +210,10 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
             variant='contained'
             onClick={handleNext}
             loading={state === 'loading'}
+            sx={{ pr: 1.5,  }}
           >
-            Finish
-            <Check sx={{ ml: 1, mt: -.75 }} />
+            Done
+            <Check sx={{ ml: 1.1, mt: -.75 }} />
           </LoadingButton>
         )}
       </div>

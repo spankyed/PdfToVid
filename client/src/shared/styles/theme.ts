@@ -66,6 +66,9 @@ export const colors = createTheme({
       // paper: '#333',
       paper: grey[900],
     },
+    warning:{
+      main: amber[700],
+    },
     amber: {
       main: amber[900],
     },
