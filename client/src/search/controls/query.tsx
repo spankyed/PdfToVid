@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { Select, MenuItem, FormControl, InputLabel, Box, TextField, Button } from '@mui/material';
 import { queryAtom, queryFieldAtom, resetFieldsAtom, submitSearchAtom } from '../store';
+import { featureDisabledAlertAtom } from '~/shared/components/notification/store';
 
 const QueryControl: React.FC<{}> = () => {
   const [query, setQuery] = useAtom(queryAtom);
@@ -9,18 +10,19 @@ const QueryControl: React.FC<{}> = () => {
   const queryParams = new URLSearchParams(location.search);
   const queryParam = queryParams.get('query');
   const resetFields = useSetAtom(resetFieldsAtom);
-  const submitSearch = useSetAtom(submitSearchAtom);
+  // const submitSearch = useSetAtom(submitSearchAtom);
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
   const handleKeyPress = (event) => {
     if (!event.shiftKey && event.key === 'Enter') {
       event.preventDefault(); // Prevent the default action to avoid form submission or newline in textfield
-      submitSearch();
+      featureDisabledAlert();
     }
   };
 
   useEffect(() => {
     if (queryParam) {
-      submitSearch({ query: queryParam, queryField: 'all'});
+      featureDisabledAlert();
     } else if (queryParam !== null) {
       setQuery(queryParam)
     }
@@ -67,7 +69,7 @@ const QueryControl: React.FC<{}> = () => {
 
       <Box sx={{ display: 'flex', justifyContent: "space-between", placeSelf: 'center'  }}>
         {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
-        <Button variant="contained" color='primary' onClick={() => submitSearch()}>Search</Button>
+        <Button variant="contained" color='primary' onClick={() => featureDisabledAlert()}>Search</Button>
         <Button variant="contained" color="secondary" onClick={resetFields} sx={{ml:1}}>Reset</Button>
         {/* <Button variant="contained" color="secondary">Clear Results</Button> */}
       </Box>

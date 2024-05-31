@@ -5,6 +5,7 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { dateEndAtom, dateStartAtom, submitSearchAtom } from '../store';
 import dayjs from 'dayjs';
+import { featureDisabledAlertAtom } from '~/shared/components/notification/store';
 
 const DateRangeControl: React.FC<{}> = () => {
   const queryParams = new URLSearchParams(location.search);
@@ -12,13 +13,14 @@ const DateRangeControl: React.FC<{}> = () => {
   const endDateParam = queryParams.get('endDate');
   const [startDate, setStartDate] = useAtom(dateStartAtom);
   const [endDate, setEndDate] = useAtom(dateEndAtom);
-  const submitSearch = useSetAtom(submitSearchAtom);
+  // const submitSearch = useSetAtom(submitSearchAtom);
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
   useEffect(() => {
     if (startDateParam && endDateParam) {
       setStartDate(dayjs(startDateParam));
       setEndDate(dayjs(endDateParam));
-      submitSearch({ dateStart: startDateParam, dateEnd: endDateParam });
+      featureDisabledAlert();
     }
   }, [startDateParam, endDateParam]);
 

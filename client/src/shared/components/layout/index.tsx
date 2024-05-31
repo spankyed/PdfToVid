@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { AppBar, Toolbar, Typography, Box, IconButton, Button, InputBase, TextField } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import Sidebar from './sidebar';
 import SidebarToggleButton from './sidebar/toggle';
 import { colors } from '~/shared/styles/theme';
@@ -11,6 +11,7 @@ import { sidebarOpenAtom } from './sidebar/store';
 import { NotificationManager } from '../notification';
 import * as api from '~/shared/api/fetch';
 import { isNewUserAtom } from './store';
+import { featureDisabledAlertAtom } from '../notification/store';
 
 // const height = 'calc(100vh - 65px)';
 
@@ -135,8 +136,9 @@ function TitleArea({ isNewUser }) {
 }
 
 function SearchInput(){
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('');
+  const featureDisabledAlert = useSetAtom(featureDisabledAlertAtom);
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -144,11 +146,7 @@ function SearchInput(){
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const queryParams = new URLSearchParams({ query: searchValue });
-    const searchParamsString = queryParams.toString();
-    const newUrl = `/search?${searchParamsString}`;
-
-    navigate(newUrl);
+    featureDisabledAlert();
   };
 
   return (

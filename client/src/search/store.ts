@@ -1,20 +1,21 @@
 import { atom } from 'jotai';
 import { Paper } from '~/shared/utils/types';
 import * as api from '~/shared/api/fetch';
-import type dayjs from 'dayjs'; // Import dayjs if you haven't already
+import dayjs from 'dayjs'; // Import dayjs if you haven't already
 import { addAlertAtom, addSnackAtom } from '~/shared/components/notification/store';
+import results from './controls/results.json';
 
-export const searchStateAtom = atom<'pending' | 'loading'| 'complete' | 'empty' | 'error'>('pending');
+export const searchStateAtom = atom<'pending' | 'loading'| 'complete' | 'empty' | 'error'>('complete');
 export const tabValueAtom = atom<'table' | 'grid'>('table');
-export const resultListAtom = atom<Paper[]>([]);
+export const resultListAtom = atom<Paper[]>(results as any);
 
-export const queryAtom = atom('');
+export const queryAtom = atom('agent');
 export const queryFieldAtom = atom('all');
 export const favoriteAtom = atom(false);
 export const viewedAtom = atom(false);
 export const relevancyAtom = atom('');
 export const comparisonOperatorAtom = atom('≥');
-export const dateStartAtom = atom<Day>(null);
+export const dateStartAtom = atom<Day>(dayjs('2024-05-27'));
 export const dateEndAtom = atom<Day>(null);
 
 export const initialStateAtom = atom(false);
@@ -68,6 +69,7 @@ export const submitSearchAtom = atom(
     try {
       const response = await api.searchPapers(form);
       const results = response.data;
+      console.log('search results: ', response.data);
 
       if (results.length === 1000) {
         set(addAlertAtom, { message: 'Results limited to 1000 papers. Please refine your search criteria.', autoClose: true });

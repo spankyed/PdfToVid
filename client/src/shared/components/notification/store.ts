@@ -46,6 +46,13 @@ export const addSnackAtom = atom(
   }
 );
 
+export const featureDisabledAlertAtom = atom(
+  null,
+  (get, set) => {
+    set(addSnackAtom, { message: 'This feature is not available in the public demo', autoClose: true });
+  }
+);
+
 // export const removeAlertAtom = atom(
 //   null,
 //   (get, set, id) => {
