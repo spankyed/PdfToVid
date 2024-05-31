@@ -11,6 +11,13 @@ const QueryControl: React.FC<{}> = () => {
   const resetFields = useSetAtom(resetFieldsAtom);
   const submitSearch = useSetAtom(submitSearchAtom);
 
+  const handleKeyPress = (event) => {
+    if (!event.shiftKey && event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default action to avoid form submission or newline in textfield
+      submitSearch();
+    }
+  };
+
   useEffect(() => {
     if (queryParam) {
       submitSearch({ query: queryParam, queryField: 'all'});
@@ -52,6 +59,7 @@ const QueryControl: React.FC<{}> = () => {
           size="small"
           sx={{ marginRight: 2, minWidth: '20rem' }}
           value={query}
+          onKeyDown={handleKeyPress}
           onChange={(e) => setQuery(e.target.value)}
           fullWidth/>
       </Box>
