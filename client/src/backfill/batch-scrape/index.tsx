@@ -19,39 +19,35 @@ const borderColor = '#787878';
 
 const DualListContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  border: `.0005rem solid ${borderColor}`,
-  borderRadius: '8px',
+  borderRadius: '4px',
   width: 'fit-content',
-  midWidth: '20rem'
+  midWidth: '20rem',
   // overflow: 'hidden',
 }));
 
 // Styled List with dividers between lists
 const StyledList = styled(List)({
   padding: 0,
-  flex: 1,
-  '&:not(:last-child)': {
-    borderRight: `.0005rem solid #78787875`, // Add divider except for the last list
-  },
+  // border: `.01rem solid ${borderColor}`,
+    flex: 1,
 });
 
 // Styled ListItem for underlining each element
 const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
   const colorByStatus = {
-    default: 'inherit',
-    scraping: '#FFA500', // orange hex
-    ranking: '#125EA8', // blue hex
-    complete: '#008000', // green hex
-    error: '#FF0000', // red hex
+    default: colors.palette.background.default,
+    scraping: colors.palette.secondary.main, // orange hex
+    ranking: colors.palette.primary.main, // blue hex
+    complete: colors.palette.success.main, // green hex
+    error: colors.palette.warning.main, // red hex
   };
 
   return ({
+    margin: '2px',
+    borderRadius: '4px',
     backgroundColor: colorByStatus[status],
-    borderBottom: `1px solid #78787875`,  // Apply bottom border to all items
+    border: `.01rem solid rgba(81, 81, 81, 1)`,  // Apply bottom border to all items
     padding: '2px 12px',
-    '&:last-child': {
-      borderBottom: 'none',  // Remove border for the last child
-    },
     '.MuiTypography-root': { // Targeting the ListItemText directly
       letterSpacing: '3px', // Adding letter-spacing
     },
@@ -117,39 +113,16 @@ const BatchTable: React.FC = () => {
         display: 'flex', justifyContent: "center",
         flexDirection: 'column',
         width: '100%'
-      }}>
+    }}>
+      <BatchScrapeButton disabled={navBlocked} dates={dates}/>
       <DualListContainer>
         <div className='flex flex-col'>
-          <div className='flex'>
-            {
-              splitList.length > 0
-              ? populateEmptySections(splitList).map((dates, index) => (
-                <StyledList key={`list-${index}`}>
-                  {dates.map((date, index) => (
-                    <StyledListItem disablePadding key={`${date.value}-${index}`} status={date.status}
-                      sx={{ height: '3em', maxHeight: '3em', width: '14rem' }}
-                    >
-                      <ListItemText
-                        sx={{ font: 'inherit', textAlign: 'center', letterSpacing: '0px' }}
-                        primary={date.value ? formatDate('MM/DD/YYYY')(date.value) : ''}
-                      />
-                    </StyledListItem>
-                  ))}
-                </StyledList>
-              ))
-              : <Box sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: 420, height: 120, placeSelf: 'center', marginBottom: 2,
-                  textAlign: 'center',
-                }}>
-                  No dates to scrape
-                </Box>
-            }
-          </div>
-          <Stack
-            sx={{ borderTop: `.0005rem solid ${borderColor}`, px: 2, py: 1 }}
+        <Stack
+            sx={{
+              p: 1.5,
+              // borderBottom: `.0005rem solid ${borderColor}`, px: 2, py: 1,
+              backgroundColor: colors.palette.background.paper,
+            }}
             direction="row" justifyContent="space-between" padding={0} className=''>
             <IconButton onClick={goTo('leftEnd')} disabled={navBlocked || buttonsDisabled.leftEnd}>
               <KeyboardDoubleArrowLeftIcon />
@@ -179,10 +152,43 @@ const BatchTable: React.FC = () => {
               <KeyboardDoubleArrowRightIcon />
             </IconButton>
           </Stack>
+          <div className='flex'>
+            {
+              splitList.length > 0
+              ? populateEmptySections(splitList).map((dates, index) => (
+                <StyledList key={`list-${index}`}>
+                  {dates.map((date, index) => (
+                    <StyledListItem
+                      disablePadding key={`${date.value}-${index}`} status={date.status}
+                      sx={{ height: '3em', maxHeight: '3em', width: '14rem' }}
+                    >
+                      <ListItemText
+                        sx={{
+                          font: 'inherit',
+                          textAlign: 'center',
+                          borderRadius: '8px',
+                        }}
+                        primary={date.value ? formatDate('MM/DD/YYYY')(date.value) : ''}
+                      />
+                    </StyledListItem>
+                  ))}
+                </StyledList>
+              ))
+              : <Box sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 420, height: 120, placeSelf: 'center', marginBottom: 2,
+                  textAlign: 'center',
+                }}>
+                  No dates to scrape
+                </Box>
+            }
+          </div>
+
         </div>
 
       </DualListContainer>
-      <BatchScrapeButton disabled={navBlocked} dates={dates}/>
       {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
     </Box>
   );
@@ -221,6 +227,7 @@ const BatchScrapeButton = ({ disabled, dates }) => {
         onClick={onClick}
         loading={state === 'loading'}
         sx={{ mt: 4, mb: 2}}
+        size="small"
       >
       <Tooltip title={isComplete ? viewInfo : scrapeInfo}>
         <HelpOutlineIcon sx={{ mr: 1}}/>

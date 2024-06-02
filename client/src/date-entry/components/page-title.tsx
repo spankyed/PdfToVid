@@ -13,12 +13,12 @@ const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
     right: '100%',
     // transform: 'translateX(50%)',
     // backgroundColor: 'rgb(32, 123, 145)',
-    backgroundColor: colors.palette.secondary.main,
+    backgroundColor: colors.palette.primary.main,
     // backgroundColor: colors.palette.background.paper,
     color: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
-    width: '2rem',
-    padding: '4px 8px',
+    width: '2.5rem',
+    padding: '1rem',
     fontWeight: 'bold',
     letterSpacing: '0.2em',
     border: '1px solid rgba(255, 255, 255, 0.4)',
@@ -46,7 +46,7 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
         badgeContent={`${count}`} 
         count={count}
         max={999}
-        
+        invisible={count === 0}
       >
         <Typography variant="h4"
           sx={{

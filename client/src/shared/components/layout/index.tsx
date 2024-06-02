@@ -175,7 +175,7 @@ function SearchInput(){
         fullWidth/>
       <Button
         type="submit"
-        color="primary"
+        color="secondary"
         variant="contained"
         sx={{
           borderTopLeftRadius: '0',

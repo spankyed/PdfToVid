@@ -20,14 +20,17 @@ function ActionButton({ date, scrapeAtom }: { date: string; scrapeAtom: any }): 
         <Button
           variant="contained"
           onClick={scrape}
-          sx={{ width: '25rem', height: '5rem', position: 'relative', fontWeight: 700 }}
+          sx={{ p:1, px: 10, position: 'relative' }}
         >
           <div className='flex opacity-20 absolute justify-between w-full px-7 pointer-events-none'>
             {/* <SavedSearchIcon sx={{ height: 70, width: 70 }} /> */}
-            <StarHalfIcon sx={{ height: '4rem', width: '4rem' }} />
-            <DescriptionIcon sx={{ height: '4rem', width: '4rem' }} />
+            <StarHalfIcon  />
+            <DescriptionIcon  />
           </div>
-          Scrape & Rank Papers
+          Scrape
+
+          <span className='opacity-35 p-1'>•</span>
+          Rank
         </Button>
         {/* <Button variant="contained" color="secondary" disabled>Generate Content*</Button> */}
         {/* <Button variant="contained" color="primary" disabled>Fully auto</Button> */}

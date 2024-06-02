@@ -1,4 +1,15 @@
-export const getColorShadeRedToGreen = (value: number): string => {
+import { colors } from "../styles/theme";
+
+export const getColorShadeRedToGreen = (paper: any): string => {
+  if (!paper) {
+    return 'transparent';
+  }
+  const { relevancy: value, isStarred } = paper;
+
+  if (isStarred) {
+    return colors.palette.grey[300];
+  }
+
   const greenRGB = [0, 145, 0];
   const yellowRGB = [145, 145, 0];
   const redRGB = [145, 0, 0];

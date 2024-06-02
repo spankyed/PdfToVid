@@ -60,7 +60,10 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
         onClick={onDateClick(date)}
         className="date-row-title"
         variant="h5" 
-        sx={{ 
+        sx={{
+          '&:hover': {
+            backgroundColor: colors.palette.secondary.main,
+          },
           textDecoration: 'none', 
           marginBottom: '4px',
           marginTop: '.5em',

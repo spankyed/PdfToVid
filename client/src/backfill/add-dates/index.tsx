@@ -7,6 +7,7 @@ import { dateEndAtom, dateStartAtom, backfillStateAtom } from './store';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { addDatesAtom } from './store';
 import dayjs from 'dayjs';
+import { BatchScrapeButton } from '../batch-scrape';
 
 const DateRangeControl: React.FC<{}> = () => {
   const [startDate, setStartDate] = useAtom(dateStartAtom);
@@ -47,25 +48,12 @@ const DateRangeControl: React.FC<{}> = () => {
         variant="standard"
         sx={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          marginBottom: 5
         }}
       >
-        <LoadingButton
-          variant="contained"
-          color="secondary"
-          disabled={!startDate || !endDate}
-          onClick={handleSubmit}
-          loading={state === 'loading'}
-          sx={{ marginBottom: 4 }}
-        >
-          Load Dates
-        </LoadingButton>
-
         {/* <FormLabel component="legend">By Date</FormLabel> */}
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label={<span style={{ color: '#9e9e9e' }}>Start Date</span>}
@@ -85,8 +73,18 @@ const DateRangeControl: React.FC<{}> = () => {
               // onChange={handleEndDateChange}
             />
           </LocalizationProvider>
-        </Box>
-
+        <LoadingButton
+          variant="contained"
+          color="secondary"
+          disabled={!startDate || !endDate}
+          onClick={handleSubmit}
+          loading={state === 'loading'}
+          sx={{ marginLeft: 4 }}
+        >
+          Load Dates
+        </LoadingButton>
+        {/* <BatchScrapeButton disabled={false} dates={[dates]}/> */}
+        
         {/* <FormHelperText>You can display an error</FormHelperText> */}
       </FormControl>
   );

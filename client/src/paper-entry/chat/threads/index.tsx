@@ -40,6 +40,16 @@ export default function ThreadOptions(){
         </InputLabel>
         <Select
           
+          MenuProps={{
+            MenuListProps: {
+              sx: {
+                backgroundColor: colors.palette.secondary.main,
+                borderRadius: 0,
+                borderTopLeftRadius: 0,
+              }
+            }
+          }}
+          color='secondary'
           labelId="thread-select-label"
           value={selectedThread?.id || ''}
           label="Thread"
@@ -48,7 +58,14 @@ export default function ThreadOptions(){
         >
           {
             threadOptions.map((option) => (
-              <MenuItem key={option.id} value={option.id}>
+              <MenuItem
+                key={option.id} value={option.id} color='secondary'
+                sx={{
+                  backgroundColor: option.id === selectedThread?.id
+                    ? `${colors.palette.secondary.dark} !important`
+                    : 'transparent',
+                }}
+              >
                 { option.description.length > 25
                   ? truncateText(25, option.description) + '...'
                   : option.description

@@ -19,10 +19,10 @@ const PopoverText = styled(Paper)(({ theme }) => ({
   // transition: 'opacity 0.2s ease-in-out',
 }));
 
-const ScoreDiv = styled(Box)<{ score: number }>(({ theme, score }) => ({
+const ScoreDiv = styled(Box)<{ paper: any }>(({ theme, paper }) => ({
   display: 'inline-block',
   float: 'left', // Ensures the text wraps around the div
-  backgroundColor: getColorShadeRedToGreen(score),
+  backgroundColor: getColorShadeRedToGreen(paper),
   color: theme.palette.common.white,
   borderRadius: theme.shape.borderRadius,
   // backgroundColor: colors.palette.background.paper,
@@ -140,7 +140,7 @@ const SummaryPopover: React.FC = () => {
           }}
         >
         <PopoverText>
-          <ScoreDiv score={score}>
+          <ScoreDiv paper={paper}>
             {`${roundScore(score)}%`}
           </ScoreDiv>
           <Typography variant="body2">

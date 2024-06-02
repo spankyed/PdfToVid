@@ -31,11 +31,12 @@ function Favorite ({ paper = {} }: { paper?: Partial<Paper> }): React.ReactEleme
   }
 
   return (
-    <IconButton onClick={updateIsStarred}>
+    <IconButton
+      onClick={updateIsStarred}>
       {
         paper.isStarred
-          ? <StarOutlinedIcon color="warning" />
-          : <StarBorderOutlinedIcon color='warning' />
+          ? <StarOutlinedIcon />
+          : <StarBorderOutlinedIcon />
       }
     </IconButton>
   )

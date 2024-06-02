@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 import { promptPresetsOpenAtom, inputAtom, promptOptionsAtom, inputRefAtom } from './store';
+import { colors } from '~/shared/styles/theme';
 
 const PromptMenu = () => {
   const [promptPresets, setPromptPresets] = useAtom(promptOptionsAtom);
@@ -51,28 +52,33 @@ const PromptMenu = () => {
 
       <Box
         width="100%"
-        bgcolor="background.paper"
-        boxShadow={3}
+        bgcolor="secondary.main"
         sx={{
           maxHeight: '300px',
+          paddingTop: '0px',
           overflowY: 'auto',
           whiteSpace: 'pre-wrap',
           borderRight: '1px solid rgba(57, 61, 64, .3)',
           borderLeft: '1px solid rgba(57, 61, 64, .3)',
-          borderTop: '1px solid rgba(57, 61, 64, .3)',
+          // borderTop: '1px solid rgba(57, 61, 64, .3)',
         }}
       >
 
-        <List>
+        <List
+          sx={{ padding: 0 }}
+        >
           {promptPresets.map((prompt, index) => (
             <ListItem
               key={index}
               onClick={() => handleSelect(prompt)}
               sx={{
-                borderBottom: index === promptPresets.length - 1 ? 'none' : '1px solid rgba(57, 61, 64, .3)',
+                // borderBottom: index === promptPresets.length - 1 ? 'none' : '1px solid rgba(57, 61, 64, .3)',
                 cursor: 'pointer',
                 display: 'flex',
                 justifyContent: 'space-between',
+                '&:hover': {
+                  backgroundColor: 'rgb(67, 67, 67)',
+                }
               }}
             >
               <Typography>{prompt.text}</Typography>
@@ -111,7 +117,6 @@ function AddPrompt(){
   };
   return (
     <div>
-
       {
       isAddingPrompt
         ? (
@@ -146,7 +151,13 @@ function AddPrompt(){
             // color="primary"
             onClick={() => setIsAddingPrompt(!isAddingPrompt)}
             startIcon={<AddIcon />}
-            sx={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0, borderTopLeftRadius: 0}}
+            sx={{
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0,
+              borderTopLeftRadius: 0,
+              boxShadow: 'none',
+              // boxShadow: 'none'
+            }}
           >
             Add New Prompt
           </Button>

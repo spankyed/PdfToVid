@@ -66,9 +66,9 @@ export default function MessageList () {
             // flexDirection: 'column',
             flexDirection: 'column-reverse',
             width: '100%',
-            height: '420px',
+            height: '40rem',
+            maxHeight: '40rem',
             // flexGrow: 1,
-            maxHeight: '500px',
             overflowY: 'auto',
             borderRight: '1px solid rgba(57, 61, 64, .3)',
             borderLeft: '1px solid rgba(57, 61, 64, .3)',
@@ -107,7 +107,7 @@ function Loader () {
         width: '100%',
       }}
     >
-      <CircularProgress />
+      <CircularProgress color='secondary'/>
     </Box>
   );
 }

@@ -77,12 +77,14 @@ export default function Actions({ message }) {
       {
         filteredActions.map((action) => (
           <Tooltip title={capitalize(action.name)} key={action.name} placement='top'>
-            <IconButton onClick={handlers[action.name]}
+            <IconButton
+              color='secondary'
+              onClick={handlers[action.name]}
               sx={{
                 padding: '.3rem',
                 // mr: .5,
                 scale: '.8',
-                '&:hover .MuiSvgIcon-root': { color: action.color },
+                '&:hover .MuiSvgIcon-root': { color: '#fff' },
               }}
             >
               {action.icon}

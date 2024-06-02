@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAtom } from 'jotai';
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Alert, colors } from '@mui/material';
 import { alertsAtom, snackbarsAtom } from './store'; // Adjust the import path as needed
 import Slide, { SlideProps } from '@mui/material/Slide';
 
@@ -28,7 +28,13 @@ export const NotificationManager = () => {
           ClickAwayListenerProps={{ onClickAway: () => null }}
           TransitionComponent={SlideTransition}
         >
-          <Alert onClose={() => handleAlertClose(alert.id)} severity={alert.type || 'warning'} sx={{ width: '100%' }}>
+          <Alert
+          onClose={() => handleAlertClose(alert.id)}
+          severity={alert.type || 'warning'}
+          style={{ backgroundColor: colors.grey[900]}}
+          sx={{ width: '100%' }}
+          variant='outlined'
+          >
             {alert.message}
           </Alert>
         </Snackbar>
@@ -48,7 +54,14 @@ export const NotificationManager = () => {
           ClickAwayListenerProps={{ onClickAway: () => null }}
           TransitionComponent={SlideTransition}
         >
-          <Alert onClose={() => handleSnackClose(snack.id)} severity="info" sx={{ width: '100%' }}>
+          <Alert
+            onClose={() => handleSnackClose(snack.id)}
+            severity="info"
+            style={{ backgroundColor: colors.grey[900] }}
+            sx={{
+              width: '100%',
+            }}
+          >
             {snack.message}
           </Alert>
         </Snackbar>

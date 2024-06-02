@@ -22,20 +22,22 @@ const Sidebar: React.FC = () => {
   const [isSidebarOpen] = useAtom(sidebarOpenAtom);
 
   return (
-    <Box sx={{
-      // paddingTop: '1rem', // Add 1rem margin to the left
-      width: isSidebarOpen ? 240 : 0,
-      minWidth: 0,
-      transition: 'width .3s ease',
-      bgcolor: 'background.paper',
-      overflow: 'hidden',
-      display: 'flex',
-      flexDirection: 'column',
-      flexShrink: 0,
-      // borderRight: '1px solid rgba(0, 0, 0, 0.9)',
-      // backgroundColor: colors.sidebar,
-      paddingTop: '4rem',
-    }}>
+    <Box
+      sx={{
+        // paddingTop: '1rem', // Add 1rem margin to the left
+        width: isSidebarOpen ? 240 : 0,
+        minWidth: 0,
+        transition: 'width .3s ease',
+        bgcolor: 'background.paper',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        flexShrink: 0,
+        // borderRight: '1px solid rgba(0, 0, 0, 0.9)',
+        // backgroundColor: colors.sidebar,
+        paddingTop: '4rem',
+      }}
+    >
       <List component="nav" sx={{
         // paddingBottom: 0,
         // marginTop: '2rem',

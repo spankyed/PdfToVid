@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import { useAtom } from 'jotai';
 import { Select, MenuItem, FormControl, TextField, Checkbox, FormControlLabel, FormGroup, Grid, InputAdornment, Button, Box, IconButton } from '@mui/material';
 import { favoriteAtom, viewedAtom, relevancyAtom, comparisonOperatorAtom } from '../store';
+import { styled } from '@mui/system';
 
+const StyledTextField = styled(TextField)({
+  '& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button': {
+    '-webkit-appearance': 'none',
+    margin: 0,
+  },
+});
 const RelevancyCriteria: React.FC<{}> = () => {
   const [relevancy, setRelevancy] = useAtom(relevancyAtom);
   const [comparisonOperator, setComparisonOperator] = useAtom(comparisonOperatorAtom);
@@ -20,16 +27,17 @@ const RelevancyCriteria: React.FC<{}> = () => {
 
   return (
     <FormControl variant="outlined">
-      <TextField
+      <StyledTextField
         // color='secondary'
         id="relevancy-score-input"
         label={<span style={{ color: '#9e9e9e' }}>Relevancy</span>}
         variant="outlined"
         type="number"
         placeholder='0'
+        sx={{ textAlign: 'right' } }
         InputProps={{
-          inputProps: { min: 0, max: 100 },
-          sx: { textAlign: 'right'},
+          sx:{ width: 'max-content' },
+          inputProps: { min: 0, max: 100, style: { textAlign: 'right' } },
           startAdornment: (
             <IconButton
               sx={{
@@ -38,8 +46,7 @@ const RelevancyCriteria: React.FC<{}> = () => {
                 boxShadow: 'none',
                 padding: 2.2,
                 height: '1em',
-                maxWidth: '1em',
-                minWidth: '1em',
+                width: '1em',
                 mr: 2,
                 fontSize: '1.2rem',
               }}
@@ -52,7 +59,6 @@ const RelevancyCriteria: React.FC<{}> = () => {
         }}
         value={relevancy}
         onChange={clampRelevancyScore}
-        sx={{ minWidth: 170 }} 
       />
     </FormControl>
   );

@@ -61,9 +61,4 @@
   .carousel-wrapper .thumb-img:not(:last-child) {
     margin-right: var(--img-margin);
   }
-
-  .date-row-title:hover {
-    background-color: var(--indigo);
-    /* background-color: var(--light-purple); */
-  }
 }

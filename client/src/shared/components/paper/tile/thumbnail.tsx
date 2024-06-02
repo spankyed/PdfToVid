@@ -9,6 +9,7 @@ import Favorite from '../favorite';
 import { getColorShadeRedToGreen } from '../../../utils/getColorShade';
 import { getThumbnailUrl } from '~/shared/utils/getThumbnailUrl';
 import PaperAction, { RejectAction } from '../paper-action';
+import { colors } from '~/shared/styles/theme';
 
 // const colors = {
 //   0: 'rgba(237, 108, 3, 1)',
@@ -31,6 +32,9 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
     // console.log('paper: ', paper);
     navigate(`/paper/${paper.id}`);
   }
+
+  const color = getColorShadeRedToGreen(paper);
+
   return (
 
     <Box
@@ -40,12 +44,12 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
         position: 'relative',
         width: '320px', 
         height: '180px',  
-        border: `2px solid ${getColorShadeRedToGreen(paper.relevancy)}`,
-        borderBottom: `10px solid ${getColorShadeRedToGreen(paper.relevancy)}`,
+        border: `2px solid ${color}`,
+        borderBottom: `10px solid ${color}`,
         // boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none',
         '&:hover': {
-          border: '2px solid white',
-          borderBottom: '10px solid white'
+          border: `2px solid ${colors.palette.secondary.main}`,
+          borderBottom: `10px solid ${color}`
         }
       }}
       className='thumb-img'

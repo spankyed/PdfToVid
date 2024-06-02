@@ -30,6 +30,23 @@ declare module '@mui/material/styles' {
 
 export const colors = createTheme({
   components: {
+    MuiSelect: {
+      defaultProps: {
+        size: "small",
+        color: "secondary",
+      }
+    },
+    MuiTextField: {
+      defaultProps: {
+        size: "small",
+        color: "secondary",
+      }
+    },
+    MuiButton: {
+      defaultProps: {
+        size: "small",
+      }
+    },
     MuiCssBaseline: {
       styleOverrides: (themeParam) => ({
         body: darkScrollbar(),
@@ -39,11 +56,11 @@ export const colors = createTheme({
   palette: {
     mode: 'dark',
     success: {
-      main: green[600],
+      main: green[900],
     },
     primary: {
       // main: purple[900],
-      main: '#4a39ab',
+      main: indigo[700],
       // main: indigo[600],
       // main: blue[700],
       // main: deepPurple[900],
@@ -54,9 +71,8 @@ export const colors = createTheme({
     },
     secondary: {
       // main: '#7b1fa2',
-      main: indigo[700],
-      light: indigo[400],
-
+      main: grey[700],
+      light: grey[300],
       // main: deepOrange[900],
     },
     background: {
@@ -67,7 +83,7 @@ export const colors = createTheme({
       paper: grey[900],
     },
     warning:{
-      main: amber[700],
+      main: red[900],
     },
     amber: {
       main: amber[900],

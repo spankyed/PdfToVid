@@ -13,7 +13,7 @@ function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React
           height: '20px',
           borderRadius: '50%',
           border: '1px solid black',
-          backgroundColor: getColorShadeRedToGreen(paper.relevancy),
+          backgroundColor: getColorShadeRedToGreen(paper),
           display: 'inline-block',
           margin: margin || '0 .65em 0 0',
         }}
