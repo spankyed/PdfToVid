@@ -7,7 +7,6 @@ import { dateEndAtom, dateStartAtom, backfillStateAtom } from './store';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { addDatesAtom } from './store';
 import dayjs from 'dayjs';
-import { BatchScrapeButton } from '../batch-scrape';
 
 const DateRangeControl: React.FC<{}> = () => {
   const [startDate, setStartDate] = useAtom(dateStartAtom);

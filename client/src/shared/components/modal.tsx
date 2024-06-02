@@ -14,6 +14,7 @@ const style = {
   maxHeight: '98vh',
   minHeight: '20vh',
   overflowY: 'auto',
+  color: '#fff'
 };
 
 function ModalWrapper({ children, open, handleClose, width = 500}) {

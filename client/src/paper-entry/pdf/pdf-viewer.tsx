@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { pdfjs, Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
@@ -55,10 +56,15 @@ export default function PdfViewer({ paperId, width }) {
   }
 
   return (
-    <div className="pdf-viewer p-2" style={{ display: 'flex', flexDirection: 'column-reverse'}}>
+    <div className="pdf-viewer p-2 h-full" style={{
+      display: 'flex',
+      flexDirection: 'column-reverse',
+      alignSelf: 'center',
+      minHeight: '5rem'
+      }}>
       {
         !pdfUrl
-        ? <div>Loading PDF...</div>
+        ? <Typography variant='h6'>Loading PDF...</Typography>
         : <Document
             file={pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}

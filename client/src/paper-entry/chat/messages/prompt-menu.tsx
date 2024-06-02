@@ -4,7 +4,6 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 import { promptPresetsOpenAtom, inputAtom, promptOptionsAtom, inputRefAtom } from './store';
-import { colors } from '~/shared/styles/theme';
 
 const PromptMenu = () => {
   const [promptPresets, setPromptPresets] = useAtom(promptOptionsAtom);
@@ -150,12 +149,13 @@ function AddPrompt(){
             color="secondary"
             // color="primary"
             onClick={() => setIsAddingPrompt(!isAddingPrompt)}
-            startIcon={<AddIcon />}
+            endIcon={<AddIcon />}
             sx={{
               borderBottomLeftRadius: 0,
               borderBottomRightRadius: 0,
-              borderTopLeftRadius: 0,
+              // borderTopLeftRadius: 0,
               boxShadow: 'none',
+              px: 2.2,
               // boxShadow: 'none'
             }}
           >

@@ -64,7 +64,7 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | undefined }> = ({ paper }) => {
       </Box>
       <Box sx={{ display: 'flex' }}>
         <Favorite paper={paper}/>
-        <Button sx={{ ml: 2 }} variant="contained" color="secondary" onClick={handleOpen}>View PDF</Button>
+        <Button sx={{ ml: 2 }} variant="contained" onClick={handleOpen}>View PDF</Button>
       </Box>
     </Box>
   )
