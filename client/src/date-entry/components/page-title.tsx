@@ -1,9 +1,14 @@
 import React, { useMemo } from 'react';
-import { Typography, Box, Badge, styled } from '@mui/material';
+import { Typography, Box, Badge, styled, IconButton } from '@mui/material';
 import { formatDateParts } from '~/shared/utils/dateFormatter';
 import { dateEntryStateAtom } from '../store';
 import { useAtom } from 'jotai';
 import { colors } from '~/shared/styles/theme';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+
 
 const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   '& .MuiBadge-badge': {
@@ -21,12 +26,13 @@ const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
     padding: '1rem',
     fontWeight: 'bold',
     letterSpacing: '0.2em',
-    border: '1px solid rgba(255, 255, 255, 0.4)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
   },
 }));
 
 const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count }) => {
   const [dateEntryState] = useAtom(dateEntryStateAtom);
+  const navigate = useNavigate();
 
   // const [formattedDate, weekday] = useMemo(() => {
   const formattedDate = useMemo(() => {
@@ -40,8 +46,21 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
     return `${weekday}, ${month} ${day}, ${year}`;
   }, [value]);
 
+  const handleArrowClick = (direction: 'next' | 'prev') => {
+    const date = dayjs(value);
+    const newDate = direction === 'next' ? date.add(1, 'day') : date.subtract(1, 'day');
+    navigate(`/date/${newDate.format('YYYY-MM-DD')}`);
+  }
+
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
+      <IconButton
+        sx={{ mr: 8 }}
+        aria-label="next"
+        onClick={() => handleArrowClick('prev')}
+      >
+        <ArrowBackIosNewIcon fontSize='large'/>
+      </IconButton>
       <ScoreBadge 
         badgeContent={`${count}`} 
         count={count}
@@ -70,6 +89,14 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
           
         </Typography>
       </ScoreBadge>
+      <IconButton
+        sx={{ ml: 8 }}
+        aria-label="next"
+        onClick={() => handleArrowClick('next')}
+      >
+        <ArrowForwardIosIcon fontSize='large'/>
+      </IconButton>
+
     </Box>
   );
 }
