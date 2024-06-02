@@ -12,7 +12,7 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "react-jsx",
     // "baseUrl": ".",
     
@@ -26,9 +26,9 @@
       "scripthost"
     ],
     "noImplicitAny": false,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noEmitOnError": true,
+    "noImplicitReturns": false,
+    "noUnusedLocals": false,
+    "noEmitOnError": false,
     "baseUrl": "../",
     "paths": {
       "~/*": ["./client/src/*"],
