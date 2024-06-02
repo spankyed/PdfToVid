@@ -19,23 +19,29 @@ const PopoverText = styled(Paper)(({ theme }) => ({
   // transition: 'opacity 0.2s ease-in-out',
 }));
 
-const ScoreDiv = styled(Box)<{ paper: any }>(({ theme, paper }) => ({
-  display: 'inline-block',
-  float: 'left', // Ensures the text wraps around the div
-  backgroundColor: getColorShadeRedToGreen(paper),
-  color: theme.palette.common.white,
-  borderRadius: theme.shape.borderRadius,
-  // backgroundColor: colors.palette.background.paper,
-  padding: '4px 8px',
-  fontWeight: 'bold',
-  letterSpacing: '0.1em',
-  border: '1px solid rgba(255, 255, 255, 0.4)',
-  // boxShadow: '0 0 0 2px rgba(0, 0, 0, 0.35)', // Add shadow for contrast
-  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)', // subtle text shadow for depth
-  margin: '0 12px 0px 0', // Margin for wrapping text around the div
-  // black tint
-  filter: 'brightness(0.9)',
-}));
+const ScoreDiv = styled(Box)<{ paper: any }>(({ theme, paper }) => {
+  const bgColor = getColorShadeRedToGreen(paper);
+  console.log('bgColor: ', bgColor);
+  const textColor = bgColor === 'white' ? '#000' : theme.palette.common.white; 
+  return ({
+    display: 'inline-block',
+    float: 'left', // Ensures the text wraps around the div
+    backgroundColor: getColorShadeRedToGreen(paper),
+    color: textColor,
+    borderRadius: theme.shape.borderRadius,
+
+    // backgroundColor: colors.palette.background.paper,
+    padding: '4px 8px',
+    fontWeight: 'bold',
+    letterSpacing: '0.1em',
+    border: '1px solid rgba(255, 255, 255, 0.4)',
+    // boxShadow: '0 0 0 2px rgba(0, 0, 0, 0.35)', // Add shadow for contrast
+    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)', // subtle text shadow for depth
+    margin: '0 12px 0px 0', // Margin for wrapping text around the div
+    // black tint
+    filter: 'brightness(0.9)',
+  });
+});
 
 const SummaryPopover: React.FC = () => {
   const [isOpen, setIsOpen] = useAtom(isSummaryOpenAtom);

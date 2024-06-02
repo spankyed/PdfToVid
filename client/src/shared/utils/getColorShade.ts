@@ -7,7 +7,7 @@ export const getColorShadeRedToGreen = (paper: any): string => {
   const { relevancy: value, isStarred } = paper;
 
   if (isStarred) {
-    return colors.palette.grey[300];
+    return 'white';
   }
 
   const greenRGB = [0, 145, 0];
