@@ -61,6 +61,7 @@ export default function ThreadOptions(){
               <MenuItem
                 key={option.id} value={option.id} color='secondary'
                 sx={{
+                  borderBottom: '1px solid rgba(57, 61, 64, .3)',
                   backgroundColor: option.id === selectedThread?.id
                     ? `${colors.palette.secondary.dark} !important`
                     : 'transparent',
@@ -81,7 +82,8 @@ export default function ThreadOptions(){
             onClick={handleAddThread}
             sx={{
               width: '100%', mb: -.9,
-              borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
+              // borderTop: '1px solid rgba(57, 61, 64, .3)',
+              // borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
               borderBottom: `3px solid rgba(0, 0, 0, 0.3 )`,
               borderTopRightRadius: 0,
               borderTopLeftRadius: 0,

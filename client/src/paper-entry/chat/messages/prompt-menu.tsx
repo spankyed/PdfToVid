@@ -77,11 +77,13 @@ const PromptMenu = () => {
                 justifyContent: 'space-between',
                 '&:hover': {
                   backgroundColor: 'rgb(67, 67, 67)',
-                }
+                },
+                borderBottom: '1px solid rgba(57, 61, 64, .3)',
+
               }}
             >
               <Typography>{prompt.text}</Typography>
-              <Tooltip title="Remove">
+              <Tooltip title="Remove" sx={{ backgroundColor: 'rgba(67, 67, 67, .2)' }}>
                 <IconButton onClick={removePrompt(index)}>
                   <CloseIcon />
                 </IconButton>
@@ -154,6 +156,8 @@ function AddPrompt(){
               borderBottomLeftRadius: 0,
               borderBottomRightRadius: 0,
               // borderTopLeftRadius: 0,
+              // borderBottom: '1px solid rgba(57, 61, 64, .3)',
+              borderBottom: `3px solid rgba(0, 0, 0, 0.3 )`,
               boxShadow: 'none',
               px: 2.2,
               // boxShadow: 'none'
