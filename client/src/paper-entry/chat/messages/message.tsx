@@ -24,60 +24,68 @@ export default function Message({ message }) {
   const opacity = isHidden ? 0.4 : 1;
 
   return (
-    <Box
-      mb={2}
-      p={2}
-      pt={1}
-      sx={{
-        textAlign: 'left',
-        whiteSpace: 'pre-wrap',
-        backgroundColor:
-          isBranchMessage ? blueRGBA :
-          isHidden ? yellowRGBA :
-          isAssistant ? 'rgba(0, 0, 0, 0.1)' : '',
-        borderTop: isBranchMessage ? '4px solid rgba(255, 255, 255, 0.2)' : 'none',
-        borderLeft: isAssistant ? '4px solid rgba(255, 255, 255, 0.2)' : 'none' 
-      }}
-      onMouseEnter={() => showActions(true)}
-      onMouseLeave={() => showActions(false)}
-    >
-      <div className='flex items-center'>
-        <Tooltip
-          title={dayjs(message.timestamp).format('MMM D, YYYY h:mm A')}
-          placement='top'
-        >
-          <p
-            style={{
-              backgroundColor: 'rgba(55, 55, 55, 0.1)',
-              borderRadius: 4,
-              fontWeight: '600',
-              color: isAssistant ? colors.palette.primary.light : 'white',
-              // color: isAssistant ? colors.palette.primary.light : 'rgba(255, 255, 255, 0.65)',
-              opacity,
+      <Box
+        mb={1}
+        p={2}
+        pb={0}
+        pt={3}
+        sx={{
+          textAlign: 'left',
+          whiteSpace: 'pre-wrap',
+          backgroundColor:
+            isBranchMessage ? blueRGBA :
+            isHidden ? yellowRGBA : '',
+            // isHidden ? yellowRGBA : isAssistant ? 'rgba(0, 0, 0, 0.1)' : '',
+          // borderRight: isBranchMessage ? `4px solid ${colors.palette.grey[300]}` : 'none',
+          borderLeft: isAssistant
+            ? `4px solid ${colors.palette.primary.main}`
+            : `4px solid ${colors.palette.grey[300]}`,
+        }}
+        onMouseEnter={() => showActions(true)}
+        onMouseLeave={() => showActions(false)}
+      >
+
+        <Box sx={{ opacity, display: 'flex', flexDirection: 'column' }}>
+          <ReactMarkdown
+            skipHtml={true}
+            remarkPlugins={[remarkGfm]}
+            components={{
+              h3: ({ node, ...props }) => <div><h3 className="custom-h3" {...props} /></div>,
+              p: ({ node, ...props }) => <div className="custom-p" {...props} />,
+              ul: ({ children }) => <ul className="custom-list-ul">{children}</ul>,
+              ol: ({ children }) => <ol className="custom-list-ol">{children}</ol>,
+              li: ({ children }) => <li className="custom-list-item">{children}</li>
             }}
-            className='px-2 py-1 mb-1 mr-2'
           >
-            {isAssistant ? 'Assistant' : 'You'}
-          </p>
-        </Tooltip>
-        {actionsShowing && !message.stream && <Actions message={message} />}
-      </div>
-      <Box sx={{ opacity, display: 'flex', flexDirection: 'column' }}>
-        <ReactMarkdown
-          skipHtml={true}
-          remarkPlugins={[remarkGfm]}
-          components={{
-            h3: ({ node, ...props }) => <div><h3 className="custom-h3" {...props} /></div>,
-            p: ({ node, ...props }) => <div className="custom-p" {...props} />,
-            ul: ({ children }) => <ul className="custom-list-ul">{children}</ul>,
-            ol: ({ children }) => <ol className="custom-list-ol">{children}</ol>,
-            li: ({ children }) => <li className="custom-list-item">{children}</li>
-          }}
-        >
-          {message.text}
-        </ReactMarkdown>
+            {message.text}
+          </ReactMarkdown>
+        </Box>
+        <div className='flex items-center'>
+          {/* <Tooltip
+            title={dayjs(message.timestamp).format('MMM D, YYYY h:mm A')}
+            placement='top'
+          >
+            <p
+              style={{
+                backgroundColor: 'rgba(55, 55, 55, 0.1)',
+                borderRadius: 4,
+                fontWeight: '600',
+                color: isAssistant ? colors.palette.primary.light : 'white',
+                // color: isAssistant ? colors.palette.primary.light : 'rgba(255, 255, 255, 0.65)',
+                opacity,
+              }}
+              className='px-2 py-1 mb-1 mr-2'
+            >
+              {isAssistant ? 'Assistant' : 'You'}
+            </p>
+          </Tooltip> */}
+
+          <Box sx={{ height: '2.2rem'}}>
+            {actionsShowing && !message.stream && <Actions message={message} />}
+            {/* <Actions message={message} /> */}
+          </Box>
+        </div>
       </Box>
-    </Box>
   );
 }
 

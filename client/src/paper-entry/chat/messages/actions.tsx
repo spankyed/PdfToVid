@@ -33,6 +33,7 @@ export default function Actions({ message }) {
     show: (m) => !m.streaming && m.hidden,
     hide: (m) => !m.streaming && !m.hidden,
     thread: (m) => !m.streaming,
+    delete: (m) => !m.streaming,
     // streaming actions below
     stop: (m) => m.streaming && m.role === 'assistant',
   }
@@ -81,6 +82,9 @@ export default function Actions({ message }) {
               color='secondary'
               onClick={handlers[action.name]}
               sx={{
+                ':first-child': {
+                  ml: -1,
+                },
                 padding: '.3rem',
                 // mr: .5,
                 scale: '.8',

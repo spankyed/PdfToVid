@@ -79,7 +79,6 @@ const PromptMenu = () => {
                   backgroundColor: 'rgb(67, 67, 67)',
                 },
                 borderBottom: '1px solid rgba(57, 61, 64, .3)',
-
               }}
             >
               <Typography>{prompt.text}</Typography>
@@ -157,7 +156,8 @@ function AddPrompt(){
               borderBottomRightRadius: 0,
               // borderTopLeftRadius: 0,
               // borderBottom: '1px solid rgba(57, 61, 64, .3)',
-              borderBottom: `3px solid rgba(0, 0, 0, 0.3 )`,
+              borderTop: `3px solid rgba(0, 0, 0, 0.3 )`,
+              borderBottom: '1px solid rgba(57, 61, 64, .3)',
               boxShadow: 'none',
               px: 2.2,
               // boxShadow: 'none'
