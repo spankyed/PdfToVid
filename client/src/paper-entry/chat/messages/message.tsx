@@ -50,11 +50,12 @@ export default function Message({ message }) {
             skipHtml={true}
             remarkPlugins={[remarkGfm]}
             components={{
-              h3: ({ node, ...props }) => <div><h3 className="custom-h3" {...props} /></div>,
-              p: ({ node, ...props }) => <div className="custom-p" {...props} />,
-              ul: ({ children }) => <ul className="custom-list-ul">{children}</ul>,
-              ol: ({ children }) => <ol className="custom-list-ol">{children}</ol>,
-              li: ({ children }) => <li className="custom-list-item">{children}</li>
+              h3: ({ node, ...props }) => <div><h3 className="md-h3" {...props} /></div>,
+              p: ({ node, ...props }) => <div className="md-p" {...props} />,
+              ul: ({ children }) => <ul className="md-list-ul">{children}</ul>,
+              ol: ({ children }) => <ol className="md-list-ol">{children}</ol>,
+              li: ({ children }) => <li className="md-list-item">{children}</li>,
+              strong: ({ children }) => <strong className="md-strong">{children}</strong>,
             }}
           >
             {message.text}
