@@ -52,36 +52,37 @@ const DateRangeControl: React.FC<{}> = () => {
           alignItems: 'center',
         }}
       >
-        {/* <FormLabel component="legend">By Date</FormLabel> */}
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label={<span style={{ color: '#9e9e9e' }}>Start Date</span>}
-              value={startDate}
-              disableHighlightToday={true}
-              disableFuture={true}
-              maxDate={dayjs().add(-1, 'day')}
-              onChange={handleStartDateChange}
-            />
-            <DatePicker
-              disabled={true}
-              sx={{ marginLeft: 4 }}
-              label={<span style={{ color: '#9e9e9e' }}>End Date</span>}
-              value={endDate}
-              disableFuture={true}
-              minDate={startDate ? startDate : null}
-              // onChange={handleEndDateChange}
-            />
-          </LocalizationProvider>
-        <LoadingButton
+        {/* <LoadingButton
           variant="contained"
           color="secondary"
           disabled={!startDate || !endDate}
           onClick={handleSubmit}
           loading={state === 'loading'}
-          sx={{ marginLeft: 4 }}
+          sx={{ marginRight: 4 }}
         >
           Load Dates
-        </LoadingButton>
+        </LoadingButton> */}
+        {/* <FormLabel component="legend">By Date</FormLabel> */}
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label={<span style={{ color: '#9e9e9e' }}>Start Date</span>}
+            value={startDate}
+            disableHighlightToday={true}
+            disableFuture={true}
+            maxDate={dayjs().add(-1, 'day')}
+            onChange={handleStartDateChange}
+          />
+          <DatePicker
+            disabled={true}
+            sx={{ marginLeft: 4 }}
+            label={<span style={{ color: '#9e9e9e' }}>End Date</span>}
+            value={endDate}
+            disableFuture={true}
+            minDate={startDate ? startDate : null}
+            // onChange={handleEndDateChange}
+          />
+        </LocalizationProvider>
+
         {/* <BatchScrapeButton disabled={false} dates={[dates]}/> */}
         
         {/* <FormHelperText>You can display an error</FormHelperText> */}

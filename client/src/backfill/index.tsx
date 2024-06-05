@@ -12,6 +12,7 @@ import { addAlertAtom } from '~/shared/components/notification/store';
 import dayjs from 'dayjs';
 import { updateSidebarDataAtom } from '~/shared/components/layout/sidebar/dates/store';
 import { colors } from '~/shared/styles/theme';
+import BatchScrapeButton from './batch-scrape/scrape-button';
 
 const BackfillPage = () => {
   const queryParams = new URLSearchParams(location.search);
@@ -35,12 +36,14 @@ const BackfillPage = () => {
   return (
     <PageLayout padding={3}>
       <Paper
-        sx={{ mb: 4, width: 'fit-content', mx: 'auto' }}
+        sx={{ mb: 3, width: 'fit-content', mx: 'auto' }}
         elevation={2}
-        className='flex flex-col w-full p-12'>
+        className='flex flex-row w-full p-12'>
         <DateRange />
+        <BatchScrapeButton />
       </Paper>
-        <BatchTable/>
+
+      <BatchTable/>
 
       {/* <Button variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}>
         Scrape Recommended

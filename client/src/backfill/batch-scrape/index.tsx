@@ -120,7 +120,6 @@ const BatchTable: React.FC = () => {
         flexDirection: 'column',
         width: '100%'
     }}>
-      <BatchScrapeButton disabled={navBlocked} dates={dates}/>
       <DualListContainer>
         <div className='flex flex-col'>
         <Stack
@@ -203,51 +202,6 @@ const BatchTable: React.FC = () => {
       </DualListContainer>
       {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
     </Box>
-  );
-};
-
-const BatchScrapeButton = ({ disabled, dates }) => {
-  const state = useAtomValue(batchStateAtom);
-  const scrapeBatch = useSetAtom(batchScrapeAtom);
-  const throttledScrapeBatch = throttle(scrapeBatch, 1000); // Adjust the delay (in milliseconds) as needed
-
-  const navigate = useNavigate();
-  const isComplete = state === 'complete';
-
-  const onClick = () => {
-    if (isComplete) {
-      const startDate = dates[0].value;
-      const endDate = dates[dates.length - 1].value;
-      const queryParams = new URLSearchParams({ startDate, endDate });
-      const searchParamsString = queryParams.toString();
-      const newUrl = `/search?${searchParamsString}`;
-      navigate(newUrl);
-    } else {  
-      throttledScrapeBatch();
-    }
-  }
-
-  const scrapeInfo = `Scrape and rank papers for dates in batch. This could take a few minutes. We recommend having less than 75 starred papers as it may reduce the time spent ranking papers.`
-  const viewInfo = `After scraping a date batch take the opportunity to review the papers, starring the ones you find interesting. Occasionally un-star papers you no longer find interesting.`
-
-  return (
-  <div style={{ display: 'flex', alignItems: 'center' }}> {/* Ensure button and icon are aligned */}
-    <LoadingButton
-        variant="contained"
-        color={isComplete ? 'success' : 'primary'}
-        disabled={disabled}
-        onClick={onClick}
-        loading={state === 'loading'}
-        sx={{ mt: 4, mb: 2}}
-        size="small"
-      >
-      <Tooltip title={isComplete ? viewInfo : scrapeInfo}>
-        <HelpOutlineIcon sx={{ mr: 1}}/>
-      </Tooltip>
-      { isComplete ? 'View Batch' : 'Scrape batch'  }
-    </LoadingButton>
-
-  </div>
   );
 };
 
