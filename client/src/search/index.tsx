@@ -21,12 +21,12 @@ const SearchPage: React.FC<{}> = () => {
   return (
     <PageLayout padding={3}>
       <Box display="flex" alignItems="flex-start" justifyContent="space-between" flexDirection="row" gap={2} 
-          style={{ margin: '0 15em 1em 15em' }}
+          style={{ margin: '0 15em .5em 15em' }}
         >
         <QueryControl />
       </Box>
 
-      <Accordion defaultExpanded={true} sx={{ my: 3}}>
+      <Accordion defaultExpanded={true}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           style={{backgroundColor: 'rgb(30 32 34)'}}>

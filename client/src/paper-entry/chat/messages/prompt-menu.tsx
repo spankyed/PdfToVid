@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 import { promptPresetsOpenAtom, inputAtom, promptOptionsAtom, inputRefAtom } from './store';
+import { colors } from '~/shared/styles/theme';
 
 const PromptMenu = () => {
   const [promptPresets, setPromptPresets] = useAtom(promptOptionsAtom);
@@ -51,8 +52,8 @@ const PromptMenu = () => {
 
       <Box
         width="100%"
-        bgcolor="secondary.main"
         sx={{
+          bgcolor: colors.palette.background.default,
           maxHeight: '300px',
           paddingTop: '0px',
           overflowY: 'auto',
