@@ -27,6 +27,7 @@ export default function Message({ message }) {
     <Box
       mb={2}
       p={2}
+      pt={1}
       sx={{
         textAlign: 'left',
         whiteSpace: 'pre-wrap',
@@ -34,6 +35,8 @@ export default function Message({ message }) {
           isBranchMessage ? blueRGBA :
           isHidden ? yellowRGBA :
           isAssistant ? 'rgba(0, 0, 0, 0.1)' : '',
+        borderTop: isBranchMessage ? '4px solid rgba(255, 255, 255, 0.2)' : 'none',
+        borderLeft: isAssistant ? '4px solid rgba(255, 255, 255, 0.2)' : 'none' 
       }}
       onMouseEnter={() => showActions(true)}
       onMouseLeave={() => showActions(false)}
@@ -45,12 +48,14 @@ export default function Message({ message }) {
         >
           <p
             style={{
+              backgroundColor: 'rgba(55, 55, 55, 0.1)',
+              borderRadius: 4,
               fontWeight: '600',
-              color: isAssistant ? colors.palette.primary.light : colors.palette.secondary.light,
+              color: isAssistant ? colors.palette.primary.light : 'white',
               // color: isAssistant ? colors.palette.primary.light : 'rgba(255, 255, 255, 0.65)',
               opacity,
             }}
-            className='pr-4 pb-1'
+            className='px-2 py-1 mb-1 mr-2'
           >
             {isAssistant ? 'Assistant' : 'You'}
           </p>
