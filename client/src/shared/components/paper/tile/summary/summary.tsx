@@ -21,7 +21,6 @@ const PopoverText = styled(Paper)(({ theme }) => ({
 
 const ScoreDiv = styled(Box)<{ paper: any }>(({ theme, paper }) => {
   const bgColor = getColorShadeRedToGreen(paper);
-  console.log('bgColor: ', bgColor);
   const textColor = bgColor === 'white' ? '#000' : theme.palette.common.white; 
   return ({
     display: 'inline-block',

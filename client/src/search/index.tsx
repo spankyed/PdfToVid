@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { Button, Box, Accordion, AccordionSummary, AccordionDetails, Typography, Divider, Tab, Tabs, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Button, Box, Accordion, AccordionSummary, AccordionDetails, Typography, Divider, Tab, Tabs, ToggleButton, ToggleButtonGroup, Paper } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import './search.css';
 import { resetFieldsAtom, resultListAtom, searchStateAtom, submitSearchAtom, tabValueAtom } from './store';
 import PageLayout from '~/shared/components/layout/page-layout';
-import PageMessage from '~/shared/components/page-message';
 import ThumbPapersGrid from '~/date-entry/components/grid';
 import PapersTable from '~/date-entry/components/table';
 import QueryControl from './controls/query';
@@ -66,6 +65,14 @@ const SearchPage: React.FC<{}> = () => {
     </PageLayout>
   );
 }
+
+const PageMessage = ({ message }) => {
+  return (
+    <Paper className="px-6 py-4 max-w-md mx-auto mt-4">
+      <div className="font-medium text-lg">{message}</div>
+    </Paper>
+  );
+};
 
 const RenderByState = () => {
   const [searchState] = useAtom(searchStateAtom);
