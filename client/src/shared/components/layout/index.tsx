@@ -120,8 +120,9 @@ function TitleArea({ isNewUser }) {
             padding: '2px 7px',
             // border: '2px solid white',
             // backgroundColor: '#4a39ab7a',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            // backgroundColor: colors.palette.primary.dark,
+            // backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            backgroundColor: 'rgba(126, 29, 195, 0.3)',
+            // backgroundColor: colors.palette.primary.light,
           }}>
             Curate
           </Typography>

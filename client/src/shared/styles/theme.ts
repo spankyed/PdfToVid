@@ -60,7 +60,8 @@ export const colors = createTheme({
     },
     primary: {
       // main: purple[900],
-      main: indigo[700],
+      main: 'rgba(63,32,88)',
+      // main: indigo[700],
       // main: indigo[600],
       // main: blue[700],
       // main: deepPurple[900],
