@@ -16,6 +16,13 @@ export default function MessageList () {
   const chatState = useAtomValue(chatStateAtom);
   const isLoading = chatState === 'loading';
   const isError = chatState === 'error';
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   useEffect(() => {
     const scrollableElement = scrollableContainerRef?.current;
@@ -61,10 +68,12 @@ export default function MessageList () {
           )
         }
         <Box
+          ref={containerRef}
           sx={{
             display: 'flex',
             // flexDirection: 'column',
-            flexDirection: 'column-reverse',
+            flexDirection: 'column',
+            // justifyContent: 'flex-end',
             width: '100%',
             height: '40rem',
             maxHeight: '40rem',
@@ -79,8 +88,8 @@ export default function MessageList () {
             isLoading 
             ? <Loader />
             : <>
-                {messages.slice().reverse().map((message) => (
-                  <Message key={message.id} message={message} />
+                {messages.map((message) => (
+                  <Message message={message} />
                 ))}
               </>
             
