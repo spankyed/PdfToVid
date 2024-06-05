@@ -4,7 +4,7 @@ import { Button, Box, Divider, Typography, IconButton, Tooltip, Paper } from '@m
 
 import './backfill.css';
 import PageLayout from '~/shared/components/layout/page-layout';
-import DateRange from './add-dates';
+import DateRange from './load-dates';
 import BatchTable from './batch-scrape';
 import { updateStatusAtom } from './batch-scrape/store';
 import SocketListener from '~/shared/api/socket-listener';
