@@ -56,6 +56,7 @@ const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
 
 const BatchTable: React.FC = () => {
   // Calculate the number of items per column dynamically
+  const navigate = useNavigate();
   const [pageIndex, setPageIndex] = useState(0);
   const sections = 5;
   const dates = useAtomValue(batchDatesAtom);
@@ -65,9 +66,15 @@ const BatchTable: React.FC = () => {
 
   const fetchDates = useSetAtom(getDatesAtom);
   const buttonsDisabled = useAtomValue(buttonsDisabledAtom);
+  const navBlocked = dates.length === 0 || state === 'loading';
 
   const goTo = direction => () => {
     fetchDates(direction);
+  }
+
+  const handleDateClick = (day: string) => {
+    const date = dayjs(day).format('YYYY-MM-DD');
+    navigate(`/date/${date}`);
   }
 
   useEffect(() => {
@@ -105,7 +112,6 @@ const BatchTable: React.FC = () => {
     return list;
   }
 
-  const navBlocked = dates.length === 0 || state === 'loading';
 
   return (
     <Box sx={{
@@ -159,8 +165,14 @@ const BatchTable: React.FC = () => {
                 <StyledList key={`list-${index}`}>
                   {dates.map((date, index) => (
                     <StyledListItem
+                      onClick={() => handleDateClick(date.value)}
                       disablePadding key={`${date.value}-${index}`} status={date.status}
-                      sx={{ height: '3em', maxHeight: '3em', width: '14rem' }}
+                      sx={{ height: '3em', maxHeight: '3em', width: '14rem',
+                        cursor: date.value ? 'pointer' : 'default',
+                        '&:hover': {
+                          border: `.01rem solid white`,
+                        },
+                      }}
                     >
                       <ListItemText
                         sx={{
