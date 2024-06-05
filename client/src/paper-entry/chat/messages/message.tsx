@@ -45,7 +45,11 @@ export default function Message({ message }) {
         onMouseLeave={() => showActions(false)}
       >
 
-        <Box sx={{ opacity, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{
+          opacity, display: 'flex',
+          flexDirection: 'column',
+          ml: message.text === '...' ? .5 : 0,
+          }}>
           <ReactMarkdown
             skipHtml={true}
             remarkPlugins={[remarkGfm]}
