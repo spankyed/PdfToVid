@@ -49,7 +49,7 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
         // boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none',
         '&:hover': {
           border: `2px solid ${colors.palette.secondary.main}`,
-          borderBottom: `10px solid ${color}`
+          borderBottom: `10px solid ${colors.palette.secondary.main}`
         }
       }}
       className='thumb-img'
