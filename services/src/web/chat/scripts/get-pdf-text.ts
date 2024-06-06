@@ -1,6 +1,7 @@
 import { pdfToText } from 'pdf-ts';
 import axios from 'axios';
 
+// todo consider using https://jina.ai/reader/
 async function getPdfText(arxivId: string): Promise<string> {
   const response = await axios.get(`http://export.arxiv.org/pdf/${arxivId}`, {
     responseType: 'arraybuffer'
