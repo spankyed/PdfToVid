@@ -114,7 +114,7 @@ function Month({ month, dates, container }) {
               {month}
               {
                 allComplete
-                ? <DoneIcon sx={{ color: colors.palette.success.main }}/>
+                ? <DoneIcon sx={{ color: colors.palette.success.light }}/>
                 : null
               }
             </span>
