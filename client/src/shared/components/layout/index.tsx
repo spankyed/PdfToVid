@@ -122,6 +122,7 @@ function TitleArea({ isNewUser }) {
             // backgroundColor: '#4a39ab7a',
             // backgroundColor: 'rgba(0, 0, 0, 0.3)',
             backgroundColor: '#3b278e',
+            alignContent: 'center',
             // backgroundColor: colors.palette.primary.light,
           }}>
             Curate
