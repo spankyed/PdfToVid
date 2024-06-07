@@ -55,13 +55,15 @@ const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
 });
 
 const BatchTable: React.FC = () => {
-  // Calculate the number of items per column dynamically
   const navigate = useNavigate();
-  const [pageIndex, setPageIndex] = useState(0);
+  // const [pageIndex, setPageIndex] = useState(0);
+  // Calculate the number of items per column dynamically
   const sections = 5;
+  const minCount = 45;
   const dates = useAtomValue(batchDatesAtom);
   const state = useAtomValue(batchStateAtom);
-  const itemsPerColumn = Math.ceil(20 / sections);
+  const itemCount = Math.max(dates.length, minCount);
+  const itemsPerColumn = Math.ceil(itemCount / sections);
   // const itemsPerColumn = Math.ceil(dates.length / sections);
 
   const fetchDates = useSetAtom(getDatesAtom);
@@ -73,6 +75,7 @@ const BatchTable: React.FC = () => {
   }
 
   const handleDateClick = (day: string) => {
+    if (!day) return;
     const date = dayjs(day).format('YYYY-MM-DD');
     navigate(`/date/${date}`);
   }
@@ -94,7 +97,7 @@ const BatchTable: React.FC = () => {
   }, [] as DateItem[][]);
 
   const populateEmptySections = (list) => {
-    for (let i = 0; i < sections - 1; i++) {
+    for (let i = 0; i < sections; i++) {
       const currSection = list[i] ? list[i] : [];
 
       if (currSection.length === itemsPerColumn) {
@@ -169,7 +172,7 @@ const BatchTable: React.FC = () => {
                       sx={{ height: '3em', maxHeight: '3em', width: '14rem',
                         cursor: date.value ? 'pointer' : 'default',
                         '&:hover': {
-                          border: `.01rem solid white`,
+                          border: date.value ? `.01rem solid white` : `.01rem solid rgba(81, 81, 81, 1)`,
                         },
                       }}
                     >
