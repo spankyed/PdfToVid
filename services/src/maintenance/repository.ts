@@ -98,7 +98,7 @@ function getBackfillDates(params: getBackfillDateParams): Promise<DatesTable[]> 
   let queryOptions: FindOptions<DatesTable> = {
     raw: true,
     order: [['value', isRight ? 'ASC' : 'DESC']],
-    limit: count || 20,
+    limit: count || 45,
     where: {
       ...(cursor && {
         value: {

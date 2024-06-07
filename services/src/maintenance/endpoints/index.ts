@@ -26,7 +26,7 @@ function getBatchDates(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const { cursor, direction } = request.payload;
 
-    const dates = await repository.getBackfillDates({ cursor, direction });
+    const dates = await repository.getBackfillDates({ cursor, direction, count: 45 });
   
     resolve(dates)
   });
