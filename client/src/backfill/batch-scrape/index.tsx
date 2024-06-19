@@ -121,7 +121,8 @@ const BatchTable: React.FC = () => {
         alignItems: 'center',
         display: 'flex', justifyContent: "center",
         flexDirection: 'column',
-        width: '100%'
+        width: '100%',
+        pb: 5,
     }}>
       <DualListContainer>
         <div className='flex flex-col'>

@@ -65,7 +65,7 @@ async function scrapePapers(request: any, h: any){
 export default [
   route.post('/scrapeBatch', gateway('scrapeBatch')),
   route.post('/getBatchDates', gateway('getBatchDates')),
-  route.post('/backfillDates', gateway('backfillDates')),
+  route.post('/loadBatchDates', gateway('loadBatchDates')),
   route.post('/onboardNewUser', gateway('onboardNewUser')),
   route.get('/checkIsNewUser', checkIsNewUser),
   route.post('/work-status/{type}', updateStatus),

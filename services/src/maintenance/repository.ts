@@ -123,6 +123,21 @@ function getBackfillDates(params: getBackfillDateParams): Promise<DatesTable[]> 
     });
 }
 
+async function getPendingDatesBetween(start: string, end: string) {
+  console.log('end: ', end);
+  console.log('start: ', start);
+  return DatesTable.findAll({
+    raw: true,
+    order: [['value', 'ASC']],
+    where: {
+      value: {
+        [Op.between]: [start, end]
+      },
+      status: 'pending'
+    }
+  });
+}
+
 export default {
   getDate,
   getDates,
@@ -132,6 +147,7 @@ export default {
   storeDates,
   storeReferencePapers,
   getReferencePapers,
-  getBackfillDates
+  getBackfillDates,
+  getPendingDatesBetween
 };
 

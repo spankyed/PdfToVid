@@ -7,25 +7,21 @@ import { seedReferencePapers } from "../scripts/seed-reference-papers";
 import { setConfigSettings } from "~/shared/utils/set-config";
 import runBackgroundScripts from "../background";
 
-// function datesBackfill(request: any, h: any){
-//   return new Promise(async (resolve, reject) => {
-//     const { startDate, endDate } = request.payload;
-
-//     const newDateRecords = await backfillDates(startDate, endDate);
-//     const allDates = await repository.getAllDates();
-
-//     resolve({
-//       newCount: newDateRecords.length,
-//       dateList: groupDatesByMonth(allDates as any)
-//     })
-//   });
-// }
-
 function getBatchDates(request: any, h: any){
   return new Promise(async (resolve, reject) => {
     const { cursor, direction } = request.payload;
 
     const dates = await repository.getBackfillDates({ cursor, direction, count: 45 });
+  
+    resolve(dates)
+  });
+}
+function loadBatchDates(request: any, h: any){
+  return new Promise(async (resolve, reject) => {
+    const { start, end } = request.payload;
+
+    const newDateRecords = await backfillDates(start, end);
+    const dates = await repository.getPendingDatesBetween(start, end);
   
     resolve(dates)
   });
@@ -75,6 +71,7 @@ function onboardNewUser(request: any, h: any){
 }
 
 export default [
+  route.post('/loadBatchDates', loadBatchDates),
   route.post('/getBatchDates', getBatchDates),
   route.post('/scrapeBatch', batchScrape),
   route.post('/onboardNewUser', onboardNewUser),

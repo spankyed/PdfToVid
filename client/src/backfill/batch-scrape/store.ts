@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
+import { dateStartAtom, dateEndAtom } from '../date-range/store';
 
 export const batchStateAtom = atom<'idle' | 'loading' | 'complete'>('loading');
 
@@ -55,6 +56,9 @@ export const getDatesAtom = atom(
       }
 
       if (responseHasDates) {
+        set(dateStartAtom, dayjs(records[0].value));
+        set(dateEndAtom, dayjs(records[records.length - 1].value));
+
         const oppositeDirection = direction.includes('right') ? 'left' : 'right';
         set(buttonsDisabledAtom, prev => ({
           ...prev,
