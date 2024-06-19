@@ -1,26 +1,25 @@
 import { route } from '../../shared/route';
 import repository from '../repository';
 import { scrapeBatch } from '../scripts/scrape-batch';
-import { backfillDates } from "../scripts/add-dates";
+import { backfillInitialDates, backfillDates } from "../scripts/add-dates";
 import { groupDatesByMonth } from '~/web/shared/transform';
 import { seedReferencePapers } from "../scripts/seed-reference-papers";
 import { setConfigSettings } from "~/shared/utils/set-config";
 import runBackgroundScripts from "../background";
-import { getConfig } from '~/shared/utils/get-config';
 
-function datesBackfill(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const { startDate, endDate } = request.payload;
+// function datesBackfill(request: any, h: any){
+//   return new Promise(async (resolve, reject) => {
+//     const { startDate, endDate } = request.payload;
 
-    const newDateRecords = await backfillDates(startDate, endDate);
-    const allDates = await repository.getAllDates();
+//     const newDateRecords = await backfillDates(startDate, endDate);
+//     const allDates = await repository.getAllDates();
 
-    resolve({
-      newCount: newDateRecords.length,
-      dateList: groupDatesByMonth(allDates as any)
-    })
-  });
-}
+//     resolve({
+//       newCount: newDateRecords.length,
+//       dateList: groupDatesByMonth(allDates as any)
+//     })
+//   });
+// }
 
 function getBatchDates(request: any, h: any){
   return new Promise(async (resolve, reject) => {
@@ -48,17 +47,14 @@ function onboardNewUser(request: any, h: any){
     const { inputIds, config } = form;
 
     try {
-      // const january1991 = new Date('1991-01-01'); // The year arxiv started
-      const january1991 = new Date('2024-01-01'); // The year arxiv started
-
       if (inputIds && inputIds.length) {
         await Promise.all([
           seedReferencePapers(undefined, inputIds),
-          backfillDates(january1991)
+          backfillInitialDates()
         ])
         // console.log('papers: ', papers);
       } else {
-        await backfillDates(january1991);
+        await backfillInitialDates();
       }
 
       // todo return dates for current year only instead
@@ -79,7 +75,6 @@ function onboardNewUser(request: any, h: any){
 }
 
 export default [
-  route.post('/backfillDates', datesBackfill),
   route.post('/getBatchDates', getBatchDates),
   route.post('/scrapeBatch', batchScrape),
   route.post('/onboardNewUser', onboardNewUser),

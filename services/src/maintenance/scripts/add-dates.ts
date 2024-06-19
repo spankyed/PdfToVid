@@ -19,27 +19,6 @@ export async function backfillDates(startDate: DateParam, endDate?: DateParam) {
   return newRecords;
 };
 
-export async function backFillAbsentDates(lastDateChecked: Config['settings']['lastDateChecked']) {
-  const lastDateAdded = await repository.getLatestDate();
-  const today = getCurrentDate();
-
-  if (!lastDateAdded) {
-    setConfigSettings({ isNewUser: true });
-
-    return;
-  } 
-
-  if (lastDateAdded > today || lastDateAdded === today) {
-    return;
-  }
-
-  const startDate = lastDateChecked  ? lastDateChecked : lastDateAdded;
-  const dateRecords = await backfillDates(startDate, new Date());
-
-  return dateRecords.map(dateRecord => dateRecord.value);
-}
-
-
 export function getDatesBetween(startDate: DateParam, endDate: DateParam): string[] {
   const dates: string[] = [];
   const to = new Date(endDate);
@@ -64,8 +43,21 @@ export function getCurrentDate() {
   return new Date(date.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
 }
 
+export function backfillInitialDates() {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const previousYear = currentYear - 1;
+
+  const startOfPreviousYear = new Date(previousYear, 0, 1);
+  const today = new Date(currentDate.setHours(0, 0, 0, 0));
+
+  return backfillDates(startOfPreviousYear, today);
+}
+
+
 // export function getDateNDaysBack(n: string) {
 //   const date = new Date();
 //   const pastDate = new Date(date.setDate(date.getDate() - Number(n)));
 //   return new Date(pastDate.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
 // }
+8
