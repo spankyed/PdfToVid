@@ -48,7 +48,6 @@ function Month({ month, dates, container }) {
   useEffect(() => {
     const allComplete = dates.every(date => date.status === 'complete');
 
-    console.log('daysInMonth: ', {daysInMonth, datesCount: dates.length, allComplete});
     if (dates.length == daysInMonth && allComplete) {
       setAllComplete(true);
     }
