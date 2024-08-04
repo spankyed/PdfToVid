@@ -60,7 +60,9 @@ const Sidebar: React.FC = () => {
           <ListItemIcon>
             <SearchIcon />
           </ListItemIcon>
-          <ListItemText primary="Search" />
+          <ListItemText
+          sx={{ marginLeft: '1rem' }}
+          primary="Search" />
         </NavItem>
 
         {/* <NavItem onClick={() => navigate('analytics')}>
@@ -74,7 +76,9 @@ const Sidebar: React.FC = () => {
           <ListItemIcon>
             <ChecklistIcon />
           </ListItemIcon>
-          <ListItemText primary="Backfill" />
+          <ListItemText
+          sx={{ marginLeft: '1rem' }}
+          primary="Backfill" />
         </NavItem>
       </List>
       <Dates />

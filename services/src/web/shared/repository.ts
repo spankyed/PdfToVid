@@ -26,7 +26,19 @@ function getAllDates() {
   });
 }
 
+function getDatesByYear(year: string) {
+  return DatesTable.findAll({
+    where: {
+      value: {
+        [Op.startsWith]: year,
+      },
+    },
+    raw: true,
+  });
+}
+
 export {
   getAllDates,
-  getPapersByDates
+  getPapersByDates,
+  getDatesByYear
 }

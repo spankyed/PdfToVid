@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import { atom } from 'jotai';
 import * as api from '~/shared/api/fetch';
-import { DatesRow } from '~/shared/utils/types';
+import type { DatesRow } from '~/shared/utils/types';
 
+export const currentYearAtom = atom(new Date().getFullYear());
 export const datesRowsAtom = atom<DatesRow[]>([]);
 export const openMonthAtom = atom('');
 export const lastOpenMonthAtom = atom('');
@@ -20,7 +21,8 @@ export const fetchDatesSidebarDataAtom = atom(
   async (get, set) => {
     // set(calendarStateAtom, 'loading');
     try {
-      const response = await api.getDatesSidebarData();
+      const currentYear = get(currentYearAtom);
+      const response = await api.getSidebarDatesForYear(currentYear);
       const dateList = response.data;
       console.log('Sidebar dates:', {dateList});
       set(setSidebarDataAtom, dateList);

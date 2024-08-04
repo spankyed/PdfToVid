@@ -45,13 +45,13 @@ function checkIsNewUser(request: any, h: any){
   });
 }
 
-function getDates(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const dates = await repository.getAllDates();
-    const dateList = groupDatesByMonth(dates as any);
-    
-    resolve(dateList)
-  });
+async function getDatesByYear(request: any, h: any){
+  const year = request.params.year;
+
+  const dates = await repository.getDatesByYear(year);
+  const dateList = groupDatesByMonth(dates as any);
+  
+  return dateList;
 }
 
 async function scrapePapers(request: any, h: any){
@@ -69,6 +69,6 @@ export default [
   route.post('/onboardNewUser', gateway('onboardNewUser')),
   route.get('/checkIsNewUser', checkIsNewUser),
   route.post('/work-status/{type}', updateStatus),
-  route.get('/getDates', getDates),
+  route.get('/getDatesByYear/{year}', getDatesByYear),
   route.post('/scrape/{date}', scrapePapers),
 ]

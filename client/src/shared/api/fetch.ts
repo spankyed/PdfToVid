@@ -8,7 +8,8 @@ socket.on('connect', () => console.log('Connected to WebSocket server'));
 
 // get
 export const checkIsNewUser = () => axios.get(apiUrl + '/checkIsNewUser');
-export const getDatesSidebarData = () => axios.get(apiUrl + '/getDates');
+export const getSidebarDatesForYear = (year) => axios.get(apiUrl + '/getDatesByYear/' + year);
+
 export const getCalendarModelData = () => axios.get(apiUrl + '/getCalendar');
 export const calendarLoadMore = (cursor) => axios.get(apiUrl + '/loadMore/' + cursor);
 export const calendarLoadMonth = (cursor) => axios.get(apiUrl + '/loadMonth/' + cursor);

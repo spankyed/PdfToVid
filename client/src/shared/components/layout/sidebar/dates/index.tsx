@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef, useState, useMemo } from 'react';
+import type React from 'react';
+import { useContext, useEffect, useRef, useState, useMemo } from 'react';
 import { List, ListItemButton, ListItemText, ListSubheader, Collapse } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { selectedDateAtom } from '~/shared/store'; // Import your Jotai atoms
@@ -12,6 +13,7 @@ import { scrollToElement } from '~/shared/utils/scrollPromise';
 import getDaysInMonth from '~/shared/utils/getDaysInMonth';
 import DoneIcon from '@mui/icons-material/Done';
 import { colors } from '~/shared/styles/theme';
+import YearSelect from './year-select';
 
 function DateList(): React.ReactElement {
   const [datesRows] = useAtom(datesRowsAtom); // todo useMemo
@@ -24,20 +26,39 @@ function DateList(): React.ReactElement {
   }, [fetchSidebarData]);
 
   return (
-    <List 
-      ref={container}
-      sx={{
-      overflow: 'auto',
-      overflowX: 'hidden',
-      // backgroundColor: colors.main,
-      flexGrow: 1,
-      // paddingLeft: '8px', 
-      // marginLeft: '.2rem', // Add 1rem margin to the left
-    }}>
-      {datesRows.map(({ month, dates }) => (
-        <Month key={month} month={month} dates={dates} container={container} />
-      ))}
-    </List>
+    <>
+      <List 
+        ref={container}
+        sx={{
+          overflow: 'auto',
+          overflowX: 'hidden',
+          // backgroundColor: colors.main,
+          flexGrow: 1,
+          py: 0,
+          display: 'flex',
+          flexDirection: 'column',
+
+          // paddingLeft: '8px', 
+          // marginLeft: '.2rem', // Add 1rem margin to the left
+        }}
+        // sx={{
+        //   overflow: 'auto',
+        //   overflowX: 'hidden',
+        //   position: 'relative',
+        //   flexGrow: 1,
+        //   display: 'flex',
+        //   flexDirection: 'column',
+        //   py: 0,
+        // }}
+        >
+        {datesRows.map(({ month, dates }) => (
+          <Month key={month} month={month} dates={dates} container={container} />
+        ))}
+      </List>
+      <div style={{width: '100%' }}>
+        <YearSelect />
+      </div>
+    </>
   );
 }
 
@@ -105,8 +126,14 @@ function Month({ month, dates, container }) {
   }
 
   return (
-    <div key={month} ref={el => collapseRefs.current[month] = el}>
-      <MonthItem onClick={() => clickMonth(month)} sx={{ fontWeight: 'bolder' }}>
+    <>
+      {/* <MonthItem onClick={() => clickMonth(month)} sx={{ fontWeight: 'bolder' }}> */}
+      <MonthItem
+        key={month}
+        ref={el => { collapseRefs.current[month] = el }}
+        sx={{ fontWeight: 'bolder', flexGrow: 1 }}
+        onClick={() => clickMonth(month)}
+      >
         <ListItemText
           primary={
             <span style={{ fontWeight: '600', color: 'rgba(232, 230, 227, 0.85)' }} className="flex justify-between">
@@ -134,7 +161,7 @@ function Month({ month, dates, container }) {
             // const formattedDate = useMemo(() => reformatDate(date.value), [date.value]);
             const [formattedDate, formattedWeekday] = reformatDate(date.value);
             return (
-              <Link to={`/date/${date.value}`} key={'date-' + date.value}>
+              <Link to={`/date/${date.value}`} key={`date-${date.value}`}>
                 <ListItemButton selected={selectedDate === date.value} >
                   <ListItemText primary={
                     <DateDisplay formattedDate={formattedDate} formattedWeekday={formattedWeekday} count={date.count}/>
@@ -148,7 +175,7 @@ function Month({ month, dates, container }) {
           })}
         </List>
       </Collapse>
-    </div>
+    </>
   )
 }
 
@@ -170,6 +197,7 @@ const dateStyle = {
 const weekdayStyle = {
   paddingLeft: '16px',
   whiteSpace: 'nowrap',
+  marginLeft: '1rem',
 };
 
 // Renamed the function to DateDisplay to avoid confusion with JavaScript's Date object
