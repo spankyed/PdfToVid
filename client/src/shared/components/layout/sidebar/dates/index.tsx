@@ -29,27 +29,27 @@ function DateList(): React.ReactElement {
     <>
       <List 
         ref={container}
-        // sx={{
-        //   overflow: 'auto',
-        //   overflowX: 'hidden',
-        //   // backgroundColor: colors.main,
-        //   flexGrow: 1,
-        //   py: 0,
-        //   // display: 'flex',
-        //   // flexDirection: 'column',
-
-        //   // paddingLeft: '8px', 
-        //   // marginLeft: '.2rem', // Add 1rem margin to the left
-        // }}
         sx={{
           overflow: 'auto',
           overflowX: 'hidden',
-          position: 'relative',
+          // backgroundColor: colors.main,
           flexGrow: 1,
+          py: 0,
           display: 'flex',
           flexDirection: 'column',
-          py: 0,
+
+          // paddingLeft: '8px', 
+          // marginLeft: '.2rem', // Add 1rem margin to the left
         }}
+        // sx={{
+        //   overflow: 'auto',
+        //   overflowX: 'hidden',
+        //   position: 'relative',
+        //   flexGrow: 1,
+        //   display: 'flex',
+        //   flexDirection: 'column',
+        //   py: 0,
+        // }}
         >
         {datesRows.map(({ month, dates }) => (
           <Month key={month} month={month} dates={dates} container={container} />
