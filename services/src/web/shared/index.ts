@@ -10,16 +10,14 @@ const workerService = createRequest(WorkerPath);
 const maintenanceService = createRequest(MaintenancePath);
 
 function gateway(method: string){
-  return (request: any, h: any) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result: any = await maintenanceService.post(method, request.payload);
-        resolve(result)
-      } catch (err) {
-        console.error('Error in gateway: ', err);
-        reject(err);
-      }
-    });
+  return async (request: any, h: any) => {
+    try {
+      const result: any = await maintenanceService.post(method, request.payload);
+      return result;
+    } catch (err) {
+      console.error('Error in gateway: ', err);
+      return
+    }
   }
 }
 
@@ -36,13 +34,11 @@ async function updateStatus(request: any, h: any) {
   return h.response({ status: 'success' }).code(200);
 }
 
-function checkIsNewUser(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const config = await getConfig();
-    const isNewUser = config.settings.isNewUser;
-    
-    resolve(isNewUser)
-  });
+async function checkIsNewUser(request: any, h: any){
+  const config = await getConfig();
+  const isNewUser = config.settings.isNewUser;
+
+  return isNewUser;
 }
 
 async function getDatesByYear(request: any, h: any){
