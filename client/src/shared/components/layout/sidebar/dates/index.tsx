@@ -35,9 +35,8 @@ function DateList(): React.ReactElement {
           // backgroundColor: colors.main,
           flexGrow: 1,
           py: 0,
-          display: 'flex',
-          flexDirection: 'column',
-
+          // display: 'flex',
+          // flexDirection: 'column',
           // paddingLeft: '8px', 
           // marginLeft: '.2rem', // Add 1rem margin to the left
         }}
