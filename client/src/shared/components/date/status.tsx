@@ -17,7 +17,9 @@ function ScrapeStatus({ date, scrapeAtom, status }: { date: string; scrapeAtom: 
   return (
     <>
       {
-        contentByStatus[status]
+        status
+        ? contentByStatus[status]
+        : contentByStatus.error
       }
     </>
   );
