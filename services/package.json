@@ -48,6 +48,7 @@
     "gm": "^1.25.0",
     "lodash-es": "^4.17.21",
     "midjourney": "^4.3.7",
+    "moment": "^2.30.1",
     "node-calls-python": "^1.7.7",
     "node-cron": "^3.0.3",
     "node-emoji": "^2.1.0",
