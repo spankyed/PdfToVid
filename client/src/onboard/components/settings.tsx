@@ -47,7 +47,7 @@ function UserSettings() {
                     type={showApiKey ? 'text' : 'password'}
                     variant="outlined"
                     fullWidth
-                    helperText="Your key is not shared and can be managed in the chat settings"
+                    helperText="This key will not leave your computer and can be changed in the chat settings"
                     onChange={(e) => setApiKeyOpenAI(e.target.value)}
                     InputProps={{
                       endAdornment: (
