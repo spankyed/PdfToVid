@@ -39,4 +39,5 @@ export const branchThread = (params) => axios.post(apiUrl + '/branchThread', par
 export const toggleHideMessage = (params) => axios.post(apiUrl + '/toggleHideMessage', params);
 export const deleteMessage = (messageId) => axios.post(apiUrl + '/deleteMessage', { messageId });
 export const sendMessage = (params) => axios.post(apiUrl + '/sendMessage', params);
+export const stopMessageStream = (threadId) => axios.post(apiUrl + '/stopMessageStream', { threadId });
 export const streamResponse = (params) => axios.post(apiUrl + '/streamResponse', params);

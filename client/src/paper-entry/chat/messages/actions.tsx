@@ -6,7 +6,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CachedIcon from '@mui/icons-material/Cached';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { messagesAtom } from './store';
+import { inputEnabledAtom, messagesAtom } from './store';
 import * as api from '~/shared/api/fetch';
 import { addNewThreadAtom, branchThreadAtom, selectedThreadsAtom } from '../threads/store';
 import { paperAtom } from '~/paper-entry/store';
@@ -27,15 +27,21 @@ export default function Actions({ message }) {
   const paper = useAtomValue(paperAtom);
   const [messages, setMessages] = useAtom(messagesAtom);
   const branchThread = useSetAtom(branchThreadAtom);
+  const setInputEnabled = useSetAtom(inputEnabledAtom);
+  const selectedThreads = useAtomValue(selectedThreadsAtom);
+  const selectedThread = selectedThreads[paper!.id]?.id;
+
+  const streaming = (message) => message.status === 0;
+  const assistant = (message) => message.role === 'assistant';
 
   const filters = {
-    regenerate: (m) => !m.streaming && m.role === 'assistant',
-    show: (m) => !m.streaming && m.hidden,
-    hide: (m) => !m.streaming && !m.hidden,
-    thread: (m) => !m.streaming,
-    delete: (m) => !m.streaming,
+    regenerate: (m) => !streaming(m) && assistant(m),
+    show: (m) => !streaming(m) && m.hidden,
+    hide: (m) => !streaming(m) && !m.hidden,
+    thread: (m) => !streaming(m),
+    delete: (m) => !streaming(m),
     // streaming actions below
-    stop: (m) => m.streaming && m.role === 'assistant',
+    stop: (m) => streaming(m) && assistant(m),
   }
 
   const filteredActions = actions.filter(action => filters[action.name] ? filters[action.name](message) : true);
@@ -47,8 +53,9 @@ export default function Actions({ message }) {
       // todo stream new message
     },
     stop: async () => {
-      // setMessages(messages.filter(m => m.id !== message.id));
-      // await api.stopMessage(message.id)
+      setMessages(messages.map(m => m.id === message.id ? { ...m, status: 2 } : m));
+      await api.stopMessageStream(selectedThread)
+      setInputEnabled(true);
     },
     delete: async () => {
       setMessages(messages.filter(m => m.id !== message.id));

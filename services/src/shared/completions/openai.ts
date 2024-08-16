@@ -42,9 +42,12 @@ export async function streamOpenAI(
     n: 1,
     stream: true,
     // stream_options: { include_usage: true },
-});
+  });
 
   stream.on('content', handlers.onChunk)
   stream.on('chatCompletion', handlers.onCompletion)
+  // stream.on('error', handlers.onError)
   // stream.on('end', handlers.onCompletion)
+
+  return stream;
 }

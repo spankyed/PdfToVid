@@ -55,6 +55,7 @@ export class MessagesTable extends Model {
   declare text: string;
   declare role: string;
   declare timestamp: string;
+  declare status: number;
 }
 
 export class PdfDocumentTable extends Model {
@@ -93,6 +94,7 @@ MessagesTable.init({
   threadId: DataTypes.STRING,
   text: DataTypes.STRING,
   role: DataTypes.STRING,
+  status: DataTypes.INTEGER,
   // timestamp: DataTypes.STRING,
 }, {
   sequelize,

@@ -53,7 +53,7 @@ export const sendMessageAtom = atom(
         text: '...',
         // timestamp: new Date().toISOString(),
         role: 'assistant',
-        streaming: 1
+        status: 0
       };
   
       set(messagesAtom, prev => [...prev, responsePlaceholder]);
@@ -72,7 +72,6 @@ export const sendMessageAtom = atom(
 );
 
 
-
 export const handleStreamStatusAtom = atom(
   null,
   async (get, set, { key: responseMessageId, status: newStatus, data: text, final }) => {
@@ -81,10 +80,12 @@ export const handleStreamStatusAtom = atom(
       return;
     }
 
+    const errored = (message) => message.status === 2;
+
     set(messagesAtom, prev => prev.map(m => m.id === responseMessageId ? {
       ...m,
       text,
-      streaming: final ? 0 : 1
+      status: errored(m) ? 2 : final ? 1 : 0
     } : m))
 
     if (final) {

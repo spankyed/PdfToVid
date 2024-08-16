@@ -17,6 +17,7 @@ export default function Message({ message }) {
   const isBranchMessage = message.parentId && currThread?.messageId === message.parentId;
 
   const [actionsShowing, showActions] = useState(false);
+  const errored = message.status === 2;
   const isAssistant = message.role === 'assistant';
   const isHidden = message.hidden;
   const yellowRGBA = 'rgba(255, 235, 59, 0.1)';
@@ -37,9 +38,11 @@ export default function Message({ message }) {
             isHidden ? yellowRGBA : '',
             // isHidden ? yellowRGBA : isAssistant ? 'rgba(0, 0, 0, 0.1)' : '',
           // borderRight: isBranchMessage ? `4px solid ${colors.palette.grey[300]}` : 'none',
-          borderLeft: isAssistant
-            ? `4px solid ${colors.palette.primary.main}`
-            : `4px solid ${colors.palette.grey[300]}`,
+          borderLeft: errored 
+            ? `4px solid ${colors.palette.error.main}` :
+            isAssistant
+              ? `4px solid ${colors.palette.primary.main}`
+              : `4px solid ${colors.palette.grey[300]}`,
         }}
         onMouseEnter={() => showActions(true)}
         onMouseLeave={() => showActions(false)}
@@ -86,7 +89,7 @@ export default function Message({ message }) {
           </Tooltip> */}
 
           <Box sx={{ height: '2.2rem'}}>
-            {actionsShowing && !message.stream && <Actions message={message} />}
+            {actionsShowing && <Actions message={message} />}
             {/* <Actions message={message} /> */}
           </Box>
         </div>

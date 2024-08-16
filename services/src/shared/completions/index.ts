@@ -33,10 +33,11 @@ export async function createChatStream({
   if (provider === 'openai') {
     const paramsTemplate = templates.conversation(pdf, messages, model);
 
-    streamOpenAI({ ...paramsTemplate, model }, handlers)
-  } else {
-    // todo if provider is anthropic,
-    // ! the first message must be from the user
-    // todo handle branches from assistant messages
+    return streamOpenAI({ ...paramsTemplate, model }, handlers)
   }
+  // else if (provider === 'anthropic') {
+  //   // todo if provider is anthropic,
+  //   // ! the first message must be from the user
+  //   // todo handle branches from assistant messages
+  // }
 }

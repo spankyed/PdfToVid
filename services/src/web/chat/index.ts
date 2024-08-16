@@ -4,13 +4,19 @@ import getPdfText from './scripts/get-pdf-text';
 import initializeChat from './scripts/initialize-chat';
 import startChatStream from './scripts/start-chat-stream';
 import { Request, ResponseToolkit } from '@hapi/hapi';
+import type { ChatCompletionStream } from 'openai/resources/beta/chat/completions';
 
 async function initChat(request: any, h: any){
   const paperId = request.params.paperId;
-  let textLength = await initializeChat(paperId);
-  let pdfTokenCount = textLength / 4;
-
-  return h.response(pdfTokenCount);
+  try {
+    let textLength = await initializeChat(paperId);
+    let pdfTokenCount = textLength / 4;
+  
+    return h.response(pdfTokenCount);
+  } catch (error) {
+    console.error('Failed to initialize chat: ', error);
+    return h.response('Failed to initialize chat').code(500);
+  }
 }
 
 async function getMessages(request: any, h: any) {
@@ -136,6 +142,12 @@ async function sendMessage(request: any, h: any) {
 
   return h.response(messageRecord.id);
 }
+
+const threadStreams: { [key: string]: {
+  stream: Promise<ChatCompletionStream | undefined>,
+  messageId: string,
+} } = {};
+
 async function streamResponse(request: Request, h: ResponseToolkit) {
   const { paperId, threadId } = request.payload as any;
   console.log('paperId: ', paperId);
@@ -149,13 +161,39 @@ async function streamResponse(request: Request, h: ResponseToolkit) {
 
   const model = 'gpt-4o';
 
-  const responseMessageId = await startChatStream({
+  const [responseMessageId, stream] = await startChatStream({
     paperId,
     thread,
     model,
   })
 
+  threadStreams[threadId] = {
+    stream,
+    messageId: responseMessageId,
+  };
+
   return h.response(responseMessageId);
+}
+
+async function stopMessageStream(request: Request, h: ResponseToolkit) {
+  const { threadId } = request.payload as any;
+
+  const threadStream = threadStreams[threadId];
+
+  if (threadStream) {
+    const { stream, messageId } = threadStream;
+    stream.then(async s => {
+      s?.controller.abort();
+
+      await repository.updateMessage(messageId, {
+        status: 2,
+      });
+
+      // delete threadStreams[threadId]; // todo remove threadStreams on abort/completion
+    });
+  }
+
+  return h.response('');
 }
 
 
@@ -172,4 +210,5 @@ export default [
   route.post('/deleteMessage', deleteMessage),
   route.post('/sendMessage', sendMessage),
   route.post('/streamResponse', streamResponse),
+  route.post('/stopMessageStream', stopMessageStream),
 ]
