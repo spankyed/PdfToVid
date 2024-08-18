@@ -6,7 +6,6 @@ import { groupDatesByMonth } from '~/web/shared/transform';
 import { seedReferencePapers } from "../scripts/seed-reference-papers";
 import { setConfigSettings } from "~/shared/utils/set-config";
 import runBackgroundScripts from "../background";
-import { loadBatchDates, onboard } from '../../../../client/src/shared/api/fetch';
 import type { Request, ResponseToolkit } from '@hapi/hapi';
 
 async function getBatchDates(request: Request, h: ResponseToolkit) {
@@ -38,7 +37,7 @@ async function onboardNewUser(request: Request, h: ResponseToolkit) {
   const form = request.payload.form;
   const { inputIds, config } = form;
 
-  if (inputIds && inputIds.length) {
+  if (inputIds?.length) {
     await seedReferencePapers(undefined, inputIds);
   } else {
     await backfillInitialDates();
