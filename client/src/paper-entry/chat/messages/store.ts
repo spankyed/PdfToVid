@@ -71,7 +71,6 @@ export const sendMessageAtom = atom(
   }
 );
 
-
 export const handleStreamStatusAtom = atom(
   null,
   async (get, set, { key: responseMessageId, status: newStatus, data: text, final }) => {

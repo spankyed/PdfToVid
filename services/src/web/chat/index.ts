@@ -196,6 +196,32 @@ async function stopMessageStream(request: Request, h: ResponseToolkit) {
   return h.response('');
 }
 
+async function regenerateResponse(request: Request, h: ResponseToolkit) {
+  const { paperId, threadId, messageId } = request.payload as any;
+
+  const thread = await repository.getThread(threadId);
+
+  if (!thread) {
+    return h.response('Thread not found').code(404);
+  }
+
+  const model = 'gpt-4o';
+
+  const [responseMessageId, stream] = await startChatStream({
+    paperId,
+    thread,
+    model,
+    messageId,
+  })
+
+  threadStreams[threadId] = {
+    stream,
+    messageId: responseMessageId,
+  };
+
+  return h.response(responseMessageId);
+}
+
 
 
 export default [
@@ -211,4 +237,5 @@ export default [
   route.post('/sendMessage', sendMessage),
   route.post('/streamResponse', streamResponse),
   route.post('/stopMessageStream', stopMessageStream),
+  route.post('/regenerateResponse', regenerateResponse),
 ]

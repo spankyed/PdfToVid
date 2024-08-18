@@ -10,24 +10,38 @@ export default async function startChatStream({
   paperId,
   thread,
   model,
+  messageId,
 }: {
   paperId: string;
   thread: any;
   model: OpenAI.Chat.ChatModel;
+  messageId?: string;
 }): Promise<[string, Promise<ChatCompletionStream | undefined>]> {
   const [pdfDocs, messages] = await Promise.all([
     repository.getPdfDocuments(paperId, thread.viewMode || 0),
     repository.getMessages({ threadId: thread.id }),
   ]);
 
-  const placeholderMessage = await repository.addMessage({
-    paperId,
-    threadId: thread.id,
-    text: '...',
-    hidden: false,
-    status: 0,
-    role: 'assistant',
-  });
+  let messageRecord: any;
+
+  if (!messageId) {
+    messageRecord = await repository.addMessage({
+      paperId,
+      threadId: thread.id,
+      text: '...',
+      hidden: false,
+      status: 0,
+      role: 'assistant',
+    });
+  } else {
+    messageRecord = await repository.getSingleMessage(messageId);
+  }
+
+
+  if (!messageRecord) {
+    throw new Error(`No message record found with id: ${messageId}`);
+  }
+
   
   const conversation = messages.map(({ role, text}) => ({
     role,
@@ -46,14 +60,14 @@ export default async function startChatStream({
       },
       onChunk: (delta, snapshot) => {
         io.emit('chat_status', {
-          key: placeholderMessage.id,
+          key: messageRecord.id,
           status: 0,
           // data: delta,
           data: snapshot,
         });
 
         debounce(async () => {
-          await repository.updateMessage(placeholderMessage.id, {
+          await repository.updateMessage(messageRecord.id, {
             text: snapshot,
           });
         }, 500)();
@@ -62,13 +76,13 @@ export default async function startChatStream({
       onCompletion: async (completion) => {
         const assistantResponse = completion.choices[0].message.content;
         io.emit('chat_status', {
-          key: placeholderMessage.id,
+          key: messageRecord.id,
           status: 1,
           data: assistantResponse,
           final: true,
         });
 
-        await repository.updateMessage(placeholderMessage.id, {
+        await repository.updateMessage(messageRecord.id, {
           paperId,
           threadId: thread.id,
           text: assistantResponse,
@@ -80,6 +94,6 @@ export default async function startChatStream({
     }
   });
 
-  return [placeholderMessage.id, stream];
+  return [messageRecord.id, stream];
 }
 

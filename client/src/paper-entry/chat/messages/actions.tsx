@@ -33,9 +33,10 @@ export default function Actions({ message }) {
 
   const streaming = (message) => message.status === 0;
   const assistant = (message) => message.role === 'assistant';
+  const isLastMessage = (message) => messages[messages.length - 1].id === message.id;
 
   const filters = {
-    regenerate: (m) => !streaming(m) && assistant(m),
+    regenerate: (m) => !streaming(m) && assistant(m) && isLastMessage(m),
     show: (m) => !streaming(m) && m.hidden,
     hide: (m) => !streaming(m) && !m.hidden,
     thread: (m) => !streaming(m),
@@ -48,9 +49,13 @@ export default function Actions({ message }) {
 
   const handlers = {
     regenerate: async () => {
-      // setMessages(messages.filter(m => m.id !== message.id));
-      // const res = await api.regenerateMessage(message.id)
-      // todo stream new message
+      setInputEnabled(false);
+      setMessages(messages.map(m => m.id === message.id ? { ...m, text: '...', status: 0 } : m));
+      await api.regenerateResponse({
+        messageId: message.id,
+        paperId: paper!.id,
+        threadId: selectedThreads[paper!.id]?.id,
+      })
     },
     stop: async () => {
       setMessages(messages.map(m => m.id === message.id ? { ...m, status: 2 } : m));

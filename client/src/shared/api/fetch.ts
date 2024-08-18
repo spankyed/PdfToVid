@@ -41,3 +41,4 @@ export const deleteMessage = (messageId) => axios.post(`${apiUrl}/deleteMessage`
 export const sendMessage = (params) => axios.post(`${apiUrl}/sendMessage`, params);
 export const stopMessageStream = (threadId) => axios.post(`${apiUrl}/stopMessageStream`, { threadId });
 export const streamResponse = (params) => axios.post(`${apiUrl}/streamResponse`, params);
+export const regenerateResponse = (params) => axios.post(`${apiUrl}/regenerateResponse`, params);
