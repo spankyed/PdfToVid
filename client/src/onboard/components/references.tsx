@@ -68,7 +68,7 @@ function ReferencesInput() {
           Let's get started
         </Typography>
         <Typography>
-          When ranking new papers, we utilize a set of reference papers as benchmarks.
+          In order to rank new papers, a set of reference papers will need to be used as benchmarks.
         </Typography>
         <Typography>
           Please provide the IDs of arXiv papers that should be used as benchmarks for this ranking process.

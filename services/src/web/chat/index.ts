@@ -3,7 +3,7 @@ import { route } from '~/shared/route';
 import getPdfText from './scripts/get-pdf-text';
 import initializeChat from './scripts/initialize-chat';
 import startChatStream from './scripts/start-chat-stream';
-import { Request, ResponseToolkit } from '@hapi/hapi';
+import type { Request, ResponseToolkit } from '@hapi/hapi';
 import type { ChatCompletionStream } from 'openai/resources/beta/chat/completions';
 
 async function initChat(request: any, h: any){

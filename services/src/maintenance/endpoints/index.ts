@@ -6,73 +6,59 @@ import { groupDatesByMonth } from '~/web/shared/transform';
 import { seedReferencePapers } from "../scripts/seed-reference-papers";
 import { setConfigSettings } from "~/shared/utils/set-config";
 import runBackgroundScripts from "../background";
+import { loadBatchDates, onboard } from '../../../../client/src/shared/api/fetch';
+import type { Request, ResponseToolkit } from '@hapi/hapi';
 
-function getBatchDates(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const { cursor, direction } = request.payload;
+async function getBatchDates(request: Request, h: ResponseToolkit) {
+  const { cursor, direction } = request.payload as any;
 
-    const dates = await repository.getBackfillDates({ cursor, direction, count: 45 });
-  
-    resolve(dates)
-  });
-}
-function loadBatchDates(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const { start, end } = request.payload;
+  const dates = await repository.getBackfillDates({ cursor, direction, count: 45 });
 
-    const newDateRecords = await backfillDates(start, end);
-    const dates = await repository.getPendingDatesBetween(start, end);
-  
-    resolve(dates)
-  });
+  return h.response(dates);
 }
 
-function batchScrape(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const dates = request.payload;
+async function loadBatchDates(request: Request, h: ResponseToolkit) {
+  const { start, end } = request.payload;
 
-    scrapeBatch(dates)
+  const newDateRecords = await backfillDates(start, end);
+  const dates = await repository.getPendingDatesBetween(start, end);
 
-    resolve('batch scraping started!')
-  });
+  return h.response(dates);
 }
 
-function onboardNewUser(request: any, h: any){
-  return new Promise(async (resolve, reject) => {
-    const form = request.payload.form;
-    const { inputIds, config } = form;
+async function batchScrape(request: Request, h: ResponseToolkit) {
+  const dates = request.payload;
 
-    try {
-      if (inputIds && inputIds.length) {
-        await Promise.all([
-          seedReferencePapers(undefined, inputIds),
-          backfillInitialDates()
-        ])
-        // console.log('papers: ', papers);
-      } else {
-        await backfillInitialDates();
-      }
+  scrapeBatch(dates)
 
-      // todo return dates for current year only instead
-      const allDates = await repository.getAllDates();
+  return 'batch scraping started!';
+}
+
+async function onboardNewUser(request: Request, h: ResponseToolkit) {
+  const form = request.payload.form;
+  const { inputIds, config } = form;
+
+  if (inputIds && inputIds.length) {
+    await seedReferencePapers(undefined, inputIds);
+  } else {
+    await backfillInitialDates();
+  }
+
+  const allDates = await repository.getAllDates();
+
+  const dateList = groupDatesByMonth(allDates as any);
   
-      const dateList = groupDatesByMonth(allDates as any);
-      
-      setConfigSettings({...config, isNewUser: false })
+  setConfigSettings({...config, isNewUser: false })
 
-      runBackgroundScripts();
-  
-      resolve(dateList)
-    } catch (err) {
-      console.error('Error onboarding new user: ', err);
-      reject(err);
-    }
-  });
+  runBackgroundScripts();
+
+  return dateList;
 }
 
 export default [
   route.post('/loadBatchDates', loadBatchDates),
   route.post('/getBatchDates', getBatchDates),
   route.post('/scrapeBatch', batchScrape),
+  // onboarding
   route.post('/onboardNewUser', onboardNewUser),
 ]
