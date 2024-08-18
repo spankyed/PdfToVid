@@ -25,6 +25,14 @@ export default function MessageList () {
   }, [messages]);
 
   useEffect(() => {
+    setTimeout(() => {
+      if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+      }
+    }, 500);
+  }, []);
+
+  useEffect(() => {
     const scrollableElement = scrollableContainerRef?.current;
 
     if (!scrollableElement) {
