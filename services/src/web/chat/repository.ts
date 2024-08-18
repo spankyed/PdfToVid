@@ -28,7 +28,6 @@ function findDuplicateDescriptions(paperId: string, description: string) {
       }
     }
   });
-
 }
 
 type MessageParams = {
@@ -37,7 +36,7 @@ type MessageParams = {
   includeHidden?: boolean;
 }
 function getMessages({ threadId, messageId, includeHidden = false }: MessageParams) {
-  let whereClause: { [key: string]: any } = {
+  const whereClause: { [key: string]: any } = {
     threadId
   };
 
@@ -61,7 +60,6 @@ function getSingleMessage(messageId: string) {
     where: { id: messageId }
   });
 }
-
 
 function getPdfDocuments(paperId: string, viewMode = 0){
   return PdfDocumentTable.findAll({

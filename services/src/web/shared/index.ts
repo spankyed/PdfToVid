@@ -1,5 +1,6 @@
 import { io } from "../server";
 import * as repository from './repository';
+import * as sharedRepository from '~/shared/repository';
 import { groupDatesByMonth } from "./transform";
 import { route } from '../../shared/route';
 import { getConfig } from "~/shared/utils/get-config";
@@ -44,7 +45,7 @@ async function checkIsNewUser(request: any, h: any){
 async function getDatesByYear(request: any, h: any){
   const year = request.params.year;
 
-  const dates = await repository.getDatesByYear(year);
+  const dates = await sharedRepository.getDatesByYear(year);
   const dateList = groupDatesByMonth(dates as any);
   
   return dateList;

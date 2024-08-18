@@ -3,10 +3,45 @@ import { DatesTable, PapersTable } from './schema';
 import { ChromaClient } from 'chromadb';
 import { createEmbedder } from '~/shared/embedder';
 import { ReferenceCollectionName } from './constants';
-import { DateRecord, PaperRecord } from './types';
+import type { DateRecord, PaperRecord } from './types';
+import moment from 'moment';
+import { Sequelize, DataTypes, Op } from 'sequelize';
 
 function updateDate(date: string, changes: Partial<DateRecord>): Promise<any> {
   return DatesTable.update(changes, { where: { value: date } });
+}
+
+async function getDatesByYear(year: string) {
+  const existingDates = await DatesTable.findAll({
+    where: {
+      value: {
+        [Op.startsWith]: year,
+      },
+    },
+    raw: true,
+  });
+
+  const existingDatesSet = new Set(existingDates.map(date => date.value));
+
+  const allDates = [];
+  const startDate = moment(`${year}-01-01`);
+  const isCurrentYear = moment().year().toString() === year;
+  const endDate = isCurrentYear ? moment().endOf('day') : moment(`${year}-12-31`);
+
+  for (let m = startDate; m.isSameOrBefore(endDate); m.add(1, 'days')) {
+    const dateStr = m.format('YYYY-MM-DD');
+    const date = { value: dateStr, status: 'pending' };
+
+    // If the date is missing in the database, insert it
+    if (!existingDatesSet.has(dateStr)) {
+      await DatesTable.create(date);
+      allDates.push(date);
+    } else {
+      allDates.push(existingDates.find(d => d.value === dateStr));
+    }
+  }
+
+  return allDates;
 }
 
 async function storePapers(papers: PaperRecord[]): Promise<any> {
@@ -35,7 +70,7 @@ async function storePapers(papers: PaperRecord[]): Promise<any> {
 }
 
 const client = new ChromaClient();
-let embedder = await createEmbedder();
+const embedder = await createEmbedder();
 
 // const collection = await client.getCollection({ name: 'paper-embeddings', embeddingFunction: embedder });
 
@@ -54,7 +89,7 @@ async function storeReferencePaperChroma(paper: Partial<PaperRecord>) {
 
   await collection.add({
     // embeddings: embeddings,
-    documents: [paper.title + ". " + paper.abstract],
+    documents: [`${paper.title}. ${paper.abstract}`],
     ids: [paper.id!],
   });
 
@@ -102,6 +137,7 @@ function deleteReferenceCollection() {
   return client.deleteCollection({ name: ReferenceCollectionName });
 }
 
+
 const chroma = {
   storeReferencePaperChroma,
   checkForExistingReferenceCollection,
@@ -112,7 +148,8 @@ const chroma = {
 }
 
 export {
+  chroma,
   updateDate,
   storePapers,
-  chroma
+  getDatesByYear
 }

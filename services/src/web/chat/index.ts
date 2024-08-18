@@ -58,7 +58,7 @@ async function getThreads(request: any, h: any){
 async function createThread(request: any, h: any) {
   const { paperId, description } = request.payload;
 
-  let newThread = await repository.addThread({
+  const newThread = await repository.addThread({
     paperId,
     description,
     viewMode: 0,
@@ -74,14 +74,14 @@ async function branchThread(request: any, h: any) {
   const newDescription = description;
   const duplicateNumber = duplicateThreadDescriptions?.length ? duplicateThreadDescriptions?.length + 1 : null;
 
-  let newThread = await repository.addThread({
+  const newThread = await repository.addThread({
     paperId,
     duplicateNumber,
     description: newDescription,
     messageId,
   });
 
-  let [messages, parentMessage] = await Promise.all([
+  const [messages, parentMessage] = await Promise.all([
     repository.getMessages({ threadId: parentThreadId, messageId, includeHidden: false }),
     repository.getSingleMessage(messageId),
   ]);
@@ -90,7 +90,7 @@ async function branchThread(request: any, h: any) {
     messages.push(parentMessage);
   }
 
-  let messageCopies = messages.map((message) => ({
+  const messageCopies = messages.map((message) => ({
     parentId: message.id === messageId ? message.id : null,
     threadId: newThread.id,
     text: message.text,
