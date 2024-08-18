@@ -9,8 +9,8 @@ import type { ChatCompletionStream } from 'openai/resources/beta/chat/completion
 async function initChat(request: any, h: any){
   const paperId = request.params.paperId;
   try {
-    let textLength = await initializeChat(paperId);
-    let pdfTokenCount = textLength / 4;
+    const textLength = await initializeChat(paperId);
+    const pdfTokenCount = textLength / 4;
   
     return h.response(pdfTokenCount);
   } catch (error) {
@@ -31,7 +31,7 @@ async function getThreads(request: any, h: any){
   const paperId = request.params.paperId;
   let threads = await repository.getAllThreads(paperId);
   
-  let thread;
+  let thread: any;
 
   if (!threads.length) {
     thread = await repository.addThread({
