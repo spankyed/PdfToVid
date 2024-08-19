@@ -1,5 +1,6 @@
 import { route } from '../../shared/route';
 import repository from '../repository';
+import * as sharedRepository from '~/shared/repository';
 import { scrapeBatch } from '../scripts/scrape-batch';
 import { backfillInitialDates, backfillDates } from "../scripts/add-dates";
 import { groupDatesByMonth } from '~/web/shared/transform';
@@ -35,29 +36,41 @@ async function batchScrape(request: Request, h: ResponseToolkit) {
 
 async function onboardNewUser(request: Request, h: ResponseToolkit) {
   const form = request.payload.form;
-  const { inputIds, config } = form;
+  const { config } = form;
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  
+  await Promise.all([
+    sharedRepository.getDatesByYear(currentYear.toString()),
+    sharedRepository.chroma.initializeReferenceCollection()
+  ])
+
+  setConfigSettings({...config, isNewUser: false })
+
+  // runBackgroundScripts();
+
+  return 'onboarding complete';
+}
+
+async function addInitialReferences(request: Request, h: ResponseToolkit) {
+  const form = request.payload.form;
+  const { inputIds } = form;
 
   if (inputIds?.length) {
     await seedReferencePapers(undefined, inputIds);
-  } else {
-    await backfillInitialDates();
   }
 
-  const allDates = await repository.getAllDates();
-
-  const dateList = groupDatesByMonth(allDates as any);
-  
-  setConfigSettings({...config, isNewUser: false })
-
-  runBackgroundScripts();
-
-  return dateList;
+  return 'References seeded!';
 }
+
 
 export default [
   route.post('/loadBatchDates', loadBatchDates),
   route.post('/getBatchDates', getBatchDates),
   route.post('/scrapeBatch', batchScrape),
   // onboarding
+
+  route.post('/addInitialReferences', addInitialReferences),
   route.post('/onboardNewUser', onboardNewUser),
 ]

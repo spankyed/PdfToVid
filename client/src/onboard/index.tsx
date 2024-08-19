@@ -5,18 +5,15 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardIos';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Check from '@mui/icons-material/Check';
+import * as api from '~/shared/api/fetch';
 
 import './onboard.css';
 import PageLayout from '~/shared/components/layout/page-layout';
 import OnboardingStepper from './components/stepper';
 import ReferencesInput from './components/references';
-import { apiKeyOpenAIAtom, autoScrapeDatesAtom, canGoNextAtom, inputIdsAtom, onboardingStateAtom } from './store';
+import { apiKeyOpenAIAtom, autoScrapeDatesAtom, canGoNextAtom, inputIdsAtom, onboardingStateAtom, completeOnboardingAtom, addInitialReferencesAtom } from './store';
 import UserSettings from './components/settings';
 import { useNavigate } from 'react-router-dom';
-import * as api from '~/shared/api/fetch';
-import { addAlertAtom } from '~/shared/components/notification/store';
-import { setSidebarDataAtom } from '~/shared/components/layout/sidebar/dates/store';
-import { isNewUserAtom } from '~/shared/components/layout/store';
 import { colors } from '~/shared/styles/theme';
 
 const steps = ['References', 'Settings'];
@@ -33,42 +30,13 @@ function OnboardFlow() {
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setStepperCompleted] = useState<{ [k: number]: boolean; }>({});
 
-  const setOnboardingState = useSetAtom(onboardingStateAtom);
+  // const setOnboardingState = useSetAtom(onboardingStateAtom);
   const inputIds = useAtomValue(inputIdsAtom);
   const autoScrapeNewDates = useAtomValue(autoScrapeDatesAtom);
 
-  const setSidebarData = useSetAtom(setSidebarDataAtom);
-  const setIsNewUser = useSetAtom(isNewUserAtom);
-  const apiKeyOpenAI = useAtomValue(apiKeyOpenAIAtom);
-  const addAlert = useSetAtom(addAlertAtom);
+  const completeOnboarding = useSetAtom(completeOnboardingAtom);
+  const addInitialReferences = useSetAtom(addInitialReferencesAtom);
   const navigate = useNavigate();
-
-  async function submitForm(){
-    const form = {
-      inputIds,
-      config: {
-        autoScrapeNewDates,
-        apiKeyOpenAI
-      }
-    }
-
-    setOnboardingState('loading');
-
-    try {
-      const response = await api.onboard(form);
-      const dateList = response.data;
-      if (dateList.length) {
-        setSidebarData(dateList)
-      }
-      setIsNewUser(false);
-
-      navigate(`/backfill?isNewUser=true`);
-    } catch (error) {
-      addAlert({ message: 'Failed to complete onboarding due to a server error.' });
-      setOnboardingState('onboarding');
-      console.error("Failed to backfill data", error);
-    }
-  }
 
   const handleSkip = () => {
     setActiveStep(activeStep + 1);
@@ -78,19 +46,27 @@ function OnboardFlow() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleStep = (step: number) => () => {
-    setActiveStep(step);
-  };
+  // const handleStep = (step: number) => () => {
+  //   setActiveStep(step);
+  // };
 
-  const handleNext = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setStepperCompleted(newCompleted);
-
+  const handleNext = async () => {
     if (activeStep === steps.length - 1) {
-      submitForm();
+      const success = await completeOnboarding();
+      if (success) {
+        navigate('/backfill?isNewUser=true');
+      }
     } else {
-      handleSkip();
+      const success = await addInitialReferences();
+
+      if (success) {
+        const newCompleted = completed;
+        newCompleted[activeStep] = true;
+        setStepperCompleted(newCompleted);
+
+        setActiveStep(activeStep + 1);
+      }
+      // handleSkip();
     }
   };
 
@@ -107,7 +83,7 @@ function OnboardFlow() {
           steps,
           activeStep,
           completed,
-          handleStep, 
+          // handleStep, 
         }
       }/>
       <div>
@@ -197,14 +173,15 @@ function NavigationButtons({ activeStep, steps, handleBack, handleSkip, handleNe
         }
 
         {!isLastStep ? (
-          <Button
+          <LoadingButton
             variant='contained'
             disabled={!canGoNext}
             onClick={handleNext}
+            loading={state === 'loading'}
           >
             Next
             <ArrowForwardIcon sx={{ ml: 1, height: 20, width: 20 }}/>
-          </Button>
+          </LoadingButton>
         ) : (
           <LoadingButton
             variant='contained'

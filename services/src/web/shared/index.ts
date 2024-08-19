@@ -64,6 +64,7 @@ export default [
   route.post('/getBatchDates', gateway('getBatchDates')),
   route.post('/loadBatchDates', gateway('loadBatchDates')),
   route.post('/onboardNewUser', gateway('onboardNewUser')),
+  route.post('/addInitialReferences', gateway('addInitialReferences')),
   route.get('/checkIsNewUser', checkIsNewUser),
   route.post('/work-status/{type}', updateStatus),
   route.get('/getDatesByYear/{year}', getDatesByYear),

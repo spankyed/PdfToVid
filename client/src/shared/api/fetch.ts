@@ -29,6 +29,8 @@ export const scrapeDate = (date) => axios.post(`${apiUrl}/scrape/${date}`);
 export const searchPapers = (form) => axios.post(`${apiUrl}/searchPapers`, { form });
 
 export const onboard = (form) => axios.post(`${apiUrl}/onboardNewUser`, { form });
+export const addInitialReferences = (form) => axios.post(`${apiUrl}/addInitialReferences`, { form });
+
 export const loadBatchDates = (dateRange) => axios.post(`${apiUrl}/loadBatchDates`, dateRange);
 export const scrapeBatch = (dates) => axios.post(`${apiUrl}/scrapeBatch`, dates);
 export const getBatchDates = (params) => axios.post(`${apiUrl}/getBatchDates`, params);

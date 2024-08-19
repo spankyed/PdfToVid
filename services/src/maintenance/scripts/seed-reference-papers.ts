@@ -13,13 +13,19 @@ export function doesReferenceCollectionExist() {
 }
 
 export async function seedReferencePapers(papers?: any[], ids = null) {
-  sharedRepository.chroma.initializeReferenceCollection()
+  await sharedRepository.chroma.initializeReferenceCollection()
 
   if (!papers || !papers.length) {
     papers = await scrapeAndStoreReferencePapers(ids)
   }
 
-  sharedRepository.chroma.addToReferenceCollection(papers)
+  await sharedRepository.chroma.addToReferenceCollection(papers)
+
+  const count = await sharedRepository.chroma.getReferenceCollectionCount();
+
+  if (count !== papers.length) {
+    throw new Error(`Failed to seed reference papers. Expected ${papers.length} but got ${count}`);
+  }
 
   return papers;
 }

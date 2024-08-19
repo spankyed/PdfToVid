@@ -68,7 +68,7 @@ function IconWrapper(props: StepIconProps) {
   );
 }
 
-export default function OnboardingStepper({ steps, activeStep, completed, handleStep }) {
+export default function OnboardingStepper({ steps, activeStep, completed }) {
 
   return (
     <Box sx={{ width: '50%' }} className='flex justify-center self-center'>
@@ -77,7 +77,7 @@ export default function OnboardingStepper({ steps, activeStep, completed, handle
           <Step key={label} completed={completed[index]}>
             <StepLabel
               StepIconComponent={IconWrapper}
-              onClick={handleStep(index)}
+              // onClick={handleStep(index)}
               sx={{ display: 'flex', flexDirection: 'column', width: '5rem' }}
               className='StepLabel'
             >

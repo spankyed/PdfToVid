@@ -96,14 +96,6 @@ async function storeReferencePaperChroma(paper: Partial<PaperRecord>) {
   return paper.id;
 }
 
-let cachedCollection: any = null;
-
-async function getReferenceCollection() {
-  if (!cachedCollection) {
-    cachedCollection = await client.getCollection({ name: ReferenceCollectionName, embeddingFunction: embedder });
-  }
-  return cachedCollection;
-}
 
 async function addToReferenceCollection(papers: Partial<PaperRecord>[]) {
   const collection = await getReferenceCollection();
@@ -111,7 +103,7 @@ async function addToReferenceCollection(papers: Partial<PaperRecord>[]) {
   const ids = papers.map(paper => paper.id!);
   const records = {
     ids, 
-    documents: papers.map(paper => paper.title + ". " + paper.abstract),
+    documents: papers.map(paper => `${paper.title}. ${paper.abstract}`),
   }
 
   await collection.add(records);
@@ -134,9 +126,24 @@ async function initializeReferenceCollection() {
 }
 
 function deleteReferenceCollection() {
+  // return client.reset();
   return client.deleteCollection({ name: ReferenceCollectionName });
 }
 
+let cachedCollection: any = null;
+
+async function getReferenceCollection() {
+  if (!cachedCollection) {
+    cachedCollection = await client.getCollection({ name: ReferenceCollectionName, embeddingFunction: embedder });
+  }
+  return cachedCollection;
+  // return await client.getCollection({ name: ReferenceCollectionName, embeddingFunction: embedder });
+}
+
+async function getReferenceCollectionCount() {
+  const collection = await getReferenceCollection();
+  return collection.count();
+}
 
 const chroma = {
   storeReferencePaperChroma,
@@ -144,7 +151,8 @@ const chroma = {
   getReferenceCollection,
   addToReferenceCollection,
   initializeReferenceCollection,
-  deleteReferenceCollection
+  deleteReferenceCollection,
+  getReferenceCollectionCount
 }
 
 export {
